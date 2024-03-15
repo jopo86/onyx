@@ -77,10 +77,10 @@ namespace Onyx
 
 		/*
 		 * @brief Rotates the camera the specified angles.
-		 * @param x The angle along the x-axis, AKA yaw, in degrees.
-		 * @param y The angle along the y-axis, AKA pitch, in degrees.
+		 * @param yaw The angle along the x-axis, AKA yaw, in degrees.
+		 * @param pitch The angle along the y-axis, AKA pitch, in degrees.
 		 */
-		void rotate(float x, float y);
+		void rotate(float yaw, float pitch);
 
 		/*
 		 * @brief Gets the projection of the camera.

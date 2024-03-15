@@ -1,3 +1,5 @@
+#pragma warning(disable: 26495; disable: 4838)
+
 #include "Font.h"
 
 Onyx::Font::Font()

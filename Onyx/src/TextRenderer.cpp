@@ -1,3 +1,5 @@
+#pragma warning(disable: 4244)
+
 #include "TextRenderer.h"
 
 using Onyx::Math::Mat4;

@@ -1,37 +1,4 @@
-﻿  Camera.cpp
-  Core.cpp
-  ErrorHandler.cpp
-  File.cpp
-  Font.cpp
-C:\Visual Studio\Projects\Onyx\Onyx\src\Font.cpp(89,28): warning C4838: conversion from 'unsigned int' to 'int' requires a narrowing conversion
-C:\Visual Studio\Projects\Onyx\Onyx\src\Font.cpp(89,55): warning C4838: conversion from 'unsigned int' to 'int' requires a narrowing conversion
-  ImageData.cpp
-  IndexArray.cpp
-  InputHandler.cpp
-  Main.cpp
-  Math.cpp
-  Mesh.cpp
-  MeshPresets.cpp
-  Projection.cpp
-  Renderable.cpp
-  RenderablePresets.cpp
-  Renderer.cpp
-  Shader.cpp
-  ShaderPresets.cpp
-  TextRenderer.cpp
-C:\Visual Studio\Projects\Onyx\Onyx\src\TextRenderer.cpp(18,98): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Visual Studio\Projects\Onyx\Onyx\src\TextRenderer.cpp(18,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Visual Studio\Projects\Onyx\Onyx\src\TextRenderer.cpp(51,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Visual Studio\Projects\Onyx\Onyx\src\TextRenderer.cpp(52,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  Texture.cpp
-  Generating Code...
-  Compiling...
-  VertexArray.cpp
-  Window.cpp
-C:\Visual Studio\Projects\Onyx\Onyx\src\Window.cpp(260,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Visual Studio\Projects\Onyx\Onyx\src\Window.cpp(260,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
-  glad.c
+﻿  Font.cpp
 freetype.lib(ftinit.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(ftinit.obj)' or at ''; linking object as if no debug info
 freetype.lib(ftbase.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(ftbase.obj)' or at ''; linking object as if no debug info
 freetype.lib(autofit.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(autofit.obj)' or at ''; linking object as if no debug info
@@ -58,6 +25,4 @@ freetype.lib(ftgzip.obj) : warning LNK4099: PDB '' was not found with 'freetype.
 freetype.lib(ftlzw.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(ftlzw.obj)' or at ''; linking object as if no debug info
 freetype.lib(ftbitmap.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(ftbitmap.obj)' or at ''; linking object as if no debug info
 freetype.lib(ftdebug.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(ftdebug.obj)' or at ''; linking object as if no debug info
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  Onyx.vcxproj -> C:\Visual Studio\Projects\Onyx\bin\x64\Debug\Onyx.exe
+  Onyx.vcxproj -> D:\dev\Visual Studio Projects\C++\Onyx\bin\x64\Debug\Onyx.exe

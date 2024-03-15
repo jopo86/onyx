@@ -113,8 +113,7 @@ void Onyx::Demo()
 	for (int frame = 1; window.isOpen(); frame++)
 	{
 		fps = round(1.0f / deltaTime);
-		std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
-		std::cout << "FPS: " << fps << ", FRAME: " << frame << "\n";
+		//std::cout << "FPS: " << fps << ", FRAME: " << frame << "\n";
 
 		input.updateCooldowns(deltaTime);
 

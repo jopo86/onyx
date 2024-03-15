@@ -1,3 +1,5 @@
+#pragma warning(disable: 4244)
+
 #include "Window.h"
 
 using Onyx::Math::Vec3;

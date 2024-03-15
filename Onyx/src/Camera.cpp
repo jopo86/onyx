@@ -14,7 +14,9 @@ Onyx::Camera::Camera()
 
 	yaw = pitch = 0.0f;
 	proj = Projection::Orthographic(-1.0f, 1.0f, 1.0f, -1.0f);
-	pitchClamp = 89.0f;
+	pitchClamp = 88.0f;
+
+	view = Mat4::Identity();
 
 	update();
 }
@@ -27,9 +29,11 @@ Onyx::Camera::Camera(Projection proj)
 
 	yaw = pitch = 0.0f;
 	this->proj = proj;
-	pitchClamp = 89.0f;
+	pitchClamp = 88.0f;
 
-	rotate(-90.0f, 0.0f);
+	view = Mat4::Identity();
+
+	if (proj.getType() == ONYX_PROJECTION_TYPE_PERSPECTIVE) rotate(-90.0f, 0.0f);
 
 	update();
 }
@@ -44,7 +48,9 @@ Onyx::Camera::Camera(Projection proj, float pitchClamp)
 	this->proj = proj;
 	this->pitchClamp = pitchClamp;
 
-	rotate(-90.0f, 0.0f);
+	view = Mat4::Identity();
+
+	if (proj.getType() == ONYX_PROJECTION_TYPE_PERSPECTIVE) rotate(-90.0f, 0.0f);
 
 	update();
 }
@@ -73,20 +79,30 @@ void Onyx::Camera::translate(Vec3 LR_UD_FB)
 {
 	pos = pos + (Vec3(Cross(front, up)).getNormalized() * LR_UD_FB.getX());
 	pos = pos + Vec3(0.0f, LR_UD_FB.getY(), 0.0f);
-	pos = pos + pos = pos + (front * LR_UD_FB.getZ());
+	pos = pos + (front * LR_UD_FB.getZ());
 }
 
-void Onyx::Camera::rotate(float x, float y)
+void Onyx::Camera::rotate(float _yaw, float _pitch)
 {
-	yaw += x;
-	pitch -= y;
+	if (fabs(_yaw) > 100.0f || fabs(_pitch) > 100.0f) return;
+
+	yaw += _yaw;
+	pitch -= _pitch;
+
+	float yawRad = Radians(yaw);
+	float pitchRad = Radians(pitch);
 
 	if (pitch >= pitchClamp) pitch = pitchClamp;
 	else if (pitch <= -pitchClamp) pitch = -pitchClamp;
 
-	front.setX(cosf(Radians(yaw)) * cosf(Radians(pitch)));
-	front.setY(sinf(Radians(pitch)));
-	front.setZ(sinf(Radians(yaw)) * cosf(Radians(pitch)));
+	front.setX(cosf(yawRad) * cosf(pitchRad));
+	front.setY(sinf(pitchRad));
+	front.setZ(sinf(yawRad) * cosf(pitchRad));
+
+	front = front.getNormalized();
+
+	std::cout << "Yaw: " << yaw << ", Pitch: " << pitch << "\n";
+	std::cout << "Front: X: " << front.getX() << ", Y: " << front.getY() << ", Z: " << front.getZ() << "\n";
 }
 
 Onyx::Projection Onyx::Camera::getProjection()

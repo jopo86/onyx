@@ -1,23 +1,23 @@
-C:\Visual Studio\Projects\Onyx\Onyx\src\Camera.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Camera.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Core.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Core.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\ErrorHandler.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\ErrorHandler.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\File.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\File.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Font.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Font.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\glad.c;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\glad.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\ImageData.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\ImageData.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\IndexArray.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\IndexArray.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\InputHandler.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\InputHandler.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Main.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Main.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Math.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Math.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Mesh.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Mesh.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\MeshPresets.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\MeshPresets.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Projection.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Projection.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Renderable.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Renderable.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\RenderablePresets.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\RenderablePresets.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Renderer.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Renderer.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Shader.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Shader.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\ShaderPresets.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\ShaderPresets.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\TextRenderer.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\TextRenderer.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Texture.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Texture.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\VertexArray.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\VertexArray.obj
-C:\Visual Studio\Projects\Onyx\Onyx\src\Window.cpp;C:\Visual Studio\Projects\Onyx\bin\intermediates\x64\Debug\Window.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Camera.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Camera.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Core.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Core.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\ErrorHandler.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\ErrorHandler.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\File.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\File.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Font.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Font.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\glad.c;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\glad.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\ImageData.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\ImageData.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\IndexArray.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\IndexArray.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\InputHandler.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\InputHandler.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Main.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Main.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Math.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Math.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Mesh.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Mesh.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\MeshPresets.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\MeshPresets.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Projection.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Projection.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Renderable.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Renderable.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\RenderablePresets.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\RenderablePresets.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Renderer.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Renderer.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Shader.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Shader.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\ShaderPresets.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\ShaderPresets.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\TextRenderer.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\TextRenderer.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Texture.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Texture.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\VertexArray.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\VertexArray.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Window.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Debug\Window.obj

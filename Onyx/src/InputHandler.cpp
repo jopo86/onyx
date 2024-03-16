@@ -4,7 +4,7 @@
 
 Onyx::InputHandler::InputHandler()
 {
-	p_window = nullptr;
+	p_win = nullptr;
 
 	for (int i = 0; i < ONYX_MAX_KEY; i++)
 	{
@@ -20,7 +20,32 @@ Onyx::InputHandler::InputHandler()
 		setButtonCooldowns[i] = 0.0f;
 	}
 
-	mouseX = mouseY = 0.0;
+	mouseX = mouseY = 0.0f;
+
+	cursorLock = false;
+}
+
+Onyx::InputHandler::InputHandler(Window& window)
+{
+	p_win = &window;
+	window.p_inputHandler = this;
+
+	glfwGetCursorPos(p_win->p_glfwWin, &mouseX, &mouseY);
+
+	for (int i = 0; i < ONYX_MAX_KEY; i++)
+	{
+		keys[i] = ONYX_KEYSTATE_UNTOUCHED;
+		keyCooldowns[i] = 0.0f;
+		setKeyCooldowns[i] = 0.0f;
+	}
+
+	for (int i = 0; i < ONYX_MAX_MOUSE_BUTTON; i++)
+	{
+		buttons[i] = ONYX_KEYSTATE_UNTOUCHED;
+		buttonCooldowns[i] = 0.0f;
+		setButtonCooldowns[i] = 0.0f;
+	}
+
 	cursorLock = false;
 }
 
@@ -105,13 +130,13 @@ void Onyx::InputHandler::setMouseButtonCooldown(int button, float cooldown)
 void Onyx::InputHandler::lockCursor()
 {
 	cursorLock = true;
-	glfwSetInputMode(p_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(p_win->p_glfwWin, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Onyx::InputHandler::unlockCursor()
 {
 	cursorLock = false;
-	glfwSetInputMode(p_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	glfwSetInputMode(p_win->p_glfwWin, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 void Onyx::InputHandler::toggleCursorLock()

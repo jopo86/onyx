@@ -21,3 +21,5 @@ D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\TextRenderer.cpp;D:\dev\Visual S
 D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Texture.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Release\Texture.obj
 D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\VertexArray.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Release\VertexArray.obj
 D:\dev\Visual Studio Projects\C++\Onyx\Onyx\src\Window.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Release\Window.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\tests\Result.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Release\Result.obj
+D:\dev\Visual Studio Projects\C++\Onyx\Onyx\tests\UnitTests.cpp;D:\dev\Visual Studio Projects\C++\Onyx\bin\intermediates\x64\Release\UnitTests.obj

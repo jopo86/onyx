@@ -21,6 +21,7 @@ namespace Onyx
 	class Window : public Disposable
 	{
 		friend class InputHandler;
+		friend class Camera;
 		friend class TextRenderer;
 
 	public:
@@ -125,6 +126,13 @@ namespace Onyx
 		int getBufferHeight();
 
 		/*
+		 * @brief Gets the current frame number.
+		 * The frame number is increased every time startRender() is called.
+		 * @return The current frame number.
+		 */
+		int getFrame();
+
+		/*
 		 * @brief Gets the initialization status of the window.
 		 * @return Whether the window has been initialized.
 		 */
@@ -144,34 +152,6 @@ namespace Onyx
 		void setBackgroundColor(Onyx::Math::Vec3 rgb);
 
 		/*
-		 * @brief Sets the input handler for the window.
-		 * Input handling is dependent on the window.
-		 * Because of this, input callback funcs need to be set in the window class.
-		 * With a reference to the input handler, the callbacks can be sent to said handler.
-		 * @param inputHandler The input handler to send callbacks to.
-		 */
-		void setInputHandler(InputHandler& inputHandler);
-
-		/*
-		 * @brief Sets the camera for the window.
-		 * The only thing the window does with this is update the aspect ratio of the camera's projection matrix, if it is perspective.
-		 * @param cam The camera whose projection matrix to update upon window resize.
-		 */
-		void setCamera(Camera& cam);
-
-		/*
-		 * @brief Gets the input handler of the window.
-		 * @return The input handler associated with the window.
-		 */
-		InputHandler* getInputHandlerPtr();
-
-		/*
-		 * @brief Gets the camera of the window.
-		 * @return The camera associated with the window.
-		 */
-		Camera* getCameraPtr();
-
-		/*
 		 * @brief Disposes of the window.
 		 * This clears up any memory that the object was using.
 		 * This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
@@ -179,7 +159,7 @@ namespace Onyx
 		void dispose() override;
 
 	private:
-		GLFWwindow* p_window;
+		GLFWwindow* p_glfwWin;
 		static GLFWmonitor* p_primaryMonitor;
 		static GLFWvidmode* p_primaryMonitorInfo;
 		const char* title;
@@ -192,6 +172,8 @@ namespace Onyx
 
 		bool fullscreen;
 		bool initialized;
+
+		int frame;
 
 		static void CB_framebufferSize(GLFWwindow* p_window, int width, int height);
 		static void CB_key(GLFWwindow* p_window, int key, int scancode, int action, int mods);

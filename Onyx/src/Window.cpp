@@ -9,8 +9,8 @@ GLFWvidmode* Onyx::Window::p_primaryMonitorInfo = nullptr;
 
 Onyx::Window::Window()
 {
-	p_window = nullptr;
-	title = "Magnesium Window";
+	p_glfwWin = nullptr;
+	title = "Onyx Window";
 	width = 800;
 	height = 600;
 	bufferWidth = bufferHeight = 0;
@@ -19,11 +19,12 @@ Onyx::Window::Window()
 	p_textRenderer = nullptr;
 	fullscreen = false;
 	initialized = false;
+	frame = 0;
 }
 
 Onyx::Window::Window(const char *title, int width, int height)
 {
-	p_window = nullptr;
+	p_glfwWin = nullptr;
 	this->title = title;
 	this->width = width;
 	this->height = height;
@@ -33,6 +34,7 @@ Onyx::Window::Window(const char *title, int width, int height)
 	p_textRenderer = nullptr;
 	fullscreen = false;
 	initialized = false;
+	frame = 0;
 }
 
 void Onyx::Window::init()
@@ -50,15 +52,15 @@ void Onyx::Window::init()
 	if (p_primaryMonitor == nullptr) p_primaryMonitor = glfwGetPrimaryMonitor();
 	if (p_primaryMonitorInfo == nullptr) p_primaryMonitorInfo = (GLFWvidmode*)glfwGetVideoMode(p_primaryMonitor);
 
-	p_window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-	glfwMakeContextCurrent(p_window);
-	glfwGetFramebufferSize(p_window, &bufferWidth, &bufferHeight);
-	glfwSetWindowUserPointer(p_window, this);
+	p_glfwWin = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	glfwMakeContextCurrent(p_glfwWin);
+	glfwGetFramebufferSize(p_glfwWin, &bufferWidth, &bufferHeight);
+	glfwSetWindowUserPointer(p_glfwWin, this);
 
-	glfwSetFramebufferSizeCallback(p_window, CB_framebufferSize);
-	glfwSetKeyCallback(p_window, CB_key);
-	glfwSetMouseButtonCallback(p_window, CB_mouseButton);
-	glfwSetCursorPosCallback(p_window, CB_cursorPos);
+	glfwSetFramebufferSizeCallback(p_glfwWin, CB_framebufferSize);
+	glfwSetKeyCallback(p_glfwWin, CB_key);
+	glfwSetMouseButtonCallback(p_glfwWin, CB_mouseButton);
+	glfwSetCursorPosCallback(p_glfwWin, CB_cursorPos);
 
 	glfwSwapInterval(1);
 
@@ -90,21 +92,21 @@ void Onyx::Window::init(ErrorHandler &errorHandler)
 	if (p_primaryMonitor == nullptr) p_primaryMonitor = glfwGetPrimaryMonitor();
 	if (p_primaryMonitorInfo == nullptr) p_primaryMonitorInfo = (GLFWvidmode*)glfwGetVideoMode(p_primaryMonitor);
 
-	p_window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-	if (p_window == nullptr)
+	p_glfwWin = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	if (p_glfwWin == nullptr)
 	{
 		errorHandler.err("failed to create GLFW window.");
 		return;
 	}
 
-	glfwMakeContextCurrent(p_window);
-	glfwGetFramebufferSize(p_window, &bufferWidth, &bufferHeight);
-	glfwSetWindowUserPointer(p_window, this);
+	glfwMakeContextCurrent(p_glfwWin);
+	glfwGetFramebufferSize(p_glfwWin, &bufferWidth, &bufferHeight);
+	glfwSetWindowUserPointer(p_glfwWin, this);
 
-	glfwSetFramebufferSizeCallback(p_window, CB_framebufferSize);
-	glfwSetKeyCallback(p_window, CB_key);
-	glfwSetMouseButtonCallback(p_window, CB_mouseButton);
-	glfwSetCursorPosCallback(p_window, CB_cursorPos);
+	glfwSetFramebufferSizeCallback(p_glfwWin, CB_framebufferSize);
+	glfwSetKeyCallback(p_glfwWin, CB_key);
+	glfwSetMouseButtonCallback(p_glfwWin, CB_mouseButton);
+	glfwSetCursorPosCallback(p_glfwWin, CB_cursorPos);
 
 	glfwSwapInterval(1);
 
@@ -124,6 +126,8 @@ void Onyx::Window::init(ErrorHandler &errorHandler)
 
 void Onyx::Window::startRender()
 {
+	frame++;
+
 	glClearColor(background.getX(), background.getY(), background.getZ(), 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glfwPollEvents();
@@ -131,26 +135,26 @@ void Onyx::Window::startRender()
 
 void Onyx::Window::endRender()
 {
-	glfwSwapBuffers(p_window);
+	glfwSwapBuffers(p_glfwWin);
 }
 
 void Onyx::Window::close()
 {
-	glfwSetWindowShouldClose(p_window, GLFW_TRUE);
+	glfwSetWindowShouldClose(p_glfwWin, GLFW_TRUE);
 	initialized = false;
 }
 
 void Onyx::Window::setFullscreen()
 {
 	fullscreen = true;
-	glfwSetWindowMonitor(p_window, glfwGetPrimaryMonitor(), 0, 0, p_primaryMonitorInfo->width, p_primaryMonitorInfo->height, p_primaryMonitorInfo->refreshRate);
+	glfwSetWindowMonitor(p_glfwWin, glfwGetPrimaryMonitor(), 0, 0, p_primaryMonitorInfo->width, p_primaryMonitorInfo->height, p_primaryMonitorInfo->refreshRate);
 	glfwSwapInterval(1);
 }
 
 void Onyx::Window::setWindowed()
 {
 	fullscreen = false;
-	glfwSetWindowMonitor(p_window, nullptr, 0, 0, width, height, 0);
+	glfwSetWindowMonitor(p_glfwWin, nullptr, 0, 0, width, height, 0);
 	glfwSwapInterval(1);
 }
 
@@ -162,7 +166,7 @@ void Onyx::Window::toggleFullscreen()
 
 GLFWwindow *Onyx::Window::getGlfwWindowPtr()
 {
-	return p_window;
+	return p_glfwWin;
 }
 
 const char *Onyx::Window::getTitle()
@@ -190,6 +194,11 @@ int Onyx::Window::getBufferHeight()
 	return bufferHeight;
 }
 
+int Onyx::Window::getFrame()
+{
+	return frame;
+}
+
 bool Onyx::Window::isInitialized()
 {
 	return initialized;
@@ -197,7 +206,7 @@ bool Onyx::Window::isInitialized()
 
 bool Onyx::Window::isOpen()
 {
-	return !glfwWindowShouldClose(p_window);
+	return !glfwWindowShouldClose(p_glfwWin);
 }
 
 void Onyx::Window::setBackgroundColor(Vec3 rgb)
@@ -205,46 +214,24 @@ void Onyx::Window::setBackgroundColor(Vec3 rgb)
 	background = rgb;
 }
 
-void Onyx::Window::setInputHandler(InputHandler& inputHandler)
-{
-	p_inputHandler = &inputHandler;
-	p_inputHandler->p_window = this->p_window;
-	glfwGetCursorPos(p_window, &(p_inputHandler->mouseX), &(p_inputHandler->mouseY));
-}
-
-void Onyx::Window::setCamera(Camera& cam)
-{
-	p_cam = &cam;
-}
-
-Onyx::InputHandler *Onyx::Window::getInputHandlerPtr()
-{
-	return p_inputHandler;
-}
-
-Onyx::Camera *Onyx::Window::getCameraPtr()
-{
-	return p_cam;
-}
-
 void Onyx::Window::dispose()
 {
 	if (initialized)
 	{
-		glfwDestroyWindow(p_window);
+		glfwDestroyWindow(p_glfwWin);
 	}
 
-	p_window = nullptr;
+	p_glfwWin = nullptr;
 	title = "";
 	width = height = bufferWidth = bufferHeight = 0;
 	initialized = false;
 }
 
-void Onyx::Window::CB_framebufferSize(GLFWwindow *p_window, int width, int height)
+void Onyx::Window::CB_framebufferSize(GLFWwindow* p_glfwWin, int width, int height)
 {
 	glViewport(0, 0, width, height);
 
-	Window* p_win = (Window*)glfwGetWindowUserPointer(p_window);
+	Window* p_win = (Window*)glfwGetWindowUserPointer(p_glfwWin);
 	p_win->bufferWidth = width;
 	p_win->bufferHeight = height;
 	Camera* p_cam = p_win->p_cam;
@@ -263,20 +250,20 @@ void Onyx::Window::CB_framebufferSize(GLFWwindow *p_window, int width, int heigh
 	}
 }
 
-void Onyx::Window::CB_key(GLFWwindow *p_window, int key, int scancode, int action, int mods)
+void Onyx::Window::CB_key(GLFWwindow *p_glfwWin, int key, int scancode, int action, int mods)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_window))->getInputHandlerPtr();
+	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
 	if (p_input != nullptr) p_input->RCB_key(key, scancode, action, mods);
 }
 
-void Onyx::Window::CB_mouseButton(GLFWwindow *p_window, int button, int action, int mods)
+void Onyx::Window::CB_mouseButton(GLFWwindow *p_glfwWin, int button, int action, int mods)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_window))->getInputHandlerPtr();
+	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
 	if (p_input != nullptr) p_input->RCB_mouseButton(button, action, mods);
 }
 
-void Onyx::Window::CB_cursorPos(GLFWwindow *p_window, double x, double y)
+void Onyx::Window::CB_cursorPos(GLFWwindow *p_glfwWin, double x, double y)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_window))->getInputHandlerPtr();
+	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
 	if (p_input != nullptr) p_input->RCB_cursorPos(x, y);
 }

@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Projection.h"
 #include "Math.h"
+#include "Window.h"
 
 namespace Onyx
 {
@@ -13,29 +14,40 @@ namespace Onyx
 	 */
 	class Camera
 	{
+		friend class Window;
+
 	public:
+		/*
+		 * @brief Creates an empty camera.
+		 * Trying to use a camera constructed like this will result in undefined behavior.
+		 */
+		Camera();
+
 		/*
 		 * @brief Creates a camera, orthographic by default.
 		 * Camera starts at (0, 0, 0) facing the negative (forward) z-axis.
 		 * Pitch clamp is set to 89 degrees by default.
+		 * @param window The window that the camera is used for.
 		 */
-		Camera();
+		Camera(Window& window);
 
 		/*
 		 * @brief Creates a camera with the specified projection.
 		 * Camera starts at (0, 0, 0) facing the negative (forward) z-axis.
 		 * Pitch clamp is set to 89 degrees by default.
+		 * @param window The window that the camera is used for.
 		 * @param proj The projection to use.
 		 */
-		Camera(Projection proj);
+		Camera(Window& window, Projection proj);
 
 		/*
 		 * @brief Creates a camera with the specified projection and pitch limit.
 		 * Camera starts at (0, 0, 0) facing the negative (forward) z-axis.
+		 * @param window The window that the camera is used for.
 		 * @param proj The projection to use.
 		 * @param pitchLimit The pitch limit to use.
 		 */
-		Camera(Projection proj, float pitchLimit);
+		Camera(Window& window, Projection proj, float pitchLimit);
 
 		/*
 		 * @brief Updates the view matrix of the camera.
@@ -54,14 +66,14 @@ namespace Onyx
 		/*
 		 * @brief Translates/moves the camera up/down from the camera's POV.
 		 * This IS the same as moving along the y-axis.
-		 * @param dist The distance to move. (-) down, (+) up
+		 * @param dist The distance to move. (+) up, (-) down
 		 */
 		void translateUD(float dist);
 
 		/*
 		 * @brief Translates/moves the camera forward/backward from the camera's POV.
 		 * This IS NOT the same as moving along the z-axis.
-		 * @param dist The distance to move. (-) forward, (+) backward
+		 * @param dist The distance to move. (+) forward, (-) backward
 		 */
 		void translateFB(float dist);
 
@@ -69,18 +81,24 @@ namespace Onyx
 		 * @brief Translates/moves the camera relative to its POV.
 		 * This IS NOT the same as moving along the xyz axis.
 		 * @param dist The distance to move left/right, up/down, and forward/backward for the 3 values respectively.
-		 * lr: (+) right, (-) left
+		 * lr: (-) left, (+) right
 		 * ud: (+) up, (-) down
-		 * fb: (+) backward, (-) forward
+		 * fb: (+) forward, (-) backward
 		 */
 		void translate(Onyx::Math::Vec3 LR_UD_FB);
 
 		/*
 		 * @brief Rotates the camera the specified angles.
-		 * @param yaw The angle along the x-axis, AKA yaw, in degrees.
-		 * @param pitch The angle along the y-axis, AKA pitch, in degrees.
+		 * @param yaw The angle along (not about) the x-axis, AKA yaw, in degrees.
+		 * @param pitch The angle along (not about) the y-axis, AKA pitch, in degrees.
 		 */
 		void rotate(float yaw, float pitch);
+
+		/*
+		 * @brief Gets the position of camera.
+		 * @return The position of the camera.
+		 */
+		Onyx::Math::Vec3 getPosition();
 
 		/*
 		 * @brief Gets the projection of the camera.
@@ -118,6 +136,8 @@ namespace Onyx
 		void setProjection(Projection proj);
 
 	private:
+		Window* p_win;
+
 		Onyx::Math::Vec3 pos;
 		Onyx::Math::Vec3 front;
 		Onyx::Math::Vec3 up;

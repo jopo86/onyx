@@ -182,6 +182,8 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="tests\Result.cpp" />
+    <ClCompile Include="tests\UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
@@ -205,6 +207,8 @@
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\Window.h" />
+    <ClInclude Include="tests\Result.h" />
+    <ClInclude Include="tests\UnitTests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

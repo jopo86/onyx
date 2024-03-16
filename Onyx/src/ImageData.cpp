@@ -21,12 +21,12 @@ Onyx::ImageData Onyx::ImageData::Load(std::string filepath)
 {
 	int width = 0, height = 0, nChannels = 0;
 
-#ifndef MG_STBI_FLIP_FIX
+#ifndef ONYX_STBI_FLIP_FIX
 	stbi_set_flip_vertically_on_load(true);
-#define MG_STBI_FLIP_FIX
+#define ONYX_STBI_FLIP_FIX
 #endif
 
-	ubyte *data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
+	ubyte* data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
 	return ImageData(data, width, height, nChannels);
 }
 
@@ -42,12 +42,12 @@ Onyx::ImageData Onyx::ImageData::Load(std::string filepath, ErrorHandler& errorH
 
 	int width = 0, height = 0, nChannels = 0;
 
-#ifndef MG_STBI_FLIP_FIX
+#ifndef ONYX_STBI_FLIP_FIX
 	stbi_set_flip_vertically_on_load(true);
-#define MG_STBI_FLIP_FIX
+#define ONYX_STBI_FLIP_FIX
 #endif
 
-	ubyte *data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
+	ubyte* data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
 	if (!data)
 	{
 		errorHandler.err("found file, but failed to load image data: \"" + filepath + "\"");

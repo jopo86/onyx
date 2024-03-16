@@ -23,9 +23,11 @@ namespace Onyx
 	public:
 		/*
 		 * @brief Creates an empty InputHandler object.
-		 * The handler should be assigned to a window through Window::setInputHandler().
+		 * Trying to use an input handler constructed like this will result in undefined behavior.
 		 */
 		InputHandler();
+
+		InputHandler(Window& window);
 
 		/*
 		 * @brief Updates all active key and button cooldowns.
@@ -138,7 +140,7 @@ namespace Onyx
 		double getMouseY();
 
 	private:
-		GLFWwindow* p_window;
+		Window* p_win;
 
 		int keys[ONYX_MAX_KEY];
 		float keyCooldowns[ONYX_MAX_KEY];

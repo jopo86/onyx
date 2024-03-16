@@ -54,10 +54,9 @@ void Onyx::Demo()
 
 	Window window("Onyx", 1280, 720);
 	window.init(errorHandler);
-	window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
+	window.setBackgroundColor(Vec3(0.0f, 0.7f, 1.0f));
 
-	InputHandler input;
-	window.setInputHandler(input);
+	InputHandler input(window);
 
 	float vertices[] = {
 	//	 XYZ					RGB
@@ -79,8 +78,7 @@ void Onyx::Demo()
 	Renderable cube(cubeMesh, ShaderPresets::VC());
 	cube.scale(0.5f);
 
-	Camera cam(Projection::Perspective(60.0f, 1280, 720));
-	window.setCamera(cam);
+	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 
 	Renderer renderer(cam);
 	renderer.add(cube);
@@ -110,10 +108,9 @@ void Onyx::Demo()
 	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
 	input.setKeyCooldown(ONYX_KEY_2, 0.5f);
 
-	for (int frame = 1; window.isOpen(); frame++)
+	while (window.isOpen())
 	{
 		fps = round(1.0f / deltaTime);
-		//std::cout << "FPS: " << fps << ", FRAME: " << frame << "\n";
 
 		input.updateCooldowns(deltaTime);
 
@@ -137,15 +134,22 @@ void Onyx::Demo()
 		window.startRender();
 		renderer.render();
 
-		textRenderer.renderText("Onyx Demo", Vec2(23.0f, window.getBufferHeight() - 50.0f), Vec3(0.0f, 0.5f, 1.0f));
+		bool wireframe = Renderer::IsWireframe();
+		Renderer::DisableWireframe();
 
-		textRenderer.renderText("forward/left/backward/right - [W]/[A]/[S]/[D]", Vec2(25.0f, window.getBufferHeight() - 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("up/down - [Space]/[C]", Vec2(25.0f, window.getBufferHeight() - 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("Mouse to look around", Vec2(25.0f, window.getBufferHeight() - 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.renderText("Onyx Demo", Vec2(23.0f, window.getBufferHeight() - 50.0f), Vec3(0.0f, 0.1f, 0.2f));
+		textRenderer.renderText("FPS: " + std::to_string(fps), Vec2(25.0f, window.getBufferHeight() - 80.0f), 0.6f, Vec3(0.0f, 0.0f, 0.0f));
+		textRenderer.renderText("FRAME " + std::to_string(window.getFrame()), Vec2(25.0f, window.getBufferHeight() - 100.0f), 0.6f, Vec3(0.0f, 0.0f, 0.0f));
 
-		textRenderer.renderText("Toggle wireframe: [1]", Vec2(25.0f, window.getBufferHeight() - 170.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("Toggle cube visibility: [2]", Vec2(25.0f, window.getBufferHeight() - 195.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("Toggle fullscreen: [F12]", Vec2(25.0f, window.getBufferHeight() - 220.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.renderText("Toggle fullscreen: [F12]", Vec2(25.0f, 30.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.renderText("Toggle cube visibility: [2]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.renderText("Toggle wireframe: [1]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.renderText("Mouse to look around", Vec2(25.0f, 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.renderText("up/down - [Space]/[C]", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.renderText("forward/left/backward/right - [W]/[A]/[S]/[D]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+
+		if (wireframe) Renderer::EnableWireframe();
+
 		window.endRender();
 
 		double x = input.getMouseX();

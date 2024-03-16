@@ -25,6 +25,9 @@ namespace Onyx
 
 		void updateProjection(Projection proj);
 
+		uint getVAO();
+		uint getVBO();
+
 		void setFont(Font& font);
 
 	private:

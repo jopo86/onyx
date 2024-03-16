@@ -123,6 +123,16 @@ void Onyx::TextRenderer::updateProjection(Projection proj)
 	shader.uniform("projection", proj.getMatrix());
 }
 
+uint Onyx::TextRenderer::getVAO()
+{
+	return vao;
+}
+
+uint Onyx::TextRenderer::getVBO()
+{
+	return vbo;
+}
+
 void Onyx::TextRenderer::setFont(Font& font)
 {
 	this->font = font;

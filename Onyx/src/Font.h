@@ -10,7 +10,6 @@
 #include <glad/glad.h>
 
 #include "Core.h"
-#include "ErrorHandler.h"
 #include "Math.h"
 
 namespace Onyx
@@ -32,7 +31,6 @@ namespace Onyx
 		Font();
 		Font(uint size);
 		Font(std::string ttfFilePath, uint size);
-		Font(std::string ttfFilePath, uint size, ErrorHandler& errorHandler);
 
 		std::string getTtfFilePath();
 		uint getSize();
@@ -51,6 +49,6 @@ namespace Onyx
 
 		std::map<char, Glyph> glyphs;
 
-		void populateGlyphs(ErrorHandler* errorHandler = nullptr);
+		void populateGlyphs();
 	};
 }

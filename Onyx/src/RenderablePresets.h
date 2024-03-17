@@ -98,7 +98,7 @@ namespace Onyx
 		 * @param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 		 * @return The resulting renderable.
 		 */
-		Renderable ColoredQuad(float side, Onyx::Math::Vec3 rgb);
+		Renderable ColoredSquare(float side, Onyx::Math::Vec3 rgb);
 
 		/*
 		 * @brief Creates a rectangle renderable with the specified width, height, and color.
@@ -125,7 +125,7 @@ namespace Onyx
 		 * @param side The side length.
 		 * @return The resulting renderable.
 		 */
-		Renderable VertexColoredQuad(float side);
+		Renderable VertexColoredSquare(float side);
 
 		/*
 		 * @brief Creates a rectangle renderable with the specified width and height, and uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
@@ -151,7 +151,7 @@ namespace Onyx
 		 * @param texture The texture to use.
 		 * @return The resulting renderable.
 		 */
-		Renderable TexturedQuad(float side, Texture texture);
+		Renderable TexturedSquare(float side, Texture texture);
 
 		/*
 		 * @brief Creates a rectangle renderable with the specified width, height, and texture.

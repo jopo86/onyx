@@ -17,7 +17,7 @@ Onyx::ErrorHandler::ErrorHandler(bool logging, bool throwing)
 void Onyx::ErrorHandler::err(std::string error)
 {
 	errors.push_back(error);
-	if (logging) std::cout << "Magnesium error: " << error << "\n";
+	if (logging) std::cout << "Onyx error: " << error << "\n";
 	if (throwing) throw std::runtime_error(error);
 }
 

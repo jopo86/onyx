@@ -2,6 +2,8 @@
 
 #include "InputHandler.h"
 
+using Onyx::Math::DVec2;
+
 Onyx::InputHandler::InputHandler()
 {
 	p_win = nullptr;
@@ -20,7 +22,9 @@ Onyx::InputHandler::InputHandler()
 		setButtonCooldowns[i] = 0.0f;
 	}
 
-	mouseX = mouseY = 0.0f;
+	mousePos = DVec2(0.0f);
+	lastMousePos = DVec2(0.0f);
+	mouseDeltas = DVec2(0.0f);
 
 	cursorLock = false;
 }
@@ -30,7 +34,10 @@ Onyx::InputHandler::InputHandler(Window& window)
 	p_win = &window;
 	window.p_inputHandler = this;
 
+	double mouseX, mouseY;
 	glfwGetCursorPos(p_win->p_glfwWin, &mouseX, &mouseY);
+	mousePos = DVec2(mouseX, mouseY);
+	lastMousePos = DVec2(mouseX, mouseY);
 
 	for (int i = 0; i < ONYX_MAX_KEY; i++)
 	{
@@ -46,20 +53,27 @@ Onyx::InputHandler::InputHandler(Window& window)
 		setButtonCooldowns[i] = 0.0f;
 	}
 
+	mouseDeltas = DVec2(0.0f);
+
 	cursorLock = false;
 }
 
-void Onyx::InputHandler::updateCooldowns(double deltaTime)
+void Onyx::InputHandler::update()
 {
+	mouseDeltas.setX(mousePos.getX() - lastMousePos.getX());
+	mouseDeltas.setY(mousePos.getY() - lastMousePos.getY());
+
+	lastMousePos.setX(mousePos.getX());
+	lastMousePos.setY(mousePos.getY());
 
 	for (int key : activeKeyCooldowns)
 	{
-		if (keyCooldowns[key] >= 0) keyCooldowns[key] -= deltaTime;
+		if (keyCooldowns[key] >= 0) keyCooldowns[key] -= p_win->deltaTime;
 	}
 
 	for (int button : activeButtonCooldowns)
 	{
-		if (buttonCooldowns[button] >= 0) buttonCooldowns[button] -= deltaTime;
+		if (buttonCooldowns[button] >= 0) buttonCooldowns[button] -= p_win->deltaTime;
 	}
 }
 
@@ -127,32 +141,24 @@ void Onyx::InputHandler::setMouseButtonCooldown(int button, float cooldown)
 	setButtonCooldowns[button] = cooldown;
 }
 
-void Onyx::InputHandler::lockCursor()
+void Onyx::InputHandler::setCursorLock(bool lock)
 {
-	cursorLock = true;
-	glfwSetInputMode(p_win->p_glfwWin, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-}
-
-void Onyx::InputHandler::unlockCursor()
-{
-	cursorLock = false;
-	glfwSetInputMode(p_win->p_glfwWin, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	glfwSetInputMode(p_win->p_glfwWin, GLFW_CURSOR, lock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 
 void Onyx::InputHandler::toggleCursorLock()
 {
-	if (cursorLock) unlockCursor();
-	else lockCursor();
+	setCursorLock(!cursorLock);
 }
 
-double Onyx::InputHandler::getMouseX()
+Onyx::Math::DVec2& Onyx::InputHandler::getMousePos()
 {
-	return mouseX;
+	return mousePos;
 }
 
-double Onyx::InputHandler::getMouseY()
+Onyx::Math::DVec2& Onyx::InputHandler::getMouseDeltas()
 {
-	return mouseY;
+	return mouseDeltas;
 }
 
 void Onyx::InputHandler::RCB_key(int key, int scancode, int action, int mods) 
@@ -167,6 +173,6 @@ void Onyx::InputHandler::RCB_mouseButton(int button, int action, int mods)
 
 void Onyx::InputHandler::RCB_cursorPos(double x, double y) 
 {
-	mouseX = x;
-	mouseY = y;
+	mousePos.setX(x);
+	mousePos.setY(y);
 }

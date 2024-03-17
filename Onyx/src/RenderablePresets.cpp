@@ -84,7 +84,7 @@ Onyx::Renderable Onyx::RenderablePresets::TexturedTriangle(Vec2 a, Vec2 b, Vec2 
 	);
 }
 
-Onyx::Renderable Onyx::RenderablePresets::ColoredQuad(float side, Vec3 rgb)
+Onyx::Renderable Onyx::RenderablePresets::ColoredSquare(float side, Vec3 rgb)
 {
 	return ColoredQuad(side, side, rgb);
 }
@@ -108,7 +108,7 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredQuad(Vec2 a, Vec2 b, Vec2 c, Ve
 	);
 }
 
-Onyx::Renderable Onyx::RenderablePresets::VertexColoredQuad(float side)
+Onyx::Renderable Onyx::RenderablePresets::VertexColoredSquare(float side)
 {
 	return VertexColoredQuad(side, side);
 }
@@ -131,7 +131,7 @@ Onyx::Renderable Onyx::RenderablePresets::VertexColoredQuad(Vec2 a, Vec2 b, Vec2
 	);
 }
 
-Onyx::Renderable Onyx::RenderablePresets::TexturedQuad(float side, Texture texture)
+Onyx::Renderable Onyx::RenderablePresets::TexturedSquare(float side, Texture texture)
 {
 	return TexturedQuad(side, side, texture);
 }

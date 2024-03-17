@@ -7,6 +7,7 @@
 
 #include "Core.h"
 #include "Window.h"
+#include "Math.h"
 
 namespace Onyx
 {
@@ -27,14 +28,17 @@ namespace Onyx
 		 */
 		InputHandler();
 
+		/*
+		 * @brief Creates a new InputHandler object for the specified window.
+		 * @param window The window to handle input for.
+		 */
 		InputHandler(Window& window);
 
 		/*
-		 * @brief Updates all active key and button cooldowns.
-		 * Should be called each frame before input is polled if cooldowns are used.
-		 * @param deltaTime The time since the last frame, in seconds.
+		 * @brief Updates mouse deltas and active key cooldowns.
+		 * Should be called each frame.
 		 */
-		void updateCooldowns(double deltaTime);
+		void update();
 
 		/*
 		 * @brief Gets the keystate of the specified key.
@@ -113,14 +117,11 @@ namespace Onyx
 		void setMouseButtonCooldown(int button, float cooldown);
 
 		/*
-		 * @brief Hides the cursor and locks its movement.
+		 * @brief Sets whether the cursor is locked.
+		 * Cursor lock makes the cursor invisible and locks its movement, while still allowing camera movement.
+		 * @param lock Whether the cursor should be locked.
 		 */
-		void lockCursor();
-
-		/*
-		 * @brief Shows the cursor and unlocks its movement.
-		 */
-		void unlockCursor();
+		void setCursorLock(bool lock);
 
 		/*
 		 * @brief Toggles the cursor lock.
@@ -128,16 +129,17 @@ namespace Onyx
 		void toggleCursorLock();
 
 		/*
-		 * @brief Gets the horizontal position of the mouse cursor.
-		 * @return The X screen coordinate of the mouse cursor.
+		 * @brief Gets the position of the mouse.
+		 * This is independent of whether update() is called each frame.
+		 * @return The position of the mouse.
 		 */
-		double getMouseX();
+		Onyx::Math::DVec2& getMousePos();
 
 		/*
-		 * @brief Gets the vertical position of the mouse cursor.
-		 * @return The Y screen coordinate of the mouse cursor.
+		 * @brief Gets the change in position of the mouse since the last update.
+		 * @return The change in position of the mouse since the last frame.
 		 */
-		double getMouseY();
+		Onyx::Math::DVec2& getMouseDeltas();
 
 	private:
 		Window* p_win;
@@ -153,7 +155,9 @@ namespace Onyx
 		std::vector<int> activeKeyCooldowns;
 		std::vector<int> activeButtonCooldowns;
 
-		double mouseX, mouseY;
+		Onyx::Math::DVec2 mousePos;
+		Onyx::Math::DVec2 lastMousePos;
+		Onyx::Math::DVec2 mouseDeltas;
 
 		bool cursorLock;
 

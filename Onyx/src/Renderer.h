@@ -60,18 +60,12 @@ namespace Onyx
 		void toggleVisibility(int index);
 
 		/*
-		 * @brief Enables wireframe rendering mode.
+		 * @brief Sets whether wireframe rendering mode is enabled.
 		 * In wireframe mode, only the lines between vertices are drawn.
 		 * Change the with of the lines with SetLineWidth().
+		 * @param wireframe True to enable wireframe mode, false to disable.
 		 */
-		static void EnableWireframe();
-
-		/*
-		 * @brief Disables wireframe rendering mode.
-		 * In wireframe mode, only the lines between vertices are drawn.
-		 * Change the with of the lines with SetLineWidth().
-		 */
-		static void DisableWireframe();
+		static void SetWireframe(bool wireframe);
 
 		/*
 		 * @brief Toggles wireframe rendering mode.

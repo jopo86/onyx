@@ -32,14 +32,6 @@ namespace Onyx
 		Shader(const char* vertSource, const char* fragSource);
 
 		/*
-		 * @brief Creats a new Shader object from the specified vertex and fragment shader source code.
-		 * Passes any OpenGL errors to the specified error handler.
-		 * @param vertSource The vertex shader source code.
-		 * @param fragSource The fragment shader source code.
-		 */
-		Shader(const char* vertSource, const char* fragSource, ErrorHandler& errorHandler);
-
-		/*
 		 * @brief Uses the shader.
 		 * Not needed if using renderables.
 		 */

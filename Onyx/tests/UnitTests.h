@@ -27,7 +27,6 @@ namespace UnitTests
 	Result ErrorHandlerConstructor2Test();
 	Result FileConstructor1Test();
 	Result FileConstructor2Test();
-	Result FileConstructor3Test();
 	Result WindowConstructor1Test();
 	Result WindowConstructor2Test(); 
     Result VertexArrayConstructor1Test();
@@ -37,8 +36,6 @@ namespace UnitTests
     Result ProjectionPerspectiveMethod1Test();
     Result ProjectionPerspectiveMethod2Test();
     Result ProjectionPerspectiveMethod3Test();
-    Result InputHandlerConstructor1Test();
-    Result InputHandlerConstructor2Test();
     Result IndexArrayConstructor1Test();
     Result IndexArrayConstructor2Test();
     Result ImageDataConstructor1Test();

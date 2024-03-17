@@ -34,20 +34,7 @@ namespace Onyx
 		/*
 		 * @brief A parent class for vectors.
 		 */
-		class Vec
-		{
-		public:
-
-			virtual float magnitude() = 0;
-			virtual void normalize() = 0;
-			virtual float* data() = 0;
-
-			virtual float getX() = 0;
-			virtual float getY() = 0;
-
-			virtual void setX(float x) = 0;
-			virtual void setY(float y) = 0;
-		};
+		class Vec {};
 
 		/*
 		 * @brief A vector with two components.
@@ -182,6 +169,180 @@ namespace Onyx
 		 */
 		float Dot(const Vec4& vec1, const Vec4& vec2);
 
+		/*
+		 * @brief A parent class for double vectors.
+		 */
+		class DVec : public Vec {};
+
+		/*
+		 * @brief A double vector with two components.
+		 */
+		class DVec2 : public DVec
+		{
+		public:
+			DVec2();
+			DVec2(double xy);
+			DVec2(double x, double y);
+			DVec2(glm::dvec2 vec);
+
+			double magnitude();
+			void normalize();
+			double* data();
+
+			double getX();
+			double getY();
+			glm::dvec2 getMVec();
+			DVec2 getNormalized();
+
+			void setX(double x);
+			void setY(double y);
+
+		private:
+			glm::dvec2 m_vec;
+		};
+
+		/*
+		 * @brief A double vector with three components.
+		 */
+		class DVec3 : public DVec
+		{
+		public:
+			DVec3();
+			DVec3(double xyz);
+			DVec3(double x, double y, double z);
+			DVec3(glm::dvec3 vec);
+
+			double magnitude();
+			void normalize();
+			double* data();
+
+			double getX();
+			double getY();
+			double getZ();
+			glm::dvec3 getMVec();
+			DVec3 getNormalized();
+
+			void setX(double x);
+			void setY(double y);
+			void setZ(double z);
+
+		private:
+			glm::dvec3 m_vec;
+		};
+
+		/*
+		 * @brief A double vector with four components.
+		 */
+		class DVec4 : public DVec
+		{
+		public:
+			DVec4();
+			DVec4(double xyzw);
+			DVec4(double x, double y, double z, double w);
+			DVec4(glm::dvec4 vec);
+
+			double magnitude();
+			void normalize();
+			double* data();
+
+			double getX();
+			double getY();
+			double getZ();
+			double getW();
+			glm::dvec4 getMVec();
+			DVec4 getNormalized();
+
+			void setX(double x);
+			void setY(double y);
+			void setZ(double z);
+			void setW(double w);
+
+		private:
+			glm::dvec4 m_vec;
+		};
+
+		/*
+		 * @brief A parent class for integer vectors.
+		 */
+		class IVec : public Vec {};
+
+		/*
+		 * @brief An integer vector with two components.
+		 */
+		class IVec2 : public IVec
+		{
+		public:
+			IVec2();
+			IVec2(int xy);
+			IVec2(int x, int y);
+			IVec2(glm::ivec2 vec);
+
+			int* data();
+
+			int getX();
+			int getY();
+			glm::ivec2 getMVec();
+
+			void setX(int x);
+			void setY(int y);
+
+		private:
+			glm::ivec2 m_vec;
+		};
+
+		/*
+		 * @brief An integer vector with three components.
+		 */
+		class IVec3 : public IVec
+		{
+		public:
+			IVec3();
+			IVec3(int xyz);
+			IVec3(int x, int y, int z);
+			IVec3(glm::ivec3 vec);
+
+			int* data();
+
+			int getX();
+			int getY();
+			int getZ();
+			glm::ivec3 getMVec();
+
+			void setX(int x);
+			void setY(int y);
+			void setZ(int z);
+
+		private:
+			glm::ivec3 m_vec;
+		};
+
+		/*
+		 * @brief An integer vector with four components.
+		 */
+		class IVec4 : public IVec
+		{
+		public:
+			IVec4();
+			IVec4(int xyzw);
+			IVec4(int x, int y, int z, int w);
+			IVec4(glm::ivec4 vec);
+
+			int* data();
+
+			int getX();
+			int getY();
+			int getZ();
+			int getW();
+			glm::ivec4 getMVec();
+
+			void setX(int x);
+			void setY(int y);
+			void setZ(int z);
+			void setW(int w);
+
+		private:
+			glm::ivec4 m_vec;
+		};
 
 		/*
 		 * @brief A parent class for matrices.

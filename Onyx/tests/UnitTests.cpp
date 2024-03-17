@@ -47,19 +47,6 @@ Result UnitTests::FileConstructor2Test()
 	return result;
 }
 
-Result UnitTests::FileConstructor3Test()
-{
-	Result result("FileConstructor3Test", true, "");
-
-	std::string path = "nonexistent.txt";
-	Onyx::ErrorHandler errorHandler;
-	Onyx::File file(path, errorHandler);
-
-	result.verify("path", file.getPath(), path);
-
-	return result;
-}
-
 Result UnitTests::WindowConstructor1Test()
 {
 	Result result("WindowConstructor1Test", true, "");
@@ -198,32 +185,6 @@ Result UnitTests::ProjectionPerspectiveMethod3Test()
     return result;
 }
 
-Result UnitTests::InputHandlerConstructor1Test()
-{
-    Result result("InputHandlerConstructor1Test", true, "");
-
-    Onyx::InputHandler inputHandler;
-
-    result.verify("mouseX", inputHandler.getMouseX(), 0.0f);
-    result.verify("mouseY", inputHandler.getMouseY(), 0.0f);
-
-    return result;
-}
-
-Result UnitTests::InputHandlerConstructor2Test()
-{
-    Result result("InputHandlerConstructor2Test", true, "");
-
-    Onyx::Window window;
-
-    Onyx::InputHandler inputHandler(window);
-
-    result.verify("mouseX", inputHandler.getMouseX(), 0.0f);
-    result.verify("mouseY", inputHandler.getMouseY(), 0.0f);
-
-    return result;
-}
-
 Result UnitTests::IndexArrayConstructor1Test()
 {
     Result result("IndexArrayConstructor1Test", true, "");
@@ -295,7 +256,6 @@ void UnitTests::RunAllConstructorTests()
 	results.push_back(ErrorHandlerConstructor2Test());
 	results.push_back(FileConstructor1Test());
 	results.push_back(FileConstructor2Test());
-	results.push_back(FileConstructor3Test());
 	results.push_back(WindowConstructor1Test());
 	results.push_back(WindowConstructor2Test());
     results.push_back(VertexArrayConstructor1Test());
@@ -305,8 +265,6 @@ void UnitTests::RunAllConstructorTests()
     results.push_back(ProjectionPerspectiveMethod1Test());
     results.push_back(ProjectionPerspectiveMethod2Test());
     results.push_back(ProjectionPerspectiveMethod3Test());
-    results.push_back(InputHandlerConstructor1Test());
-    results.push_back(InputHandlerConstructor2Test());
     results.push_back(IndexArrayConstructor1Test());
     results.push_back(IndexArrayConstructor2Test());
     results.push_back(ImageDataConstructor1Test());
@@ -318,6 +276,8 @@ void UnitTests::RunAllConstructorTests()
 		if (!results[i].success) std::cout << results[i].message;
 		std::cout << "\n";
 	}
+
+    std::cout << "\n";
 }
 
 void UnitTests::RunAllTests()

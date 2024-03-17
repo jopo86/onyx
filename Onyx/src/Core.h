@@ -254,7 +254,7 @@ namespace Onyx
 	 * @brief Initializes the Onyx library.
 	 * Defines some essential variables that may cause errors in the future if undefined.
 	 * Passes any initialization errors to the specified error handler.
-	 * @param errorHandler The error handler to use (not permanently, only for this function).
+	 * @param errorHandler The error handler to use (for the entire library).
 	 */
 	void Init(ErrorHandler& errorHandler);
 
@@ -271,10 +271,22 @@ namespace Onyx
 	void Demo();
 
 	/*
+	 * @brief Passes an error to the error handler.
+	 * This is just used by the library, it shouldn't really be used by the user.
+	 */
+	void Err(std::string msg);
+
+	/*
 	 * @brief Gets whether the library has been initialized.
 	 * @return Whether Init() has been called.
 	 */
 	bool IsInitialized();
+	
+	/*
+	 * @brief Sets the error handler to use for the library.
+	 * @param errorHandler The error handler to use.
+	 */
+	void SetErrorHandler(ErrorHandler& errorHandler);
 
 	/*
 	 * @brief Sets the filepath to resources such as shader presets.

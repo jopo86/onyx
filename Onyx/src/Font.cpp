@@ -26,20 +26,10 @@ Onyx::Font::Font(std::string ttfFilePath, uint size)
 {
 	p_ft = Onyx::GetFreeTypeLibrary();
 
-	this->ttfFilePath = ttfFilePath;
-	this->size = size;
-
-	populateGlyphs();
-}
-
-Onyx::Font::Font(std::string ttfFilePath, uint size, ErrorHandler& errorHandler)
-{
-	p_ft = Onyx::GetFreeTypeLibrary();
-
 	std::ifstream file(ttfFilePath);
 	if (!file.good())
 	{
-		errorHandler.err("Font file not found: \"" + ttfFilePath + "\"\nAborting font creation.");
+		Err("Font file not found: \"" + ttfFilePath + "\"\nAborting font creation.");
 		file.close();
 		return;
 	}
@@ -49,14 +39,14 @@ Onyx::Font::Font(std::string ttfFilePath, uint size, ErrorHandler& errorHandler)
 	this->ttfFilePath = ttfFilePath;
 	this->size = size;
 
-	populateGlyphs(&errorHandler);
+	populateGlyphs();
 }
 
-void Onyx::Font::populateGlyphs(ErrorHandler* errorHandler)
+void Onyx::Font::populateGlyphs()
 {
-	if (FT_New_Face(*p_ft, ttfFilePath.c_str(), 0, &face) && errorHandler != nullptr)
+	if (FT_New_Face(*p_ft, ttfFilePath.c_str(), 0, &face))
 	{
-		errorHandler->err("Failed to load font: \"" + ttfFilePath + "\"");
+		Err("Failed to load font: \"" + ttfFilePath + "\"");
 		return;
 	}
 
@@ -65,9 +55,9 @@ void Onyx::Font::populateGlyphs(ErrorHandler* errorHandler)
 
 	for (ubyte c = 0; c < 128; c++)
 	{
-		if (FT_Load_Char(face, c, FT_LOAD_RENDER) && errorHandler != nullptr)
+		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
 		{
-			errorHandler->err("Failed to load glyph for character '" + std::to_string(c) + "'");
+			Err("Failed to load glyph for character '" + std::to_string(c) + "'");
 			continue;
 		}
 

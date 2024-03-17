@@ -30,20 +30,10 @@ namespace Onyx
 
 		/*
 		 * @brief Creates a new ImageData object from the image at the specified file path.
-		 * This function may cause errors, it is recommended to use the overload with an error handler.
 		 * @param filepath The file path to the image.
 		 * @return The ImageData object that was created.
 		 */
 		static ImageData Load(std::string filepath);
-
-		/*
-		 * @brief Creates a new ImageData object from the image at the specified file path.
-		 * Passes an error to the specified error handler if the file was not found.
-		 * @param filepath The file path to the image.
-		 * @param errorHandler The error handler to use.
-		 * @return The ImageData object that was created.
-		 */
-		static ImageData Load(std::string filepath, ErrorHandler& errorHandler);
 
 		/*
 		 * @brief Gets the actual byte data of the image.

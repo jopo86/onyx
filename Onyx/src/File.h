@@ -4,7 +4,6 @@
 #include <fstream>
 
 #include "Core.h"
-#include "ErrorHandler.h"
 
 namespace Onyx
 {
@@ -27,15 +26,6 @@ namespace Onyx
 		 * @param path The path of the file.
 		 */
 		File(std::string path);
-
-		/*
-		 * @brief Creates a new File object from the specified file path.
-		 * Passes an error to the specified error handler if the file was not found.
-		 * @param path The path of the file.
-		 * @param errorHandler The error handler to use.
-		 */
-		File(std::string path, ErrorHandler& errorHandler);
-
 
 		/*
 		 * @brief Reads the file and returns the result.

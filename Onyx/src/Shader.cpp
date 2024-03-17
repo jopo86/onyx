@@ -15,26 +15,6 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSourc
 	glShaderSource(vert, 1, &vertSource, nullptr);
 	glShaderSource(frag, 1, &fragSource, nullptr);
 
-	glCompileShader(vert);
-	glCompileShader(frag);
-
-	prog = glCreateProgram();
-	glAttachShader(prog, vert);
-	glAttachShader(prog, frag);
-	glLinkProgram(prog);
-
-	glDeleteShader(vert);
-	glDeleteShader(frag);
-}
-
-Onyx::Shader::Shader(const char *vertSource, const char *fragSource, ErrorHandler& errorHandler) : vertSource(vertSource), fragSource(fragSource)
-{
-	uint vert = glCreateShader(GL_VERTEX_SHADER);
-	uint frag = glCreateShader(GL_FRAGMENT_SHADER);
-
-	glShaderSource(vert, 1, &vertSource, nullptr);
-	glShaderSource(frag, 1, &fragSource, nullptr);
-
 	int result;
 
 	glCompileShader(vert);
@@ -43,7 +23,7 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource, ErrorHandle
 	{
 		char infoBuffer[ONYX_BUFFER_SIZE];
 		glGetShaderInfoLog(vert, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-		errorHandler.err("failed to compile a vertex shader, shader has been disposed. OpenGL output shown below.\n\n" + std::string(infoBuffer));
+		Err("failed to compile a vertex shader, shader has been disposed. OpenGL output shown below.\n\n" + std::string(infoBuffer));
 		if (vert) glDeleteShader(vert);
 		if (frag) glDeleteShader(frag);
 		dispose();
@@ -56,7 +36,7 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource, ErrorHandle
 	{
 		char infoBuffer[ONYX_BUFFER_SIZE];
 		glGetShaderInfoLog(frag, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-		errorHandler.err("failed to compile a fragment shader, shader has been disposed. OpenGL output shown below.\n\n" + std::string(infoBuffer));
+		Err("failed to compile a fragment shader, shader has been disposed. OpenGL output shown below.\n\n" + std::string(infoBuffer));
 		if (vert) glDeleteShader(vert);
 		if (frag) glDeleteShader(frag);
 		dispose();
@@ -73,7 +53,7 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource, ErrorHandle
 	{
 		char infoBuffer[ONYX_BUFFER_SIZE];
 		glGetProgramInfoLog(prog, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-		errorHandler.err("failed to link a shader program, shader has been disposed. OpenGL output shown below.\n\n" + std::string(infoBuffer));
+		Err("failed to link a shader program, shader has been disposed. OpenGL output shown below.\n\n" + std::string(infoBuffer));
 		if (vert) glDeleteShader(vert);
 		if (frag) glDeleteShader(frag);
 		dispose();
@@ -86,7 +66,7 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource, ErrorHandle
 	{
 		char infoBuffer[ONYX_BUFFER_SIZE];
 		glGetProgramInfoLog(prog, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-		errorHandler.err("failed to validate a shader program, shader has been disposed. OpenGL output shown below.\n\n" + std::string(infoBuffer));
+		Err("failed to validate a shader program, shader has been disposed. OpenGL output shown below.\n\n" + std::string(infoBuffer));
 		if (vert) glDeleteShader(vert);
 		if (frag) glDeleteShader(frag);
 		dispose();

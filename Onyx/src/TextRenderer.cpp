@@ -123,6 +123,16 @@ void Onyx::TextRenderer::updateProjection(Projection proj)
 	shader.uniform("projection", proj.getMatrix());
 }
 
+void Onyx::TextRenderer::StartRender()
+{
+	glDisable(GL_DEPTH_TEST);
+}
+
+void Onyx::TextRenderer::EndRender()
+{
+	glEnable(GL_DEPTH_TEST);
+}
+
 uint Onyx::TextRenderer::getVAO()
 {
 	return vao;

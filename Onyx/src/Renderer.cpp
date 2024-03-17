@@ -45,22 +45,17 @@ void Onyx::Renderer::toggleVisibility(int index)
 	renderables[index].second = !renderables[index].second;
 }
 
-void Onyx::Renderer::EnableWireframe()
+void Onyx::Renderer::SetWireframe(bool _wireframe)
 {
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	wireframe = true;
-}
+	if (wireframe == _wireframe) return;
 
-void Onyx::Renderer::DisableWireframe()
-{
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	wireframe = false;
+	wireframe = _wireframe;
+	glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
 }
 
 void Onyx::Renderer::ToggleWireframe()
 {
-	if (wireframe) DisableWireframe();
-	else EnableWireframe();
+	SetWireframe(!wireframe);
 }
 
 bool Onyx::Renderer::IsWireframe()

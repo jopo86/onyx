@@ -19,7 +19,8 @@ Onyx::Window::Window()
 	p_textRenderer = nullptr;
 	fullscreen = false;
 	initialized = false;
-	frame = 0;
+	frame = fps = 0;
+	lastFrameTime = deltaTime = 0;
 }
 
 Onyx::Window::Window(const char *title, int width, int height)
@@ -34,50 +35,15 @@ Onyx::Window::Window(const char *title, int width, int height)
 	p_textRenderer = nullptr;
 	fullscreen = false;
 	initialized = false;
-	frame = 0;
+	frame = fps = 0;
+	lastFrameTime = deltaTime = 0;
 }
 
 void Onyx::Window::init()
 {
-	glfwInit();
-
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-#ifdef ONYX_OS_MAC
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-#endif
-
-	if (p_primaryMonitor == nullptr) p_primaryMonitor = glfwGetPrimaryMonitor();
-	if (p_primaryMonitorInfo == nullptr) p_primaryMonitorInfo = (GLFWvidmode*)glfwGetVideoMode(p_primaryMonitor);
-
-	p_glfwWin = glfwCreateWindow(width, height, title, nullptr, nullptr);
-	glfwMakeContextCurrent(p_glfwWin);
-	glfwGetFramebufferSize(p_glfwWin, &bufferWidth, &bufferHeight);
-	glfwSetWindowUserPointer(p_glfwWin, this);
-
-	glfwSetFramebufferSizeCallback(p_glfwWin, CB_framebufferSize);
-	glfwSetKeyCallback(p_glfwWin, CB_key);
-	glfwSetMouseButtonCallback(p_glfwWin, CB_mouseButton);
-	glfwSetCursorPosCallback(p_glfwWin, CB_cursorPos);
-
-	glfwSwapInterval(1);
-
-	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	glViewport(0, 0, bufferWidth, bufferHeight);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	initialized = true;
-}
-
-void Onyx::Window::init(ErrorHandler &errorHandler)
-{
 	if (!glfwInit())
 	{
-		errorHandler.err("failed to initialize GLFW.");
+		Err("failed to initialize GLFW.");
 		return;
 	}
 
@@ -95,7 +61,7 @@ void Onyx::Window::init(ErrorHandler &errorHandler)
 	p_glfwWin = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (p_glfwWin == nullptr)
 	{
-		errorHandler.err("failed to create GLFW window.");
+		Err("failed to create GLFW window.");
 		return;
 	}
 
@@ -112,7 +78,7 @@ void Onyx::Window::init(ErrorHandler &errorHandler)
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		errorHandler.err("failed to initialize OpenGL.");
+		Err("failed to initialize OpenGL.");
 		return;
 	}
 
@@ -126,6 +92,9 @@ void Onyx::Window::init(ErrorHandler &errorHandler)
 
 void Onyx::Window::startRender()
 {
+	deltaTime = GetTime() - lastFrameTime;
+	fps = (int)(1.0 / deltaTime);
+	lastFrameTime = GetTime();
 	frame++;
 
 	glClearColor(background.getX(), background.getY(), background.getZ(), 1.0f);
@@ -204,6 +173,16 @@ bool Onyx::Window::isInitialized()
 	return initialized;
 }
 
+int Onyx::Window::getFPS()
+{
+	return fps;
+}
+
+double Onyx::Window::getDeltaTime()
+{
+	return deltaTime;
+}
+
 bool Onyx::Window::isOpen()
 {
 	return !glfwWindowShouldClose(p_glfwWin);
@@ -225,6 +204,8 @@ void Onyx::Window::dispose()
 	title = "";
 	width = height = bufferWidth = bufferHeight = 0;
 	initialized = false;
+
+	glfwTerminate();
 }
 
 void Onyx::Window::CB_framebufferSize(GLFWwindow* p_glfwWin, int width, int height)

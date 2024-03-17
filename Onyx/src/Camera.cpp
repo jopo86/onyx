@@ -100,12 +100,11 @@ void Onyx::Camera::rotate(float _yaw, float _pitch)
 
 	yaw += _yaw;
 	pitch -= _pitch;
+	if (pitch > pitchClamp) pitch = pitchClamp;
+	else if (pitch < -pitchClamp) pitch = -pitchClamp;
 
 	float yawRad = Radians(yaw);
 	float pitchRad = Radians(pitch);
-
-	if (pitch >= pitchClamp) pitch = pitchClamp;
-	else if (pitch <= -pitchClamp) pitch = -pitchClamp;
 
 	front.setX(cosf(yawRad) * cosf(pitchRad));
 	front.setY(sinf(pitchRad));

@@ -8,13 +8,8 @@ Onyx::File::File()
 Onyx::File::File(std::string path)
 {
 	this->path = path;
-}
-
-Onyx::File::File(std::string path, ErrorHandler &errorHandler)
-{
-	this->path = path;
 	fileIn.open(path);
-	if (!fileIn.is_open()) errorHandler.err("warning - file was not found: \"" + std::string(path) + "\"\nIf your purpose was to create a new file, you may ignore this.");
+	if (!fileIn.is_open()) Err("warning - file was not found: \"" + std::string(path) + "\"\nIf your purpose was to create a new file, you may ignore this.");
 	fileIn.close();
 }
 

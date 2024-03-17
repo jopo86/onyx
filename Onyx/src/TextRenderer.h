@@ -25,6 +25,9 @@ namespace Onyx
 
 		void updateProjection(Projection proj);
 
+		static void StartRender();
+		static void EndRender();
+
 		uint getVAO();
 		uint getVBO();
 

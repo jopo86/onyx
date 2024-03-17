@@ -47,15 +47,6 @@ namespace Onyx
 		void init();
 
 		/*
-		 * @brief Initializes the window.
-		 * Passes any OpenGL or GLFW initialization errors to the specified error handler.
-		 * This initializes the backends, including GLFW and OpenGL.
-		 * This function needs to be called before anything related to OpenGL occurs.
-		 * @param errorHandler The error handler to use.
-		 */
-		void init(ErrorHandler& errorHandler);
-
-		/*
 		 * @brief Prepares to render the current frame.
 		 * This function clears the screen to the background color, clears buffers, and polls GLFW events.
 		 */
@@ -139,6 +130,18 @@ namespace Onyx
 		bool isInitialized();
 
 		/*
+		 * @brief Gets the current frames per second.
+		 * @return The current frames per second.
+		 */
+		int getFPS();
+
+		/*
+		 * @brief Gets the time since the last frame, in seconds.
+		 * @return The time since the last frame, in seconds.
+		 */
+		double getDeltaTime();
+
+		/*
 		 * @brief Gets the open/closed status of the window.
 		 * @return Whether the window is open.
 		 */
@@ -174,6 +177,9 @@ namespace Onyx
 		bool initialized;
 
 		int frame;
+		int fps;
+		double lastFrameTime;
+		double deltaTime;
 
 		static void CB_framebufferSize(GLFWwindow* p_window, int width, int height);
 		static void CB_key(GLFWwindow* p_window, int key, int scancode, int action, int mods);

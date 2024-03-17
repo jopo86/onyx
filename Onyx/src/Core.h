@@ -8,11 +8,11 @@
 #include FT_FREETYPE_H
 
 /*
- * @file A header file containing useful definitions used by the Onyx library as well as the user.
+	@file A header file containing useful definitions used by the Onyx library as well as the user.
  */
 
 /*
- * Definitions for system info.
+	Definitions for system info.
  */
 #if defined(__LP64__) || defined(_LP64) || defined(__amd64__) || defined(__x86_64__) || defined(_M_X64) || defined(_WIN64) || defined(__ia64__) || defined(_M_IA64) || defined(__aarch64__) || defined(__powerpc64__) || defined(__ppc64__) || defined(__PPC64__) || defined(__mips64__) || defined(__mips64) || defined(__mips64) || defined(__sparc64__) || defined(__arch64__)
 	#define ONYX_ARCH_64
@@ -41,10 +41,10 @@
 #endif
 
 /*
- * Definitions for vertex formats.
- * These are used to tell the MgMesh class how the array of vertices is formatted.
- * They allow specification of what types of vertices are in the array (V/C/T) and how they are ordered.
- * V = vertices, C = colors, T = texture coordinates
+	Definitions for vertex formats.
+	These are used to tell the MgMesh class how the array of vertices is formatted.
+	They allow specification of what types of vertices are in the array (V/C/T) and how they are ordered.
+	V = vertices, C = colors, T = texture coordinates
  */
 #define ONYX_VERTEX_FORMAT_V					400
 #define ONYX_VERTEX_FORMAT_VC					401
@@ -59,8 +59,8 @@
 #define ONYX_VERTEX_FORMAT_TCV					410
 
 /*
- * Definitions for meshes.
- * Used by MgMeshPresets::GetIndices(int mesh)
+	Definitions for meshes.
+	Used by MgMeshPresets::GetIndices(int mesh)
  *									  ^^^^^^
  */
 #define ONYX_MESH_TRIANGLE						411
@@ -70,14 +70,14 @@
 #define ONYX_MESH_RECT_PRISM					415
 
 /*
- * Definitions for projection types.
+	Definitions for projection types.
  */
 #define ONYX_PROJECTION_TYPE_ORTHOGRAPHIC		416
 #define ONYX_PROJECTION_TYPE_PERSPECTIVE		417
 
 /*
- * Definitions for each key on a keyboard.
- * These are used to specify what the target key is when testing if a key is up/down by the MgInputHandler class.
+	Definitions for each key on a keyboard.
+	These are used to specify what the target key is when testing if a key is up/down by the MgInputHandler class.
  */
 #define ONYX_KEY_UNKNOWN						-1
 #define ONYX_KEY_SPACE							32
@@ -203,8 +203,8 @@
 #define ONYX_MAX_KEY							ONYX_KEY_MENU
 
 /*
- * Definitions for each button on a mouse.
- * These are used to specify what the target button is when testing if a mouse button is up/down by the MgInputHandler class.
+	Definitions for each button on a mouse.
+	These are used to specify what the target button is when testing if a mouse button is up/down by the MgInputHandler class.
  */
 #define ONYX_MOUSE_BUTTON_1						0
 #define ONYX_MOUSE_BUTTON_2						1
@@ -220,8 +220,8 @@
 #define ONYX_MAX_MOUSE_BUTTON					ONYX_MOUSE_BUTTON_8
 
 /*
- * Definitions for keystates.
- * Used by MgInputHandler.
+	Definitions for keystates.
+	Used by MgInputHandler.
  */
 #define ONYX_KEYSTATE_UNTOUCHED				   -1
 #define ONYX_KEYSTATE_RELEASE					0
@@ -229,8 +229,8 @@
 #define ONYX_KEYSTATE_REPEAT					2
 
 /*
- * Type definitions for convenience.
- * These are used by the library, but can be used by the user as well.
+	Type definitions for convenience.
+	These are used by the library, but can be used by the user as well.
  */
 typedef char								byte;
 typedef unsigned char						ubyte;
@@ -240,27 +240,27 @@ typedef unsigned long						ulong;
 typedef unsigned long long					ulonglong;
 
 /*
- * @brief A namespace for global Onyx functions/settings.
+	@brief A namespace for global Onyx functions/settings.
  */
 namespace Onyx
 {
 	/*
-	 * @brief Initializes the Onyx library.
-	 * Defines some essential variables that may cause errors in the future if undefined.
+		@brief Initializes the Onyx library.
+		Defines some essential variables that may cause errors in the future if undefined.
 	 */
 	void Init();
 
 	/*
-	 * @brief Initializes the Onyx library.
-	 * Defines some essential variables that may cause errors in the future if undefined.
-	 * Passes any initialization errors to the specified error handler.
-	 * @param errorHandler The error handler to use (for the entire library).
+		@brief Initializes the Onyx library.
+		Defines some essential variables that may cause errors in the future if undefined.
+		Passes any initialization errors to the specified error handler.
+		@param errorHandler The error handler to use (for the entire library).
 	 */
 	void Init(ErrorHandler& errorHandler);
 
 	/*
-	 * @brief Terminates the Onyx library.
-	 * Frees space used by FreeType.
+		@brief Terminates the Onyx library.
+		Frees space used by FreeType.
 	 ! Does not dispose of any objects that may have been created.
 	 */
 	void Terminate();
@@ -271,52 +271,52 @@ namespace Onyx
 	void Demo();
 
 	/*
-	 * @brief Passes an error to the error handler.
-	 * This is just used by the library, it shouldn't really be used by the user.
+		@brief Passes an error to the error handler.
+		This is just used by the library, it shouldn't really be used by the user.
 	 */
 	void Err(std::string msg);
 
 	/*
-	 * @brief Gets whether the library has been initialized.
-	 * @return Whether Init() has been called.
+		@brief Gets whether the library has been initialized.
+		@return Whether Init() has been called.
 	 */
 	bool IsInitialized();
 	
 	/*
-	 * @brief Sets the error handler to use for the library.
-	 * @param errorHandler The error handler to use.
+		@brief Sets the error handler to use for the library.
+		@param errorHandler The error handler to use.
 	 */
 	void SetErrorHandler(ErrorHandler& errorHandler);
 
 	/*
-	 * @brief Sets the filepath to resources such as shader presets.
-	 * This should be the folder that contains the 'shaders' folder.
-	 * @param path The path of the resources folder. Doesn't matter if it has a slash at the end or not.
+		@brief Sets the filepath to resources such as shader presets.
+		This should be the folder that contains the 'shaders' folder.
+		@param path The path of the resources folder. Doesn't matter if it has a slash at the end or not.
 	 */
 	void SetResourcePath(std::string path);
 
 	/*
-	 * @brief Gets the filepath that resources such as shader presets are stored in.
-	 * This function is used by the library when reading files.
-	 * @return The path of the resources folder.
+		@brief Gets the filepath that resources such as shader presets are stored in.
+		This function is used by the library when reading files.
+		@return The path of the resources folder.
 	 */
 	std::string GetResourcePath();
 
 	/*
-	 * @brief Gets the FreeType library.
-	 * This function is used by the library when rendering text.
-	 * @return The FreeType library.
+		@brief Gets the FreeType library.
+		This function is used by the library when rendering text.
+		@return The FreeType library.
 	 */
 	FT_Library* GetFreeTypeLibrary();
 
 	/*
-	 * @brief Gets the time (sec) since the backends were initialized, so when the first window was initialized.
-	 * Use for calculating delta time.
+		@brief Gets the time (sec) since the backends were initialized, so when the first window was initialized.
+		Use for calculating delta time.
 	 */
 	double GetTime();
 
 	/*
-	 * @brief Parent class for disposable objects.
+		@brief Parent class for disposable objects.
 	 */
 	class Disposable
 	{

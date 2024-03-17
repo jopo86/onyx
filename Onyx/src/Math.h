@@ -1,5 +1,5 @@
 /*
- * @file A header file containing wrapper classes for vector and matrix math.
+	@file A header file containing wrapper classes for vector and matrix math.
  */
 
 #pragma once
@@ -12,32 +12,32 @@ namespace Onyx
 {
 
 	/*
-	 * @brief A namespace providing access to classes for vector and matrix math.
-	 * These classes are wrapper classes that use GLM for the underlying mathematics.
+		@brief A namespace providing access to classes for vector and matrix math.
+		These classes are wrapper classes that use GLM for the underlying mathematics.
 	 */
 	namespace Math
 	{
 		/*
-		 * @brief Converts a degree angle measure to radians.
-		 * @param degrees The degree angle measure.
-		 * @return The resulting radian angle measure.
+			@brief Converts a degree angle measure to radians.
+			@param degrees The degree angle measure.
+			@return The resulting radian angle measure.
 		 */
 		float Radians(float degrees);
 
 		/*
-		 * @brief Converts a radian angle measure to degrees.
-		 * @param radians The radian angle measure.
-		 * @return The resulting degree angle measure.
+			@brief Converts a radian angle measure to degrees.
+			@param radians The radian angle measure.
+			@return The resulting degree angle measure.
 		 */
 		float Degrees(float radians);
 
 		/*
-		 * @brief A parent class for vectors.
+			@brief A parent class for vectors.
 		 */
 		class Vec {};
 
 		/*
-		 * @brief A vector with two components.
+			@brief A vector with two components.
 		 */
 		class Vec2 : public Vec
 		{
@@ -71,7 +71,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A vector with three components.
+			@brief A vector with three components.
 		 */
 		class Vec3 : public Vec
 		{
@@ -108,7 +108,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A vector with four components.
+			@brief A vector with four components.
 		 */
 		class Vec4 : public Vec
 		{
@@ -146,36 +146,36 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief The cross product vector operation between 3D vectors.
-		 * @return The resulting vector.
+			@brief The cross product vector operation between 3D vectors.
+			@return The resulting vector.
 		 */
 		Vec3 Cross(const Vec3& vec1, const Vec3& vec2);
 
 		/*
-		 * @brief The dot product vector operation between 2D vectors.
-		 * @return The resulting scalar value.
+			@brief The dot product vector operation between 2D vectors.
+			@return The resulting scalar value.
 		 */
 		float Dot(const Vec2& vec1, const Vec2& vec2);
 
 		/*
-		 * @brief The dot product vector operation between 3D vectors.
-		 * @return The resulting scalar value.
+			@brief The dot product vector operation between 3D vectors.
+			@return The resulting scalar value.
 		 */
 		float Dot(const Vec3& vec1, const Vec3& vec2);
 
 		/*
-		 * @brief The dot product vector operation between 4D vectors.
-		 * @return The resulting scalar value.
+			@brief The dot product vector operation between 4D vectors.
+			@return The resulting scalar value.
 		 */
 		float Dot(const Vec4& vec1, const Vec4& vec2);
 
 		/*
-		 * @brief A parent class for double vectors.
+			@brief A parent class for double vectors.
 		 */
 		class DVec : public Vec {};
 
 		/*
-		 * @brief A double vector with two components.
+			@brief A double vector with two components.
 		 */
 		class DVec2 : public DVec
 		{
@@ -202,7 +202,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A double vector with three components.
+			@brief A double vector with three components.
 		 */
 		class DVec3 : public DVec
 		{
@@ -231,7 +231,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A double vector with four components.
+			@brief A double vector with four components.
 		 */
 		class DVec4 : public DVec
 		{
@@ -262,12 +262,12 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A parent class for integer vectors.
+			@brief A parent class for integer vectors.
 		 */
 		class IVec : public Vec {};
 
 		/*
-		 * @brief An integer vector with two components.
+			@brief An integer vector with two components.
 		 */
 		class IVec2 : public IVec
 		{
@@ -291,7 +291,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief An integer vector with three components.
+			@brief An integer vector with three components.
 		 */
 		class IVec3 : public IVec
 		{
@@ -317,7 +317,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief An integer vector with four components.
+			@brief An integer vector with four components.
 		 */
 		class IVec4 : public IVec
 		{
@@ -345,7 +345,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A parent class for matrices.
+			@brief A parent class for matrices.
 		 */
 		class Mat
 		{
@@ -353,7 +353,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 2x2
+			@brief A matrix with dimensions 2x2
 		 */
 		class Mat2x2 : public Mat
 		{
@@ -376,7 +376,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 2x3
+			@brief A matrix with dimensions 2x3
 		 */
 		class Mat2x3 : public Mat
 		{
@@ -399,7 +399,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 2x4
+			@brief A matrix with dimensions 2x4
 		 */
 		class Mat2x4 : public Mat
 		{
@@ -422,7 +422,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 3x2
+			@brief A matrix with dimensions 3x2
 		 */
 		class Mat3x2 : public Mat
 		{
@@ -445,7 +445,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 3x3
+			@brief A matrix with dimensions 3x3
 		 */
 		class Mat3x3 : public Mat
 		{
@@ -468,7 +468,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 3x4
+			@brief A matrix with dimensions 3x4
 		 */
 		class Mat3x4 : public Mat
 		{
@@ -491,7 +491,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 4x2
+			@brief A matrix with dimensions 4x2
 		 */
 		class Mat4x2 : public Mat
 		{
@@ -514,7 +514,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 4x3
+			@brief A matrix with dimensions 4x3
 		 */
 		class Mat4x3 : public Mat
 		{
@@ -537,7 +537,7 @@ namespace Onyx
 		};
 
 		/*
-		 * @brief A matrix with dimensions 4x4
+			@brief A matrix with dimensions 4x4
 		 */
 		class Mat4x4 : public Mat
 		{
@@ -586,17 +586,17 @@ namespace Onyx
 		Vec4 operator*(Mat4x4& mat, Vec4& vec);
 
 		/*
-		 * @brief A matrix with dimensions 2x2
+			@brief A matrix with dimensions 2x2
 		 */
 		typedef Mat2x2 Mat2;
 
 		/*
-		 * @brief A matrix with dimensions 3x3
+			@brief A matrix with dimensions 3x3
 		 */
 		typedef Mat3x3 Mat3;
 
 		/*
-		 * @brief A matrix with dimensions 4x4
+			@brief A matrix with dimensions 4x4
 		 */
 		typedef Mat4x4 Mat4;
 

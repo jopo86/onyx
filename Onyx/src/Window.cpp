@@ -227,7 +227,8 @@ void Onyx::Window::CB_framebufferSize(GLFWwindow* p_glfwWin, int width, int heig
 
 	if (p_textRenderer != nullptr)
 	{
-		p_textRenderer->updateProjection(Projection::Orthographic(0.0f, p_win->bufferWidth, p_win->bufferHeight, 0.0f));
+		p_textRenderer->shader.use();
+		p_textRenderer->shader.uniform("projection", Projection::Orthographic(0.0f, p_win->bufferWidth, p_win->bufferHeight, 0.0f).getMatrix());
 	}
 }
 

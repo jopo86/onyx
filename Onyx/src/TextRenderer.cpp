@@ -117,12 +117,6 @@ void Onyx::TextRenderer::renderText(const std::string& text, Onyx::Math::Vec2 po
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Onyx::TextRenderer::updateProjection(Projection proj)
-{
-	shader.use();
-	shader.uniform("projection", proj.getMatrix());
-}
-
 void Onyx::TextRenderer::StartRender()
 {
 	glDisable(GL_DEPTH_TEST);

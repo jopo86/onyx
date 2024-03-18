@@ -1,4 +1,4 @@
-# Onyx
+# ![Onyx Logo](logo.png)
 Onyx is a high-level C++ library for rendering graphics to the screen using OpenGL 4.1.  
 
 The intuitive and well-structured codebase makes it simpler than ever to code games, apps, or any graphical interface using a language as complex as C++.  

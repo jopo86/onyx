@@ -7,7 +7,7 @@ The intuitive and well-structured codebase makes it simpler than ever to code ga
 Onyx can be downloaded as pre-compiled binaries for x64, or the source files themselves.  
 Everything needed is included in the following links.
 
-[Latest Release](https://drive.google.com/uc?export=download&id=1tkd5EVs3MZy2HnV1qSZ8mDpTGD6--VBf)  
+[Latest Release (0.1.0-beta)](https://drive.google.com/uc?export=download&id=1tkd5EVs3MZy2HnV1qSZ8mDpTGD6--VBf)  
 [All Releases](https://drive.google.com/drive/folders/1cigqfR85OEZ8Mx734LylQKxOKdn8NOH0?usp=drive_link)  
 
 ## Get Started

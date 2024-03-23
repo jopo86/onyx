@@ -32,6 +32,15 @@ namespace Onyx
 		Shader(const char* vertSource, const char* fragSource);
 
 		/*
+			@brief Creates a new Shader object from another shader object.
+		 !	This function does not copy the shader data, rather the shader program ID.
+		 !	This means that the shader data is shared, and disposing of one shader will dispose of the other.
+		 !	This is used appropriately in the Renderable class, but should be used elsewhere with caution.
+			@param other The other texture object.
+		*/
+		Shader(const Shader& other);
+
+		/*
 			@brief Uses the shader.
 			Not needed if using renderables.
 		 */

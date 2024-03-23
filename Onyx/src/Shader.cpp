@@ -77,6 +77,13 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSourc
 	glDeleteShader(frag);
 }
 
+Onyx::Shader::Shader(const Shader& other)
+{
+	prog = other.prog;
+	vertSource = other.vertSource;
+	fragSource = other.fragSource;
+}
+
 void Onyx::Shader::use()
 {
 	glUseProgram(prog);

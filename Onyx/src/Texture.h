@@ -38,6 +38,15 @@ namespace Onyx
 		Texture(ImageData& imageData, bool disposeImageData);
 
 		/*
+			@brief Creates a new Texture object from another texture object.
+		 !	This function does not copy the texture data, rather the texture ID.
+		 !	This means that the texture data is shared, and disposing of one texture will dispose of the other.
+		 !	This is used appropriately in the Renderable class, but should be used elsewhere with caution.
+			@param other The other texture object.
+		*/
+		Texture(const Texture& other);
+
+		/*
 			@brief Binds the texture.
 			Not needed if using renderables.
 		 */

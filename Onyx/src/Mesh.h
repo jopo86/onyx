@@ -33,6 +33,15 @@ namespace Onyx
 		Mesh(VertexArray vertexArray, IndexArray indexArray);
 
 		/*
+			@brief Creates a new Mesh object from another mesh object.
+		 !	This function does not copy the mesh data, rather the IDs of the VAO, VBO, and IBO.
+		 !	This means that the mesh data is shared, and disposing of one mesh will dispose of the other.
+		 !	This is used appropriately in the Renderable class, but should be used elsewhere with caution.
+			@param other The other texture object.
+		*/
+		Mesh(const Mesh& other);
+
+		/*
 			@brief Renders the mesh.
 			Not needed if using renderables.
 		 */

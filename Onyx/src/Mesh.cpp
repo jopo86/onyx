@@ -118,6 +118,15 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+Onyx::Mesh::Mesh(const Mesh& other)
+{
+	vao = other.vao;
+	vbo = other.vbo;
+	ibo = other.ibo;
+	vertexArray = other.vertexArray;
+	indexArray = other.indexArray;
+}
+
 void Onyx::Mesh::render()
 {
 	glBindVertexArray(vao);

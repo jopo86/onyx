@@ -48,6 +48,11 @@ Onyx::Texture::Texture(ImageData &imageData, bool disposeImageData)
 	if (disposeImageData) p_imageData->dispose();
 }
 
+Onyx::Texture::Texture(const Texture& other)
+{
+	tex = other.tex;
+}
+
 void Onyx::Texture::bind()
 {
 	glBindTexture(GL_TEXTURE_2D, tex);

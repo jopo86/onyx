@@ -89,6 +89,6 @@ namespace Onyx
 
 	private:
 		uint prog;
-		const char* vertSource,	fragSource;
+		const char* vertSource,	* fragSource;
 	};
 }

@@ -1,3 +1,5 @@
+#pragma warning(disable: 4244)
+
 #include "PresetTests.h"
 
 using Onyx::ErrorHandler, Onyx::Window, Onyx::InputHandler, 

@@ -8,11 +8,6 @@
 
 int main()
 {
-	/*Onyx::ErrorHandler errorHandler(true, false);
-	Onyx::Init(errorHandler);
-	Onyx::Demo();
-	Onyx::Terminate();*/
-
 	PresetTests::RunAllTests();
 	
 	return 0;

@@ -11,5 +11,5 @@ Everything needed is included in the following links.
 [All Releases](https://drive.google.com/drive/folders/1cigqfR85OEZ8Mx734LylQKxOKdn8NOH0?usp=drive_link)  
 
 ## Get Started
-Get started with the [tutorial](https://github.com/jopo86/onyx/wiki/Tutorial).  
+Get started with the [Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial).  
 Full documentation coming soon!

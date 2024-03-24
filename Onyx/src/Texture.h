@@ -35,7 +35,7 @@ namespace Onyx
 			@param imageData The image data to use.
 			@param disposeImageData Whether to dispose the image data after use.
 		 */
-		Texture(ImageData& imageData, bool disposeImageData);
+		Texture(ImageData& imageData);
 
 		/*
 			@brief Creates a new Texture object from another texture object.

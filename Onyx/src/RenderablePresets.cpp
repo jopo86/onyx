@@ -64,13 +64,13 @@ Onyx::Renderable Onyx::RenderablePresets::TexturedTriangle(float base, float hei
 
 Onyx::Renderable Onyx::RenderablePresets::TexturedTriangle(Vec2 a, Vec2 b, Vec2 c, Texture texture)
 {
-	float *vertices = new float[15]{
+	float* vertices = new float[15]{
 		a.getX(), a.getY(), 0.0f,	0.0f, 0.0f,
 		b.getX(), b.getY(), 0.0f,	1.0f, 0.0f,
 		c.getX(), c.getY(), 0.0f,	0.5f, 1.0f
 	};
 
-	uint *indices = new uint[3]{
+	uint* indices = new uint[3]{
 		0, 1, 2
 	};
 
@@ -149,14 +149,14 @@ Onyx::Renderable Onyx::RenderablePresets::TexturedQuad(float width, float height
 
 Onyx::Renderable Onyx::RenderablePresets::TexturedQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Texture texture)
 {
-	float *vertices = new float[20]{
+	float* vertices = new float[20]{
 		a.getX(), a.getY(), 0.0f,	0.0f, 0.0f,
 		b.getX(), b.getY(), 0.0f,	1.0f, 0.0f,
 		c.getX(), c.getY(), 0.0f,	1.0f, 1.0f,
 		d.getX(), d.getY(), 0.0f,	0.0f, 1.0f
 	};
 
-	uint *indices = new uint[6]{
+	uint* indices = new uint[6]{
 		0, 1, 2,
 		2, 3, 0
 	};
@@ -176,5 +176,69 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredCube(float side, Vec3 rgb)
 	return Renderable(
 		MeshPresets::Cube(side),
 		ShaderPresets::V_Color(rgb)
+	);
+}
+
+Onyx::Renderable Onyx::RenderablePresets::TexturedCube(float side, Texture texture)
+{
+	float* vertices = new float[120] {
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 1.0f,
+
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f,
+
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		1.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, 1.0f,
+
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 1.0f,
+
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 0.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f,
+
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f,
+	};
+
+	uint* indices = new uint[36]{
+		0, 1, 2,
+		2, 3, 0,
+
+		4, 5, 6,
+		6, 7, 4,
+
+		8, 9, 10,
+		10, 11, 8,
+
+		12, 13, 14,
+		14, 15, 12,
+
+		16, 17, 18,
+		18, 19, 16,
+
+		20, 21, 22,
+		22, 23, 20
+	};
+
+	return Renderable(
+		Mesh(
+			VertexArray(vertices, 120 * sizeof(float), ONYX_VERTEX_FORMAT_VT, true),
+			IndexArray(indices, 36 * sizeof(uint), true)
+		),
+		ShaderPresets::VT(),
+		texture
 	);
 }

@@ -266,7 +266,7 @@ namespace Onyx
 	void Terminate();
 
 	/*
-	 @brief Starts a little demo of the library. Work in progress.
+	 @brief Starts a little demo of the library.
 	 */
 	void Demo();
 
@@ -301,6 +301,12 @@ namespace Onyx
 		@return The path of the resources folder.
 	 */
 	std::string GetResourcePath();
+
+	/*
+		@brief Gets a file path relative to the resource path.
+		@param path The path relative to the resource path.
+	 */
+	std::string Resources(std::string path);
 
 	/*
 		@brief Gets the FreeType library.

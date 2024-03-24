@@ -37,7 +37,7 @@ namespace Onyx
 		 !	This function does not copy the mesh data, rather the IDs of the VAO, VBO, and IBO.
 		 !	This means that the mesh data is shared, and disposing of one mesh will dispose of the other.
 		 !	This is used appropriately in the Renderable class, but should be used elsewhere with caution.
-			@param other The other texture object.
+			@param other The other mesh object.
 		*/
 		Mesh(const Mesh& other);
 

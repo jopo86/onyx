@@ -20,7 +20,7 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 			@return The resulting renderable.
 		 */
-		Renderable ColoredTriangle(float side, Onyx::Math::Vec3 rgb);
+		Renderable ColoredTriangle(float side, Math::Vec3 rgb);
 
 		/*
 			@brief Creates a triangle renderable with the specified base, height, and color.
@@ -29,7 +29,7 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 			@return The resulting renderable.
 		 */
-		Renderable ColoredTriangle(float base, float height, Onyx::Math::Vec3 rgb);
+		Renderable ColoredTriangle(float base, float height, Math::Vec3 rgb);
 
 		/*
 			@brief Creates a triangle renderable with the specified 3 vertices and color.
@@ -39,7 +39,7 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 			@return The resulting renderable.
 		 */
-		Renderable ColoredTriangle(Onyx::Math::Vec2 a, Onyx::Math::Vec2 b, Onyx::Math::Vec2 c, Onyx::Math::Vec3 rgb);
+		Renderable ColoredTriangle(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec3 rgb);
 
 		/*
 			@brief Creates an equilateral triangle renderable with the specified side length and uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
@@ -63,7 +63,7 @@ namespace Onyx
 			@param c The third vertex.
 			@return The resulting renderable.
 		 */
-		Renderable VertexColoredTriangle(Onyx::Math::Vec2 a, Onyx::Math::Vec2 b, Onyx::Math::Vec2 c);
+		Renderable VertexColoredTriangle(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c);
 
 		/*
 			@brief Creates an equilateral triangle renderable with the specified side length and texture.
@@ -90,7 +90,7 @@ namespace Onyx
 			@param texture The texture to use.
 			@return The resulting renderable.
 		 */
-		Renderable TexturedTriangle(Onyx::Math::Vec2 a, Onyx::Math::Vec2 b, Onyx::Math::Vec2 c, Texture texture);
+		Renderable TexturedTriangle(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Texture texture);
 
 		/*
 			@brief Creates a square renderable with the specified side length and color.
@@ -98,7 +98,7 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 			@return The resulting renderable.
 		 */
-		Renderable ColoredSquare(float side, Onyx::Math::Vec3 rgb);
+		Renderable ColoredSquare(float side, Math::Vec3 rgb);
 
 		/*
 			@brief Creates a rectangle renderable with the specified width, height, and color.
@@ -107,7 +107,7 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 			@return The resulting renderable.
 		 */
-		Renderable ColoredQuad(float width, float height, Onyx::Math::Vec3 rgb);
+		Renderable ColoredQuad(float width, float height, Math::Vec3 rgb);
 
 		/*
 			@brief Creates a quadrilateral renderable with the specified vertices and color.
@@ -118,7 +118,7 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 			@return The resulting renderable.
 		 */
-		Renderable ColoredQuad(Onyx::Math::Vec2 a, Onyx::Math::Vec2 b, Onyx::Math::Vec2 c, Onyx::Math::Vec2 d, Onyx::Math::Vec3 rgb);
+		Renderable ColoredQuad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d, Math::Vec3 rgb);
 
 		/*
 			@brief Creates a square renderable with the specified side length and uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
@@ -143,7 +143,7 @@ namespace Onyx
 			@param d The top-left vertex.
 			@return The resulting renderable.
 		 */
-		Renderable VertexColoredQuad(Onyx::Math::Vec2 a, Onyx::Math::Vec2 b, Onyx::Math::Vec2 c, Onyx::Math::Vec2 d);
+		Renderable VertexColoredQuad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d);
 
 		/*
 			@brief Creates a square renderable with the specified side length and texture.
@@ -170,7 +170,7 @@ namespace Onyx
 			@param d The top-left vertex.
 			@return The resulting renderable.
 		 */
-		Renderable TexturedQuad(Onyx::Math::Vec2 a, Onyx::Math::Vec2 b, Onyx::Math::Vec2 c, Onyx::Math::Vec2 d, Texture texture);
+		Renderable TexturedQuad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d, Texture texture);
 
 		/*
 			@brief Creates a cube renderable with the specified side length and color.
@@ -178,6 +178,14 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 			@return The resulting mesh.
 		 */
-		Renderable ColoredCube(float side, Onyx::Math::Vec3 rgb);
+		Renderable ColoredCube(float side, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a cube renderable with the specified side length and texture.
+			@param side The side length.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		Renderable TexturedCube(float side, Texture texture);
 	}
 }

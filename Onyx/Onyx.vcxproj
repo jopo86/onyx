@@ -168,7 +168,7 @@
     <ClCompile Include="src\ImageData.cpp" />
     <ClCompile Include="src\IndexArray.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
-    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="tests\Main.cpp" />
     <ClCompile Include="src\Math.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\MeshPresets.cpp" />

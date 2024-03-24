@@ -5,8 +5,8 @@ using Onyx::Math::Vec3, Onyx::Math::Mat4;
 Onyx::Shader Onyx::ShaderPresets::V_Color(Vec3 rgb)
 {
 	Shader shader(
-		File(Onyx::GetResourcePath() + "shaders/V_Color.vert").readLiteral(), 
-		File(Onyx::GetResourcePath() + "shaders/V_Color.frag").readLiteral()
+		File(Onyx::Resources("shaders/V_Color.vert")).readLiteral(), 
+		File(Onyx::Resources("shaders/V_Color.frag")).readLiteral()
 	);
 	glUseProgram(shader.getProgramID());
 	shader.uniform("u_color", rgb.getX(), rgb.getY(), rgb.getZ(), 1.0f);
@@ -20,8 +20,8 @@ Onyx::Shader Onyx::ShaderPresets::V_Color(Vec3 rgb)
 Onyx::Shader Onyx::ShaderPresets::V_XYZtoRGB()
 {
 	Shader shader(
-		File(Onyx::GetResourcePath() + "shaders/V_XYZtoRGB.vert").readLiteral(), 
-		File(Onyx::GetResourcePath() + "shaders/V_XYZtoRGB.frag").readLiteral()
+		File(Onyx::Resources("shaders/V_XYZtoRGB.vert")).readLiteral(), 
+		File(Onyx::Resources("shaders/V_XYZtoRGB.frag")).readLiteral()
 	);
 	glUseProgram(shader.getProgramID());
 	shader.uniform("u_model", Mat4(1.0f));
@@ -34,8 +34,8 @@ Onyx::Shader Onyx::ShaderPresets::V_XYZtoRGB()
 Onyx::Shader Onyx::ShaderPresets::VC()
 {
 	Shader shader(
-		File(Onyx::GetResourcePath() + "shaders/VC.vert").readLiteral(), 
-		File(Onyx::GetResourcePath() + "shaders/VC.frag").readLiteral()
+		File(Onyx::Resources("shaders/VC.vert")).readLiteral(), 
+		File(Onyx::Resources("shaders/VC.frag")).readLiteral()
 	);
 	glUseProgram(shader.getProgramID());
 	shader.uniform("u_model", Mat4(1.0f));
@@ -48,8 +48,8 @@ Onyx::Shader Onyx::ShaderPresets::VC()
 Onyx::Shader Onyx::ShaderPresets::VT()
 {
 	Shader shader(
-		File(Onyx::GetResourcePath() + "shaders/VT.vert").readLiteral(), 
-		File(Onyx::GetResourcePath() + "shaders/VT.frag").readLiteral()
+		File(Onyx::Resources("shaders/VT.vert")).readLiteral(), 
+		File(Onyx::Resources("shaders/VT.frag")).readLiteral()
 	);
 	glUseProgram(shader.getProgramID());
 	shader.uniform("u_model", Mat4(1.0f));
@@ -62,8 +62,8 @@ Onyx::Shader Onyx::ShaderPresets::VT()
 Onyx::Shader Onyx::ShaderPresets::VCT()
 {
 	Shader shader(
-		File(Onyx::GetResourcePath() + "shaders/VCT.vert").readLiteral(), 
-		File(Onyx::GetResourcePath() + "shaders/VCT.frag").readLiteral()
+		File(Onyx::Resources("shaders/VCT.vert")).readLiteral(), 
+		File(Onyx::Resources("shaders/VCT.frag")).readLiteral()
 	);
 	glUseProgram(shader.getProgramID());
 	shader.uniform("u_model", Mat4(1.0f));

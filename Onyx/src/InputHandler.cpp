@@ -143,6 +143,7 @@ void Onyx::InputHandler::setMouseButtonCooldown(int button, float cooldown)
 
 void Onyx::InputHandler::setCursorLock(bool lock)
 {
+	cursorLock = lock;
 	glfwSetInputMode(p_win->p_glfwWin, GLFW_CURSOR, lock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 

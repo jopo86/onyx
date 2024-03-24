@@ -36,7 +36,7 @@ namespace Onyx
 		 !	This function does not copy the shader data, rather the shader program ID.
 		 !	This means that the shader data is shared, and disposing of one shader will dispose of the other.
 		 !	This is used appropriately in the Renderable class, but should be used elsewhere with caution.
-			@param other The other texture object.
+			@param other The other shader object.
 		*/
 		Shader(const Shader& other);
 

@@ -17,6 +17,14 @@ Onyx::ImageData::ImageData(ubyte *data, int width, int height, int nChannels)
 	this->nChannels = nChannels;
 }
 
+Onyx::ImageData::ImageData(const ImageData& other)
+{
+	data = other.data;
+	width = other.width;
+	height = other.height;
+	nChannels = other.nChannels;
+}
+
 Onyx::ImageData Onyx::ImageData::Load(std::string filepath)
 {
 	std::ifstream file(filepath);

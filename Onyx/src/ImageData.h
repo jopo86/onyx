@@ -29,6 +29,15 @@ namespace Onyx
 		ImageData(ubyte* data, int width, int height, int nChannels);
 
 		/*
+			@brief Creates a new ImageData object from another image data object.
+		 !	This function does not copy the image data, it shares it between the two.
+		 !	This means that disposing of one image data will dispose of the other.
+		 !	This is used appropriately in the renderable presets, but should be used elsewhere with caution.
+			@param other The other image data object.
+		*/
+		ImageData(const ImageData& other);
+
+		/*
 			@brief Creates a new ImageData object from the image at the specified file path.
 			@param filepath The file path to the image.
 			@return The ImageData object that was created.

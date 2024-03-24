@@ -27,10 +27,9 @@ Onyx::Texture::Texture(ImageData imageData)
 	imageData.dispose();
 }
 
-Onyx::Texture::Texture(ImageData &imageData, bool disposeImageData)
+Onyx::Texture::Texture(ImageData& imageData)
 {
 	tex = 0;
-	ImageData* p_imageData = &imageData;
 
 	glGenTextures(1, &tex);
 	glBindTexture(GL_TEXTURE_2D, tex);
@@ -40,12 +39,10 @@ Onyx::Texture::Texture(ImageData &imageData, bool disposeImageData)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, p_imageData->getNChannels() == 4 ? GL_RGBA : GL_RGB, p_imageData->getWidth(), imageData.getHeight(), 0, imageData.getNChannels() == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, imageData.getData());
+	glTexImage2D(GL_TEXTURE_2D, 0, imageData.getNChannels() == 4 ? GL_RGBA : GL_RGB, imageData.getWidth(), imageData.getHeight(), 0, imageData.getNChannels() == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, imageData.getData());
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (disposeImageData) p_imageData->dispose();
 }
 
 Onyx::Texture::Texture(const Texture& other)

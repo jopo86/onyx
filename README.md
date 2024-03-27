@@ -12,7 +12,7 @@ Everything needed is included in the following links.
 
 ## Get Started
 Get started with the [Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial).  
-Full documentation coming soon!
+Full documentation will come with the full release (1.0.0).  
 
 ## Stay Up-To-Date
 Stay up to date with these helpful Trello boards:  

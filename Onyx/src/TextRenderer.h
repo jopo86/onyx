@@ -40,7 +40,7 @@ namespace Onyx
 			@param pos The position to render the text at (bottom left of the window is (0, 0)).
 			@param color The color of the text, specified as three RGB values between 0 and 1.
 		 */
-		void renderText(const std::string& text, Onyx::Math::Vec2 pos, Onyx::Math::Vec3 color);
+		void render(const std::string& text, Onyx::Math::Vec2 pos, Onyx::Math::Vec3 color);
 
 		/*
 			@brief Renders text to the screen using the currently set font.
@@ -50,7 +50,7 @@ namespace Onyx
 			@param scale The scale of the text, where 1 is the default scale.
 			@param color The color of the text, specified as three RGB values between 0 and 1.
 		 */
-		void renderText(const std::string& text, Onyx::Math::Vec2 pos, float scale, Onyx::Math::Vec3 color);
+		void render(const std::string& text, Onyx::Math::Vec2 pos, float scale, Onyx::Math::Vec3 color);
 
 		/*
 			@brief This function isn't actually necessary for text rendering.
@@ -77,6 +77,12 @@ namespace Onyx
 			@return The vertex buffer object.
 		 */
 		uint getVBO();
+
+		/*
+			@brief Gets the font of the text renderer.
+			@return A pointer to the font.
+		 */
+		Onyx::Font* getFont();
 
 		/*
 			@brief Sets the font of the text renderer.

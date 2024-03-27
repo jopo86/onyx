@@ -36,7 +36,7 @@ Onyx::TextRenderer::TextRenderer(Window& window)
 	glBindVertexArray(0);
 }
 
-void Onyx::TextRenderer::renderText(const std::string& text, Onyx::Math::Vec2 pos, Onyx::Math::Vec3 color)
+void Onyx::TextRenderer::render(const std::string& text, Onyx::Math::Vec2 pos, Onyx::Math::Vec3 color)
 {
 	shader.use();
 	shader.uniform("textColor", color);
@@ -75,7 +75,7 @@ void Onyx::TextRenderer::renderText(const std::string& text, Onyx::Math::Vec2 po
 	}
 }
 
-void Onyx::TextRenderer::renderText(const std::string& text, Onyx::Math::Vec2 pos, float scale, Onyx::Math::Vec3 color)
+void Onyx::TextRenderer::render(const std::string& text, Onyx::Math::Vec2 pos, float scale, Onyx::Math::Vec3 color)
 {
 	shader.use();
 	shader.uniform("textColor", color);
@@ -135,6 +135,11 @@ uint Onyx::TextRenderer::getVAO()
 uint Onyx::TextRenderer::getVBO()
 {
 	return vbo;
+}
+
+Onyx::Font* Onyx::TextRenderer::getFont()
+{
+	return &font;
 }
 
 void Onyx::TextRenderer::setFont(Font& font)

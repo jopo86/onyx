@@ -60,7 +60,6 @@ void Onyx::Demo()
 	InputHandler input(window);
 
 	Renderable cube = Onyx::RenderablePresets::TexturedCube(1.0f, Onyx::Texture(Onyx::ImageData::Load(Onyx::Resources("textures/container.jpg"))));
-	cube.scale(0.5f);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-3.0f);
@@ -114,17 +113,17 @@ void Onyx::Demo()
 		Renderer::SetWireframe(false);
 
 		TextRenderer::StartRender();
-		textRenderer.renderText("Onyx Demo", Vec2(23.0f, window.getBufferHeight() - 50.0f), Vec3(0.0f, 0.1f, 0.2f));
-		textRenderer.renderText("FPS: " + std::to_string(fps), Vec2(25.0f, window.getBufferHeight() - 80.0f), 0.6f, Vec3(0.0f, 0.0f, 0.0f));
-		textRenderer.renderText("FRAME " + std::to_string(window.getFrame()), Vec2(25.0f, window.getBufferHeight() - 100.0f), 0.6f, Vec3(0.0f, 0.0f, 0.0f));
+		textRenderer.render("Onyx Demo", Vec2(23.0f, window.getBufferHeight() - 50.0f), Vec3(0.0f, 0.1f, 0.2f));
+		textRenderer.render("FPS: " + std::to_string(fps), Vec2(25.0f, window.getBufferHeight() - 80.0f), 0.6f, Vec3(0.0f, 0.0f, 0.0f));
+		textRenderer.render("FRAME " + std::to_string(window.getFrame()), Vec2(25.0f, window.getBufferHeight() - 100.0f), 0.6f, Vec3(0.0f, 0.0f, 0.0f));
 
-		textRenderer.renderText("Toggle fullscreen: [F12]", Vec2(25.0f, 30.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("Toggle cube visibility: [2]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("Toggle wireframe: [1]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("Mouse to look around", Vec2(25.0f, 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("up/down: [Space]/[C]", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("forward/left/backward/right: [W]/[A]/[S]/[D]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.renderText("exit: [ESCAPE]", Vec2(25.0f, 180.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle fullscreen: [F12]", Vec2(25.0f, 30.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle cube visibility: [2]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle wireframe: [1]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Mouse to look around", Vec2(25.0f, 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("up/down: [Space]/[C]", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("forward/left/backward/right: [W]/[A]/[S]/[D]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("exit: [ESCAPE]", Vec2(25.0f, 180.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 		TextRenderer::EndRender();
 
 		if (wireframe) Renderer::SetWireframe(true);

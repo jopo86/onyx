@@ -25,8 +25,9 @@ namespace Onyx
 			Disposes of the image data after use.
 			This should be used for image data created anonymously, not as a variable.
 			@param imageData The image data to use and dispose.
+			@param textureWrap The texture wrap option. Use definitions prefixed with ONYX_TEXTURE_WRAP. Repeat by default.
 		 */
-		Texture(ImageData imageData);
+		Texture(ImageData imageData, int textureWrap = ONYX_TEXTURE_WRAP_REPEAT);
 
 		/*
 			@brief Creates a new Texture object from the specified image data.
@@ -34,8 +35,9 @@ namespace Onyx
 			This should be used for image data created as a variable, not anonymously.
 			@param imageData The image data to use.
 			@param disposeImageData Whether to dispose the image data after use.
+			@param textureWrap The texture wrap option. Use definitions prefixed with ONYX_TEXTURE_WRAP. Repeat by default.
 		 */
-		Texture(ImageData& imageData);
+		Texture(ImageData& imageData, bool disposeImageData, int textureWrap = ONYX_TEXTURE_WRAP_REPEAT);
 
 		/*
 			@brief Creates a new Texture object from another texture object.

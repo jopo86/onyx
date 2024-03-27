@@ -76,6 +76,14 @@
 #define ONYX_PROJECTION_TYPE_PERSPECTIVE		417
 
 /*
+	Definitions for texture wrap options.
+ */
+#define ONYX_TEXTURE_WRAP_REPEAT				418
+#define ONYX_TEXTURE_WRAP_MIRRORED_REPEAT		419
+#define ONYX_TEXTURE_WRAP_CLAMP_TO_EDGE			420
+#define ONYX_TEXTURE_WRAP_CLAMP_TO_BORDER		421
+
+/*
 	Definitions for each key on a keyboard.
 	These are used to specify what the target key is when testing if a key is up/down by the MgInputHandler class.
  */

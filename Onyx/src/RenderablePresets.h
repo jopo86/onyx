@@ -23,6 +23,14 @@ namespace Onyx
 		Renderable ColoredTriangle(float side, Math::Vec3 rgb);
 
 		/*
+			@brief Creates an equilateral triangle renderable with the specified side length and color.
+			@param side The side length.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting renderable.
+		 */
+		Renderable ColoredTriangle(float side, Math::Vec4 rgba);
+
+		/*
 			@brief Creates a triangle renderable with the specified base, height, and color.
 			@param base The base length.
 			@param height The height.
@@ -30,6 +38,15 @@ namespace Onyx
 			@return The resulting renderable.
 		 */
 		Renderable ColoredTriangle(float base, float height, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a triangle renderable with the specified base, height, and color.
+			@param base The base length.
+			@param height The height.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting renderable.
+		 */
+		Renderable ColoredTriangle(float base, float height, Math::Vec4 rgba);
 
 		/*
 			@brief Creates a triangle renderable with the specified 3 vertices and color.
@@ -40,6 +57,16 @@ namespace Onyx
 			@return The resulting renderable.
 		 */
 		Renderable ColoredTriangle(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a triangle renderable with the specified 3 vertices and color.
+			@param a The first vertex.
+			@param b The second vertex.
+			@param c The third vertex.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting renderable.
+		 */
+		Renderable ColoredTriangle(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec4 rgba);
 
 		/*
 			@brief Creates an equilateral triangle renderable with the specified side length and uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.

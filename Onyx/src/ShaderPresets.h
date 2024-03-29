@@ -22,7 +22,7 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 			@return The resulting shader.
 		 */
-		Shader V_Color(Onyx::Math::Vec3 rgb);
+		Shader V_Color(Onyx::Math::Vec4 rgb);
 
 		/*
 			@brief Creates a shader that uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
@@ -51,5 +51,11 @@ namespace Onyx
 			@return The resulting shader.
 		 */
 		Shader VCT();
+
+		Shader UI_Color();
+
+		Shader UI_Texture();
+
+		Shader UI_Text();
 	}
 }

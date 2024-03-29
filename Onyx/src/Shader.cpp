@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-using Onyx::Math::Vec3, Onyx::Math::Mat4;
+using Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 
 Onyx::Shader::Shader() : vertSource(""), fragSource("")
 {
@@ -112,6 +112,11 @@ void Onyx::Shader::uniform(const char *name, float v0, float v1, float v2, float
 void Onyx::Shader::uniform(const char* name, Vec3 vec)
 {
 	glUniform3f(glGetUniformLocation(prog, name), vec.getX(), vec.getY(), vec.getZ());
+}
+
+void Onyx::Shader::uniform(const char* name, Vec4 vec)
+{
+	glUniform4f(glGetUniformLocation(prog, name), vec.getX(), vec.getY(), vec.getZ(), vec.getW());
 }
 
 void Onyx::Shader::uniform(const char *name, Mat4 mat)

@@ -83,6 +83,13 @@ namespace Onyx
 		void uniform(const char* name, Onyx::Math::Vec3 vec);
 
 		/*
+			@brief Sets a uniform vec4 variable.
+			@param name The name of the variable.
+			@param vec The vector.
+		 */
+		void uniform(const char* name, Onyx::Math::Vec4 vec);
+
+		/*
 			@brief Sets a uniform 4x4 matrix variable.
 			@param name The name of the variable.
 			@param mat The 4x4 matrix.

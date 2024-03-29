@@ -1,10 +1,15 @@
 #include "RenderablePresets.h"
 
-using Onyx::Math::Vec2, Onyx::Math::Vec3;
+using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(float side, Vec3 rgb)
 {
-	return ColoredTriangle(side, sqrtf(powf(side / 2.0f, 2.0f) + powf(side, 2.0f)), rgb);
+	return ColoredTriangle(side, sqrtf(powf(side / 2.0f, 2.0f) + powf(side, 2.0f)), Vec4(rgb, 1.0f));
+}
+
+Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(float side, Vec4 rgba)
+{
+	return ColoredTriangle(side, sqrtf(powf(side / 2.0f, 2.0f) + powf(side, 2.0f)), rgba);
 }
 
 Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(float base, float height, Vec3 rgb)
@@ -17,7 +22,25 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(float base, float heig
 	);
 }
 
+Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(float base, float height, Vec4 rgba)
+{
+	return ColoredTriangle(
+		Vec2(-base / 2.0f, -height / 2.0f),
+		Vec2(base / 2.0f, -height / 2.0f),
+		Vec2(0.0f, height / 2.0f),
+		rgba
+	);
+}
+
 Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(Vec2 a, Vec2 b, Vec2 c, Vec3 rgb)
+{
+	return Renderable(
+		MeshPresets::Triangle(a, b, c),
+		ShaderPresets::V_Color(rgb)
+	);
+}
+
+Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(Vec2 a, Vec2 b, Vec2 c, Vec4 rgba)
 {
 	return Renderable(
 		MeshPresets::Triangle(a, b, c),

@@ -81,6 +81,7 @@ namespace Onyx
 			Vec3(float x, float y, float z);
 			Vec3(glm::vec3 vec);
 			Vec3(Vec2 vec, float z);
+			Vec3(float x, Vec2 vec);
 
 			float magnitude();
 			void normalize();
@@ -119,7 +120,11 @@ namespace Onyx
 			Vec4(float x, float y, float z, float w);
 			Vec4(glm::vec4 vec);
 			Vec4(Vec2 vec, float z, float w);
+			Vec4(float x, Vec2 vec, float w);
+			Vec4(float x, float y, Vec2 vec);
 			Vec4(Vec3 vec, float w);
+			Vec4(float x, Vec3 vec);
+			Vec4(Vec2 vec1, Vec2 vec2);
 
 			float magnitude();
 			void normalize();
@@ -215,6 +220,7 @@ namespace Onyx
 			DVec3(double x, double y, double z);
 			DVec3(glm::dvec3 vec);
 			DVec3(DVec2 vec, double z);
+			DVec3(double x, DVec2 vec);
 
 			double magnitude();
 			void normalize();
@@ -245,7 +251,11 @@ namespace Onyx
 			DVec4(double x, double y, double z, double w);
 			DVec4(glm::dvec4 vec);
 			DVec4(DVec2 vec, double z, double w);
+			DVec4(double x, DVec2 vec, double w);
+			DVec4(double x, double y, DVec2 vec);
 			DVec4(DVec3 vec, double w);
+			DVec4(double x, DVec3 vec);
+			DVec4(DVec2 vec1, DVec2 vec2);
 
 			double magnitude();
 			void normalize();
@@ -307,6 +317,7 @@ namespace Onyx
 			IVec3(int x, int y, int z);
 			IVec3(glm::ivec3 vec);
 			IVec3(IVec2 vec, int z);
+			IVec3(int x, IVec2 vec);
 
 			int* data();
 
@@ -334,7 +345,11 @@ namespace Onyx
 			IVec4(int x, int y, int z, int w);
 			IVec4(glm::ivec4 vec);
 			IVec4(IVec2 vec, int z, int w);
+			IVec4(int x, IVec2 vec, int w);
+			IVec4(int x, int y, IVec2 vec);
 			IVec4(IVec3 vec, int w);
+			IVec4(int x, IVec3 vec);
+			IVec4(IVec2 vec1, IVec2 vec2);
 
 			int* data();
 

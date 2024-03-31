@@ -16,7 +16,7 @@ namespace Onyx
 		/*
 			@brief Creates an vertex array with the given vertices.
 			@param vertices The vertices to be used in the vertex array.
-			@param size The size of the vertex array.
+			@param size The size of the vertex array, in bytes.
 			@param format The vertex format. Use definitions prefixed with ONYX_VERTEX_FORMAT.
 			@param heap Whether the first argument is on the heap or not.
 			This is important for freeing the memory when the vertex array is used by a mesh.
@@ -32,7 +32,7 @@ namespace Onyx
 
 		/*
 			@brief Gets the size of the vertex array.
-			@return The size of the vertex array.
+			@return The size of the vertex array, in bytes.
 		 */
 		ushort getSize();
 
@@ -56,7 +56,7 @@ namespace Onyx
 
 		/*
 			@brief Sets the size of the vertex array.
-			@param size The new size of the vertex array.
+			@param size The new size of the vertex array, in bytes.
 		 */
 		void setSize(ushort size);
 

@@ -14,6 +14,7 @@ namespace Onyx
 	 */
 	class Camera
 	{
+		friend class Renderer;
 		friend class Window;
 
 	public:

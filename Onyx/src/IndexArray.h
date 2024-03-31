@@ -19,7 +19,7 @@ namespace Onyx
 		/*
 			@brief Creates an index array with the given indices.
 			@param indices The indices to be used in the index array.
-			@param size The size of the index array.
+			@param size The size of the index array, in bytes.
 			@param heap Whether the first argument is on the heap or not.
 			This is important for freeing the memory when the index array is used by a mesh.
 		 */
@@ -33,7 +33,7 @@ namespace Onyx
 
 		/*
 			@brief Gets the size of the index array.
-			@return The size of the index array.
+			@return The size of the index array, in bytes.
 		 */
 		ushort getSize();
 
@@ -51,7 +51,7 @@ namespace Onyx
 
 		/*
 			@brief Sets the size of the index array.
-			@param size The new size of the index array.
+			@param size The new size of the index array, in bytes.
 		 */
 		void setSize(ushort size);
 

@@ -36,7 +36,7 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(Vec2 a, Vec2 b, Vec2 c
 {
 	return Renderable(
 		MeshPresets::Triangle(a, b, c),
-		ShaderPresets::V_Color(rgb)
+		ShaderPresets::V_Color(Vec4(rgb, 1.0f))
 	);
 }
 
@@ -44,7 +44,7 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(Vec2 a, Vec2 b, Vec2 c
 {
 	return Renderable(
 		MeshPresets::Triangle(a, b, c),
-		ShaderPresets::V_Color(rgb)
+		ShaderPresets::V_Color(rgba)
 	);
 }
 
@@ -112,6 +112,11 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredSquare(float side, Vec3 rgb)
 	return ColoredQuad(side, side, rgb);
 }
 
+Onyx::Renderable Onyx::RenderablePresets::ColoredSquare(float side, Vec4 rgba)
+{
+	return ColoredQuad(side, side, rgba);
+}
+
 Onyx::Renderable Onyx::RenderablePresets::ColoredQuad(float width, float height, Vec3 rgb)
 {
 	return ColoredQuad(
@@ -123,11 +128,30 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredQuad(float width, float height,
 	);
 }
 
+Onyx::Renderable Onyx::RenderablePresets::ColoredQuad(float width, float height, Vec4 rgba)
+{
+	return ColoredQuad(
+		Vec2(-width / 2.0f, -height / 2.0f),
+		Vec2(width / 2.0f, -height / 2.0f),
+		Vec2(width / 2.0f, height / 2.0f),
+		Vec2(-width / 2.0f, height / 2.0f),
+		rgba
+	);
+}
+
 Onyx::Renderable Onyx::RenderablePresets::ColoredQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Vec3 rgb)
 {
 	return Renderable(
 		MeshPresets::Quad(a, b, c, d),
-		ShaderPresets::V_Color(rgb)
+		ShaderPresets::V_Color(Vec4(rgb, 1.0f))
+	);
+}
+
+Onyx::Renderable Onyx::RenderablePresets::ColoredQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Vec4 rgba)
+{
+	return Renderable(
+		MeshPresets::Quad(a, b, c, d),
+		ShaderPresets::V_Color(rgba)
 	);
 }
 
@@ -198,7 +222,15 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredCube(float side, Vec3 rgb)
 {
 	return Renderable(
 		MeshPresets::Cube(side),
-		ShaderPresets::V_Color(rgb)
+		ShaderPresets::V_Color(Vec4(rgb, 1.0f))
+	);
+}
+
+Onyx::Renderable Onyx::RenderablePresets::ColoredCube(float side, Vec4 rgba)
+{
+	return Renderable(
+		MeshPresets::Cube(side),
+		ShaderPresets::V_Color(rgba)
 	);
 }
 

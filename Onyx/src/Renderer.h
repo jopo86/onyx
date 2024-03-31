@@ -17,6 +17,8 @@ namespace Onyx
 	 */
 	class Renderer : public Disposable
 	{
+		friend class Camera;
+
 	public:
 		/*
 			@brief Creates a new Renderer object containing no renderables or camera.

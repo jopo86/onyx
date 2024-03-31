@@ -9,6 +9,7 @@
 #include "Shader.h"
 #include "File.h"
 #include "Projection.h"
+#include "Renderer.h"
 
 namespace Onyx
 {
@@ -96,5 +97,7 @@ namespace Onyx
 		Shader shader;
 
 		Font font;
+
+		static bool wireframe;
 	};
 }

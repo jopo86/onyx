@@ -128,6 +128,14 @@ namespace Onyx
 		Renderable ColoredSquare(float side, Math::Vec3 rgb);
 
 		/*
+			@brief Creates a square renderable with the specified side length and color.
+			@param side The side length.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting renderable.
+		 */
+		Renderable ColoredSquare(float side, Math::Vec4 rgba);
+
+		/*
 			@brief Creates a rectangle renderable with the specified width, height, and color.
 			@param width The width of the rectangle.
 			@param height The height of the rectangle.
@@ -135,6 +143,15 @@ namespace Onyx
 			@return The resulting renderable.
 		 */
 		Renderable ColoredQuad(float width, float height, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a rectangle renderable with the specified width, height, and color.
+			@param width The width of the rectangle.
+			@param height The height of the rectangle.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting renderable.
+		 */
+		Renderable ColoredQuad(float width, float height, Math::Vec4 rgba);
 
 		/*
 			@brief Creates a quadrilateral renderable with the specified vertices and color.
@@ -146,6 +163,17 @@ namespace Onyx
 			@return The resulting renderable.
 		 */
 		Renderable ColoredQuad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a quadrilateral renderable with the specified vertices and color.
+			@param a The bottom-left vertex.
+			@param b The bottom-right vertex.
+			@param c The top-right vertex.
+			@param d The top-left vertex.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting renderable.
+		 */
+		Renderable ColoredQuad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d, Math::Vec4 rgba);
 
 		/*
 			@brief Creates a square renderable with the specified side length and uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
@@ -206,6 +234,14 @@ namespace Onyx
 			@return The resulting mesh.
 		 */
 		Renderable ColoredCube(float side, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a cube renderable with the specified side length and color.
+			@param side The side length.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		Renderable ColoredCube(float side, Math::Vec4 rgba);
 
 		/*
 			@brief Creates a cube renderable with the specified side length and texture.

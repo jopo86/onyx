@@ -36,19 +36,21 @@ void Onyx::Renderable::render()
 	shader.uniform("u_model", model);
 	glBindVertexArray(mesh.getVaoID());
 	glDrawElements(GL_TRIANGLES, mesh.getIndexArray().getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
 }
 
 void Onyx::Renderable::render(Mat4 view, Mat4 proj)
 {
-	glUseProgram(shader.getProgramID());
-	glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+	shader.use();
+	texture.bind();
 	shader.uniform("u_model", model);
 	shader.uniform("u_view", view);
 	shader.uniform("u_projection", proj);
 	glBindVertexArray(mesh.getVaoID());
 	glDrawElements(GL_TRIANGLES, mesh.getIndexArray().getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
 }

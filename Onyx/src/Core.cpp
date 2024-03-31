@@ -17,7 +17,7 @@
 #include "TextRenderer.h"
 #include "RenderablePresets.h"
 
-using Onyx::Math::Vec2, Onyx::Math::Vec3;
+using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 bool initialized = false;
 Onyx::ErrorHandler* p_errorHandler = nullptr;
@@ -60,6 +60,23 @@ void Onyx::Demo()
 	InputHandler input(window);
 
 	Renderable cube = Onyx::RenderablePresets::TexturedCube(1.0f, Onyx::Texture(Onyx::ImageData::Load(Onyx::Resources("textures/container.jpg"))));
+	
+	float vertices[] = {
+		10.0f, 710.0f, 0.0f,
+		200.0f, 710.0f, 0.0f,
+		200.0f, 600.0f, 0.0f,
+		10.0f, 600.0f, 0.0f,
+	};
+
+	uint indices[] = {
+		0, 1, 2,
+		2, 3, 0
+	};
+
+	Renderable triUI(
+		Mesh(VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_V, false), IndexArray(indices, sizeof(indices), false)),
+		Onyx::ShaderPresets::UI_Color(Vec4(0.0f, 0.0f, 0.0f, 0.3f))
+	);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-3.0f);
@@ -67,9 +84,9 @@ void Onyx::Demo()
 	Renderer renderer(cam);
 	renderer.add(cube);
 
-	Font roboto(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
+	Font robotoReg(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
+	Font robotoBold(Onyx::Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
 	TextRenderer textRenderer(window);
-	textRenderer.setFont(roboto);
 
 	double camSpeed = 5.0;
 	double camSens = 30.0;
@@ -82,6 +99,8 @@ void Onyx::Demo()
 	input.setMouseButtonCooldown(ONYX_MOUSE_BUTTON_LEFT, 0.5f);
 
 	int fps = 0;
+
+	Projection ortho = Projection::Orthographic(0, 1280, 720, 0);
 
 	while (window.isOpen())
 	{
@@ -108,32 +127,31 @@ void Onyx::Demo()
 
 		window.startRender();
 		renderer.render();
-
-		bool wireframe = Renderer::IsWireframe();
-		Renderer::SetWireframe(false);
+		triUI.render(Onyx::Math::Mat4::Identity(), ortho.getMatrix());
 
 		TextRenderer::StartRender();
-		textRenderer.render("Onyx Demo", Vec2(23.0f, window.getBufferHeight() - 50.0f), Vec3(0.0f, 0.1f, 0.2f));
-		textRenderer.render("FPS: " + std::to_string(fps), Vec2(25.0f, window.getBufferHeight() - 80.0f), 0.6f, Vec3(0.0f, 0.0f, 0.0f));
-		textRenderer.render("FRAME " + std::to_string(window.getFrame()), Vec2(25.0f, window.getBufferHeight() - 100.0f), 0.6f, Vec3(0.0f, 0.0f, 0.0f));
+		textRenderer.setFont(robotoBold);
+		textRenderer.render("Onyx Demo", Vec2(23.0f, window.getBufferHeight() - 50.0f), Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.setFont(robotoReg);
+		textRenderer.render("FPS: " + std::to_string(fps), Vec2(25.0f, window.getBufferHeight() - 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("FRAME " + std::to_string(window.getFrame()), Vec2(25.0f, window.getBufferHeight() - 100.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 
-		textRenderer.render("Toggle fullscreen: [F12]", Vec2(25.0f, 30.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Toggle cube visibility: [2]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Toggle wireframe: [1]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle Fullscreen: [F12]", Vec2(25.0f, 30.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle Cube Visibility: [2]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle Wireframe: [1]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 		textRenderer.render("Mouse to look around", Vec2(25.0f, 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("up/down: [Space]/[C]", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("forward/left/backward/right: [W]/[A]/[S]/[D]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("exit: [ESCAPE]", Vec2(25.0f, 180.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Up/Down: [Space]/[C]", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Forward/Left/Backward/Right: [W]/[A]/[S]/[D]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Exit: [ESCAPE]", Vec2(25.0f, 180.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 		TextRenderer::EndRender();
-
-		if (wireframe) Renderer::SetWireframe(true);
 
 		window.endRender();
 	}
 
 	renderer.dispose();
 	window.dispose();
-	roboto.dispose();
+	robotoReg.dispose();
+	robotoBold.dispose();
 }
 
 void Onyx::Err(std::string msg)

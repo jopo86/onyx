@@ -19,10 +19,10 @@ namespace Onyx
 		/*
 			@brief Creates a shader that colors the mesh the specified color.
 			Compatible with vertex format V.
-			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
 			@return The resulting shader.
 		 */
-		Shader V_Color(Onyx::Math::Vec4 rgb);
+		Shader V_Color(Onyx::Math::Vec4 rgba);
 
 		/*
 			@brief Creates a shader that uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
@@ -52,10 +52,26 @@ namespace Onyx
 		 */
 		Shader VCT();
 
-		Shader UI_Color();
+		/*
+			@brief Creates a shader for UI elements that colors the mesh the specified color.
+			Compatible with vertex format V.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1
+			@return The resulting shader.
+		 */
+		Shader UI_Color(Onyx::Math::Vec4 rgba);
 
+		/*
+			@brief Creates a shader for UI elements that textures the mesh with the texture coordinates found in the vertex array.
+			Compatible with vertex format VT/TV.
+			@return The resulting shader.
+		 */
 		Shader UI_Texture();
 
+		/*
+			@brief Creates a shader for UI text elements.
+			Incompatible with any vertex format, only used by TextRenderer.
+			@return The resulting shader.
+		 */
 		Shader UI_Text();
 	}
 }

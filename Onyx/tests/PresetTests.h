@@ -60,6 +60,7 @@ namespace PresetTests
 	void RenderableTest__TexturedQuad1();
 	void RenderableTest__TexturedQuad2();
 	void RenderableTest__ColoredCube();
+	void RenderableTest__TexturedCube();
 
 
 	void RunAllTests();

@@ -4,6 +4,8 @@
 
 using Onyx::Math::Mat4;
 
+bool Onyx::TextRenderer::wireframe = false;
+
 Onyx::TextRenderer::TextRenderer() 
 {
 	vao = vbo = 0;
@@ -14,12 +16,12 @@ Onyx::TextRenderer::TextRenderer(Window& window)
 	window.p_textRenderer = this;
 
 	shader = Shader(
-		File(Onyx::GetResourcePath() + "shaders/text.vert").readLiteral(),
-		File(Onyx::GetResourcePath() + "shaders/text.frag").readLiteral()
+		File(Onyx::Resources("shaders/UI_Text.vert")).readLiteral(),
+		File(Onyx::Resources("shaders/UI_Text.frag")).readLiteral()
 	);
 	Projection proj = Projection::Orthographic(0.0f, window.getBufferWidth(), window.getBufferHeight(), 0.0f);
 	shader.use();
-	shader.uniform("projection", proj.getMatrix());
+	shader.uniform("u_projection", proj.getMatrix());
 
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
@@ -120,11 +122,14 @@ void Onyx::TextRenderer::render(const std::string& text, Onyx::Math::Vec2 pos, f
 void Onyx::TextRenderer::StartRender()
 {
 	glDisable(GL_DEPTH_TEST);
+	wireframe = Renderer::IsWireframe();
+	Renderer::SetWireframe(false);
 }
 
 void Onyx::TextRenderer::EndRender()
 {
 	glEnable(GL_DEPTH_TEST);
+	Renderer::SetWireframe(wireframe);
 }
 
 uint Onyx::TextRenderer::getVAO()

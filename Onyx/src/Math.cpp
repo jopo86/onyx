@@ -45,6 +45,11 @@ float* Onyx::Math::Vec2::data()
 	return glm::value_ptr(m_vec);
 }
 
+bool Onyx::Math::Vec2::isZero()
+{
+	return getX() == 0.0f && getY() == 0.0f;
+}
+
 float Onyx::Math::Vec2::getX()
 {
 	return m_vec.x;
@@ -138,6 +143,11 @@ void Onyx::Math::Vec3::normalize()
 float* Onyx::Math::Vec3::data()
 {
 	return glm::value_ptr(m_vec);
+}
+
+bool Onyx::Math::Vec3::isZero()
+{
+	return getX() == 0.0f && getY() == 0.0f && getZ() == 0.0f;
 }
 
 float Onyx::Math::Vec3::getX()
@@ -265,6 +275,11 @@ float* Onyx::Math::Vec4::data()
 	return glm::value_ptr(m_vec);
 }
 
+bool Onyx::Math::Vec4::isZero()
+{
+	return getX() == 0.0f && getY() == 0.0f && getZ() == 0.0f && getW() == 0.0f;
+}
+
 float Onyx::Math::Vec4::getX()
 {
 	return m_vec.x;
@@ -335,26 +350,6 @@ Onyx::Math::Vec4 Onyx::Math::Vec4::operator*(const float& scalar)
 	return Vec4(m_vec * scalar);
 }
 
-Onyx::Math::Vec3 Onyx::Math::Cross(const Vec3& vec1, const Vec3& vec2)
-{
-	return Vec3(glm::cross(vec1.m_vec, vec2.m_vec));
-}
-
-float Onyx::Math::Dot(const Vec2& vec1, const Vec2& vec2)
-{
-	return glm::dot(vec1.m_vec, vec2.m_vec);
-}
-
-float Onyx::Math::Dot(const Vec3& vec1, const Vec3& vec2)
-{
-	return glm::dot(vec1.m_vec, vec2.m_vec);
-}
-
-float Onyx::Math::Dot(const Vec4& vec1, const Vec4& vec2)
-{
-	return glm::dot(vec1.m_vec, vec2.m_vec);
-}
-
 Onyx::Math::DVec2::DVec2()
 {
 	m_vec = glm::dvec2(0.0, 0.0);
@@ -390,6 +385,11 @@ double* Onyx::Math::DVec2::data()
 	return glm::value_ptr(m_vec);
 }
 
+bool Onyx::Math::DVec2::isZero()
+{
+	return getX() == 0.0 && getY() == 0.0;
+}
+
 double Onyx::Math::DVec2::getX()
 {
 	return m_vec.x;
@@ -418,6 +418,26 @@ void Onyx::Math::DVec2::setX(double x)
 void Onyx::Math::DVec2::setY(double y)
 {
 	m_vec.y = y;
+}
+
+Onyx::Math::DVec2 Onyx::Math::DVec2::operator+(const DVec2& vec)
+{
+	return DVec2(m_vec + vec.m_vec);
+}
+
+Onyx::Math::DVec2 Onyx::Math::DVec2::operator-()
+{
+	return DVec2(-m_vec);
+}
+
+Onyx::Math::DVec2 Onyx::Math::DVec2::operator-(const DVec2& vec)
+{
+	return DVec2(m_vec - vec.m_vec);
+}
+
+Onyx::Math::DVec2 Onyx::Math::DVec2::operator*(const double& scalar)
+{
+	return DVec2(m_vec * scalar);
 }
 
 Onyx::Math::DVec3::DVec3()
@@ -465,6 +485,11 @@ double* Onyx::Math::DVec3::data()
 	return glm::value_ptr(m_vec);
 }
 
+bool Onyx::Math::DVec3::isZero()
+{
+	return getX() == 0.0 && getY() == 0.0 && getZ() == 0.0;
+}
+
 double Onyx::Math::DVec3::getX()
 {
 	return m_vec.x;
@@ -503,6 +528,26 @@ void Onyx::Math::DVec3::setY(double y)
 void Onyx::Math::DVec3::setZ(double z)
 {
 	m_vec.z = z;
+}
+
+Onyx::Math::DVec3 Onyx::Math::DVec3::operator+(const DVec3& vec)
+{
+	return DVec3(m_vec + vec.m_vec);
+}
+
+Onyx::Math::DVec3 Onyx::Math::DVec3::operator-()
+{
+	return DVec3(-m_vec);
+}
+
+Onyx::Math::DVec3 Onyx::Math::DVec3::operator-(const DVec3& vec)
+{
+	return DVec3(m_vec - vec.m_vec);
+}
+
+Onyx::Math::DVec3 Onyx::Math::DVec3::operator*(const double& scalar)
+{
+	return DVec3(m_vec * scalar);
 }
 
 Onyx::Math::DVec4::DVec4()
@@ -570,6 +615,11 @@ double* Onyx::Math::DVec4::data()
 	return glm::value_ptr(m_vec);
 }
 
+bool Onyx::Math::DVec4::isZero()
+{
+	return getX() == 0.0 && getY() == 0.0 && getZ() == 0.0 && getW() == 0.0;
+}
+
 double Onyx::Math::DVec4::getX()
 {
 	return m_vec.x;
@@ -620,6 +670,26 @@ void Onyx::Math::DVec4::setW(double w)
 	m_vec.w = w;
 }
 
+Onyx::Math::DVec4 Onyx::Math::DVec4::operator+(const DVec4& vec)
+{
+	return DVec4(m_vec + vec.m_vec);
+}
+
+Onyx::Math::DVec4 Onyx::Math::DVec4::operator-()
+{
+	return DVec4(-m_vec);
+}
+
+Onyx::Math::DVec4 Onyx::Math::DVec4::operator-(const DVec4& vec)
+{
+	return DVec4(m_vec - vec.m_vec);
+}
+
+Onyx::Math::DVec4 Onyx::Math::DVec4::operator*(const double& scalar)
+{
+	return DVec4(m_vec * scalar);
+}
+
 Onyx::Math::IVec2::IVec2()
 {
 	m_vec = glm::ivec2(0, 0);
@@ -645,6 +715,11 @@ int* Onyx::Math::IVec2::data()
 	return glm::value_ptr(m_vec);
 }
 
+bool Onyx::Math::IVec2::isZero()
+{
+	return getX() == 0 && getY() == 0;
+}
+
 int Onyx::Math::IVec2::getX()
 {
 	return m_vec.x;
@@ -668,6 +743,26 @@ void Onyx::Math::IVec2::setX(int x)
 void Onyx::Math::IVec2::setY(int y)
 {
 	m_vec.y = y;
+}
+
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator+(const IVec2& vec)
+{
+	return IVec2(m_vec + vec.m_vec);
+}
+
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator-()
+{
+	return IVec2(-m_vec);
+}
+
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator-(const IVec2& vec)
+{
+	return IVec2(m_vec - vec.m_vec);
+}
+
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator*(const int& scalar)
+{
+	return IVec2(m_vec * scalar);
 }
 
 Onyx::Math::IVec3::IVec3()
@@ -705,6 +800,11 @@ int* Onyx::Math::IVec3::data()
 	return glm::value_ptr(m_vec);
 }
 
+bool Onyx::Math::IVec3::isZero()
+{
+	return getX() == 0 && getY() == 0 && getZ() == 0;
+}
+
 int Onyx::Math::IVec3::getX()
 {
 	return m_vec.x;
@@ -738,6 +838,26 @@ void Onyx::Math::IVec3::setY(int y)
 void Onyx::Math::IVec3::setZ(int z)
 {
 	m_vec.z = z;
+}
+
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator+(const IVec3& vec)
+{
+	return IVec3(m_vec + vec.m_vec);
+}
+
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator-()
+{
+	return IVec3(-m_vec);
+}
+
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator-(const IVec3& vec)
+{
+	return IVec3(m_vec - vec.m_vec);
+}
+
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator*(const int& scalar)
+{
+	return IVec3(m_vec * scalar);
 }
 
 Onyx::Math::IVec4::IVec4()
@@ -795,6 +915,11 @@ int* Onyx::Math::IVec4::data()
 	return glm::value_ptr(m_vec);
 }
 
+bool Onyx::Math::IVec4::isZero()
+{
+	return getX() == 0 && getY() == 0 && getZ() == 0 && getW() == 0;
+}
+
 int Onyx::Math::IVec4::getX()
 {
 	return m_vec.x;
@@ -838,6 +963,156 @@ void Onyx::Math::IVec4::setZ(int z)
 void Onyx::Math::IVec4::setW(int w)
 {
 	m_vec.w = w;
+}
+
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator+(const IVec4& vec)
+{
+	return IVec4(m_vec + vec.m_vec);
+}
+
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator-()
+{
+	return IVec4(-m_vec);
+}
+
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator-(const IVec4& vec)
+{
+	return IVec4(m_vec - vec.m_vec);
+}
+
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator*(const int& scalar)
+{
+	return IVec4(m_vec * scalar);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Cross(const Vec3& vec1, const Vec3& vec2)
+{
+	return Vec3(glm::cross(vec1.m_vec, vec2.m_vec));
+}
+
+float Onyx::Math::Dot(const Vec2& vec1, const Vec2& vec2)
+{
+	return glm::dot(vec1.m_vec, vec2.m_vec);
+}
+
+float Onyx::Math::Dot(const Vec3& vec1, const Vec3& vec2)
+{
+	return glm::dot(vec1.m_vec, vec2.m_vec);
+}
+
+float Onyx::Math::Dot(const Vec4& vec1, const Vec4& vec2)
+{
+	return glm::dot(vec1.m_vec, vec2.m_vec);
+}
+
+Onyx::Math::DVec3 Onyx::Math::Cross(const DVec3& vec1, const DVec3& vec2)
+{
+	return DVec3(glm::cross(vec1.m_vec, vec2.m_vec));
+}
+
+double Onyx::Math::Dot(const DVec2& vec1, const DVec2& vec2)
+{
+	return glm::dot(vec1.m_vec, vec2.m_vec);
+}
+
+double Onyx::Math::Dot(const DVec3& vec1, const DVec3& vec2)
+{
+	return glm::dot(vec1.m_vec, vec2.m_vec);
+}
+
+double Onyx::Math::Dot(const DVec4& vec1, const DVec4& vec2)
+{
+	return glm::dot(vec1.m_vec, vec2.m_vec);
+}
+
+bool Onyx::Math::operator==(const Vec2& vec1, const Vec2& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const Vec2& vec1, const Vec2& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
+}
+
+bool Onyx::Math::operator==(const Vec3& vec1, const Vec3& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const Vec3& vec1, const Vec3& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
+}
+
+bool Onyx::Math::operator==(const Vec4& vec1, const Vec4& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const Vec4& vec1, const Vec4& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
+}
+
+bool Onyx::Math::operator==(const DVec2& vec1, const DVec2& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const DVec2& vec1, const DVec2& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
+}
+
+bool Onyx::Math::operator==(const DVec3& vec1, const DVec3& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const DVec3& vec1, const DVec3& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
+}
+
+bool Onyx::Math::operator==(const DVec4& vec1, const DVec4& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const DVec4& vec1, const DVec4& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
+}
+
+bool Onyx::Math::operator==(const IVec2& vec1, const IVec2& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const IVec2& vec1, const IVec2& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
+}
+
+bool Onyx::Math::operator==(const IVec3& vec1, const IVec3& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const IVec3& vec1, const IVec3& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
+}
+
+bool Onyx::Math::operator==(const IVec4& vec1, const IVec4& vec2)
+{
+	return vec1.m_vec == vec2.m_vec;
+}
+
+bool Onyx::Math::operator!=(const IVec4& vec1, const IVec4& vec2)
+{
+	return vec1.m_vec != vec2.m_vec;
 }
 
 Onyx::Math::Mat2x2::Mat2x2()

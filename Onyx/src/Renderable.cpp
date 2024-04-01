@@ -57,21 +57,25 @@ void Onyx::Renderable::render(Mat4 view, Mat4 proj)
 
 void Onyx::Renderable::translate(Vec3 xyz)
 {
+	if (xyz.isZero()) return;
 	model.translate(xyz);
 }
 
 void Onyx::Renderable::rotate(float degrees, Vec3 axes)
 {
+	if (degrees == 0 || axes.isZero()) return;
 	model.rotate(degrees, axes);
 }
 
 void Onyx::Renderable::scale(float scalar)
 {
+	if (scalar == 1.0f) return;
 	model.scale(Vec3(scalar, scalar, scalar));
 }
 
 void Onyx::Renderable::scale(Vec3 xyzScalar)
 {
+	if (xyzScalar.getX() == 1 && xyzScalar.getY() == 1 && xyzScalar.getZ() == 1) return;
 	model.scale(xyzScalar);
 }
 

@@ -50,6 +50,7 @@ namespace Onyx
 			float magnitude();
 			void normalize();
 			float* data();
+			bool isZero();
 
 			float getX();
 			float getY();
@@ -60,6 +61,9 @@ namespace Onyx
 			void setY(float y);
 
 			friend float Dot(const Vec2& vec1, const Vec2& vec2);
+
+			friend bool operator==(const Vec2& vec1, const Vec2& vec2);
+			friend bool operator!=(const Vec2& vec1, const Vec2& vec2);
 
 			Vec2 operator+(const Vec2& vec);
 			Vec2 operator-();
@@ -86,6 +90,7 @@ namespace Onyx
 			float magnitude();
 			void normalize();
 			float* data();
+			bool isZero();
 
 			float getX();
 			float getY();
@@ -99,6 +104,9 @@ namespace Onyx
 
 			friend Vec3 Cross(const Vec3& vec1, const Vec3& vec2);
 			friend float Dot(const Vec3& vec1, const Vec3& vec2);
+
+			friend bool operator==(const Vec3& vec1, const Vec3& vec2);
+			friend bool operator!=(const Vec3& vec1, const Vec3& vec2);
 
 			Vec3 operator+(const Vec3& vec);
 			Vec3 operator-();
@@ -129,6 +137,7 @@ namespace Onyx
 			float magnitude();
 			void normalize();
 			float* data();
+			bool isZero();
 
 			float getX();
 			float getY();
@@ -144,6 +153,9 @@ namespace Onyx
 
 			friend float Dot(const Vec4& vec1, const Vec4& vec2);
 
+			friend bool operator==(const Vec4& vec1, const Vec4& vec2);
+			friend bool operator!=(const Vec4& vec1, const Vec4& vec2);
+
 			Vec4 operator+(const Vec4& vec);
 			Vec4 operator-();
 			Vec4 operator-(const Vec4& vec);
@@ -151,6 +163,258 @@ namespace Onyx
 
 		private:
 			glm::vec4 m_vec;
+		};
+
+		/*
+			@brief A parent class for double vectors.
+		 */
+		class DVec : public Vec {};
+
+		/*
+			@brief A double vector with two components.
+		 */
+		class DVec2 : public DVec
+		{
+		public:
+			DVec2();
+			DVec2(double xy);
+			DVec2(double x, double y);
+			DVec2(glm::dvec2 vec);
+
+			double magnitude();
+			void normalize();
+			double* data();
+			bool isZero();
+
+			double getX();
+			double getY();
+			glm::dvec2 getMVec();
+			DVec2 getNormalized();
+
+			void setX(double x);
+			void setY(double y);
+
+			friend double Dot(const DVec2& vec1, const DVec2& vec2);
+
+			friend bool operator==(const DVec2& vec1, const DVec2& vec2);
+			friend bool operator!=(const DVec2& vec1, const DVec2& vec2);
+
+			DVec2 operator+(const DVec2& vec);
+			DVec2 operator-();
+			DVec2 operator-(const DVec2& vec);
+			DVec2 operator*(const double& scalar);
+
+		private:
+			glm::dvec2 m_vec;
+		};
+
+		/*
+			@brief A double vector with three components.
+		 */
+		class DVec3 : public DVec
+		{
+		public:
+			DVec3();
+			DVec3(double xyz);
+			DVec3(double x, double y, double z);
+			DVec3(glm::dvec3 vec);
+			DVec3(DVec2 vec, double z);
+			DVec3(double x, DVec2 vec);
+
+			double magnitude();
+			void normalize();
+			double* data();
+			bool isZero();
+
+			double getX();
+			double getY();
+			double getZ();
+			glm::dvec3 getMVec();
+			DVec3 getNormalized();
+
+			void setX(double x);
+			void setY(double y);
+			void setZ(double z);
+
+			friend DVec3 Cross(const DVec3& vec1, const DVec3& vec2);
+			friend double Dot(const DVec3& vec1, const DVec3& vec2);
+
+			friend bool operator==(const DVec3& vec1, const DVec3& vec2);
+			friend bool operator!=(const DVec3& vec1, const DVec3& vec2);
+
+			DVec3 operator+(const DVec3& vec);
+			DVec3 operator-();
+			DVec3 operator-(const DVec3& vec);
+			DVec3 operator*(const double& scalar);
+
+		private:
+			glm::dvec3 m_vec;
+		};
+
+		/*
+			@brief A double vector with four components.
+		 */
+		class DVec4 : public DVec
+		{
+		public:
+			DVec4();
+			DVec4(double xyzw);
+			DVec4(double x, double y, double z, double w);
+			DVec4(glm::dvec4 vec);
+			DVec4(DVec2 vec, double z, double w);
+			DVec4(double x, DVec2 vec, double w);
+			DVec4(double x, double y, DVec2 vec);
+			DVec4(DVec3 vec, double w);
+			DVec4(double x, DVec3 vec);
+			DVec4(DVec2 vec1, DVec2 vec2);
+
+			double magnitude();
+			void normalize();
+			double* data();
+			bool isZero();
+
+			double getX();
+			double getY();
+			double getZ();
+			double getW();
+			glm::dvec4 getMVec();
+			DVec4 getNormalized();
+
+			void setX(double x);
+			void setY(double y);
+			void setZ(double z);
+			void setW(double w);
+
+			friend double Dot(const DVec4& vec1, const DVec4& vec2);
+
+			friend bool operator==(const DVec4& vec1, const DVec4& vec2);
+			friend bool operator!=(const DVec4& vec1, const DVec4& vec2);
+
+			DVec4 operator+(const DVec4& vec);
+			DVec4 operator-();
+			DVec4 operator-(const DVec4& vec);
+			DVec4 operator*(const double& scalar);
+
+		private:
+			glm::dvec4 m_vec;
+		};
+
+		/*
+			@brief A parent class for integer vectors.
+		 */
+		class IVec : public Vec {};
+
+		/*
+			@brief An integer vector with two components.
+		 */
+		class IVec2 : public IVec
+		{
+		public:
+			IVec2();
+			IVec2(int xy);
+			IVec2(int x, int y);
+			IVec2(glm::ivec2 vec);
+
+			int* data();
+			bool isZero();
+
+			int getX();
+			int getY();
+			glm::ivec2 getMVec();
+
+			void setX(int x);
+			void setY(int y);
+
+			friend bool operator==(const IVec2& vec1, const IVec2& vec2);
+			friend bool operator!=(const IVec2& vec1, const IVec2& vec2);
+
+			IVec2 operator+(const IVec2& vec);
+			IVec2 operator-();
+			IVec2 operator-(const IVec2& vec);
+			IVec2 operator*(const int& scalar);
+
+		private:
+			glm::ivec2 m_vec;
+		};
+
+		/*
+			@brief An integer vector with three components.
+		 */
+		class IVec3 : public IVec
+		{
+		public:
+			IVec3();
+			IVec3(int xyz);
+			IVec3(int x, int y, int z);
+			IVec3(glm::ivec3 vec);
+			IVec3(IVec2 vec, int z);
+			IVec3(int x, IVec2 vec);
+
+			int* data();
+			bool isZero();
+
+			int getX();
+			int getY();
+			int getZ();
+			glm::ivec3 getMVec();
+
+			void setX(int x);
+			void setY(int y);
+			void setZ(int z);
+
+			friend bool operator==(const IVec3& vec1, const IVec3& vec2);
+			friend bool operator!=(const IVec3& vec1, const IVec3& vec2);
+
+			IVec3 operator+(const IVec3& vec);
+			IVec3 operator-();
+			IVec3 operator-(const IVec3& vec);
+			IVec3 operator*(const int& scalar);
+
+		private:
+			glm::ivec3 m_vec;
+		};
+
+		/*
+			@brief An integer vector with four components.
+		 */
+		class IVec4 : public IVec
+		{
+		public:
+			IVec4();
+			IVec4(int xyzw);
+			IVec4(int x, int y, int z, int w);
+			IVec4(glm::ivec4 vec);
+			IVec4(IVec2 vec, int z, int w);
+			IVec4(int x, IVec2 vec, int w);
+			IVec4(int x, int y, IVec2 vec);
+			IVec4(IVec3 vec, int w);
+			IVec4(int x, IVec3 vec);
+			IVec4(IVec2 vec1, IVec2 vec2);
+
+			int* data();
+			bool isZero();
+
+			int getX();
+			int getY();
+			int getZ();
+			int getW();
+			glm::ivec4 getMVec();
+
+			void setX(int x);
+			void setY(int y);
+			void setZ(int z);
+			void setW(int w);
+
+			friend bool operator==(const IVec4& vec1, const IVec4& vec2);
+			friend bool operator!=(const IVec4& vec1, const IVec4& vec2);
+
+			IVec4 operator+(const IVec4& vec);
+			IVec4 operator-();
+			IVec4 operator-(const IVec4& vec);
+			IVec4 operator*(const int& scalar);
+
+		private:
+			glm::ivec4 m_vec;
 		};
 
 		/*
@@ -178,195 +442,56 @@ namespace Onyx
 		float Dot(const Vec4& vec1, const Vec4& vec2);
 
 		/*
-			@brief A parent class for double vectors.
+			@brief The cross product vector operation between 3D double vectors.
+			@return The resulting vector.
 		 */
-		class DVec : public Vec {};
+		DVec3 Cross(const DVec3& vec1, const DVec3& vec2);
 
 		/*
-			@brief A double vector with two components.
+			@brief The dot product vector operation between 2D double vectors.
+			@return The resulting scalar value.
 		 */
-		class DVec2 : public DVec
-		{
-		public:
-			DVec2();
-			DVec2(double xy);
-			DVec2(double x, double y);
-			DVec2(glm::dvec2 vec);
-
-			double magnitude();
-			void normalize();
-			double* data();
-
-			double getX();
-			double getY();
-			glm::dvec2 getMVec();
-			DVec2 getNormalized();
-
-			void setX(double x);
-			void setY(double y);
-
-		private:
-			glm::dvec2 m_vec;
-		};
+		double Dot(const DVec2& vec1, const DVec2& vec2);
 
 		/*
-			@brief A double vector with three components.
+			@brief The dot product vector operation between 3D double vectors.
+			@return The resulting scalar value.
 		 */
-		class DVec3 : public DVec
-		{
-		public:
-			DVec3();
-			DVec3(double xyz);
-			DVec3(double x, double y, double z);
-			DVec3(glm::dvec3 vec);
-			DVec3(DVec2 vec, double z);
-			DVec3(double x, DVec2 vec);
-
-			double magnitude();
-			void normalize();
-			double* data();
-
-			double getX();
-			double getY();
-			double getZ();
-			glm::dvec3 getMVec();
-			DVec3 getNormalized();
-
-			void setX(double x);
-			void setY(double y);
-			void setZ(double z);
-
-		private:
-			glm::dvec3 m_vec;
-		};
+		double Dot(const DVec3& vec1, const DVec3& vec2);
 
 		/*
-			@brief A double vector with four components.
+			@brief The dot product vector operation between 4D double vectors.
+			@return The resulting scalar value.
 		 */
-		class DVec4 : public DVec
-		{
-		public:
-			DVec4();
-			DVec4(double xyzw);
-			DVec4(double x, double y, double z, double w);
-			DVec4(glm::dvec4 vec);
-			DVec4(DVec2 vec, double z, double w);
-			DVec4(double x, DVec2 vec, double w);
-			DVec4(double x, double y, DVec2 vec);
-			DVec4(DVec3 vec, double w);
-			DVec4(double x, DVec3 vec);
-			DVec4(DVec2 vec1, DVec2 vec2);
+		double Dot(const DVec4& vec1, const DVec4& vec2);
 
-			double magnitude();
-			void normalize();
-			double* data();
 
-			double getX();
-			double getY();
-			double getZ();
-			double getW();
-			glm::dvec4 getMVec();
-			DVec4 getNormalized();
+		bool operator==(const Vec2& vec1, const Vec2& vec2);
+		bool operator!=(const Vec2& vec1, const Vec2& vec2);
 
-			void setX(double x);
-			void setY(double y);
-			void setZ(double z);
-			void setW(double w);
+		bool operator==(const Vec3& vec1, const Vec3& vec2);
+		bool operator!=(const Vec3& vec1, const Vec3& vec2);
 
-		private:
-			glm::dvec4 m_vec;
-		};
+		bool operator==(const Vec4& vec1, const Vec4& vec2);
+		bool operator!=(const Vec4& vec1, const Vec4& vec2);
 
-		/*
-			@brief A parent class for integer vectors.
-		 */
-		class IVec : public Vec {};
+		bool operator==(const DVec2& vec1, const DVec2& vec2);
+		bool operator!=(const DVec2& vec1, const DVec2& vec2);
 
-		/*
-			@brief An integer vector with two components.
-		 */
-		class IVec2 : public IVec
-		{
-		public:
-			IVec2();
-			IVec2(int xy);
-			IVec2(int x, int y);
-			IVec2(glm::ivec2 vec);
+		bool operator==(const DVec3& vec1, const DVec3& vec2);
+		bool operator!=(const DVec3& vec1, const DVec3& vec2);
 
-			int* data();
+		bool operator==(const DVec4& vec1, const DVec4& vec2);
+		bool operator!=(const DVec4& vec1, const DVec4& vec2);
 
-			int getX();
-			int getY();
-			glm::ivec2 getMVec();
+		bool operator==(const IVec2& vec1, const IVec2& vec2);
+		bool operator!=(const IVec2& vec1, const IVec2& vec2);
 
-			void setX(int x);
-			void setY(int y);
+		bool operator==(const IVec3& vec1, const IVec3& vec2);
+		bool operator!=(const IVec3& vec1, const IVec3& vec2);
 
-		private:
-			glm::ivec2 m_vec;
-		};
-
-		/*
-			@brief An integer vector with three components.
-		 */
-		class IVec3 : public IVec
-		{
-		public:
-			IVec3();
-			IVec3(int xyz);
-			IVec3(int x, int y, int z);
-			IVec3(glm::ivec3 vec);
-			IVec3(IVec2 vec, int z);
-			IVec3(int x, IVec2 vec);
-
-			int* data();
-
-			int getX();
-			int getY();
-			int getZ();
-			glm::ivec3 getMVec();
-
-			void setX(int x);
-			void setY(int y);
-			void setZ(int z);
-
-		private:
-			glm::ivec3 m_vec;
-		};
-
-		/*
-			@brief An integer vector with four components.
-		 */
-		class IVec4 : public IVec
-		{
-		public:
-			IVec4();
-			IVec4(int xyzw);
-			IVec4(int x, int y, int z, int w);
-			IVec4(glm::ivec4 vec);
-			IVec4(IVec2 vec, int z, int w);
-			IVec4(int x, IVec2 vec, int w);
-			IVec4(int x, int y, IVec2 vec);
-			IVec4(IVec3 vec, int w);
-			IVec4(int x, IVec3 vec);
-			IVec4(IVec2 vec1, IVec2 vec2);
-
-			int* data();
-
-			int getX();
-			int getY();
-			int getZ();
-			int getW();
-			glm::ivec4 getMVec();
-
-			void setX(int x);
-			void setY(int y);
-			void setZ(int z);
-			void setW(int w);
-
-		private:
-			glm::ivec4 m_vec;
-		};
+		bool operator==(const IVec4& vec1, const IVec4& vec2);
+		bool operator!=(const IVec4& vec1, const IVec4& vec2);
 
 		/*
 			@brief A parent class for matrices.

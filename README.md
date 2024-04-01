@@ -4,14 +4,14 @@ Onyx is a high-level C++ library for rendering graphics to the screen using Open
 The intuitive and well-structured codebase makes it simpler than ever to code games, apps, or any graphical interface using a language as complex as C++.  
 
 ## Download
-Onyx can be downloaded as pre-compiled binaries for Visual Studio x64, or the source files themselves.  
+Onyx can be downloaded as pre-compiled binaries for Windows Visual Studio x64, or the source files themselves.  
 Everything needed is included in the following links.
 
-[Latest Release (0.4.1-beta)](https://drive.google.com/uc?export=download&id=1d32rvlgMuHdpofrnbtUwfU2GSvi4FnA_)  
+[Latest Release (0.4.2-beta)](https://drive.google.com/uc?export=download&id=1lCnVQxPEnTZCoeK7c2eWUiTK6H6x1BOJ)  
 [All Releases](https://drive.google.com/drive/folders/1cigqfR85OEZ8Mx734LylQKxOKdn8NOH0?usp=drive_link)  
 
 ## Get Started
-Get started with the [Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial).  
+Get started with the [Basic Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial).  
 Full documentation will come with the full release (1.0.0).  
 
 ## Stay Up-To-Date

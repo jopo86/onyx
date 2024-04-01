@@ -146,6 +146,8 @@ void Onyx::Demo()
 		TextRenderer::EndRender();
 
 		window.endRender();
+
+
 	}
 
 	renderer.dispose();

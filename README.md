@@ -7,8 +7,8 @@ The intuitive and well-structured codebase makes it simpler than ever to code ga
 Onyx can be downloaded as pre-compiled binaries for Windows Visual Studio x64, or the source files themselves.  
 Everything needed is included in the following links.
 
-[Latest Release (0.5.0-beta)](https://drive.google.com/uc?export=download&id=1zpj-jxD91cOj8fi6UgwhZwxcg1ZRZ7ed)  
-[All Releases](https://drive.google.com/drive/folders/1cigqfR85OEZ8Mx734LylQKxOKdn8NOH0?usp=drive_link)  
+[Latest Release (0.5.0-beta)](https://github.com/jopo86/onyx/releases/tag/v0.5.0-beta)  
+[All Releases](https://github.com/jopo86/onyx/tags)  
 
 ## Get Started
 Get started with the [Basic Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial).  

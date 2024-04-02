@@ -1,49 +1,50 @@
 #pragma once
 
-#include <vector>
-
 #include "Core.h"
 #include "Math.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Font.h"
+#include "ShaderPresets.h"
 
 namespace Onyx
 {
 	/*
-		@brief A class that represents a renderable object.
-		A renderable can be rendered directly, or through the Renderer class.
+		@brief A class that represents a renderable UI object.
+		A renderable can be rendered directly, or through the MgRenderer class.
 		This class is disposable.
 	 */
-	class Renderable : public Disposable
+	class UiRenderable : public Disposable
 	{
 	public:
 		/*
-			@brief Creates an empty Renderable object.
+			@brief Creates an empty UiRenderable object.
 			Trying to use a renderable constructed like this will most likely cause errors.
 		 */
-		Renderable();
+		UiRenderable();
 
 		/*
-			@brief Creates a new Renderable object out of the specified mesh.
+			@brief Creates a new UiRenderable object out of the specified mesh and color.
 			@param mesh The mesh to use.
+			@param rgba The color, specified as red, green, and blue values ranging from 0 to 1.
 		 */
-		Renderable(Mesh mesh);
+		UiRenderable(Mesh mesh, Math::Vec3 rgb);
 
 		/*
-			@brief Creates a new Renderable object out of the specified mesh and shader.
+			@brief Creates a new UiRenderable object out of the specified mesh and color.
 			@param mesh The mesh to use.
-			@param shader The shader to use.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
 		 */
-		Renderable(Mesh mesh, Shader shader);
+		UiRenderable(Mesh mesh, Math::Vec4 rgba);
 
 		/*
-			@brief Creates a new Renderable object out of the specified mesh, shader, and texture.
+			@brief Creates a new UiRenderable object out of the specified mesh and texture.
+			The mesh vertex array should be VT or TV format.
 			@param mesh The mesh to use.
-			@param shader The shader to use.
 			@param texture The texture to use.
 		 */
-		Renderable(Mesh mesh, Shader shader, Texture texture);
+		UiRenderable(Mesh mesh, Texture texture);
 
 		/*
 			@brief Renders the object.
@@ -52,20 +53,19 @@ namespace Onyx
 		void render();
 
 		/*
-			@brief Renders the object using the specified view and projection matrices.
+			@brief Renders the object and updates the orthographic projection matrix.
 			This function, more technically, uses the shader, binds the texture, binds the VAO, draws, unbinds the VAO, unbinds the texture, and unuses the shader.
-			@param view The view matrix to use, generally from an Camera.
-			@param proj The projection matrix to use, generally from an Camera.
+			@param ortho The orthographic projection matrix to use.
 		 */
-		void render(Onyx::Math::Mat4 view, Onyx::Math::Mat4 proj);
+		void render(Math::Mat4 ortho);
 
 		/*
 			@brief Hides the renderable.
 			This function simply makes render() no longer do anything.
 		 */
 		void hide();
-
 		/*
+
 			@brief Shows the renderable.
 			This function simply makes render() do what it's supposed to.
 		 */
@@ -78,26 +78,20 @@ namespace Onyx
 		void toggleVisibility();
 
 		/*
-			@brief Changes the renderable's position by the specified 3D vector.
+			@brief Changes the renderable's position by the specified 2D vector.
 			Note that this function inc/decrements the renderable's position, it does not set it.
 			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param xyz The vector to move by.
+			@param xy The vector to move by.
 		 */
-		void translate(Onyx::Math::Vec3 xyz);
+		void translate(Onyx::Math::Vec2 xy);
 
 		/*
-			@brief Rotates the renderable by the specified degree angle around the specified axes.
+			@brief Rotates the renderable by the specified degree angle.
 			Note that this function inc/decrements the renderable's rotation, it does not set it.
 			Directly setting a transform is not natively supported, that would be up to the user to program.
 			@param degrees The degree angle to rotate.
-			@param axes The axes to rotate around. Here are some examples:
-			(1, 0, 0) will rotate the specified angle around the x axis.
-			(1, 1, 1) will rotate the specified angle around all axes.
-			(0, 0.5, 0) will rotate half the specified angle around the y axis.
-			(0.6, 0, 1) will rotate 6/10 the specified angle around the x axis and the full specified angle around the z axis.
-			Numbers below 0 or above 1 will be treated as 0 or 1 respectively.
 		 */
-		void rotate(float degrees, Onyx::Math::Vec3 axes);
+		void rotate(float degrees);
 
 		/*
 			@brief Scales the renderable in all dimensions by the specified scalar.
@@ -114,13 +108,13 @@ namespace Onyx
 			Note that this function scales the renderable by whatever its current scale is, it does not set its scale.
 			This means that scale(1) will not reset the renderable's scale, it just wont change it at all.
 			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param xyzScalar The scalars for each dimension. Here are some examples:
-			(1, 1, 1) will not change anything.
-			(1, 0.5, 1) will half the renderable's size on the y axis.
-			(0.5, 0.5, 2) will half the renderable's size on the x and y axes, and double it's size on the z axis.
+			@param xyScalar The scalars for each dimension. Here are some examples:
+			(1, 1) will not change anything.
+			(1, 0.5) will half the renderable's size on the y axis.
+			(2, 0.5) will double the renderable's size on the x axis and half it on the y axis.
 			If any scalar is 0, it will effectively hide the renderable.
 		 */
-		void scale(Onyx::Math::Vec3 xyzScalar);
+		void scale(Onyx::Math::Vec2 xyScalar);
 
 		/*
 			@brief Resets the renderable's transforms.
@@ -165,7 +159,7 @@ namespace Onyx
 		Shader shader;
 		Texture texture;
 
-		Onyx::Math::Mat4 model;
+		Math::Mat4 model;
 
 		bool hidden;
 	};

@@ -106,6 +106,6 @@ uint Onyx::Texture::getTextureID()
 
 void Onyx::Texture::dispose()
 {
-	glDeleteTextures(1, &tex);
+	if (tex) glDeleteTextures(1, &tex);
 	tex = 0;
 }

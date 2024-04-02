@@ -9,6 +9,7 @@
 #include "Math.h"
 #include "InputHandler.h"
 #include "TextRenderer.h"
+#include "Renderer.h"
 
 namespace Onyx
 {
@@ -23,6 +24,7 @@ namespace Onyx
 		friend class InputHandler;
 		friend class Camera;
 		friend class TextRenderer;
+		friend class Renderer;
 
 	public:
 		/*
@@ -172,6 +174,7 @@ namespace Onyx
 		InputHandler* p_inputHandler;
 		Camera* p_cam;
 		TextRenderer* p_textRenderer;
+		Renderer* p_renderer;
 
 		bool fullscreen;
 		bool initialized;

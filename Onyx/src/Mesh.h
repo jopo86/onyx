@@ -52,7 +52,21 @@ namespace Onyx
 			Access to the VAO is provided for the library, as well as for advanced users.
 			@return The VAO ID.
 		 */
-		uint getVaoID();
+		uint getVAO();
+
+		/*
+			@brief Gets the vertex buffer object ID.
+			Access to the VBO is provided for the library, as well as for advanced users.
+			@return The VBO ID.
+		 */
+		uint getVBO();
+
+		/*
+			@brief Gets the index buffer object ID.
+			Access to the IBO is provided for the library, as well as for advanced users.
+			@return The IBO ID.
+		 */
+		uint getIBO();
 
 		VertexArray getVertexArray();
 

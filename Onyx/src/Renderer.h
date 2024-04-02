@@ -4,7 +4,10 @@
 
 #include "Core.h"
 #include "Renderable.h"
+#include "UiRenderable.h"
 #include "Camera.h"
+#include "Projection.h"
+#include "Window.h"
 
 namespace Onyx
 {
@@ -18,6 +21,7 @@ namespace Onyx
 	class Renderer : public Disposable
 	{
 		friend class Camera;
+		friend class Window;
 
 	public:
 		/*
@@ -26,10 +30,19 @@ namespace Onyx
 		Renderer();
 
 		/*
+			@brief Creates a new Renderer object containing no renderables or camera.
+			Links the renderer to the window so that UI elements are rendered properly.
+			@param window The window to link to.
+		 */
+		Renderer(Window& window);
+
+		/*
 			@brief Creates a new Renderer object containing no renderables and the specified camera.
+			Links the renderer to the window so that UI elements are rendered properly.
+			@param window The window to link to.
 			@param cam The camera to use.
 		 */
-		Renderer(Camera& cam);
+		Renderer(Window& window, Camera& cam);
 
 		/*
 			@brief Renders all of the renderables contained by the renderer.
@@ -44,22 +57,10 @@ namespace Onyx
 		void add(Renderable& renderable);
 
 		/*
-			@brief Enables rendering for the renderable at the specified index.
-			The first renderable added has index 0, the next 1, and so on.
+			@brief Adds a UI renderable to the renderer.
+			Note that renderables cannot be removed once added, instead use hide().
 		 */
-		void show(int index);
-
-		/*
-			@brief Disables rendering for the renderable at the specified index.
-			The first renderable added has index 0, the next 1, and so on.
-		 */
-		void hide(int index);
-
-		/*
-			@brief Toggles the visibility (shows/hides) the renderable at the specified index.
-			The first renderable added has index 0, the next 1, and so on.
-		 */
-		void toggleVisibility(int index);
+		void add(UiRenderable& uiRenderable);
 
 		/*
 			@brief Sets whether wireframe rendering mode is enabled.
@@ -70,6 +71,12 @@ namespace Onyx
 		static void SetWireframe(bool wireframe);
 
 		/*
+			@brief By default, UI elements are never rendered in wireframe mode, regardless of the wireframe setting.
+			This function allows you to override this behaviour and render UI elements in wireframe mode if wireframe is enabled.
+		 */
+		static void SetUiWireframeAllowed(bool allowed);
+
+		/*
 			@brief Toggles wireframe rendering mode.
 			In wireframe mode, only the lines between vertices are drawn.
 			Change the with of the lines with SetLineWidth().
@@ -77,11 +84,23 @@ namespace Onyx
 		static void ToggleWireframe();
 
 		/*
+			@brief By default, UI elements are never rendered in wireframe mode, regardless of the wireframe setting.
+			This function allows you to override this behaviour and render UI elements in wireframe mode if wireframe is enabled.
+		 */
+		static void ToggleUiWireframeAllowed();
+
+		/*
 			@brief Gets whether wireframe rendering mode is enabled.
 			In wireframe mode, only the lines between vertices are drawn.
 			Change the with of the lines with SetLineWidth().
 		 */
 		static bool IsWireframe();
+
+		/*
+			@brief Gets whether UI elements are allowed to be rendered in wireframe mode.
+			See SetUiWireframeAllowed() for more info.
+		 */
+		static bool IsUiWireframeAllowed();
 
 		/*
 			@brief Sets the width of lines rendered in wireframe mode.
@@ -103,10 +122,14 @@ namespace Onyx
 		void dispose() override;
 
 	private:
-		std::vector<std::pair<Renderable*, bool>> renderables;
+		std::vector<Renderable*> renderables;
+		std::vector<UiRenderable*> uiRenderables;
+
 		Camera* cam;
+		Math::Mat4 ortho;
 
 		static bool wireframe;
+		static bool uiWireframeAllowed;
 		static float lineWidth;
 	};
 }

@@ -24,7 +24,7 @@ void PresetTests::MeshTest__Triangle1()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -77,7 +77,7 @@ void PresetTests::MeshTest__Triangle2()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -130,7 +130,7 @@ void PresetTests::MeshTest__Triangle3()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -183,7 +183,7 @@ void PresetTests::MeshTest__Square()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -236,7 +236,7 @@ void PresetTests::MeshTest__Quad1()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -289,7 +289,7 @@ void PresetTests::MeshTest__Quad2()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -342,7 +342,7 @@ void PresetTests::MeshTest__Cube()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -395,7 +395,7 @@ void PresetTests::MeshAndShaderTest__RectPrism1__V_Color()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -451,7 +451,7 @@ void PresetTests::MeshAndShaderTest__RectPrism2__V_XYZtoRGB()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -513,7 +513,7 @@ void PresetTests::ShaderTest__VC()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -577,7 +577,7 @@ void PresetTests::ShaderTest__VT()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -641,7 +641,7 @@ void PresetTests::ShaderTest__VCT()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -694,7 +694,7 @@ void PresetTests::RenderableTest__ColoredTriangle1()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -747,7 +747,7 @@ void PresetTests::RenderableTest__ColoredTriangle2()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -800,7 +800,7 @@ void PresetTests::RenderableTest__ColoredTriangle3()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -853,7 +853,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle1()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -906,7 +906,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle2()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -959,7 +959,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle3()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1012,7 +1012,7 @@ void PresetTests::RenderableTest__TexturedTriangle1()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1065,7 +1065,7 @@ void PresetTests::RenderableTest__TexturedTriangle2()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1118,7 +1118,7 @@ void PresetTests::RenderableTest__TexturedTriangle3()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1171,7 +1171,7 @@ void PresetTests::RenderableTest__ColoredSquare()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1224,7 +1224,7 @@ void PresetTests::RenderableTest__ColoredQuad1()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1277,7 +1277,7 @@ void PresetTests::RenderableTest__ColoredQuad2()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1330,7 +1330,7 @@ void PresetTests::RenderableTest__VertexColoredSquare()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1383,7 +1383,7 @@ void PresetTests::RenderableTest__VertexColoredQuad1()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1436,7 +1436,7 @@ void PresetTests::RenderableTest__VertexColoredQuad2()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1489,7 +1489,7 @@ void PresetTests::RenderableTest__TexturedSquare()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1542,7 +1542,7 @@ void PresetTests::RenderableTest__TexturedQuad1()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1595,7 +1595,7 @@ void PresetTests::RenderableTest__TexturedQuad2()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1648,7 +1648,7 @@ void PresetTests::RenderableTest__ColoredCube()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;
@@ -1701,7 +1701,7 @@ void PresetTests::RenderableTest__TexturedCube()
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(obj);
 
 	double camSpeed = 4.0;

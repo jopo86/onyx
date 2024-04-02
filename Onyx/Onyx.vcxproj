@@ -168,6 +168,7 @@
     <ClCompile Include="src\ImageData.cpp" />
     <ClCompile Include="src\IndexArray.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
+    <ClCompile Include="src\UiRenderable.cpp" />
     <ClCompile Include="tests\Main.cpp" />
     <ClCompile Include="src\Math.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="src\ShaderPresets.h" />
     <ClInclude Include="src\TextRenderer.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\UiRenderable.h" />
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="tests\PresetTests.h" />

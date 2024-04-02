@@ -144,16 +144,26 @@ Onyx::IndexArray Onyx::Mesh::getIndexArray()
 	return indexArray;
 }
 
-uint Onyx::Mesh::getVaoID()
+uint Onyx::Mesh::getVAO()
 {
 	return vao;
 }
 
+uint Onyx::Mesh::getVBO()
+{
+	return vbo;
+}
+
+uint Onyx::Mesh::getIBO()
+{
+	return ibo;
+}
+
 void Onyx::Mesh::dispose()
 {
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &vbo);
-	glDeleteBuffers(1, &ibo);
+	if (vao) glDeleteVertexArrays(1, &vao);
+	if (vbo) glDeleteBuffers(1, &vbo);
+	if (ibo) glDeleteBuffers(1, &ibo);
 	vao = vbo = ibo = 0;
 	if (vertexArray.getVertices() != nullptr && vertexArray.isOnHeap()) delete[] vertexArray.getVertices();
 	if (indexArray.getIndices() != nullptr && indexArray.isOnHeap()) delete[] indexArray.getIndices();

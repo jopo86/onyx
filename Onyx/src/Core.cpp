@@ -11,6 +11,7 @@
 #include "Math.h"
 #include "Mesh.h"
 #include "Renderable.h"
+#include "UiRenderable.h"
 #include "ShaderPresets.h"
 #include "MeshPresets.h"
 #include "Renderer.h"
@@ -59,13 +60,13 @@ void Onyx::Demo()
 
 	InputHandler input(window);
 
-	Renderable cube = Onyx::RenderablePresets::TexturedCube(1.0f, Onyx::Texture(Onyx::ImageData::Load(Onyx::Resources("textures/container.jpg"))));
+	Renderable cube = RenderablePresets::TexturedCube(1.0f, Texture(ImageData::Load(Resources("textures/container.jpg"))));
 	
 	float vertices[] = {
-		10.0f, 710.0f, 0.0f,
+		10.0f,  710.0f, 0.0f,
 		200.0f, 710.0f, 0.0f,
 		200.0f, 600.0f, 0.0f,
-		10.0f, 600.0f, 0.0f,
+		10.0f,  600.0f, 0.0f
 	};
 
 	uint indices[] = {
@@ -73,19 +74,20 @@ void Onyx::Demo()
 		2, 3, 0
 	};
 
-	Renderable triUI(
+	UiRenderable textBg(
 		Mesh(VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_V, false), IndexArray(indices, sizeof(indices), false)),
-		Onyx::ShaderPresets::UI_Color(Vec4(0.0f, 0.0f, 0.0f, 0.3f))
+		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
 	);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-3.0f);
 
-	Renderer renderer(cam);
+	Renderer renderer(window, cam);
 	renderer.add(cube);
+	renderer.add(textBg);
 
-	Font robotoReg(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
-	Font robotoBold(Onyx::Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
+	Font robotoReg(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
+	Font robotoBold(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
 	TextRenderer textRenderer(window);
 
 	double camSpeed = 5.0;
@@ -118,7 +120,7 @@ void Onyx::Demo()
 		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
 		if (input.isKeyDown(ONYX_KEY_F12)) window.toggleFullscreen();
 		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_2)) renderer.toggleVisibility(0);
+		if (input.isKeyDown(ONYX_KEY_2)) cube.toggleVisibility();
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -127,7 +129,6 @@ void Onyx::Demo()
 
 		window.startRender();
 		renderer.render();
-		triUI.render(Onyx::Math::Mat4::Identity(), ortho.getMatrix());
 
 		TextRenderer::StartRender();
 		textRenderer.setFont(robotoBold);
@@ -146,8 +147,6 @@ void Onyx::Demo()
 		TextRenderer::EndRender();
 
 		window.endRender();
-
-
 	}
 
 	renderer.dispose();

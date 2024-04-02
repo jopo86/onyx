@@ -20,13 +20,13 @@ Onyx::Mesh Onyx::MeshPresets::Triangle(float base, float height)
 
 Onyx::Mesh Onyx::MeshPresets::Triangle(Vec2 a, Vec2 b, Vec2 c)
 {
-	float *vertices = new float[9]{
+	float* vertices = new float[9]{
 		a.getX(), a.getY(), 0.0f,
 		b.getX(), b.getY(), 0.0f,
 		c.getX(), c.getY(), 0.0f
 	};
 
-	uint *indices = new uint[3]{
+	uint* indices = new uint[3]{
 		0, 1, 2
 	};
 
@@ -53,14 +53,14 @@ Onyx::Mesh Onyx::MeshPresets::Quad(float width, float height)
 
 Onyx::Mesh Onyx::MeshPresets::Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
 {
-	float *vertices = new float[12]{
+	float* vertices = new float[12]{
 		a.getX(), a.getY(), 0.0f,
 		b.getX(), b.getY(), 0.0f,
 		c.getX(), c.getY(), 0.0f,
 		d.getX(), d.getY(), 0.0f
 	};
 
-	uint *indices = new uint[6]{
+	uint* indices = new uint[6]{
 		0, 1, 2,
 		2, 3, 0
 	};
@@ -92,7 +92,7 @@ Onyx::Mesh Onyx::MeshPresets::RectPrism(float width, float height, float depth)
 
 Onyx::Mesh Onyx::MeshPresets::RectPrism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, Vec3 f, Vec3 g, Vec3 h)
 {
-	float *vertices = new float[24]{
+	float* vertices = new float[24]{
 		a.getX(), a.getY(), a.getZ(),
 		b.getX(), b.getY(), b.getZ(),
 		c.getX(), c.getY(), c.getZ(),
@@ -103,7 +103,7 @@ Onyx::Mesh Onyx::MeshPresets::RectPrism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, 
 		h.getX(), h.getY(), h.getZ()
 	};
 
-	uint *indices = new uint[36]{
+	uint* indices = new uint[36]{
 		0, 1, 2,
 		2, 3, 0,
 
@@ -134,7 +134,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float side)
 	int base = side;
 	int height = sqrtf(powf(side / 2.0f, 2.0f) + powf(side, 2.0f));
 
-	float *vertices = new float[6]{
+	float* vertices = new float[6]{
 		-base / 2.0f, -height / 2.0f,
 		 base / 2.0f, -height / 2.0f,
 		 0.0f,         height / 2.0f
@@ -145,7 +145,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float side)
 
 Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float base, float height)
 {
-	float *vertices = new float[6]{
+	float* vertices = new float[6]{
 		-base / 2.0f, -height / 2.0f,
 		 base / 2.0f, -height / 2.0f,
 		 0.0f,         height / 2.0f
@@ -156,7 +156,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float base, float heigh
 
 Onyx::VertexArray Onyx::MeshPresets::GetSquareVertices(float side)
 {
-	float *vertices = new float[8]{
+	float* vertices = new float[8]{
 		-side / 2.0f, -side / 2.0f,
 		 side / 2.0f, -side / 2.0f,
 		 side / 2.0f,  side / 2.0f,
@@ -168,7 +168,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetSquareVertices(float side)
 
 Onyx::VertexArray Onyx::MeshPresets::GetQuadVertices(float width, float height)
 {
-	float *vertices = new float[8]{
+	float* vertices = new float[8]{
 		-width / 2.0f, -height / 2.0f,
 		 width / 2.0f, -height / 2.0f,
 		 width / 2.0f,  height / 2.0f,
@@ -180,7 +180,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetQuadVertices(float width, float height)
 
 Onyx::VertexArray Onyx::MeshPresets::GetRectPrismVertices(float width, float height, float depth)
 {
-	float *vertices = new float[24]{
+	float* vertices = new float[24]{
 		-width / 2.0f, -height / 2.0f,  depth / 2.0f,
 		 width / 2.0f, -height / 2.0f,  depth / 2.0f,
 		 width / 2.0f,  height / 2.0f,  depth / 2.0f,
@@ -202,14 +202,14 @@ Onyx::IndexArray Onyx::MeshPresets::GetIndices(int mesh)
 	{
 		case ONYX_MESH_TRIANGLE:
 		{
-			uint *indices = new uint[3]{ 0, 1, 2 };
+			uint* indices = new uint[3]{ 0, 1, 2 };
 			retval = IndexArray(indices, 3 * sizeof(uint), true);
 			break;
 		}
 
 		case ONYX_MESH_SQUARE: case ONYX_MESH_RECT:
 		{
-			uint *indices = new uint[6]{
+			uint* indices = new uint[6]{
 				0, 1, 2,
 				2, 3, 0
 			};
@@ -219,7 +219,7 @@ Onyx::IndexArray Onyx::MeshPresets::GetIndices(int mesh)
 
 		case ONYX_MESH_CUBE: case ONYX_MESH_RECT_PRISM:
 		{
-			uint *indices = new uint[36]{
+			uint* indices = new uint[36]{
 				0, 1, 2,
 				2, 3, 0,
 

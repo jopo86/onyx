@@ -61,7 +61,7 @@
 /*
 	Definitions for meshes.
 	Used by MgMeshPresets::GetIndices(int mesh)
- *									  ^^^^^^
+ 									   ^^^^^^
  */
 #define ONYX_MESH_TRIANGLE						411
 #define ONYX_MESH_SQUARE						412

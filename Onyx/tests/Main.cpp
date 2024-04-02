@@ -7,10 +7,13 @@
 
 int main()
 {
-	Onyx::ErrorHandler errorHandler(true, false);
+	/*Onyx::ErrorHandler errorHandler(true, false);
 	Onyx::Init(errorHandler);
 	Onyx::Demo();
-	Onyx::Terminate();
+	Onyx::Terminate();*/
+
+	UnitTests::RunAllTests();
+	PresetTests::RunAllTests();
 	
 	return 0;
 }

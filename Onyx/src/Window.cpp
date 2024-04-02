@@ -217,6 +217,7 @@ void Onyx::Window::CB_framebufferSize(GLFWwindow* p_glfwWin, int width, int heig
 	p_win->bufferHeight = height;
 	Camera* p_cam = p_win->p_cam;
 	TextRenderer* p_textRenderer = p_win->p_textRenderer;
+	Renderer* p_renderer = p_win->p_renderer;
 
 	if (p_cam != nullptr)
 	{
@@ -229,6 +230,11 @@ void Onyx::Window::CB_framebufferSize(GLFWwindow* p_glfwWin, int width, int heig
 	{
 		p_textRenderer->shader.use();
 		p_textRenderer->shader.uniform("u_projection", Projection::Orthographic(0.0f, width, height, 0.0f).getMatrix());
+	}
+
+	if (p_renderer != nullptr)
+	{
+		p_renderer->ortho = Projection::Orthographic(0.0f, width, height, 0.0f).getMatrix();
 	}
 }
 

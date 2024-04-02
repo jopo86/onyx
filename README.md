@@ -8,7 +8,7 @@ Onyx can be downloaded as pre-compiled binaries for Windows Visual Studio x64, o
 Everything needed is included in the following links.
 
 [Latest Release (0.5.0-beta)](https://github.com/jopo86/onyx/releases/tag/v0.5.0-beta)  
-[All Releases](https://github.com/jopo86/onyx/tags)  
+[All Releases](https://github.com/jopo86/onyx/releases)  
 
 ## Get Started
 Get started with the [Basic Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial).  

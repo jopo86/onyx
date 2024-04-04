@@ -58,6 +58,13 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 			glEnableVertexAttribArray(2);
 			break;
 
+		case ONYX_VERTEX_FORMAT_VN:
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(3);
+			break;
+
 		case ONYX_VERTEX_FORMAT_VCT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));

@@ -1,6 +1,11 @@
 #include "Shader.h"
 
-using Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
+using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::DVec2,
+Onyx::Math::DVec3, Onyx::Math::DVec4, Onyx::Math::IVec2, Onyx::Math::IVec3,
+Onyx::Math::IVec4, Onyx::Math::Mat2x2, Onyx::Math::Mat2x3, Onyx::Math::Mat2x4,
+Onyx::Math::Mat3x2, Onyx::Math::Mat3x3, Onyx::Math::Mat3x4, Onyx::Math::Mat4x2,
+Onyx::Math::Mat4x3, Onyx::Math::Mat4x4;
+
 
 Onyx::Shader::Shader() : vertSource(""), fragSource("")
 {
@@ -94,34 +99,139 @@ uint Onyx::Shader::getProgramID()
 	return prog;
 }
 
-const char *Onyx::Shader::getVertSource()
+const char* Onyx::Shader::getVertSource()
 {
 	return vertSource;
 }
 
-const char *Onyx::Shader::getFragSource()
+const char* Onyx::Shader::getFragSource()
 {
 	return fragSource;
 }
 
-void Onyx::Shader::uniform(const char *name, float v0, float v1, float v2, float v3)
+void Onyx::Shader::setInt(const char* varName, int val)
 {
-	glUniform4f(glGetUniformLocation(prog, name), v0, v1, v2, v3);
+	glUniform1i(glGetUniformLocation(prog, varName), val);
 }
 
-void Onyx::Shader::uniform(const char* name, Vec3 vec)
+void Onyx::Shader::setUint(const char* varName, uint val)
 {
-	glUniform3f(glGetUniformLocation(prog, name), vec.getX(), vec.getY(), vec.getZ());
+	glUniform1ui(glGetUniformLocation(prog, varName), val);
 }
 
-void Onyx::Shader::uniform(const char* name, Vec4 vec)
+void Onyx::Shader::setFloat(const char* varName, float val)
 {
-	glUniform4f(glGetUniformLocation(prog, name), vec.getX(), vec.getY(), vec.getZ(), vec.getW());
+	glUniform1f(glGetUniformLocation(prog, varName), val);
 }
 
-void Onyx::Shader::uniform(const char *name, Mat4 mat)
+void Onyx::Shader::setDouble(const char* varName, double val)
 {
-	glUniformMatrix4fv(glGetUniformLocation(prog, name), 1, GL_FALSE, mat.data());
+	glUniform1d(glGetUniformLocation(prog, varName), val);
+}
+
+void Onyx::Shader::setVec2(const char* varName, const Vec2& val)
+{
+	glUniform2fv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setVec3(const char* varName, const Vec3& val)
+{
+	glUniform3fv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setVec4(const char* varName, const Vec4& val)
+{
+	glUniform4fv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setDVec2(const char* varName, const DVec2& val)
+{
+	glUniform2dv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setDVec3(const char* varName, const DVec3& val)
+{
+	glUniform3dv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setDVec4(const char* varName, const DVec4& val)
+{
+	glUniform4dv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setIVec2(const char* varName, const IVec2& val)
+{
+	glUniform2iv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setIVec3(const char* varName, const IVec3& val)
+{
+	glUniform3iv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setIVec4(const char* varName, const IVec4& val)
+{
+	glUniform4iv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setMat2x2(const char* varName, const Mat2x2& val, bool normalize)
+{
+	glUniformMatrix2fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat2(const char* varName, const Mat2x2& val, bool normalize)
+{
+	glUniformMatrix2fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat2x3(const char* varName, const Mat2x3& val, bool normalize)
+{
+	glUniformMatrix2x3fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat2x4(const char* varName, const Mat2x4& val, bool normalize)
+{
+	glUniformMatrix2x4fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat3x2(const char* varName, const Mat3x2& val, bool normalize)
+{
+	glUniformMatrix3x2fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat3x3(const char* varName, const Mat3x3& val, bool normalize)
+{
+	glUniformMatrix3fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat3(const char* varName, const Mat3x3& val, bool normalize)
+{
+	glUniformMatrix3fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat3x4(const char* varName, const Mat3x4& val, bool normalize)
+{
+	glUniformMatrix3x4fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat4x2(const char* varName, const Mat4x2& val, bool normalize)
+{
+	glUniformMatrix4x2fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat4x3(const char* varName, const Mat4x3& val, bool normalize)
+{
+	glUniformMatrix4x3fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat4x4(const char* varName, const Mat4x4& val, bool normalize)
+{
+	glUniformMatrix4fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+}
+
+void Onyx::Shader::setMat4(const char* varName, const Mat4x4& val, bool normalize)
+{
+	glUniformMatrix4fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
 }
 
 void Onyx::Shader::dispose()

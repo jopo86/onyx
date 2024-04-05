@@ -66,35 +66,201 @@ namespace Onyx
 		const char* getFragSource();
 
 		/*
-			@brief Sets a uniform vec4 variable.
-			@param name The name of the variable.
-			@param v0 The first vector component.
-			@param v1 The second vector component.
-			@param v2 The third vector component.
-			@param v3 The fourth vector component.
+			@brief Sets an integer uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
 		 */
-		void uniform(const char* name, float v0, float v1, float v2, float v3);
+		void setInt(const char* varName, int val);
 
 		/*
-			@brief Sets a uniform vec3 variable.
-			@param name The name of the variable.
-			@param vec The vector.
+			@brief Sets an unsigned integer uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
 		 */
-		void uniform(const char* name, Onyx::Math::Vec3 vec);
+		void setUint(const char* varName, uint val);
 
 		/*
-			@brief Sets a uniform vec4 variable.
-			@param name The name of the variable.
-			@param vec The vector.
+			@brief Sets a float uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
 		 */
-		void uniform(const char* name, Onyx::Math::Vec4 vec);
+		void setFloat(const char* varName, float val);
 
 		/*
-			@brief Sets a uniform 4x4 matrix variable.
-			@param name The name of the variable.
-			@param mat The 4x4 matrix.
+			@brief Sets a double uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
 		 */
-		void uniform(const char* name, Onyx::Math::Mat4 mat);
+		void setDouble(const char* varName, double val);
+
+		/*
+			@brief Sets a vec2 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setVec2(const char* varName, const Math::Vec2& val);
+
+		/*
+			@brief Sets a vec3 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setVec3(const char* varName, const Math::Vec3& val);
+
+		/*
+			@brief Sets a vec4 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setVec4(const char* varName, const Math::Vec4& val);
+
+		/*
+			@brief Sets a dvec2 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setDVec2(const char* varName, const Math::DVec2& val);
+
+		/*
+			@brief Sets a dvec3 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setDVec3(const char* varName, const Math::DVec3& val);
+
+		/*
+			@brief Sets a dvec4 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setDVec4(const char* varName, const Math::DVec4& val);
+
+		/*
+			@brief Sets a ivec2 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setIVec2(const char* varName, const Math::IVec2& val);
+
+		/*
+			@brief Sets a ivec3 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setIVec3(const char* varName, const Math::IVec3& val);
+
+		/*
+			@brief Sets a ivec4 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setIVec4(const char* varName, const Math::IVec4& val);
+
+		// TODO: UVecs
+
+		/*
+			@brief Sets a 2x2 matrix uniform variable in the shader.
+			This function is the exact same as setMat2().
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat2x2(const char* varName, const Math::Mat2x2& val, bool normalize = false);
+
+		/*
+			@brief Sets a 2x2 matrix uniform variable in the shader.
+			This function is the exact same as setMat2x2().
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat2(const char* varName, const Math::Mat2& val, bool normalize = false);
+
+		/*
+			@brief Sets a 2x3 matrix uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat2x3(const char* varName, const Math::Mat2x3& val, bool normalize = false);
+
+		/*
+			@brief Sets a 2x4 matrix uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat2x4(const char* varName, const Math::Mat2x4& val, bool normalize = false);
+
+		/*
+			@brief Sets a 3x2 matrix uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat3x2(const char* varName, const Math::Mat3x2& val, bool normalize = false);
+
+		/*
+			@brief Sets a 3x3 matrix uniform variable in the shader.
+			This function is the exact same as setMat3().
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat3x3(const char* varName, const Math::Mat3x3& val, bool normalize = false);
+
+		/*
+			@brief Sets a 3x3 matrix uniform variable in the shader.
+			This function is the exact same as setMat3x3().
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat3(const char* varName, const Math::Mat3& val, bool normalize = false);
+
+		/*
+			@brief Sets a 3x4 matrix uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat3x4(const char* varName, const Math::Mat3x4& val, bool normalize = false);
+
+		/*
+			@brief Sets a 4x2 matrix uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat4x2(const char* varName, const Math::Mat4x2& val, bool normalize = false);
+
+		/*
+			@brief Sets a 4x3 matrix uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat4x3(const char* varName, const Math::Mat4x3& val, bool normalize = false);
+
+		/*
+			@brief Sets a 4x4 matrix uniform variable in the shader.
+			This function is the exact same as setMat4().
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat4x4(const char* varName, const Math::Mat4x4& val, bool normalize = false);
+
+		/*
+			@brief Sets a 4x4 matrix uniform variable in the shader.
+			This function is the exact same as setMat4x4().
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+			@param normalize Whether or not to normalize the matrix.
+		 */
+		void setMat4(const char* varName, const Math::Mat4x4& val, bool normalize = false);
+
+		// TODO: DMats
 
 		/*
 			@brief Disposes of the shader.

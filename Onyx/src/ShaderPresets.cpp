@@ -9,10 +9,10 @@ Onyx::Shader Onyx::ShaderPresets::V_Color(Vec4 rgba)
 		File(Onyx::Resources("shaders/V_Color.frag")).readLiteral()
 	);
 	shader.use();
-	shader.uniform("u_color", rgba);
-	shader.uniform("u_model", Mat4(1.0f));
-	shader.uniform("u_view", Mat4(1.0f));
-	shader.uniform("u_projection", Mat4(1.0f));
+	shader.setVec4("u_color", rgba);
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
 	return shader;
 }
 
@@ -23,9 +23,9 @@ Onyx::Shader Onyx::ShaderPresets::V_XYZtoRGB()
 		File(Onyx::Resources("shaders/V_XYZtoRGB.frag")).readLiteral()
 	);
 	shader.use();
-	shader.uniform("u_model", Mat4(1.0f));
-	shader.uniform("u_view", Mat4(1.0f));
-	shader.uniform("u_projection", Mat4(1.0f));
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
 	return shader;
 }
 
@@ -36,9 +36,9 @@ Onyx::Shader Onyx::ShaderPresets::VC()
 		File(Onyx::Resources("shaders/VC.frag")).readLiteral()
 	);
 	shader.use();
-	shader.uniform("u_model", Mat4(1.0f));
-	shader.uniform("u_view", Mat4(1.0f));
-	shader.uniform("u_projection", Mat4(1.0f));
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
 	return shader;
 }
 
@@ -49,9 +49,9 @@ Onyx::Shader Onyx::ShaderPresets::VT()
 		File(Onyx::Resources("shaders/VT.frag")).readLiteral()
 	);
 	shader.use();
-	shader.uniform("u_model", Mat4(1.0f));
-	shader.uniform("u_view", Mat4(1.0f));
-	shader.uniform("u_projection", Mat4(1.0f));
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
 	return shader;
 }
 
@@ -62,9 +62,9 @@ Onyx::Shader Onyx::ShaderPresets::VCT()
 		File(Onyx::Resources("shaders/VCT.frag")).readLiteral()
 	);
 	shader.use();
-	shader.uniform("u_model", Mat4(1.0f));
-	shader.uniform("u_view", Mat4(1.0f));
-	shader.uniform("u_projection", Mat4(1.0f));
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
 	return shader;
 }
 
@@ -75,10 +75,10 @@ Onyx::Shader Onyx::ShaderPresets::UI_Color(Onyx::Math::Vec4 rgba)
 		File(Onyx::Resources("shaders/UI_Color.frag")).readLiteral()
 	);
 	shader.use();
-	shader.uniform("u_color", rgba);
-	shader.uniform("u_model", Mat4(1.0f));
-	shader.uniform("u_view", Mat4(1.0f));
-	shader.uniform("u_projection", Mat4(1.0f));
+	shader.setVec4("u_color", rgba);
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
 	return shader;
 }
 
@@ -89,9 +89,9 @@ Onyx::Shader Onyx::ShaderPresets::UI_Texture()
 		File(Onyx::Resources("shaders/UI_Texture.frag")).readLiteral()
 	);
 	shader.use();
-	shader.uniform("u_model", Mat4(1.0f));
-	shader.uniform("u_view", Mat4(1.0f));
-	shader.uniform("u_projection", Mat4(1.0f));
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
 	return shader;
 }
 
@@ -102,8 +102,8 @@ Onyx::Shader Onyx::ShaderPresets::UI_Text()
 		File(Onyx::Resources("shaders/UI_Text.frag")).readLiteral()
 	);
 	shader.use();
-	shader.uniform("u_model", Mat4(1.0f));
-	shader.uniform("u_view", Mat4(1.0f));
-	shader.uniform("u_projection", Mat4(1.0f));
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
 	return shader;
 }

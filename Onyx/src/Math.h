@@ -47,15 +47,15 @@ namespace Onyx
 			Vec2(float x, float y);
 			Vec2(glm::vec2 vec);
 
-			float magnitude();
+			float magnitude() const;
 			void normalize();
-			float* data();
-			bool isZero();
+			float* data() const;
+			bool isZero() const;
 
-			float getX();
-			float getY();
-			glm::vec2 getMVec();
-			Vec2 getNormalized();
+			float getX() const;
+			float getY() const;
+			glm::vec2 getMVec() const;
+			Vec2 getNormalized() const;
 
 			void setX(float x);
 			void setY(float y);
@@ -65,10 +65,14 @@ namespace Onyx
 			friend bool operator==(const Vec2& vec1, const Vec2& vec2);
 			friend bool operator!=(const Vec2& vec1, const Vec2& vec2);
 
-			Vec2 operator+(const Vec2& vec);
-			Vec2 operator-();
-			Vec2 operator-(const Vec2& vec);
-			Vec2 operator*(const float& scalar);
+			void operator=(const Vec2& vec);
+			Vec2 operator+(const Vec2& vec) const;
+			void operator+=(const Vec2& vec);
+			Vec2 operator-() const;
+			Vec2 operator-(const Vec2& vec) const;
+			void operator-=(const Vec2& vec);
+			Vec2 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::vec2 m_vec;
@@ -87,16 +91,16 @@ namespace Onyx
 			Vec3(Vec2 vec, float z);
 			Vec3(float x, Vec2 vec);
 
-			float magnitude();
+			float magnitude() const;
 			void normalize();
-			float* data();
-			bool isZero();
+			float* data() const;
+			bool isZero() const;
 
-			float getX();
-			float getY();
-			float getZ();
-			glm::vec3 getMVec();
-			Vec3 getNormalized();
+			float getX() const;
+			float getY() const;
+			float getZ() const;
+			glm::vec3 getMVec() const;
+			Vec3 getNormalized() const;
 
 			void setX(float x);
 			void setY(float y);
@@ -108,10 +112,14 @@ namespace Onyx
 			friend bool operator==(const Vec3& vec1, const Vec3& vec2);
 			friend bool operator!=(const Vec3& vec1, const Vec3& vec2);
 
-			Vec3 operator+(const Vec3& vec);
-			Vec3 operator-();
-			Vec3 operator-(const Vec3& vec);
-			Vec3 operator*(const float& scalar);
+			void operator=(const Vec3& vec);
+			Vec3 operator+(const Vec3& vec) const;
+			void operator+=(const Vec3& vec);
+			Vec3 operator-() const;
+			Vec3 operator-(const Vec3& vec) const;
+			void operator-=(const Vec3& vec);
+			Vec3 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::vec3 m_vec;
@@ -134,17 +142,17 @@ namespace Onyx
 			Vec4(float x, Vec3 vec);
 			Vec4(Vec2 vec1, Vec2 vec2);
 
-			float magnitude();
+			float magnitude() const;
 			void normalize();
-			float* data();
-			bool isZero();
+			float* data() const;
+			bool isZero() const;
 
-			float getX();
-			float getY();
-			float getZ();
-			float getW();
-			glm::vec4 getMVec();
-			Vec4 getNormalized();
+			float getX() const;
+			float getY() const;
+			float getZ() const;
+			float getW() const;
+			glm::vec4 getMVec() const;
+			Vec4 getNormalized() const;
 
 			void setX(float x);
 			void setY(float y);
@@ -156,10 +164,14 @@ namespace Onyx
 			friend bool operator==(const Vec4& vec1, const Vec4& vec2);
 			friend bool operator!=(const Vec4& vec1, const Vec4& vec2);
 
-			Vec4 operator+(const Vec4& vec);
-			Vec4 operator-();
-			Vec4 operator-(const Vec4& vec);
-			Vec4 operator*(const float& scalar);
+			void operator=(const Vec4& vec);
+			Vec4 operator+(const Vec4& vec) const;
+			void operator+=(const Vec4& vec);
+			Vec4 operator-() const;
+			Vec4 operator-(const Vec4& vec) const;
+			void operator-=(const Vec4& vec);
+			Vec4 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::vec4 m_vec;
@@ -181,15 +193,15 @@ namespace Onyx
 			DVec2(double x, double y);
 			DVec2(glm::dvec2 vec);
 
-			double magnitude();
+			double magnitude() const;
 			void normalize();
-			double* data();
-			bool isZero();
+			double* data() const;
+			bool isZero() const;
 
-			double getX();
-			double getY();
-			glm::dvec2 getMVec();
-			DVec2 getNormalized();
+			double getX() const;
+			double getY() const;
+			glm::dvec2 getMVec() const;
+			DVec2 getNormalized() const;
 
 			void setX(double x);
 			void setY(double y);
@@ -199,10 +211,14 @@ namespace Onyx
 			friend bool operator==(const DVec2& vec1, const DVec2& vec2);
 			friend bool operator!=(const DVec2& vec1, const DVec2& vec2);
 
-			DVec2 operator+(const DVec2& vec);
-			DVec2 operator-();
-			DVec2 operator-(const DVec2& vec);
-			DVec2 operator*(const double& scalar);
+			void operator=(const DVec2& vec);
+			DVec2 operator+(const DVec2& vec) const;
+			void operator+=(const DVec2& vec);
+			DVec2 operator-() const;
+			DVec2 operator-(const DVec2& vec) const;
+			void operator-=(const DVec2& vec);
+			DVec2 operator*(const double& scalar) const;
+			void operator*=(const double& scalar);
 
 		private:
 			glm::dvec2 m_vec;
@@ -221,16 +237,16 @@ namespace Onyx
 			DVec3(DVec2 vec, double z);
 			DVec3(double x, DVec2 vec);
 
-			double magnitude();
+			double magnitude() const;
 			void normalize();
-			double* data();
-			bool isZero();
+			double* data() const;
+			bool isZero() const;
 
-			double getX();
-			double getY();
-			double getZ();
-			glm::dvec3 getMVec();
-			DVec3 getNormalized();
+			double getX() const;
+			double getY() const;
+			double getZ() const;
+			glm::dvec3 getMVec() const;
+			DVec3 getNormalized() const;
 
 			void setX(double x);
 			void setY(double y);
@@ -242,10 +258,14 @@ namespace Onyx
 			friend bool operator==(const DVec3& vec1, const DVec3& vec2);
 			friend bool operator!=(const DVec3& vec1, const DVec3& vec2);
 
-			DVec3 operator+(const DVec3& vec);
-			DVec3 operator-();
-			DVec3 operator-(const DVec3& vec);
-			DVec3 operator*(const double& scalar);
+			void operator=(const DVec3& vec);
+			DVec3 operator+(const DVec3& vec) const;
+			void operator+=(const DVec3& vec);
+			DVec3 operator-() const;
+			DVec3 operator-(const DVec3& vec) const;
+			void operator-=(const DVec3& vec);
+			DVec3 operator*(const double& scalar) const;
+			void operator*=(const double& scalar);
 
 		private:
 			glm::dvec3 m_vec;
@@ -268,17 +288,17 @@ namespace Onyx
 			DVec4(double x, DVec3 vec);
 			DVec4(DVec2 vec1, DVec2 vec2);
 
-			double magnitude();
+			double magnitude() const;
 			void normalize();
-			double* data();
-			bool isZero();
+			double* data() const;
+			bool isZero() const;
 
-			double getX();
-			double getY();
-			double getZ();
-			double getW();
-			glm::dvec4 getMVec();
-			DVec4 getNormalized();
+			double getX() const;
+			double getY() const;
+			double getZ() const;
+			double getW() const;
+			glm::dvec4 getMVec() const;
+			DVec4 getNormalized() const;
 
 			void setX(double x);
 			void setY(double y);
@@ -290,10 +310,14 @@ namespace Onyx
 			friend bool operator==(const DVec4& vec1, const DVec4& vec2);
 			friend bool operator!=(const DVec4& vec1, const DVec4& vec2);
 
-			DVec4 operator+(const DVec4& vec);
-			DVec4 operator-();
-			DVec4 operator-(const DVec4& vec);
-			DVec4 operator*(const double& scalar);
+			void operator=(const DVec4& vec);
+			DVec4 operator+(const DVec4& vec) const;
+			void operator+=(const DVec4& vec);
+			DVec4 operator-() const;
+			DVec4 operator-(const DVec4& vec) const;
+			void operator-=(const DVec4& vec);
+			DVec4 operator*(const double& scalar) const;
+			void operator*=(const double& scalar);
 
 		private:
 			glm::dvec4 m_vec;
@@ -315,12 +339,12 @@ namespace Onyx
 			IVec2(int x, int y);
 			IVec2(glm::ivec2 vec);
 
-			int* data();
-			bool isZero();
+			int* data() const;
+			bool isZero() const;
 
-			int getX();
-			int getY();
-			glm::ivec2 getMVec();
+			int getX() const;
+			int getY() const;
+			glm::ivec2 getMVec() const;
 
 			void setX(int x);
 			void setY(int y);
@@ -328,10 +352,14 @@ namespace Onyx
 			friend bool operator==(const IVec2& vec1, const IVec2& vec2);
 			friend bool operator!=(const IVec2& vec1, const IVec2& vec2);
 
-			IVec2 operator+(const IVec2& vec);
-			IVec2 operator-();
-			IVec2 operator-(const IVec2& vec);
-			IVec2 operator*(const int& scalar);
+			void operator=(const IVec2& vec);
+			IVec2 operator+(const IVec2& vec) const;
+			void operator+=(const IVec2& vec);
+			IVec2 operator-() const;
+			IVec2 operator-(const IVec2& vec) const;
+			void operator-=(const IVec2& vec);
+			IVec2 operator*(const int& scalar) const;
+			void operator*=(const int& scalar);
 
 		private:
 			glm::ivec2 m_vec;
@@ -350,13 +378,13 @@ namespace Onyx
 			IVec3(IVec2 vec, int z);
 			IVec3(int x, IVec2 vec);
 
-			int* data();
-			bool isZero();
+			int* data() const;
+			bool isZero() const;
 
-			int getX();
-			int getY();
-			int getZ();
-			glm::ivec3 getMVec();
+			int getX() const;
+			int getY() const;
+			int getZ() const;
+			glm::ivec3 getMVec() const;
 
 			void setX(int x);
 			void setY(int y);
@@ -365,10 +393,14 @@ namespace Onyx
 			friend bool operator==(const IVec3& vec1, const IVec3& vec2);
 			friend bool operator!=(const IVec3& vec1, const IVec3& vec2);
 
-			IVec3 operator+(const IVec3& vec);
-			IVec3 operator-();
-			IVec3 operator-(const IVec3& vec);
-			IVec3 operator*(const int& scalar);
+			void operator=(const IVec3& vec);
+			IVec3 operator+(const IVec3& vec) const;
+			void operator+=(const IVec3& vec);
+			IVec3 operator-() const;
+			IVec3 operator-(const IVec3& vec) const;
+			void operator-=(const IVec3& vec);
+			IVec3 operator*(const int& scalar) const;
+			void operator*=(const int& scalar);
 
 		private:
 			glm::ivec3 m_vec;
@@ -391,14 +423,14 @@ namespace Onyx
 			IVec4(int x, IVec3 vec);
 			IVec4(IVec2 vec1, IVec2 vec2);
 
-			int* data();
-			bool isZero();
+			int* data() const;
+			bool isZero() const;
 
-			int getX();
-			int getY();
-			int getZ();
-			int getW();
-			glm::ivec4 getMVec();
+			int getX() const;
+			int getY() const;
+			int getZ() const;
+			int getW() const;
+			glm::ivec4 getMVec() const;
 
 			void setX(int x);
 			void setY(int y);
@@ -408,10 +440,14 @@ namespace Onyx
 			friend bool operator==(const IVec4& vec1, const IVec4& vec2);
 			friend bool operator!=(const IVec4& vec1, const IVec4& vec2);
 
-			IVec4 operator+(const IVec4& vec);
-			IVec4 operator-();
-			IVec4 operator-(const IVec4& vec);
-			IVec4 operator*(const int& scalar);
+			void operator=(const IVec4& vec);
+			IVec4 operator+(const IVec4& vec) const;
+			void operator+=(const IVec4& vec);
+			IVec4 operator-() const;
+			IVec4 operator-(const IVec4& vec) const;
+			void operator-=(const IVec4& vec);
+			IVec4 operator*(const int& scalar) const;
+			void operator*=(const int& scalar);
 
 		private:
 			glm::ivec4 m_vec;
@@ -496,10 +532,7 @@ namespace Onyx
 		/*
 			@brief A parent class for matrices.
 		 */
-		class Mat
-		{
-			virtual float* data() = 0;
-		};
+		class Mat {};
 
 		/*
 			@brief A matrix with dimensions 2x2
@@ -511,12 +544,16 @@ namespace Onyx
 			Mat2x2(float scalar);
 			Mat2x2(glm::mat2x2 mat);
 
-			glm::mat2x2 getMMat();
+			glm::mat2x2 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat2x2 operator+(const Mat2x2& mat);
-			Mat2x2 operator-(const Mat2x2& mat);
+			void operator=(const Mat2x2& mat);
+			Mat2x2 operator+(const Mat2x2& mat) const;
+			void operator+=(const Mat2x2& mat);
+			Mat2x2 operator-() const;
+			Mat2x2 operator-(const Mat2x2& mat) const;
+			void operator-=(const Mat2x2& mat);
 
 			static Mat2x2 Identity();
 
@@ -534,12 +571,16 @@ namespace Onyx
 			Mat2x3(float scalar);
 			Mat2x3(glm::mat2x3 mat);
 
-			glm::mat2x3 getMMat();
+			glm::mat2x3 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat2x3 operator+(const Mat2x3& mat);
-			Mat2x3 operator-(const Mat2x3& mat);
+			void operator=(const Mat2x3& mat);
+			Mat2x3 operator+(const Mat2x3& mat) const;
+			void operator+=(const Mat2x3& mat);
+			Mat2x3 operator-() const;
+			Mat2x3 operator-(const Mat2x3& mat) const;
+			void operator-=(const Mat2x3& mat);
 
 			static Mat2x3 Identity();
 
@@ -557,12 +598,16 @@ namespace Onyx
 			Mat2x4(float scalar);
 			Mat2x4(glm::mat2x4 mat);
 
-			glm::mat2x4 getMMat();
+			glm::mat2x4 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat2x4 operator+(const Mat2x4& mat);
-			Mat2x4 operator-(const Mat2x4& mat);
+			void operator=(const Mat2x4& mat);
+			Mat2x4 operator+(const Mat2x4& mat) const;
+			void operator+=(const Mat2x4& mat);
+			Mat2x4 operator-() const;
+			Mat2x4 operator-(const Mat2x4& mat) const;
+			void operator-=(const Mat2x4& mat);
 
 			static Mat2x4 Identity();
 
@@ -580,12 +625,16 @@ namespace Onyx
 			Mat3x2(float scalar);
 			Mat3x2(glm::mat3x2 mat);
 
-			glm::mat3x2 getMMat();
+			glm::mat3x2 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat3x2 operator+(const Mat3x2& mat);
-			Mat3x2 operator-(const Mat3x2& mat);
+			void operator=(const Mat3x2& mat);
+			Mat3x2 operator+(const Mat3x2& mat) const;
+			void operator+=(const Mat3x2& mat);
+			Mat3x2 operator-() const;
+			Mat3x2 operator-(const Mat3x2& mat) const;
+			void operator-=(const Mat3x2& mat);
 
 			static Mat3x2 Identity();
 
@@ -603,12 +652,16 @@ namespace Onyx
 			Mat3x3(float scalar);
 			Mat3x3(glm::mat3x3 mat);
 
-			glm::mat3x3 getMMat();
+			glm::mat3x3 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat3x3 operator+(const Mat3x3& mat);
-			Mat3x3 operator-(const Mat3x3& mat);
+			void operator=(const Mat3x3& mat);
+			Mat3x3 operator+(const Mat3x3& mat) const;
+			void operator+=(const Mat3x3& mat);
+			Mat3x3 operator-() const;
+			Mat3x3 operator-(const Mat3x3& mat) const;
+			void operator-=(const Mat3x3& mat);
 
 			static Mat3x3 Identity();
 
@@ -626,12 +679,16 @@ namespace Onyx
 			Mat3x4(float scalar);
 			Mat3x4(glm::mat3x4 mat);
 
-			glm::mat3x4 getMMat();
+			glm::mat3x4 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat3x4 operator+(const Mat3x4& mat);
-			Mat3x4 operator-(const Mat3x4& mat);
+			void operator=(const Mat3x4& mat);
+			Mat3x4 operator+(const Mat3x4& mat) const;
+			void operator+=(const Mat3x4& mat);
+			Mat3x4 operator-() const;
+			Mat3x4 operator-(const Mat3x4& mat) const;
+			void operator-=(const Mat3x4& mat);
 
 			static Mat3x4 Identity();
 
@@ -649,12 +706,16 @@ namespace Onyx
 			Mat4x2(float scalar);
 			Mat4x2(glm::mat4x2 mat);
 
-			glm::mat4x2 getMMat();
+			glm::mat4x2 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat4x2 operator+(const Mat4x2& mat);
-			Mat4x2 operator-(const Mat4x2& mat);
+			void operator=(const Mat4x2& mat);
+			Mat4x2 operator+(const Mat4x2& mat) const;
+			void operator+=(const Mat4x2& mat);
+			Mat4x2 operator-() const;
+			Mat4x2 operator-(const Mat4x2& mat) const;
+			void operator-=(const Mat4x2& mat);
 
 			static Mat4x2 Identity();
 
@@ -672,12 +733,16 @@ namespace Onyx
 			Mat4x3(float scalar);
 			Mat4x3(glm::mat4x3 mat);
 
-			glm::mat4x3 getMMat();
+			glm::mat4x3 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat4x3 operator+(const Mat4x3& mat);
-			Mat4x3 operator-(const Mat4x3& mat);
+			void operator=(const Mat4x3& mat);
+			Mat4x3 operator+(const Mat4x3& mat) const;
+			void operator+=(const Mat4x3& mat);
+			Mat4x3 operator-() const;
+			Mat4x3 operator-(const Mat4x3& mat) const;
+			void operator-=(const Mat4x3& mat);
 
 			static Mat4x3 Identity();
 
@@ -699,12 +764,16 @@ namespace Onyx
 			void rotate(float degrees, Vec3 xyzMultiplier);
 			void scale(Vec3 xyzMultiplier);
 
-			glm::mat4x4 getMMat();
+			glm::mat4x4 getMMat() const;
 
-			float* data();
+			float* data() const;
 
-			Mat4x4 operator+(const Mat4x4& mat);
-			Mat4x4 operator-(const Mat4x4& mat);
+			void operator=(const Mat4x4& mat);
+			Mat4x4 operator+(const Mat4x4& mat) const;
+			void operator+=(const Mat4x4& mat);
+			Mat4x4 operator-() const;
+			Mat4x4 operator-(const Mat4x4& mat) const;
+			void operator-=(const Mat4x4& mat);
 
 			static Mat4x4 Identity();
 
@@ -712,27 +781,32 @@ namespace Onyx
 			glm::mat4x4 m_mat;
 		};
 
-		Mat2x2 operator*(Mat2x2& mat1, Mat2x2& mat2);
-		Mat2x2 operator*(Mat2x3& mat1, Mat3x2& mat2);
-		Mat2x2 operator*(Mat2x4& mat1, Mat4x2& mat2);
+		Mat2x2 operator*(const Mat2x2& mat1, const Mat2x2& mat2);
+		Mat2x2 operator*(const Mat2x3& mat1, const Mat3x2& mat2);
+		Mat2x2 operator*(const Mat2x4& mat1, const Mat4x2& mat2);
 
-		Mat3x3 operator*(Mat3x2& mat1, Mat2x3& mat2);
-		Mat3x3 operator*(Mat3x3& mat1, Mat3x3& mat2);
-		Mat3x3 operator*(Mat3x4& mat1, Mat4x3& mat2);
+		Mat3x3 operator*(const Mat3x2& mat1, const Mat2x3& mat2);
+		Mat3x3 operator*(const Mat3x3& mat1, const Mat3x3& mat2);
+		Mat3x3 operator*(const Mat3x4& mat1, const Mat4x3& mat2);
 
-		Mat4x4 operator*(Mat4x2& mat1, Mat2x4& mat2);
-		Mat4x4 operator*(Mat4x3& mat1, Mat3x4& mat2);
-		Mat4x4 operator*(Mat4x4& mat1, Mat4x4& mat2);
+		Mat4x4 operator*(const Mat4x2& mat1, const Mat2x4& mat2);
+		Mat4x4 operator*(const Mat4x3& mat1, const Mat3x4& mat2);
+		Mat4x4 operator*(const Mat4x4& mat1, const Mat4x4& mat2);
 
 
-		Vec2 operator*(Mat2x2& mat, Vec2& vec);
-		Vec2 operator*(Mat2x3& mat, Vec3& vec);
-		Vec2 operator*(Mat2x4& mat, Vec4& vec);
+		Vec2 operator*(const Mat2x2& mat, const Vec2& vec);
+		Vec2 operator*(const Mat2x3& mat, const Vec3& vec);
+		Vec2 operator*(const Mat2x4& mat, const Vec4& vec);
 
-		Vec3 operator*(Mat3x3& mat, Vec3& vec);
-		Vec3 operator*(Mat3x4& mat, Vec4& vec);
+		Vec3 operator*(const Mat3x3& mat, const Vec3& vec);
+		Vec3 operator*(const Mat3x4& mat, const Vec4& vec);
 
-		Vec4 operator*(Mat4x4& mat, Vec4& vec);
+		Vec4 operator*(const Mat4x4& mat, const Vec4& vec);
+
+
+		Mat4x4 LookAt(const Vec3& pos, const Vec3& target, const Vec3& up);
+		Mat4x4 OrthographicProjection(float left, float right, float top, float bottom);
+		Mat4x4 PerspectiveProjection(float fov, float aspectRatio, float nearPlane, float farPlane);
 
 		/*
 			@brief A matrix with dimensions 2x2
@@ -748,9 +822,5 @@ namespace Onyx
 			@brief A matrix with dimensions 4x4
 		 */
 		typedef Mat4x4 Mat4;
-
-		Mat4x4 LookAt(Vec3 pos, Vec3 target, Vec3 up);
-		Mat4x4 OrthographicProjection(float left, float right, float top, float bottom);
-		Mat4x4 PerspectiveProjection(float fov, float aspectRatio, float nearPlane, float farPlane);
 	}
 }

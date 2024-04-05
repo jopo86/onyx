@@ -30,7 +30,7 @@ Onyx::Math::Vec2::Vec2(glm::vec2 vec)
 	m_vec = vec;
 }
 
-float Onyx::Math::Vec2::magnitude()
+float Onyx::Math::Vec2::magnitude() const
 {
 	return glm::length(m_vec);
 }
@@ -40,32 +40,32 @@ void Onyx::Math::Vec2::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-float* Onyx::Math::Vec2::data()
+float* Onyx::Math::Vec2::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (float*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::Vec2::isZero()
+bool Onyx::Math::Vec2::isZero() const
 {
 	return getX() == 0.0f && getY() == 0.0f;
 }
 
-float Onyx::Math::Vec2::getX()
+float Onyx::Math::Vec2::getX() const
 {
 	return m_vec.x;
 }
 
-float Onyx::Math::Vec2::getY()
+float Onyx::Math::Vec2::getY() const
 {
 	return m_vec.y;
 }
 
-glm::vec2 Onyx::Math::Vec2::getMVec()
+glm::vec2 Onyx::Math::Vec2::getMVec() const
 {
 	return m_vec;
 }
 
-Onyx::Math::Vec2 Onyx::Math::Vec2::getNormalized()
+Onyx::Math::Vec2 Onyx::Math::Vec2::getNormalized() const
 {
 	return Vec2(glm::normalize(m_vec));
 }
@@ -80,24 +80,45 @@ void Onyx::Math::Vec2::setY(float y)
 	m_vec.y = y;
 }
 
-Onyx::Math::Vec2 Onyx::Math::Vec2::operator+(const Vec2& vec)
+void Onyx::Math::Vec2::operator=(const Vec2& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+}
+
+Onyx::Math::Vec2 Onyx::Math::Vec2::operator+(const Vec2& vec) const
 {
 	return Vec2(m_vec + vec.m_vec);
 }
 
-Onyx::Math::Vec2 Onyx::Math::Vec2::operator-()
+void Onyx::Math::Vec2::operator+=(const Vec2& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::Vec2 Onyx::Math::Vec2::operator-() const
 {
 	return Vec2(-m_vec);
 }
 
-Onyx::Math::Vec2 Onyx::Math::Vec2::operator-(const Vec2& vec)
+Onyx::Math::Vec2 Onyx::Math::Vec2::operator-(const Vec2& vec) const
 {
 	return Vec2(m_vec - vec.m_vec);
 }
 
-Onyx::Math::Vec2 Onyx::Math::Vec2::operator*(const float& scalar)
+void Onyx::Math::Vec2::operator-=(const Vec2& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::Vec2 Onyx::Math::Vec2::operator*(const float& scalar) const
 {
 	return Vec2(m_vec * scalar);
+}
+
+void Onyx::Math::Vec2::operator*=(const float& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::Vec3::Vec3()
@@ -130,7 +151,7 @@ Onyx::Math::Vec3::Vec3(float x, Vec2 vec)
 	m_vec = glm::vec3(x, vec.getMVec());
 }
 
-float Onyx::Math::Vec3::magnitude()
+float Onyx::Math::Vec3::magnitude() const
 {
 	return glm::length(m_vec);
 }
@@ -140,37 +161,37 @@ void Onyx::Math::Vec3::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-float* Onyx::Math::Vec3::data()
+float* Onyx::Math::Vec3::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (float*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::Vec3::isZero()
+bool Onyx::Math::Vec3::isZero() const
 {
 	return getX() == 0.0f && getY() == 0.0f && getZ() == 0.0f;
 }
 
-float Onyx::Math::Vec3::getX()
+float Onyx::Math::Vec3::getX() const
 {
 	return m_vec.x;
 }
 
-float Onyx::Math::Vec3::getY()
+float Onyx::Math::Vec3::getY() const
 {
 	return m_vec.y;
 }
 
-float Onyx::Math::Vec3::getZ()
+float Onyx::Math::Vec3::getZ() const
 {
 	return m_vec.z;
 }
 
-glm::vec3 Onyx::Math::Vec3::getMVec()
+glm::vec3 Onyx::Math::Vec3::getMVec() const
 {
 	return m_vec;
 }
 
-Onyx::Math::Vec3 Onyx::Math::Vec3::getNormalized()
+Onyx::Math::Vec3 Onyx::Math::Vec3::getNormalized() const
 {
 	return Vec3(glm::normalize(m_vec));
 }
@@ -190,24 +211,46 @@ void Onyx::Math::Vec3::setZ(float z)
 	m_vec.z = z;
 }
 
-Onyx::Math::Vec3 Onyx::Math::Vec3::operator+(const Vec3& vec)
+void Onyx::Math::Vec3::operator=(const Vec3& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+	m_vec.z = vec.getZ();
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::operator+(const Vec3& vec) const
 {
 	return Vec3(m_vec + vec.m_vec);
 }
 
-Onyx::Math::Vec3 Onyx::Math::Vec3::operator-()
+void Onyx::Math::Vec3::operator+=(const Vec3& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::operator-() const
 {
 	return Vec3(-m_vec);
 }
 
-Onyx::Math::Vec3 Onyx::Math::Vec3::operator-(const Vec3& vec)
+Onyx::Math::Vec3 Onyx::Math::Vec3::operator-(const Vec3& vec) const
 {
 	return Vec3(m_vec - vec.m_vec);
 }
 
-Onyx::Math::Vec3 Onyx::Math::Vec3::operator*(const float& scalar)
+void Onyx::Math::Vec3::operator-=(const Vec3& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::operator*(const float& scalar) const
 {
 	return Vec3(m_vec * scalar);
+}
+
+void Onyx::Math::Vec3::operator*=(const float& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::Vec4::Vec4()
@@ -260,7 +303,7 @@ Onyx::Math::Vec4::Vec4(Vec2 vec1, Vec2 vec2)
 	m_vec = glm::vec4(vec1.getMVec(), vec2.getMVec());
 }
 
-float Onyx::Math::Vec4::magnitude()
+float Onyx::Math::Vec4::magnitude() const
 {
 	return glm::length(m_vec);
 }
@@ -270,42 +313,42 @@ void Onyx::Math::Vec4::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-float* Onyx::Math::Vec4::data()
+float* Onyx::Math::Vec4::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (float*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::Vec4::isZero()
+bool Onyx::Math::Vec4::isZero() const
 {
 	return getX() == 0.0f && getY() == 0.0f && getZ() == 0.0f && getW() == 0.0f;
 }
 
-float Onyx::Math::Vec4::getX()
+float Onyx::Math::Vec4::getX() const
 {
 	return m_vec.x;
 }
 
-float Onyx::Math::Vec4::getY()
+float Onyx::Math::Vec4::getY() const
 {
 	return m_vec.y;
 }
 
-float Onyx::Math::Vec4::getZ()
+float Onyx::Math::Vec4::getZ() const
 {
 	return m_vec.z;
 }
 
-float Onyx::Math::Vec4::getW()
+float Onyx::Math::Vec4::getW() const
 {
 	return m_vec.w;
 }
 
-glm::vec4 Onyx::Math::Vec4::getMVec()
+glm::vec4 Onyx::Math::Vec4::getMVec() const
 {
 	return m_vec;
 }
 
-Onyx::Math::Vec4 Onyx::Math::Vec4::getNormalized()
+Onyx::Math::Vec4 Onyx::Math::Vec4::getNormalized() const
 {
 	return Vec4(glm::normalize(m_vec));
 }
@@ -330,24 +373,47 @@ void Onyx::Math::Vec4::setW(float w)
 	m_vec.w = w;
 }
 
-Onyx::Math::Vec4 Onyx::Math::Vec4::operator+(const Vec4& vec)
+void Onyx::Math::Vec4::operator=(const Vec4& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+	m_vec.z = vec.getZ();
+	m_vec.w = vec.getW();
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::operator+(const Vec4& vec) const
 {
 	return Vec4(m_vec + vec.m_vec);
 }
 
-Onyx::Math::Vec4 Onyx::Math::Vec4::operator-()
+void Onyx::Math::Vec4::operator+=(const Vec4& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::operator-() const
 {
 	return Vec4(-m_vec);
 }
 
-Onyx::Math::Vec4 Onyx::Math::Vec4::operator-(const Vec4& vec)
+Onyx::Math::Vec4 Onyx::Math::Vec4::operator-(const Vec4& vec) const
 {
 	return Vec4(m_vec - vec.m_vec);
 }
 
-Onyx::Math::Vec4 Onyx::Math::Vec4::operator*(const float& scalar)
+void Onyx::Math::Vec4::operator-=(const Vec4& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::operator*(const float& scalar) const
 {
 	return Vec4(m_vec * scalar);
+}
+
+void Onyx::Math::Vec4::operator*=(const float& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::DVec2::DVec2()
@@ -370,7 +436,7 @@ Onyx::Math::DVec2::DVec2(glm::dvec2 vec)
 	m_vec = vec;
 }
 
-double Onyx::Math::DVec2::magnitude()
+double Onyx::Math::DVec2::magnitude() const
 {
 	return glm::length(m_vec);
 }
@@ -380,32 +446,32 @@ void Onyx::Math::DVec2::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-double* Onyx::Math::DVec2::data()
+double* Onyx::Math::DVec2::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (double*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::DVec2::isZero()
+bool Onyx::Math::DVec2::isZero() const
 {
 	return getX() == 0.0 && getY() == 0.0;
 }
 
-double Onyx::Math::DVec2::getX()
+double Onyx::Math::DVec2::getX() const
 {
 	return m_vec.x;
 }
 
-double Onyx::Math::DVec2::getY()
+double Onyx::Math::DVec2::getY() const
 {
 	return m_vec.y;
 }
 
-glm::dvec2 Onyx::Math::DVec2::getMVec()
+glm::dvec2 Onyx::Math::DVec2::getMVec() const
 {
 	return m_vec;
 }
 
-Onyx::Math::DVec2 Onyx::Math::DVec2::getNormalized()
+Onyx::Math::DVec2 Onyx::Math::DVec2::getNormalized() const
 {
 	return DVec2(glm::normalize(m_vec));
 }
@@ -420,24 +486,45 @@ void Onyx::Math::DVec2::setY(double y)
 	m_vec.y = y;
 }
 
-Onyx::Math::DVec2 Onyx::Math::DVec2::operator+(const DVec2& vec)
+void Onyx::Math::DVec2::operator=(const DVec2& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+}
+
+Onyx::Math::DVec2 Onyx::Math::DVec2::operator+(const DVec2& vec) const
 {
 	return DVec2(m_vec + vec.m_vec);
 }
 
-Onyx::Math::DVec2 Onyx::Math::DVec2::operator-()
+void Onyx::Math::DVec2::operator+=(const DVec2& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::DVec2 Onyx::Math::DVec2::operator-() const
 {
 	return DVec2(-m_vec);
 }
 
-Onyx::Math::DVec2 Onyx::Math::DVec2::operator-(const DVec2& vec)
+Onyx::Math::DVec2 Onyx::Math::DVec2::operator-(const DVec2& vec) const
 {
 	return DVec2(m_vec - vec.m_vec);
 }
 
-Onyx::Math::DVec2 Onyx::Math::DVec2::operator*(const double& scalar)
+void Onyx::Math::DVec2::operator-=(const DVec2& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::DVec2 Onyx::Math::DVec2::operator*(const double& scalar) const
 {
 	return DVec2(m_vec * scalar);
+}
+
+void Onyx::Math::DVec2::operator*=(const double& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::DVec3::DVec3()
@@ -470,7 +557,7 @@ Onyx::Math::DVec3::DVec3(double x, DVec2 vec)
 	m_vec = glm::dvec3(x, vec.getMVec());
 }
 
-double Onyx::Math::DVec3::magnitude()
+double Onyx::Math::DVec3::magnitude() const
 {
 	return glm::length(m_vec);
 }
@@ -480,37 +567,37 @@ void Onyx::Math::DVec3::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-double* Onyx::Math::DVec3::data()
+double* Onyx::Math::DVec3::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (double*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::DVec3::isZero()
+bool Onyx::Math::DVec3::isZero() const
 {
 	return getX() == 0.0 && getY() == 0.0 && getZ() == 0.0;
 }
 
-double Onyx::Math::DVec3::getX()
+double Onyx::Math::DVec3::getX() const
 {
 	return m_vec.x;
 }
 
-double Onyx::Math::DVec3::getY()
+double Onyx::Math::DVec3::getY() const
 {
 	return m_vec.y;
 }
 
-double Onyx::Math::DVec3::getZ()
+double Onyx::Math::DVec3::getZ() const
 {
 	return m_vec.z;
 }
 
-glm::dvec3 Onyx::Math::DVec3::getMVec()
+glm::dvec3 Onyx::Math::DVec3::getMVec() const
 {
 	return m_vec;
 }
 
-Onyx::Math::DVec3 Onyx::Math::DVec3::getNormalized()
+Onyx::Math::DVec3 Onyx::Math::DVec3::getNormalized() const
 {
 	return DVec3(glm::normalize(m_vec));
 }
@@ -530,24 +617,46 @@ void Onyx::Math::DVec3::setZ(double z)
 	m_vec.z = z;
 }
 
-Onyx::Math::DVec3 Onyx::Math::DVec3::operator+(const DVec3& vec)
+void Onyx::Math::DVec3::operator=(const DVec3& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+	m_vec.z = vec.getZ();
+}
+
+Onyx::Math::DVec3 Onyx::Math::DVec3::operator+(const DVec3& vec) const
 {
 	return DVec3(m_vec + vec.m_vec);
 }
 
-Onyx::Math::DVec3 Onyx::Math::DVec3::operator-()
+void Onyx::Math::DVec3::operator+=(const DVec3& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::DVec3 Onyx::Math::DVec3::operator-() const
 {
 	return DVec3(-m_vec);
 }
 
-Onyx::Math::DVec3 Onyx::Math::DVec3::operator-(const DVec3& vec)
+Onyx::Math::DVec3 Onyx::Math::DVec3::operator-(const DVec3& vec) const
 {
 	return DVec3(m_vec - vec.m_vec);
 }
 
-Onyx::Math::DVec3 Onyx::Math::DVec3::operator*(const double& scalar)
+void Onyx::Math::DVec3::operator-=(const DVec3& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::DVec3 Onyx::Math::DVec3::operator*(const double& scalar) const
 {
 	return DVec3(m_vec * scalar);
+}
+
+void Onyx::Math::DVec3::operator*=(const double& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::DVec4::DVec4()
@@ -600,7 +709,7 @@ Onyx::Math::DVec4::DVec4(DVec2 vec1, DVec2 vec2)
 	m_vec = glm::dvec4(vec1.getMVec(), vec2.getMVec());
 }
 
-double Onyx::Math::DVec4::magnitude()
+double Onyx::Math::DVec4::magnitude() const
 {
 	return glm::length(m_vec);
 }
@@ -610,42 +719,42 @@ void Onyx::Math::DVec4::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-double* Onyx::Math::DVec4::data()
+double* Onyx::Math::DVec4::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (double*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::DVec4::isZero()
+bool Onyx::Math::DVec4::isZero() const
 {
 	return getX() == 0.0 && getY() == 0.0 && getZ() == 0.0 && getW() == 0.0;
 }
 
-double Onyx::Math::DVec4::getX()
+double Onyx::Math::DVec4::getX() const
 {
 	return m_vec.x;
 }
 
-double Onyx::Math::DVec4::getY()
+double Onyx::Math::DVec4::getY() const
 {
 	return m_vec.y;
 }
 
-double Onyx::Math::DVec4::getZ()
+double Onyx::Math::DVec4::getZ() const
 {
 	return m_vec.z;
 }
 
-double Onyx::Math::DVec4::getW()
+double Onyx::Math::DVec4::getW() const
 {
 	return m_vec.w;
 }
 
-glm::dvec4 Onyx::Math::DVec4::getMVec()
+glm::dvec4 Onyx::Math::DVec4::getMVec() const
 {
 	return m_vec;
 }
 
-Onyx::Math::DVec4 Onyx::Math::DVec4::getNormalized()
+Onyx::Math::DVec4 Onyx::Math::DVec4::getNormalized() const
 {
 	return DVec4(glm::normalize(m_vec));
 }
@@ -670,24 +779,47 @@ void Onyx::Math::DVec4::setW(double w)
 	m_vec.w = w;
 }
 
-Onyx::Math::DVec4 Onyx::Math::DVec4::operator+(const DVec4& vec)
+void Onyx::Math::DVec4::operator=(const DVec4& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+	m_vec.z = vec.getZ();
+	m_vec.w = vec.getW();
+}
+
+Onyx::Math::DVec4 Onyx::Math::DVec4::operator+(const DVec4& vec) const
 {
 	return DVec4(m_vec + vec.m_vec);
 }
 
-Onyx::Math::DVec4 Onyx::Math::DVec4::operator-()
+void Onyx::Math::DVec4::operator+=(const DVec4& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::DVec4 Onyx::Math::DVec4::operator-() const
 {
 	return DVec4(-m_vec);
 }
 
-Onyx::Math::DVec4 Onyx::Math::DVec4::operator-(const DVec4& vec)
+Onyx::Math::DVec4 Onyx::Math::DVec4::operator-(const DVec4& vec) const
 {
 	return DVec4(m_vec - vec.m_vec);
 }
 
-Onyx::Math::DVec4 Onyx::Math::DVec4::operator*(const double& scalar)
+void Onyx::Math::DVec4::operator-=(const DVec4& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::DVec4 Onyx::Math::DVec4::operator*(const double& scalar) const
 {
 	return DVec4(m_vec * scalar);
+}
+
+void Onyx::Math::DVec4::operator*=(const double& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::IVec2::IVec2()
@@ -710,27 +842,27 @@ Onyx::Math::IVec2::IVec2(glm::ivec2 vec)
 	m_vec = vec;
 }
 
-int* Onyx::Math::IVec2::data()
+int* Onyx::Math::IVec2::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (int*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::IVec2::isZero()
+bool Onyx::Math::IVec2::isZero() const
 {
 	return getX() == 0 && getY() == 0;
 }
 
-int Onyx::Math::IVec2::getX()
+int Onyx::Math::IVec2::getX() const
 {
 	return m_vec.x;
 }
 
-int Onyx::Math::IVec2::getY()
+int Onyx::Math::IVec2::getY() const
 {
 	return m_vec.y;
 }
 
-glm::ivec2 Onyx::Math::IVec2::getMVec()
+glm::ivec2 Onyx::Math::IVec2::getMVec() const
 {
 	return m_vec;
 }
@@ -745,24 +877,45 @@ void Onyx::Math::IVec2::setY(int y)
 	m_vec.y = y;
 }
 
-Onyx::Math::IVec2 Onyx::Math::IVec2::operator+(const IVec2& vec)
+void Onyx::Math::IVec2::operator=(const IVec2& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+}
+
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator+(const IVec2& vec) const
 {
 	return IVec2(m_vec + vec.m_vec);
 }
 
-Onyx::Math::IVec2 Onyx::Math::IVec2::operator-()
+void Onyx::Math::IVec2::operator+=(const IVec2& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator-() const
 {
 	return IVec2(-m_vec);
 }
 
-Onyx::Math::IVec2 Onyx::Math::IVec2::operator-(const IVec2& vec)
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator-(const IVec2& vec) const
 {
 	return IVec2(m_vec - vec.m_vec);
 }
 
-Onyx::Math::IVec2 Onyx::Math::IVec2::operator*(const int& scalar)
+void Onyx::Math::IVec2::operator-=(const IVec2& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator*(const int& scalar) const
 {
 	return IVec2(m_vec * scalar);
+}
+
+void Onyx::Math::IVec2::operator*=(const int& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::IVec3::IVec3()
@@ -795,32 +948,32 @@ Onyx::Math::IVec3::IVec3(int x, IVec2 vec)
 	m_vec = glm::ivec3(x, vec.getMVec());
 }
 
-int* Onyx::Math::IVec3::data()
+int* Onyx::Math::IVec3::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (int*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::IVec3::isZero()
+bool Onyx::Math::IVec3::isZero() const
 {
 	return getX() == 0 && getY() == 0 && getZ() == 0;
 }
 
-int Onyx::Math::IVec3::getX()
+int Onyx::Math::IVec3::getX() const
 {
 	return m_vec.x;
 }
 
-int Onyx::Math::IVec3::getY()
+int Onyx::Math::IVec3::getY() const
 {
 	return m_vec.y;
 }
 
-int Onyx::Math::IVec3::getZ()
+int Onyx::Math::IVec3::getZ() const
 {
 	return m_vec.z;
 }
 
-glm::ivec3 Onyx::Math::IVec3::getMVec()
+glm::ivec3 Onyx::Math::IVec3::getMVec() const
 {
 	return m_vec;
 }
@@ -840,24 +993,46 @@ void Onyx::Math::IVec3::setZ(int z)
 	m_vec.z = z;
 }
 
-Onyx::Math::IVec3 Onyx::Math::IVec3::operator+(const IVec3& vec)
+void Onyx::Math::IVec3::operator=(const IVec3& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+	m_vec.z = vec.getZ();
+}
+
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator+(const IVec3& vec) const
 {
 	return IVec3(m_vec + vec.m_vec);
 }
 
-Onyx::Math::IVec3 Onyx::Math::IVec3::operator-()
+void Onyx::Math::IVec3::operator+=(const IVec3& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator-() const
 {
 	return IVec3(-m_vec);
 }
 
-Onyx::Math::IVec3 Onyx::Math::IVec3::operator-(const IVec3& vec)
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator-(const IVec3& vec) const
 {
 	return IVec3(m_vec - vec.m_vec);
 }
 
-Onyx::Math::IVec3 Onyx::Math::IVec3::operator*(const int& scalar)
+void Onyx::Math::IVec3::operator-=(const IVec3& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator*(const int& scalar) const
 {
 	return IVec3(m_vec * scalar);
+}
+
+void Onyx::Math::IVec3::operator*=(const int& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::IVec4::IVec4()
@@ -910,37 +1085,37 @@ Onyx::Math::IVec4::IVec4(IVec2 vec1, IVec2 vec2)
 	m_vec = glm::ivec4(vec1.getMVec(), vec2.getMVec());
 }
 
-int* Onyx::Math::IVec4::data()
+int* Onyx::Math::IVec4::data() const
 {
-	return glm::value_ptr(m_vec);
+	return (int*)(glm::value_ptr(m_vec));
 }
 
-bool Onyx::Math::IVec4::isZero()
+bool Onyx::Math::IVec4::isZero() const
 {
 	return getX() == 0 && getY() == 0 && getZ() == 0 && getW() == 0;
 }
 
-int Onyx::Math::IVec4::getX()
+int Onyx::Math::IVec4::getX() const
 {
 	return m_vec.x;
 }
 
-int Onyx::Math::IVec4::getY()
+int Onyx::Math::IVec4::getY() const
 {
 	return m_vec.y;
 }
 
-int Onyx::Math::IVec4::getZ()
+int Onyx::Math::IVec4::getZ() const
 {
 	return m_vec.z;
 }
 
-int Onyx::Math::IVec4::getW()
+int Onyx::Math::IVec4::getW() const
 {
 	return m_vec.w;
 }
 
-glm::ivec4 Onyx::Math::IVec4::getMVec()
+glm::ivec4 Onyx::Math::IVec4::getMVec() const
 {
 	return m_vec;
 }
@@ -965,24 +1140,47 @@ void Onyx::Math::IVec4::setW(int w)
 	m_vec.w = w;
 }
 
-Onyx::Math::IVec4 Onyx::Math::IVec4::operator+(const IVec4& vec)
+void Onyx::Math::IVec4::operator=(const IVec4& vec)
+{
+	m_vec.x = vec.getX();
+	m_vec.y = vec.getY();
+	m_vec.z = vec.getZ();
+	m_vec.w = vec.getW();
+}
+
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator+(const IVec4& vec) const
 {
 	return IVec4(m_vec + vec.m_vec);
 }
 
-Onyx::Math::IVec4 Onyx::Math::IVec4::operator-()
+void Onyx::Math::IVec4::operator+=(const IVec4& vec)
+{
+	m_vec += vec.m_vec;
+}
+
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator-() const
 {
 	return IVec4(-m_vec);
 }
 
-Onyx::Math::IVec4 Onyx::Math::IVec4::operator-(const IVec4& vec)
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator-(const IVec4& vec) const
 {
 	return IVec4(m_vec - vec.m_vec);
 }
 
-Onyx::Math::IVec4 Onyx::Math::IVec4::operator*(const int& scalar)
+void Onyx::Math::IVec4::operator-=(const IVec4& vec)
+{
+	m_vec -= vec.m_vec;
+}
+
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator*(const int& scalar) const
 {
 	return IVec4(m_vec * scalar);
+}
+
+void Onyx::Math::IVec4::operator*=(const int& scalar)
+{
+	m_vec *= scalar;
 }
 
 Onyx::Math::Vec3 Onyx::Math::Cross(const Vec3& vec1, const Vec3& vec2)
@@ -1130,24 +1328,44 @@ Onyx::Math::Mat2x2::Mat2x2(glm::mat2x2 mat)
 	m_mat = mat;
 }
 
-glm::mat2x2 Onyx::Math::Mat2x2::getMMat()
+glm::mat2x2 Onyx::Math::Mat2x2::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat2x2::data()
+float* Onyx::Math::Mat2x2::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat2x2 Onyx::Math::Mat2x2::operator+(const Mat2x2& mat)
+void Onyx::Math::Mat2x2::operator=(const Mat2x2& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat2x2 Onyx::Math::Mat2x2::operator+(const Mat2x2& mat) const
 {
 	return Mat2x2(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat2x2 Onyx::Math::Mat2x2::operator-(const Mat2x2& mat)
+void Onyx::Math::Mat2x2::operator+=(const Mat2x2& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat2x2 Onyx::Math::Mat2x2::operator-() const
+{
+	return Mat2x2(-m_mat);
+}
+
+Onyx::Math::Mat2x2 Onyx::Math::Mat2x2::operator-(const Mat2x2& mat) const
 {
 	return Mat2x2(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat2x2::operator-=(const Mat2x2& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat2x2 Onyx::Math::Mat2x2::Identity()
@@ -1170,24 +1388,44 @@ Onyx::Math::Mat2x3::Mat2x3(glm::mat2x3 mat)
 	m_mat = mat;
 }
 
-glm::mat2x3 Onyx::Math::Mat2x3::getMMat()
+glm::mat2x3 Onyx::Math::Mat2x3::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat2x3::data()
+float* Onyx::Math::Mat2x3::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat2x3 Onyx::Math::Mat2x3::operator+(const Mat2x3& mat)
+void Onyx::Math::Mat2x3::operator=(const Mat2x3& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat2x3 Onyx::Math::Mat2x3::operator+(const Mat2x3& mat) const
 {
 	return Mat2x3(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat2x3 Onyx::Math::Mat2x3::operator-(const Mat2x3& mat)
+void Onyx::Math::Mat2x3::operator+=(const Mat2x3& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat2x3 Onyx::Math::Mat2x3::operator-() const
+{
+	return Mat2x3(-m_mat);
+}
+
+Onyx::Math::Mat2x3 Onyx::Math::Mat2x3::operator-(const Mat2x3& mat) const
 {
 	return Mat2x3(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat2x3::operator-=(const Mat2x3& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat2x3 Onyx::Math::Mat2x3::Identity()
@@ -1210,24 +1448,44 @@ Onyx::Math::Mat2x4::Mat2x4(glm::mat2x4 mat)
 	m_mat = mat;
 }
 
-glm::mat2x4 Onyx::Math::Mat2x4::getMMat()
+glm::mat2x4 Onyx::Math::Mat2x4::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat2x4::data()
+float* Onyx::Math::Mat2x4::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat2x4 Onyx::Math::Mat2x4::operator+(const Mat2x4& mat)
+void Onyx::Math::Mat2x4::operator=(const Mat2x4& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat2x4 Onyx::Math::Mat2x4::operator+(const Mat2x4& mat) const
 {
 	return Mat2x4(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat2x4 Onyx::Math::Mat2x4::operator-(const Mat2x4& mat)
+void Onyx::Math::Mat2x4::operator+=(const Mat2x4& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat2x4 Onyx::Math::Mat2x4::operator-() const
+{
+	return Mat2x4(-m_mat);
+}
+
+Onyx::Math::Mat2x4 Onyx::Math::Mat2x4::operator-(const Mat2x4& mat) const
 {
 	return Mat2x4(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat2x4::operator-=(const Mat2x4& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat2x4 Onyx::Math::Mat2x4::Identity()
@@ -1250,24 +1508,44 @@ Onyx::Math::Mat3x2::Mat3x2(glm::mat3x2 mat)
 	m_mat = mat;
 }
 
-glm::mat3x2 Onyx::Math::Mat3x2::getMMat()
+glm::mat3x2 Onyx::Math::Mat3x2::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat3x2::data()
+float* Onyx::Math::Mat3x2::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat3x2 Onyx::Math::Mat3x2::operator+(const Mat3x2& mat)
+void Onyx::Math::Mat3x2::operator=(const Mat3x2& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat3x2 Onyx::Math::Mat3x2::operator+(const Mat3x2& mat) const
 {
 	return Mat3x2(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat3x2 Onyx::Math::Mat3x2::operator-(const Mat3x2& mat)
+void Onyx::Math::Mat3x2::operator+=(const Mat3x2& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat3x2 Onyx::Math::Mat3x2::operator-() const
+{
+	return Mat3x2(-m_mat);
+}
+
+Onyx::Math::Mat3x2 Onyx::Math::Mat3x2::operator-(const Mat3x2& mat) const
 {
 	return Mat3x2(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat3x2::operator-=(const Mat3x2& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat3x2 Onyx::Math::Mat3x2::Identity()
@@ -1290,24 +1568,44 @@ Onyx::Math::Mat3x3::Mat3x3(glm::mat3x3 mat)
 	m_mat = mat;
 }
 
-glm::mat3x3 Onyx::Math::Mat3x3::getMMat()
+glm::mat3x3 Onyx::Math::Mat3x3::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat3x3::data()
+float* Onyx::Math::Mat3x3::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat3x3 Onyx::Math::Mat3x3::operator+(const Mat3x3& mat)
+void Onyx::Math::Mat3x3::operator=(const Mat3x3& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat3x3 Onyx::Math::Mat3x3::operator+(const Mat3x3& mat) const
 {
 	return Mat3x3(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat3x3 Onyx::Math::Mat3x3::operator-(const Mat3x3& mat)
+void Onyx::Math::Mat3x3::operator+=(const Mat3x3& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat3x3 Onyx::Math::Mat3x3::operator-() const
+{
+	return Mat3x3(-m_mat);
+}
+
+Onyx::Math::Mat3x3 Onyx::Math::Mat3x3::operator-(const Mat3x3& mat) const
 {
 	return Mat3x3(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat3x3::operator-=(const Mat3x3& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat3x3 Onyx::Math::Mat3x3::Identity()
@@ -1330,24 +1628,44 @@ Onyx::Math::Mat3x4::Mat3x4(glm::mat3x4 mat)
 	m_mat = mat;
 }
 
-glm::mat3x4 Onyx::Math::Mat3x4::getMMat()
+glm::mat3x4 Onyx::Math::Mat3x4::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat3x4::data()
+float* Onyx::Math::Mat3x4::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat3x4 Onyx::Math::Mat3x4::operator+(const Mat3x4& mat)
+void Onyx::Math::Mat3x4::operator=(const Mat3x4& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat3x4 Onyx::Math::Mat3x4::operator+(const Mat3x4& mat) const
 {
 	return Mat3x4(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat3x4 Onyx::Math::Mat3x4::operator-(const Mat3x4& mat)
+void Onyx::Math::Mat3x4::operator+=(const Mat3x4& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat3x4 Onyx::Math::Mat3x4::operator-() const
+{
+	return Mat3x4(-m_mat);
+}
+
+Onyx::Math::Mat3x4 Onyx::Math::Mat3x4::operator-(const Mat3x4& mat) const
 {
 	return Mat3x4(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat3x4::operator-=(const Mat3x4& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat3x4 Onyx::Math::Mat3x4::Identity()
@@ -1370,24 +1688,44 @@ Onyx::Math::Mat4x2::Mat4x2(glm::mat4x2 mat)
 	m_mat = mat;
 }
 
-glm::mat4x2 Onyx::Math::Mat4x2::getMMat()
+glm::mat4x2 Onyx::Math::Mat4x2::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat4x2::data()
+float* Onyx::Math::Mat4x2::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat4x2 Onyx::Math::Mat4x2::operator+(const Mat4x2& mat)
+void Onyx::Math::Mat4x2::operator=(const Mat4x2& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat4x2 Onyx::Math::Mat4x2::operator+(const Mat4x2& mat) const
 {
 	return Mat4x2(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat4x2 Onyx::Math::Mat4x2::operator-(const Mat4x2& mat)
+void Onyx::Math::Mat4x2::operator+=(const Mat4x2& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat4x2 Onyx::Math::Mat4x2::operator-() const
+{
+	return Mat4x2(-m_mat);
+}
+
+Onyx::Math::Mat4x2 Onyx::Math::Mat4x2::operator-(const Mat4x2& mat) const
 {
 	return Mat4x2(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat4x2::operator-=(const Mat4x2& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat4x2 Onyx::Math::Mat4x2::Identity()
@@ -1410,24 +1748,44 @@ Onyx::Math::Mat4x3::Mat4x3(glm::mat4x3 mat)
 	m_mat = mat;
 }
 
-glm::mat4x3 Onyx::Math::Mat4x3::getMMat()
+glm::mat4x3 Onyx::Math::Mat4x3::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat4x3::data()
+float* Onyx::Math::Mat4x3::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat4x3 Onyx::Math::Mat4x3::operator+(const Mat4x3& mat)
+void Onyx::Math::Mat4x3::operator=(const Mat4x3& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat4x3 Onyx::Math::Mat4x3::operator+(const Mat4x3& mat) const
 {
 	return Mat4x3(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat4x3 Onyx::Math::Mat4x3::operator-(const Mat4x3& mat)
+void Onyx::Math::Mat4x3::operator+=(const Mat4x3& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat4x3 Onyx::Math::Mat4x3::operator-() const
+{
+	return Mat4x3(-m_mat);
+}
+
+Onyx::Math::Mat4x3 Onyx::Math::Mat4x3::operator-(const Mat4x3& mat) const
 {
 	return Mat4x3(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat4x3::operator-=(const Mat4x3& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat4x3 Onyx::Math::Mat4x3::Identity()
@@ -1466,24 +1824,44 @@ void Onyx::Math::Mat4x4::scale(Vec3 xyzMultiplier)
 	m_mat = glm::scale(m_mat, xyzMultiplier.getMVec());
 }
 
-glm::mat4x4 Onyx::Math::Mat4x4::getMMat()
+glm::mat4x4 Onyx::Math::Mat4x4::getMMat() const
 {
 	return m_mat;
 }
 
-float* Onyx::Math::Mat4x4::data()
+float* Onyx::Math::Mat4x4::data() const
 {
-	return glm::value_ptr(m_mat);
+	return (float*)(glm::value_ptr(m_mat));
 }
 
-Onyx::Math::Mat4x4 Onyx::Math::Mat4x4::operator+(const Mat4x4& mat)
+void Onyx::Math::Mat4x4::operator=(const Mat4x4& mat)
+{
+	m_mat = mat.m_mat;
+}
+
+Onyx::Math::Mat4x4 Onyx::Math::Mat4x4::operator+(const Mat4x4& mat) const
 {
 	return Mat4x4(m_mat + mat.m_mat);
 }
 
-Onyx::Math::Mat4x4 Onyx::Math::Mat4x4::operator-(const Mat4x4& mat)
+void Onyx::Math::Mat4x4::operator+=(const Mat4x4& mat)
+{
+	m_mat += mat.m_mat;
+}
+
+Onyx::Math::Mat4x4 Onyx::Math::Mat4x4::operator-() const
+{
+	return Mat4x4(-m_mat);
+}
+
+Onyx::Math::Mat4x4 Onyx::Math::Mat4x4::operator-(const Mat4x4& mat) const
 {
 	return Mat4x4(m_mat - mat.m_mat);
+}
+
+void Onyx::Math::Mat4x4::operator-=(const Mat4x4& mat)
+{
+	m_mat -= mat.m_mat;
 }
 
 Onyx::Math::Mat4x4 Onyx::Math::Mat4x4::Identity()
@@ -1491,82 +1869,82 @@ Onyx::Math::Mat4x4 Onyx::Math::Mat4x4::Identity()
 	return Mat4x4(1.0f);
 }
 
-Onyx::Math::Mat2x2 Onyx::Math::operator*(Mat2x2& mat1, Mat2x2& mat2)
+Onyx::Math::Mat2x2 Onyx::Math::operator*(const Mat2x2& mat1, const Mat2x2& mat2)
 {
 	return Mat2x2(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Mat2x2 Onyx::Math::operator*(Mat2x3& mat1, Mat3x2& mat2)
+Onyx::Math::Mat2x2 Onyx::Math::operator*(const Mat2x3& mat1, const Mat3x2& mat2)
 {
 	return Mat2x2(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Mat2x2 Onyx::Math::operator*(Mat2x4& mat1, Mat4x2& mat2)
+Onyx::Math::Mat2x2 Onyx::Math::operator*(const Mat2x4& mat1, const Mat4x2& mat2)
 {
 	return Mat2x2(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Mat3x3 Onyx::Math::operator*(Mat3x2& mat1, Mat2x3& mat2)
+Onyx::Math::Mat3x3 Onyx::Math::operator*(const Mat3x2& mat1, const Mat2x3& mat2)
 {
 	return Mat3x3(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Mat3x3 Onyx::Math::operator*(Mat3x3& mat1, Mat3x3& mat2)
+Onyx::Math::Mat3x3 Onyx::Math::operator*(const Mat3x3& mat1, const Mat3x3& mat2)
 {
 	return Mat3x3(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Mat3x3 Onyx::Math::operator*(Mat3x4& mat1, Mat4x3& mat2)
+Onyx::Math::Mat3x3 Onyx::Math::operator*(const Mat3x4& mat1, const Mat4x3& mat2)
 {
 	return Mat3x3(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Mat4x4 Onyx::Math::operator*(Mat4x2& mat1, Mat2x4& mat2)
+Onyx::Math::Mat4x4 Onyx::Math::operator*(const Mat4x2& mat1, const Mat2x4& mat2)
 {
 	return Mat4x4(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Mat4x4 Onyx::Math::operator*(Mat4x3& mat1, Mat3x4& mat2)
+Onyx::Math::Mat4x4 Onyx::Math::operator*(const Mat4x3& mat1, const Mat3x4& mat2)
 {
 	return Mat4x4(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Mat4x4 Onyx::Math::operator*(Mat4x4& mat1, Mat4x4& mat2)
+Onyx::Math::Mat4x4 Onyx::Math::operator*(const Mat4x4& mat1, const Mat4x4& mat2)
 {
 	return Mat4x4(mat1.getMMat() * mat2.getMMat());
 }
 
-Onyx::Math::Vec2 Onyx::Math::operator*(Mat2x2& mat, Vec2& vec)
+Onyx::Math::Vec2 Onyx::Math::operator*(const Mat2x2& mat, const Vec2& vec)
 {
 	return Vec2(mat.getMMat() * vec.getMVec());
 }
 
-Onyx::Math::Vec2 Onyx::Math::operator*(Mat2x3& mat, Vec3& vec)
+Onyx::Math::Vec2 Onyx::Math::operator*(const Mat2x3& mat, const Vec3& vec)
 {
 	return Vec2(mat.getMMat() * vec.getMVec());
 }
 
-Onyx::Math::Vec2 Onyx::Math::operator*(Mat2x4& mat, Vec4& vec)
+Onyx::Math::Vec2 Onyx::Math::operator*(const Mat2x4& mat, const Vec4& vec)
 {
 	return Vec2(mat.getMMat() * vec.getMVec());
 }
 
-Onyx::Math::Vec3 Onyx::Math::operator*(Mat3x3& mat, Vec3& vec)
+Onyx::Math::Vec3 Onyx::Math::operator*(const Mat3x3& mat, const Vec3& vec)
 {
 	return Vec3(mat.getMMat() * vec.getMVec());
 }
 
-Onyx::Math::Vec3 Onyx::Math::operator*(Mat3x4& mat, Vec4& vec)
+Onyx::Math::Vec3 Onyx::Math::operator*(const Mat3x4& mat, const Vec4& vec)
 {
 	return Vec3(mat.getMMat() * vec.getMVec());
 }
 
-Onyx::Math::Vec4 Onyx::Math::operator*(Mat4x4& mat, Vec4& vec)
+Onyx::Math::Vec4 Onyx::Math::operator*(const Mat4x4& mat, const Vec4& vec)
 {
 	return Vec4(mat.getMMat() * vec.getMVec());
 }
 
-Onyx::Math::Mat4x4 Onyx::Math::LookAt(Vec3 pos, Vec3 target, Vec3 up)
+Onyx::Math::Mat4x4 Onyx::Math::LookAt(const Vec3& pos, const Vec3& target, const Vec3& up)
 {
 	return Mat4(glm::lookAt(pos.getMVec(), target.getMVec(), up.getMVec()));
 }

@@ -21,7 +21,7 @@ Onyx::TextRenderer::TextRenderer(Window& window)
 	);
 	Projection proj = Projection::Orthographic(0.0f, window.getBufferWidth(), window.getBufferHeight(), 0.0f);
 	shader.use();
-	shader.uniform("u_projection", proj.getMatrix());
+	shader.setMat4("u_projection", proj.getMatrix());
 
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
@@ -41,7 +41,7 @@ Onyx::TextRenderer::TextRenderer(Window& window)
 void Onyx::TextRenderer::render(const std::string& text, Onyx::Math::Vec2 pos, Onyx::Math::Vec3 color)
 {
 	shader.use();
-	shader.uniform("textColor", color);
+	shader.setVec3("textColor", color);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(vao);
@@ -80,7 +80,7 @@ void Onyx::TextRenderer::render(const std::string& text, Onyx::Math::Vec2 pos, O
 void Onyx::TextRenderer::render(const std::string& text, Onyx::Math::Vec2 pos, float scale, Onyx::Math::Vec3 color)
 {
 	shader.use();
-	shader.uniform("textColor", color);
+	shader.setVec3("textColor", color);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(vao);

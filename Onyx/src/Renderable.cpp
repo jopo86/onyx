@@ -38,7 +38,7 @@ void Onyx::Renderable::render()
 	if (hidden) return;
 	shader.use();
 	texture.bind();
-	shader.uniform("u_model", model);
+	shader.setMat4("u_model", model);
 	glBindVertexArray(mesh.getVAO());
 	glDrawElements(GL_TRIANGLES, mesh.getIndexArray().getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
@@ -51,9 +51,9 @@ void Onyx::Renderable::render(Mat4 view, Mat4 proj)
 	if (hidden) return;
 	shader.use();
 	texture.bind();
-	shader.uniform("u_model", model);
-	shader.uniform("u_view", view);
-	shader.uniform("u_projection", proj);
+	shader.setMat4("u_model", model);
+	shader.setMat4("u_view", view);
+	shader.setMat4("u_projection", proj);
 	glBindVertexArray(mesh.getVAO());
 	glDrawElements(GL_TRIANGLES, mesh.getIndexArray().getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);

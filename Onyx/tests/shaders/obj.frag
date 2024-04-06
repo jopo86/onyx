@@ -5,7 +5,6 @@ out vec4 fragColor;
 uniform vec3 objectColor;
 uniform vec3 lightColor;
 
-uniform vec3 lightPos;
 uniform vec3 viewPos;
 
 in vec3 vertNormal;
@@ -33,10 +32,10 @@ uniform Light light;
 
 void main()
 {
-    vec3 ambient = light.ambient * material.ambient;
+    vec3 ambient = vec3(light.ambient * material.ambient);
 
     vec3 norm = normalize(vertNormal);
-    vec3 lightDir = normalize(lightPos - fragPos);
+    vec3 lightDir = normalize(light.pos - fragPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = light.diffuse * (diff * material.diffuse);
 

@@ -44,9 +44,9 @@ int main()
 	objShader.setVec3("lightColor", Vec3(1.0f, 1.0f, 1.0f));
 	objShader.setVec3("viewPos", Vec3(0.0f));
 
-	objShader.setVec3("material.ambient", Vec3(1.0f, 0.5f, 0.31f));
-	objShader.setVec3("material.diffuse", Vec3(1.0f, 0.5f, 0.31f));
-	objShader.setVec3("material.specular", Vec3(0.5f, 0.5f, 0.5f));
+	objShader.setVec3("material.ambient", Vec3(0.8f, 0.8f, 0.8f));
+	objShader.setVec3("material.diffuse", Vec3(0.8f, 0.8f, 0.8f));
+	objShader.setVec3("material.specular", Vec3(1.0f, 1.0f, 1.0f));
 	objShader.setFloat("material.shininess", 32.0f);
 
 	Vec3 lightColor;
@@ -133,16 +133,46 @@ int main()
 	Onyx::Camera cam(window, Onyx::Projection::Perspective(60.0f, 1280, 720));
 	cam.translate(Vec3(0.6f, 0.4f, -4.0f));
 
+	float uiVertices[] = {
+		10.0f, 10.0f, 0.0f,
+		160.0f, 10.0f, 0.0f,
+		160.0f, 55.0f, 0.0f,
+		10.0f, 55.0f, 0.0f
+	};
+
+	uint uiIndices[] = {
+		0, 1, 2,
+		2, 3, 0
+	};
+
+	Onyx::UiRenderable ui(
+		Onyx::Mesh(
+			Onyx::VertexArray(uiVertices, sizeof(uiVertices), ONYX_VERTEX_FORMAT_V, false),
+			Onyx::IndexArray(uiIndices, sizeof(uiIndices), false)
+		),
+		Vec4(1.0f, 1.0f, 1.0f, 0.2f)
+	);
+
 	Onyx::Renderer renderer(window, cam);
 	renderer.add(obj);
 	renderer.add(light);
+	renderer.add(ui);
+
+	Onyx::TextRenderer textRenderer(window);
+	Onyx::Font roboto(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
+	textRenderer.setFont(roboto);
 
 	const float CAM_SPEED = 4.0f;
 	const float CAM_SENS = 30.0f;
 
+	int fps = 0.0f;
+
 	input.setCursorLock(true);
 	while (window.isOpen())
 	{
+
+		if (window.getFrame() % 60 == 0 || window.getFrame() == 1) fps = window.getFPS();
+
 		input.update();
 
 		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
@@ -158,6 +188,7 @@ int main()
 		cam.update();
 
 		lightPos.setX(cos(Onyx::GetTime()) * 2.0f);
+		lightPos.setY(sin(Onyx::GetTime() * 2.0f));
 		lightPos.setZ(sin(Onyx::GetTime()) * 2.0f);
 
 		light.resetTransform();
@@ -165,29 +196,33 @@ int main()
 
 		objShader.use();
 		objShader.setVec3("viewPos", cam.getPosition());
-		objShader.setVec3("lightPos", lightPos);
+		objShader.setVec3("light.pos", lightPos);
 
 		lightColor.setX(sin(Onyx::GetTime() * 2.0f));
 		lightColor.setY(sin(Onyx::GetTime() * 0.7f));
 		lightColor.setZ(sin(Onyx::GetTime() * 1.3f));
 
 		Vec3 diffuseColor = lightColor * 0.5f;
-		Vec3 ambientColor = diffuseColor * 0.2f;
+		Vec3 ambientColor = diffuseColor * 0.4f;
 
 		objShader.setVec3("light.ambient", ambientColor);
 		objShader.setVec3("light.diffuse", diffuseColor);
-		objShader.setVec3("light.specular", Vec3(1.0f, 1.0f, 1.0f));
+		objShader.setVec3("light.specular", lightColor);
 
 		lightShader.use();
 		lightShader.setVec3("u_color", lightColor);
 
 		window.startRender();
 		renderer.render();
+		Onyx::TextRenderer::StartRender();
+		textRenderer.render("FPS: " + std::to_string(fps), Vec2(20.0f, 20.0f), Vec3(1.0f, 1.0f, 1.0f));
+		Onyx::TextRenderer::EndRender();
 		window.endRender();
 	}
 
 	window.dispose();
 	renderer.dispose();
+	roboto.dispose();
 
 	Onyx::Terminate();
 	

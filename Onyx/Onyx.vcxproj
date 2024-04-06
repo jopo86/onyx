@@ -168,6 +168,7 @@
     <ClCompile Include="src\ImageData.cpp" />
     <ClCompile Include="src\IndexArray.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\UiRenderable.cpp" />
     <ClCompile Include="tests\Main.cpp" />
     <ClCompile Include="src\Math.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="src\ImageData.h" />
     <ClInclude Include="src\IndexArray.h" />
     <ClInclude Include="src\InputHandler.h" />
+    <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\MeshPresets.h" />

@@ -2,8 +2,9 @@
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::DVec2,
 Onyx::Math::DVec3, Onyx::Math::DVec4, Onyx::Math::IVec2, Onyx::Math::IVec3,
-Onyx::Math::IVec4, Onyx::Math::Mat2x2, Onyx::Math::Mat2x3, Onyx::Math::Mat2x4,
-Onyx::Math::Mat3x2, Onyx::Math::Mat3x3, Onyx::Math::Mat3x4, Onyx::Math::Mat4x2,
+Onyx::Math::IVec4, Onyx::Math::UVec2, Onyx::Math::UVec3, Onyx::Math::UVec4,
+Onyx::Math::Mat2x2, Onyx::Math::Mat2x3, Onyx::Math::Mat2x4, Onyx::Math::Mat3x2, 
+Onyx::Math::Mat3x3, Onyx::Math::Mat3x4, Onyx::Math::Mat4x2,
 Onyx::Math::Mat4x3, Onyx::Math::Mat4x4;
 
 
@@ -177,6 +178,21 @@ void Onyx::Shader::setIVec3(const char* varName, const IVec3& val)
 void Onyx::Shader::setIVec4(const char* varName, const IVec4& val)
 {
 	glUniform4iv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setUVec2(const char* varName, const UVec2& val)
+{
+	glUniform2uiv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setUVec3(const char* varName, const UVec3& val)
+{
+	glUniform3uiv(glGetUniformLocation(prog, varName), 1, val.data());
+}
+
+void Onyx::Shader::setUVec4(const char* varName, const UVec4& val)
+{
+	glUniform4uiv(glGetUniformLocation(prog, varName), 1, val.data());
 }
 
 void Onyx::Shader::setMat2x2(const char* varName, const Mat2x2& val, bool normalize)

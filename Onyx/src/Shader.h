@@ -143,27 +143,46 @@ namespace Onyx
 		void setDVec4(const char* varName, const Math::DVec4& val);
 
 		/*
-			@brief Sets a ivec2 uniform variable in the shader.
+			@brief Sets an ivec2 uniform variable in the shader.
 			@param varName The name of the variable.
 			@param val The value to set the variable to.
 		 */
 		void setIVec2(const char* varName, const Math::IVec2& val);
 
 		/*
-			@brief Sets a ivec3 uniform variable in the shader.
+			@brief Sets an ivec3 uniform variable in the shader.
 			@param varName The name of the variable.
 			@param val The value to set the variable to.
 		 */
 		void setIVec3(const char* varName, const Math::IVec3& val);
 
 		/*
-			@brief Sets a ivec4 uniform variable in the shader.
+			@brief Sets an ivec4 uniform variable in the shader.
 			@param varName The name of the variable.
 			@param val The value to set the variable to.
 		 */
 		void setIVec4(const char* varName, const Math::IVec4& val);
 
-		// TODO: UVecs
+		/*
+			@brief Sets a uvec2 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setUVec2(const char* varName, const Math::UVec2& val);
+
+		/*
+			@brief Sets a uvec3 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setUVec3(const char* varName, const Math::UVec3& val);
+
+		/*
+			@brief Sets a uvec4 uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setUVec4(const char* varName, const Math::UVec4& val);
 
 		/*
 			@brief Sets a 2x2 matrix uniform variable in the shader.

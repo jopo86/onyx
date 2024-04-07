@@ -8,6 +8,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+typedef unsigned int uint;
+
 namespace Onyx
 {
 
@@ -453,6 +455,121 @@ namespace Onyx
 			glm::ivec4 m_vec;
 		};
 
+		class UVec : public Vec {};
+
+		class UVec2 : public UVec
+		{
+		public:
+			UVec2();
+			UVec2(uint xy);
+			UVec2(uint x, uint y);
+			UVec2(glm::uvec2 vec);
+
+			uint* data() const;
+			bool isZero() const;
+
+			uint getX() const;
+			uint getY() const;
+			glm::uvec2 getMVec() const;
+
+			void setX(uint x);
+			void setY(uint y);
+
+			friend bool operator==(const UVec2& vec1, const UVec2& vec2);
+			friend bool operator!=(const UVec2& vec1, const UVec2& vec2);
+
+			void operator=(const UVec2& vec);
+			UVec2 operator+(const UVec2& vec) const;
+			void operator+=(const UVec2& vec);
+			UVec2 operator-(const UVec2& vec) const;
+			void operator-=(const UVec2& vec);
+			UVec2 operator*(const uint& scalar) const;
+			void operator*=(const uint& scalar);
+
+		private:
+			glm::uvec2 m_vec;
+		};
+
+		class UVec3 : public UVec
+		{
+		public:
+			UVec3();
+			UVec3(uint xyz);
+			UVec3(uint x, uint y, uint z);
+			UVec3(glm::uvec3 vec);
+			UVec3(UVec2 vec, uint z);
+			UVec3(uint x, UVec2 vec);
+
+			uint* data() const;
+			bool isZero() const;
+
+			uint getX() const;
+			uint getY() const;
+			uint getZ() const;
+			glm::uvec3 getMVec() const;
+
+			void setX(uint x);
+			void setY(uint y);
+			void setZ(uint z);
+
+			friend bool operator==(const UVec3& vec1, const UVec3& vec2);
+			friend bool operator!=(const UVec3& vec1, const UVec3& vec2);
+
+			void operator=(const UVec3& vec);
+			UVec3 operator+(const UVec3& vec) const;
+			void operator+=(const UVec3& vec);
+			UVec3 operator-(const UVec3& vec) const;
+			void operator-=(const UVec3& vec);
+			UVec3 operator*(const uint& scalar) const;
+			void operator*=(const uint& scalar);
+
+		private:
+			glm::uvec3 m_vec;
+		};
+
+		class UVec4 : public UVec
+		{
+		public:
+			UVec4();
+			UVec4(uint xyzw);
+			UVec4(uint x, uint y, uint z, uint w);
+			UVec4(glm::uvec4 vec);
+			UVec4(UVec2 vec, uint z, uint w);
+			UVec4(uint x, UVec2 vec, uint w);
+			UVec4(uint x, uint y, UVec2 vec);
+			UVec4(UVec3 vec, uint w);
+			UVec4(uint x, UVec3 vec);
+			UVec4(UVec2 vec1, UVec2 vec2);
+
+			uint* data() const;
+			bool isZero() const;
+
+			uint getX() const;
+			uint getY() const;
+			uint getZ() const;
+			uint getW() const;
+			glm::uvec4 getMVec() const;
+
+			void setX(uint x);
+			void setY(uint y);
+			void setZ(uint z);
+			void setW(uint w);
+
+			friend bool operator==(const UVec4& vec1, const UVec4& vec2);
+			friend bool operator!=(const UVec4& vec1, const UVec4& vec2);
+
+			void operator=(const UVec4& vec);
+			UVec4 operator+(const UVec4& vec) const;
+			void operator+=(const UVec4& vec);
+			UVec4 operator-(const UVec4& vec) const;
+			void operator-=(const UVec4& vec);
+			UVec4 operator*(const uint& scalar) const;
+			void operator*=(const uint& scalar);
+
+		private:
+			glm::uvec4 m_vec;
+		};
+
 		/*
 			@brief The cross product vector operation between 3D vectors.
 			@return The resulting vector.
@@ -528,6 +645,15 @@ namespace Onyx
 
 		bool operator==(const IVec4& vec1, const IVec4& vec2);
 		bool operator!=(const IVec4& vec1, const IVec4& vec2);
+
+		bool operator==(const UVec2& vec1, const UVec2& vec2);
+		bool operator!=(const UVec2& vec1, const UVec2& vec2);
+
+		bool operator==(const UVec3& vec1, const UVec3& vec2);
+		bool operator!=(const UVec3& vec1, const UVec3& vec2);
+
+		bool operator==(const UVec4& vec1, const UVec4& vec2);
+		bool operator!=(const UVec4& vec1, const UVec4& vec2);
 
 		/*
 			@brief A parent class for matrices.

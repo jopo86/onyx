@@ -113,7 +113,7 @@ void Onyx::Demo()
 
 	Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
-	Renderer renderer(window, cam);
+	Renderer renderer(window, cam, lighting);
 	renderer.add(redCube);
 	renderer.add(containerCube);
 	renderer.add(textBg);

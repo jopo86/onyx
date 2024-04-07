@@ -23,6 +23,14 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexArray.getSize(), indexArray.getIndices(), GL_STATIC_DRAW);
 
+	/*
+		Layout locations:
+		0: Position
+		1: Color
+		2: Texture coordinates
+		3: Normal
+	 */
+
 	switch (vertexArray.getFormat())
 	{
 		case ONYX_VERTEX_FORMAT_V:
@@ -30,16 +38,16 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 			glEnableVertexAttribArray(0);
 			break;
 
+		case ONYX_VERTEX_FORMAT_VN:
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(3);
+			break;
+
 		case ONYX_VERTEX_FORMAT_VC:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
-			break;
-
-		case ONYX_VERTEX_FORMAT_CV:
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(4 * sizeof(float)));
-			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
 			break;
@@ -51,20 +59,6 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 			glEnableVertexAttribArray(2);
 			break;
 
-		case ONYX_VERTEX_FORMAT_TV:
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(2);
-			break;
-
-		case ONYX_VERTEX_FORMAT_VN:
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(3);
-			break;
-
 		case ONYX_VERTEX_FORMAT_VCT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -74,49 +68,33 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 			glEnableVertexAttribArray(2);
 			break;
 
-		case ONYX_VERTEX_FORMAT_VTC:
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
-			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(5 * sizeof(float)));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
+		case ONYX_VERTEX_FORMAT_VNT:
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
 			glEnableVertexAttribArray(2);
+			glEnableVertexAttribArray(3);
 			break;
 
-		case ONYX_VERTEX_FORMAT_CVT:
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(4 * sizeof(float)));
-			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
+		case ONYX_VERTEX_FORMAT_VNC:
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)0);
+			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(6 * sizeof(float)));
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
-			glEnableVertexAttribArray(2);
+			glEnableVertexAttribArray(3);
 			break;
 
-		case ONYX_VERTEX_FORMAT_TVC:
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(2 * sizeof(float)));
-			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(5 * sizeof(float)));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+		case ONYX_VERTEX_FORMAT_VNCT:
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(3 * sizeof(float)));
+			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(6 * sizeof(float)));
+			glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(10 * sizeof(float)));
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
 			glEnableVertexAttribArray(2);
-			break;
-
-		case ONYX_VERTEX_FORMAT_CTV:
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(6 * sizeof(float)));
-			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(4 * sizeof(float)));
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
-			glEnableVertexAttribArray(2);
-			break;
-
-		case ONYX_VERTEX_FORMAT_TCV:
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(6 * sizeof(float)));
-			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(2 * sizeof(float)));
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
-			glEnableVertexAttribArray(2);
+			glEnableVertexAttribArray(3);
 			break;
 	}
 
@@ -134,34 +112,34 @@ Onyx::Mesh::Mesh(const Mesh& other)
 	indexArray = other.indexArray;
 }
 
-void Onyx::Mesh::render()
+void Onyx::Mesh::render() const
 {
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, indexArray.getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 }
 
-Onyx::VertexArray Onyx::Mesh::getVertexArray()
+Onyx::VertexArray Onyx::Mesh::getVertexArray() const
 {
 	return vertexArray;
 }
 
-Onyx::IndexArray Onyx::Mesh::getIndexArray()
+Onyx::IndexArray Onyx::Mesh::getIndexArray() const
 {
 	return indexArray;
 }
 
-uint Onyx::Mesh::getVAO()
+uint Onyx::Mesh::getVAO() const
 {
 	return vao;
 }
 
-uint Onyx::Mesh::getVBO()
+uint Onyx::Mesh::getVBO() const
 {
 	return vbo;
 }
 
-uint Onyx::Mesh::getIBO()
+uint Onyx::Mesh::getIBO() const
 {
 	return ibo;
 }

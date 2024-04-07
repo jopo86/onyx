@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Projection.h"
 #include "Window.h"
+#include "Lighting.h"
 
 namespace Onyx
 {
@@ -45,6 +46,15 @@ namespace Onyx
 		Renderer(Window& window, Camera& cam);
 
 		/*
+			@brief Creates a new Renderer object containing no renderables and the specified camera and lighting settings.
+			Links the renderer to the window so that UI elements are rendered properly.
+			@param window The window to link to.
+			@param cam The camera to use.
+			@param lighting The lighting settings to use.
+		 */
+		Renderer(Window& window, Camera& cam, Lighting& lighting);
+
+		/*
 			@brief Renders all of the renderables contained by the renderer.
 			Does not render any renderables that have been hidden by hide().
 		 */
@@ -61,6 +71,35 @@ namespace Onyx
 			Note that renderables cannot be removed once added, instead use hide().
 		 */
 		void add(UiRenderable& uiRenderable);
+
+		/*
+			@brief Gets whether lighting is enabled for the renderer.
+			@return True if lighting is enabled, false if not.
+		 */
+		bool isLightingEnabled() const;
+
+		/*
+			@brief Sets whether lighting is enabled for the renderer.
+			@param enabled True to enable lighting, false to disable.
+		 */
+		void setLightingEnabled(bool enabled);
+
+		/*
+			@brief Toggles whether lighting is enabled for the renderer.
+		 */
+		void toggleLightingEnabled();
+
+		/*
+			@brief Gets the lighting settings for the renderer.
+			@return A pointer to the lighting settings.
+		 */
+		const Lighting& getLighting() const;
+
+		/*
+			@brief Sets the lighting settings for the renderer.
+			@param lighting The lighting settings to use.
+		 */
+		void setLighting(Lighting& lighting);
 
 		/*
 			@brief Sets whether wireframe rendering mode is enabled.
@@ -126,8 +165,10 @@ namespace Onyx
 		std::vector<UiRenderable*> uiRenderables;
 
 		Camera* cam;
+		Lighting* lighting;
 		Math::Mat4 ortho;
-
+		
+		bool lightingEnabled;
 		static bool wireframe;
 		static bool uiWireframeAllowed;
 		static float lineWidth;

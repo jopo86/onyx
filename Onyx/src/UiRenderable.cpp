@@ -104,22 +104,22 @@ void Onyx::UiRenderable::resetTransform()
 	model = Mat4::Identity();
 }
 
-Onyx::Mesh Onyx::UiRenderable::getMesh()
+Onyx::Mesh Onyx::UiRenderable::getMesh() const
 {
 	return mesh;
 }
 
-Onyx::Shader Onyx::UiRenderable::getShader()
+Onyx::Shader Onyx::UiRenderable::getShader() const
 {
 	return shader;
 }
 
-Onyx::Texture Onyx::UiRenderable::getTexture()
+Onyx::Texture Onyx::UiRenderable::getTexture() const
 {
 	return texture;
 }
 
-bool Onyx::UiRenderable::isHidden()
+bool Onyx::UiRenderable::isHidden() const
 {
 	return hidden;
 }

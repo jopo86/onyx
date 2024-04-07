@@ -760,9 +760,9 @@ namespace Onyx
 			Mat4x4(float scalar);
 			Mat4x4(glm::mat4x4 mat);
 
-			void translate(Vec3 xyz);
-			void rotate(float degrees, Vec3 xyzMultiplier);
-			void scale(Vec3 xyzMultiplier);
+			void translate(const Vec3& xyz);
+			void rotate(float degrees, const Vec3& mask);
+			void scale(const Vec3& xyzMultiplier);
 
 			glm::mat4x4 getMMat() const;
 
@@ -804,7 +804,25 @@ namespace Onyx
 		Vec4 operator*(const Mat4x4& mat, const Vec4& vec);
 
 
+		Mat2x2 Transpose(const Mat2x2& mat);
+		Mat2x3 Transpose(const Mat3x2& mat);
+		Mat2x4 Transpose(const Mat4x2& mat);
+
+		Mat3x2 Transpose(const Mat2x3& mat);
+		Mat3x3 Transpose(const Mat3x3& mat);
+		Mat3x4 Transpose(const Mat4x3& mat);
+		
+		Mat4x2 Transpose(const Mat2x4& mat);
+		Mat4x3 Transpose(const Mat3x4& mat);
+		Mat4x4 Transpose(const Mat4x4& mat);
+
+
+		Mat2x2 Inverse(const Mat2x2& mat);
+		Mat3x3 Inverse(const Mat3x3& mat);
+		Mat4x4 Inverse(const Mat4x4& mat);
+
 		Mat4x4 LookAt(const Vec3& pos, const Vec3& target, const Vec3& up);
+
 		Mat4x4 OrthographicProjection(float left, float right, float top, float bottom);
 		Mat4x4 PerspectiveProjection(float fov, float aspectRatio, float nearPlane, float farPlane);
 

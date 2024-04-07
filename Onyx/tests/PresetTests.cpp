@@ -626,14 +626,14 @@ void PresetTests::ShaderTest__VCT()
 	InputHandler input(window);
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,		 0.0f, 0.0f,	1.0f, 0.0f, 0.0f, 1.0f,
-		 0.5f, -0.5f, 0.0f,		 1.0f, 0.0f,	1.0f, 0.0f, 1.0f, 1.0f,
-		 0.5f,  0.5f, 0.0f,		 1.0f, 1.0f,	0.0f, 0.0f, 1.0f, 1.0f,
-		-0.5f,  0.5f, 0.0f,		 0.0f, 1.0f,	0.0f, 1.0f, 0.0f, 1.0f
+		-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f, 1.0f,		 0.0f, 0.0f,
+		 0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 1.0f, 1.0f,		 1.0f, 0.0f,
+		 0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 1.0f,		 1.0f, 1.0f,
+		-0.5f,  0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 1.0f,		 0.0f, 1.0f
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_VTC, false), IndexArray(Onyx::MeshPresets::GetIndices(ONYX_MESH_SQUARE))),
+		Mesh(VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_VCT, false), IndexArray(Onyx::MeshPresets::GetIndices(ONYX_MESH_SQUARE))),
 		Onyx::ShaderPresets::VCT(),
 		Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg"))
 	);

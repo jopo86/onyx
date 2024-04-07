@@ -45,32 +45,32 @@ namespace Onyx
 			@brief Renders the mesh.
 			Not needed if using renderables.
 		 */
-		void render();
+		void render() const;
 
 		/*
 			@brief Gets the vertex array object ID.
 			Access to the VAO is provided for the library, as well as for advanced users.
 			@return The VAO ID.
 		 */
-		uint getVAO();
+		uint getVAO() const;
 
 		/*
 			@brief Gets the vertex buffer object ID.
 			Access to the VBO is provided for the library, as well as for advanced users.
 			@return The VBO ID.
 		 */
-		uint getVBO();
+		uint getVBO() const;
 
 		/*
 			@brief Gets the index buffer object ID.
 			Access to the IBO is provided for the library, as well as for advanced users.
 			@return The IBO ID.
 		 */
-		uint getIBO();
+		uint getIBO() const;
 
-		VertexArray getVertexArray();
+		VertexArray getVertexArray() const;
 
-		IndexArray getIndexArray();
+		IndexArray getIndexArray() const;
 
 		/*
 			@brief Disposes of the mesh.

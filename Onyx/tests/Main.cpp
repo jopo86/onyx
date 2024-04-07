@@ -1,3 +1,5 @@
+#pragma warning(disable: 4244)
+
 #include <iostream>
 
 #include "../src/Core.h"
@@ -7,24 +9,34 @@
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
+void lightingTest();
+
 int main()
 {
-	/*Onyx::ErrorHandler errorHandler(true, false);
+	Onyx::ErrorHandler errorHandler(true, false);
 	Onyx::Init(errorHandler);
 	Onyx::Demo();
-	Onyx::Terminate();*/
+	Onyx::Terminate();
 
 	/*UnitTests::RunAllTests();
 	PresetTests::RunAllTests();*/
+
+	//lightingTest();
+	
+	return 0;
+}
+
+void lightingTest()
+{
+	Onyx::ErrorHandler errorHandler(true, false);
+	Onyx::Init(errorHandler);
 
 	Onyx::Window window("Lighting Test", 1280, 720);
 	window.init();
 	window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
 
 	Onyx::InputHandler input(window);
-	
-	Onyx::ErrorHandler errorHandler(true, false);
-	Onyx::Init(errorHandler);
+
 
 	Onyx::Shader objShader(
 		Onyx::File(Onyx::Resources("../tests/shaders/obj.vert")).readLiteral(),
@@ -43,6 +55,7 @@ int main()
 	objShader.setVec3("objectColor", Vec3(0.9f, 0.9f, 0.9f));
 	objShader.setVec3("lightColor", Vec3(1.0f, 1.0f, 1.0f));
 	objShader.setVec3("viewPos", Vec3(0.0f));
+	objShader.setVec3("light.direction", Vec3(-0.2f, -1.0f, -0.3f));
 
 	objShader.setVec3("material.ambient", Vec3(0.8f, 0.8f, 0.8f));
 	objShader.setVec3("material.diffuse", Vec3(0.8f, 0.8f, 0.8f));
@@ -196,7 +209,7 @@ int main()
 
 		objShader.use();
 		objShader.setVec3("viewPos", cam.getPosition());
-		objShader.setVec3("light.pos", lightPos);
+		//objShader.setVec3("light.pos", lightPos);
 
 		lightColor.setX(sin(Onyx::GetTime() * 2.0f));
 		lightColor.setY(sin(Onyx::GetTime() * 0.7f));
@@ -225,6 +238,4 @@ int main()
 	roboto.dispose();
 
 	Onyx::Terminate();
-	
-	return 0;
 }

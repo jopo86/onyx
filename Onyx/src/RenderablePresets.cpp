@@ -220,52 +220,41 @@ Onyx::Renderable Onyx::RenderablePresets::TexturedQuad(Vec2 a, Vec2 b, Vec2 c, V
 
 Onyx::Renderable Onyx::RenderablePresets::ColoredCube(float side, Vec3 rgb)
 {
-	return Renderable(
-		MeshPresets::Cube(side),
-		ShaderPresets::V_Color(Vec4(rgb, 1.0f))
-	);
+	return ColoredCube(side, Vec4(rgb, 1.0f));
 }
 
 Onyx::Renderable Onyx::RenderablePresets::ColoredCube(float side, Vec4 rgba)
 {
-	return Renderable(
-		MeshPresets::Cube(side),
-		ShaderPresets::V_Color(rgba)
-	);
-}
+	float* vertices = new float[240]{
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, 0.0f, 1.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, 0.0f, 1.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 0.0f, 1.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 0.0f, 1.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
 
-Onyx::Renderable Onyx::RenderablePresets::TexturedCube(float side, Texture texture)
-{
-	float* vertices = new float[120] {
-		-side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f, -1.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f, -1.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 0.0f, -1.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 0.0f, -1.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
 
-		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f, -side / 2.0f,		1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f,		1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, -1.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, -1.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, -1.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, -1.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
 
-		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f, -side / 2.0f,		1.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
-		-side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 1.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 1.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
 
-		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f,		1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		-1.0f, 0.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		-1.0f, 0.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		-1.0f, 0.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		-1.0f, 0.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
 
-		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
-		-side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 0.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f,
-
-		 side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 1.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		1.0f, 0.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 0.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 0.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		1.0f, 0.0f, 0.0f,		rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
 	};
 
 	uint* indices = new uint[36]{
@@ -290,10 +279,73 @@ Onyx::Renderable Onyx::RenderablePresets::TexturedCube(float side, Texture textu
 
 	return Renderable(
 		Mesh(
-			VertexArray(vertices, 120 * sizeof(float), ONYX_VERTEX_FORMAT_VT, true),
+			VertexArray(vertices, 240 * sizeof(float), ONYX_VERTEX_FORMAT_VNC, true),
 			IndexArray(indices, 36 * sizeof(uint), true)
 		),
-		ShaderPresets::VT(),
+		ShaderPresets::VNC()
+	);
+}
+
+Onyx::Renderable Onyx::RenderablePresets::TexturedCube(float side, Texture texture)
+{
+	float* vertices = new float[192]{
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, 0.0f, 1.0f,		0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f,
+
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f, -1.0f,		0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, 0.0f, -1.0f,		1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 0.0f, -1.0f,		1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 0.0f, -1.0f,		0.0f, 1.0f,
+
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, -1.0f, 0.0f,		0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		0.0f, -1.0f, 0.0f,		1.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, -1.0f, 0.0f,		1.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		0.0f, -1.0f, 0.0f,		0.0f, 1.0f,
+
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		0.0f, 1.0f, 0.0f,		1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 1.0f, 0.0f,		1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		0.0f, 1.0f, 0.0f,		0.0f, 1.0f,
+
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		-1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		-1.0f, 0.0f, 0.0f,		1.0f, 0.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		-1.0f, 0.0f, 0.0f,		1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		-1.0f, 0.0f, 0.0f,		0.0f, 1.0f,
+
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		1.0f, 0.0f, 0.0f,		1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		1.0f, 0.0f, 0.0f,		1.0f, 1.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		1.0f, 0.0f, 0.0f,		0.0f, 1.0f,
+	};
+
+	uint* indices = new uint[36]{
+		0, 1, 2,
+		2, 3, 0,
+
+		4, 5, 6,
+		6, 7, 4,
+
+		8, 9, 10,
+		10, 11, 8,
+
+		12, 13, 14,
+		14, 15, 12,
+
+		16, 17, 18,
+		18, 19, 16,
+
+		20, 21, 22,
+		22, 23, 20
+	};
+
+	return Renderable(
+		Mesh(
+			VertexArray(vertices, 192 * sizeof(float), ONYX_VERTEX_FORMAT_VNT, true),
+			IndexArray(indices, 36 * sizeof(uint), true)
+		),
+		ShaderPresets::VNT(),
 		texture
 	);
 }

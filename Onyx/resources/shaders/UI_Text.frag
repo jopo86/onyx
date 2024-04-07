@@ -1,12 +1,13 @@
 #version 410 core
 
-in vec2 texCoords;
-out vec4 color;
+in vec2 io_texCoord;
 
-uniform sampler2D tex;
-uniform vec3 textColor;
+out vec4 o_color;
+
+uniform sampler2D u_tex;
+uniform vec3 u_textColor;
 
 void main()
 {
-	color = vec4(textColor, 1.0f) * vec4(1.0, 1.0, 1.0, texture(tex, texCoords).r);
+	o_color = vec4(u_textColor, 1.0f) * vec4(1.0, 1.0, 1.0, texture(u_tex, io_texCoord).r);
 }

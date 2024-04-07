@@ -6,6 +6,7 @@ using Onyx::Math::Vec3;
 Onyx::Renderable::Renderable() 
 {
 	model = Mat4(1.0f);
+	inverseModel = Math::Inverse(model);
 	hidden = false;
 }
 
@@ -13,6 +14,7 @@ Onyx::Renderable::Renderable(Mesh mesh)
 {
 	this->mesh = mesh;
 	model = Mat4(1.0f);
+	inverseModel = Math::Inverse(model);
 	hidden = false;
 }
 
@@ -21,6 +23,7 @@ Onyx::Renderable::Renderable(Mesh mesh, Shader shader)
 	this->mesh = mesh;
 	this->shader = shader;
 	model = Mat4(1.0f);
+	inverseModel = Math::Inverse(model);
 	hidden = false;
 }
 
@@ -30,6 +33,7 @@ Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)
 	this->shader = shader;
 	this->texture = texture;
 	model = Mat4(1.0f);
+	inverseModel = Math::Inverse(model);
 	hidden = false;
 }
 
@@ -39,6 +43,7 @@ void Onyx::Renderable::render()
 	shader.use();
 	texture.bind();
 	shader.setMat4("u_model", model);
+	shader.setMat4("u_inverseModel", inverseModel);
 	glBindVertexArray(mesh.getVAO());
 	glDrawElements(GL_TRIANGLES, mesh.getIndexArray().getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
@@ -52,6 +57,7 @@ void Onyx::Renderable::render(Mat4 view, Mat4 proj)
 	shader.use();
 	texture.bind();
 	shader.setMat4("u_model", model);
+	shader.setMat4("u_inverseModel", inverseModel);
 	shader.setMat4("u_view", view);
 	shader.setMat4("u_projection", proj);
 	glBindVertexArray(mesh.getVAO());
@@ -80,24 +86,28 @@ void Onyx::Renderable::translate(Vec3 xyz)
 {
 	if (xyz.isZero()) return;
 	model.translate(xyz);
+	inverseModel = Math::Inverse(model);
 }
 
-void Onyx::Renderable::rotate(float degrees, Vec3 axes)
+void Onyx::Renderable::rotate(float degrees, Vec3 mask)
 {
-	if (degrees == 0 || axes.isZero()) return;
-	model.rotate(degrees, axes);
+	if (degrees == 0.0f || mask.isZero()) return;
+	model.rotate(degrees, mask);
+	inverseModel = Math::Inverse(model);
 }
 
 void Onyx::Renderable::scale(float scalar)
 {
 	if (scalar == 1.0f) return;
 	model.scale(Vec3(scalar, scalar, scalar));
+	inverseModel = Math::Inverse(model);
 }
 
 void Onyx::Renderable::scale(Vec3 xyzScalar)
 {
-	if (xyzScalar.getX() == 1 && xyzScalar.getY() == 1 && xyzScalar.getZ() == 1) return;
+	if (xyzScalar.getX() == 1.0f && xyzScalar.getY() == 1.0f && xyzScalar.getZ() == 1.0f) return;
 	model.scale(xyzScalar);
+	inverseModel = Math::Inverse(model);
 }
 
 void Onyx::Renderable::resetTransform()
@@ -105,22 +115,27 @@ void Onyx::Renderable::resetTransform()
 	model = Mat4(1.0f);
 }
 
-Onyx::Mesh Onyx::Renderable::getMesh()
+Onyx::Mesh* Onyx::Renderable::getMesh()
 {
-	return mesh;
+	return &mesh;
 }
 
-Onyx::Shader Onyx::Renderable::getShader()
+Onyx::Shader* Onyx::Renderable::getShader()
 {
-	return shader;
+	return &shader;
 }
 
-Onyx::Texture Onyx::Renderable::getTexture()
+Onyx::Texture* Onyx::Renderable::getTexture()
 {
-	return texture;
+	return &texture;
 }
 
-bool Onyx::Renderable::isHidden()
+const Mat4& Onyx::Renderable::getModel() const
+{
+	return model;
+}
+
+bool Onyx::Renderable::isHidden() const
 {
 	return hidden;
 }

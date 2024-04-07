@@ -31,22 +31,22 @@ void Onyx::ErrorHandler::setThrowing(bool enabled)
 	throwing = enabled;
 }
 
-std::vector<std::string> Onyx::ErrorHandler::getErrors()
+std::vector<std::string> Onyx::ErrorHandler::getErrors() const
 {
 	return errors;
 }
 
-std::string Onyx::ErrorHandler::getLastError()
+std::string Onyx::ErrorHandler::getLastError() const
 {
 	return errors[errors.size() - 1];
 }
 
-bool Onyx::ErrorHandler::isLogging()
+bool Onyx::ErrorHandler::isLogging() const
 {
 	return logging;
 }
 
-bool Onyx::ErrorHandler::isThrowing()
+bool Onyx::ErrorHandler::isThrowing() const
 {
 	return throwing;
 }

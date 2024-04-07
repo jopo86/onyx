@@ -89,24 +89,29 @@ Onyx::Shader::Shader(const Shader& other)
 	fragSource = other.fragSource;
 }
 
-void Onyx::Shader::use()
+void Onyx::Shader::use() const
 {
 	glUseProgram(prog);
 }
 
-uint Onyx::Shader::getProgramID()
+uint Onyx::Shader::getProgramID() const
 {
 	return prog;
 }
 
-const char* Onyx::Shader::getVertSource()
+const char* Onyx::Shader::getVertSource() const
 {
 	return vertSource;
 }
 
-const char* Onyx::Shader::getFragSource()
+const char* Onyx::Shader::getFragSource() const
 {
 	return fragSource;
+}
+
+void Onyx::Shader::setBool(const char* varName, bool val)
+{
+	glUniform1i(glGetUniformLocation(prog, varName), val);
 }
 
 void Onyx::Shader::setInt(const char* varName, int val)

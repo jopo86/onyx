@@ -45,7 +45,7 @@ namespace Onyx
 			Either ONYX_KEYSTATE_UP, DOWN, or REPEAT.
 			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
 		 */
-		int getKeystate(int key);
+		int getKeystate(int key) const;
 
 		/*
 			@brief Gets whether the specified key was pressed but is not repeating.
@@ -73,7 +73,7 @@ namespace Onyx
 			Either ONYX_KEYSTATE_UP, DOWN, or REPEAT.
 			@param button The mouse button to check. Use the definitions prefixed with ONYX_MOUSE_BUTTON.
 		 */
-		int getMouseButtonState(int button);
+		int getMouseButtonState(int button) const;
 
 		/*
 			@brief Gets whether the specified mouse button was pressed but is not repeating.
@@ -133,13 +133,13 @@ namespace Onyx
 			This is independent of whether update() is called each frame.
 			@return The position of the mouse.
 		 */
-		Onyx::Math::DVec2& getMousePos();
+		Onyx::Math::DVec2& getMousePos() const;
 
 		/*
 			@brief Gets the change in position of the mouse since the last update.
 			@return The change in position of the mouse since the last frame.
 		 */
-		Onyx::Math::DVec2& getMouseDeltas();
+		Onyx::Math::DVec2& getMouseDeltas() const;
 
 	private:
 		Window* p_win;

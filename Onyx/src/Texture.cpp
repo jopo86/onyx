@@ -94,12 +94,12 @@ Onyx::Texture::Texture(const Texture& other)
 	tex = other.tex;
 }
 
-void Onyx::Texture::bind()
+void Onyx::Texture::bind() const
 {
 	glBindTexture(GL_TEXTURE_2D, tex);
 }
 
-uint Onyx::Texture::getTextureID()
+uint Onyx::Texture::getTextureID() const
 {
 	return tex;
 }

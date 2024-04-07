@@ -29,19 +29,19 @@ namespace Onyx
 			@brief Gets the index data of the index array.
 			@return The index data of the index array.
 		 */
-		uint* getIndices();
+		uint* getIndices() const;
 
 		/*
 			@brief Gets the size of the index array.
 			@return The size of the index array, in bytes.
 		 */
-		ushort getSize();
+		ushort getSize() const;
 
 		/*
 			@brief Gets whether the index data is on the heap or not.
 			@return Whether the index data is on the heap or not.
 		 */
-		bool isOnHeap();
+		bool isOnHeap() const;
 
 		/*
 			@brief Sets the index data of the index array.

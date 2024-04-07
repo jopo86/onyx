@@ -49,25 +49,25 @@ namespace Onyx
 			@brief Gets all errors that have been passed.
 			@return A vector containing each error as a string.
 		 */
-		std::vector<std::string> getErrors();
+		std::vector<std::string> getErrors() const;
 
 		/*
 			@brief Gets the last error that was passed.
 			@return The most recently passed error as a string.
 		 */
-		std::string getLastError();
+		std::string getLastError() const;
 
 		/*
 			@brief Gets the logging setting.
 			@return Whether logging is enabled.
 		 */
-		bool isLogging();
+		bool isLogging() const;
 
 		/*
 			@brief Gets the throwing setting.
 			@return Whether throwing is enabled.
 		 */
-		bool isThrowing();
+		bool isThrowing() const;
 
 	private:
 		std::vector<std::string> errors;

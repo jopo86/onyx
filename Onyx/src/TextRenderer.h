@@ -71,19 +71,19 @@ namespace Onyx
 			@brief Gets the VAO used by the text renderer.
 			@return The vertex array object.
 		 */
-		uint getVAO();
+		uint getVAO() const;
 
 		/*
 			@brief Gets the VBO used by the text renderer.
 			@return The vertex buffer object.
 		 */
-		uint getVBO();
+		uint getVBO() const;
 
 		/*
 			@brief Gets the font of the text renderer.
 			@return A pointer to the font.
 		 */
-		Onyx::Font* getFont();
+		const Onyx::Font* getFont() const;
 
 		/*
 			@brief Sets the font of the text renderer.

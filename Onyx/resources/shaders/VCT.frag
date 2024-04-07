@@ -1,13 +1,13 @@
 #version 410 core
 
-in vec4 vertColor;
-in vec2 vertTexCoord;
+in vec4 io_color;
+in vec2 io_texCoord;
 
-out vec4 fragColor;
+out vec4 o_color;
 
-uniform sampler2D tex;
+uniform sampler2D u_tex;
 
 void main()
 {
-	fragColor = vertColor * texture(tex, vertTexCoord);
+	o_color = io_color * texture(u_tex, io_texCoord);
 }

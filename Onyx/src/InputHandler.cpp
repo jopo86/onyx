@@ -77,7 +77,7 @@ void Onyx::InputHandler::update()
 	}
 }
 
-int Onyx::InputHandler::getKeystate(int key)
+int Onyx::InputHandler::getKeystate(int key) const
 {
 	return keys[key];
 }
@@ -103,7 +103,7 @@ bool Onyx::InputHandler::isKeyDown(int key)
 	return retval;
 }
 
-int Onyx::InputHandler::getMouseButtonState(int button)
+int Onyx::InputHandler::getMouseButtonState(int button) const
 {
 	return buttons[button];
 }
@@ -152,14 +152,14 @@ void Onyx::InputHandler::toggleCursorLock()
 	setCursorLock(!cursorLock);
 }
 
-Onyx::Math::DVec2& Onyx::InputHandler::getMousePos()
+Onyx::Math::DVec2& Onyx::InputHandler::getMousePos() const
 {
-	return mousePos;
+	return (Math::DVec2&)mousePos;
 }
 
-Onyx::Math::DVec2& Onyx::InputHandler::getMouseDeltas()
+Onyx::Math::DVec2& Onyx::InputHandler::getMouseDeltas() const
 {
-	return mouseDeltas;
+	return (Math::DVec2&)mouseDeltas;
 }
 
 void Onyx::InputHandler::RCB_key(int key, int scancode, int action, int mods) 

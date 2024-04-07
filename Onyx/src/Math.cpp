@@ -1808,18 +1808,17 @@ Onyx::Math::Mat4x4::Mat4x4(glm::mat4x4 mat)
 	m_mat = mat;
 }
 
-void Onyx::Math::Mat4x4::translate(Vec3 xyz)
+void Onyx::Math::Mat4x4::translate(const Vec3& xyz)
 {
 	m_mat = glm::translate(m_mat, xyz.getMVec());
 }
 
-void Onyx::Math::Mat4x4::rotate(float degrees, Vec3 xyzMultiplier)
+void Onyx::Math::Mat4x4::rotate(float degrees, const Vec3& mask)
 {
-	m_mat = glm::rotate(m_mat, Radians(degrees), xyzMultiplier.getMVec());
-	
+	m_mat = glm::rotate(m_mat, Radians(degrees), mask.getMVec());
 }
 
-void Onyx::Math::Mat4x4::scale(Vec3 xyzMultiplier)
+void Onyx::Math::Mat4x4::scale(const Vec3& xyzMultiplier)
 {
 	m_mat = glm::scale(m_mat, xyzMultiplier.getMVec());
 }
@@ -1942,6 +1941,66 @@ Onyx::Math::Vec3 Onyx::Math::operator*(const Mat3x4& mat, const Vec4& vec)
 Onyx::Math::Vec4 Onyx::Math::operator*(const Mat4x4& mat, const Vec4& vec)
 {
 	return Vec4(mat.getMMat() * vec.getMVec());
+}
+
+Onyx::Math::Mat2x2 Onyx::Math::Transpose(const Mat2x2& mat)
+{
+	return Mat2x2(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat2x3 Onyx::Math::Transpose(const Mat3x2& mat)
+{
+	return Mat2x3(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat2x4 Onyx::Math::Transpose(const Mat4x2& mat)
+{
+	return Mat2x4(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat3x2 Onyx::Math::Transpose(const Mat2x3& mat)
+{
+	return Mat3x2(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat3x3 Onyx::Math::Transpose(const Mat3x3& mat)
+{
+	return Mat3x3(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat3x4 Onyx::Math::Transpose(const Mat4x3& mat)
+{
+	return Mat3x4(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat4x2 Onyx::Math::Transpose(const Mat2x4& mat)
+{
+	return Mat4x2(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat4x3 Onyx::Math::Transpose(const Mat3x4& mat)
+{
+	return Mat4x3(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat4x4 Onyx::Math::Transpose(const Mat4x4& mat)
+{
+	return Mat4x4(glm::transpose(mat.getMMat()));
+}
+
+Onyx::Math::Mat2x2 Onyx::Math::Inverse(const Mat2x2& mat)
+{
+	return Mat2x2(glm::inverse(mat.getMMat()));
+}
+
+Onyx::Math::Mat3x3 Onyx::Math::Inverse(const Mat3x3& mat)
+{
+	return Mat3x3(glm::inverse(mat.getMMat()));
+}
+
+Onyx::Math::Mat4x4 Onyx::Math::Inverse(const Mat4x4& mat)
+{
+	return Mat4x4(glm::inverse(mat.getMMat()));
 }
 
 Onyx::Math::Mat4x4 Onyx::Math::LookAt(const Vec3& pos, const Vec3& target, const Vec3& up)

@@ -68,6 +68,45 @@ Onyx::Shader Onyx::ShaderPresets::VCT()
 	return shader;
 }
 
+Onyx::Shader Onyx::ShaderPresets::VNC()
+{
+	Shader shader(
+		File(Onyx::Resources("shaders/VNC.vert")).readLiteral(), 
+		File(Onyx::Resources("shaders/VNC.frag")).readLiteral()
+	);
+	shader.use();
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
+	return shader;
+}
+
+Onyx::Shader Onyx::ShaderPresets::VNT()
+{
+	Shader shader(
+		File(Onyx::Resources("shaders/VNT.vert")).readLiteral(), 
+		File(Onyx::Resources("shaders/VNT.frag")).readLiteral()
+	);
+	shader.use();
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
+	return shader;
+}
+
+Onyx::Shader Onyx::ShaderPresets::VNCT()
+{
+	Shader shader(
+		File(Onyx::Resources("shaders/VNCT.vert")).readLiteral(), 
+		File(Onyx::Resources("shaders/VNCT.frag")).readLiteral()
+	);
+	shader.use();
+	shader.setMat4("u_model", Mat4(1.0f));
+	shader.setMat4("u_view", Mat4(1.0f));
+	shader.setMat4("u_projection", Mat4(1.0f));
+	return shader;
+}
+
 Onyx::Shader Onyx::ShaderPresets::UI_Color(Onyx::Math::Vec4 rgba)
 {
 	Shader shader(

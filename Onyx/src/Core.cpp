@@ -44,6 +44,31 @@ void Onyx::Init(ErrorHandler& errorHandler)
 	if (FT_Init_FreeType(&ft)) Err("failed to initialize FreeType library");
 }
 
+int Onyx::GetVersionMajor()
+{
+	return ONYX_VERSION_MAJOR;
+}
+
+int Onyx::GetVersionMinor()
+{
+	return ONYX_VERSION_MINOR;
+}
+
+int Onyx::GetVersionPatch()
+{
+	return ONYX_VERSION_PATCH;
+}
+
+bool Onyx::IsBeta()
+{
+	return ONYX_BETA;
+}
+
+std::string Onyx::GetVersionString()
+{
+	return std::to_string(ONYX_VERSION_MAJOR) + "." + std::to_string(ONYX_VERSION_MINOR) + "." + std::to_string(ONYX_VERSION_PATCH) + (ONYX_BETA ? "-beta" : "");
+}
+
 void Onyx::Terminate()
 {
 	if (!initialized) return;
@@ -60,30 +85,37 @@ void Onyx::Demo()
 
 	InputHandler input(window);
 
-	Renderable cube = RenderablePresets::TexturedCube(1.0f, Texture(ImageData::Load(Resources("textures/container.jpg"))));
+	Renderable redCube = RenderablePresets::ColoredCube(1.0f, Vec3(1.0f, 0.0f, 0.0f));
+	Renderable containerCube = RenderablePresets::TexturedCube(1.0f, ImageData::Load(Resources("textures/container.jpg")));
+
+	redCube.translate(Vec3(-1.0f, 0.0f, 0.0f));
+	containerCube.translate(Vec3(1.0f, 0.0f, 0.0f));
 	
-	float vertices[] = {
+	float bgVertices[] = {
 		10.0f,  710.0f, 0.0f,
 		200.0f, 710.0f, 0.0f,
 		200.0f, 600.0f, 0.0f,
 		10.0f,  600.0f, 0.0f
 	};
 
-	uint indices[] = {
+	uint bgIndices[] = {
 		0, 1, 2,
 		2, 3, 0
 	};
 
 	UiRenderable textBg(
-		Mesh(VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_V, false), IndexArray(indices, sizeof(indices), false)),
+		Mesh(VertexArray(bgVertices, sizeof(bgVertices), ONYX_VERTEX_FORMAT_V, false), IndexArray(bgIndices, sizeof(bgIndices), false)),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
 	);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
-	cam.translateFB(-3.0f);
+	cam.translateFB(-4.0f);
+
+	Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
 	Renderer renderer(window, cam);
-	renderer.add(cube);
+	renderer.add(redCube);
+	renderer.add(containerCube);
 	renderer.add(textBg);
 
 	Font robotoReg(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
@@ -98,6 +130,7 @@ void Onyx::Demo()
 	input.setKeyCooldown(ONYX_KEY_F12, 1.0f);
 	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
 	input.setKeyCooldown(ONYX_KEY_2, 0.5f);
+	input.setKeyCooldown(ONYX_KEY_3, 0.5f);
 	input.setMouseButtonCooldown(ONYX_MOUSE_BUTTON_LEFT, 0.5f);
 
 	int fps = 0;
@@ -120,12 +153,18 @@ void Onyx::Demo()
 		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
 		if (input.isKeyDown(ONYX_KEY_F12)) window.toggleFullscreen();
 		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_2)) cube.toggleVisibility();
+		if (input.isKeyDown(ONYX_KEY_2))
+		{
+			redCube.toggleVisibility();
+			containerCube.toggleVisibility();
+		}
+		if (input.isKeyDown(ONYX_KEY_3)) renderer.toggleLightingEnabled();
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
 
-		cube.rotate(20.0f * deltaTime, Vec3(0.5f, 0.3f, 1.0f));
+		redCube.rotate(50.0f * deltaTime, Vec3(1, 1, 1));
+		containerCube.rotate(-50.0f * deltaTime, Vec3(1, 1, 1));
 
 		window.startRender();
 		renderer.render();
@@ -138,12 +177,13 @@ void Onyx::Demo()
 		textRenderer.render("FRAME " + std::to_string(window.getFrame()), Vec2(25.0f, window.getBufferHeight() - 100.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 
 		textRenderer.render("Toggle Fullscreen: [F12]", Vec2(25.0f, 30.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Toggle Cube Visibility: [2]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Toggle Wireframe: [1]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Mouse to look around", Vec2(25.0f, 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Up/Down: [Space]/[C]", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Forward/Left/Backward/Right: [W]/[A]/[S]/[D]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Exit: [ESCAPE]", Vec2(25.0f, 180.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle Lighting: [3]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle Cube Visibility: [2]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle Wireframe: [1]", Vec2(25.0f, 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Mouse to look around", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Up/Down: [Space]/[C]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Forward/Left/Backward/Right: [W]/[A]/[S]/[D]", Vec2(25.0f, 180.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Exit: [ESCAPE]", Vec2(25.0f, 205.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 		TextRenderer::EndRender();
 
 		window.endRender();

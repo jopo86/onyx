@@ -48,85 +48,78 @@ namespace Onyx
 		static Projection Perspective(float fov, int screenWidth, int screenHeight, float nearPlane, float farPlane);
 
 		/*
-			@brief Updates the projection matrix as orthographic from its member variables.
-			Calling this on a projection that was created as perspective may result in undefined behavior, unless member variables are updated accordingly.
+			Updates the projection matrix based on the type of projection from its member variables.
 		 */
-		void updateMatrixOrtho();
-
-		/*
-			@brief Updates the projection matrix as perspective from its member variables.
-			Calling this on a projection that was created as orthographic may result in undefined behavior, unless member variables are updated accordingly.
-		 */
-		void updateMatrixPersp();
+		void update();
 
 		/*
 			@brief Gets the type of projection.
 			@return The type of projection - either MG_PROJECTION_TYPE_ORTHOGRAPHIC or MG_PROJECTION_TYPE_PERSPECTIVE.
 		 */
-		int getType();
+		int getType() const;
 
 		/*
 			@brief Gets the left of the screen.
 			FOR ORTHOGRAPHIC PROJECTIONS, will return -999 for perspective (if it hasn't been changed by a setter).
 			@return The left of the screen.
 		 */
-		float getLeft();
+		float getLeft() const;
 
 		/*
 			@brief Gets the right of the screen.
 			FOR ORTHOGRAPHIC PROJECTIONS, will return -999 for perspective (if it hasn't been changed by a setter).
 			@return The right of the screen.
 		 */
-		float getRight();
+		float getRight() const;
 
 		/*
 			@brief Gets the top of the screen.
 			FOR ORTHOGRAPHIC PROJECTIONS, will return -999 for perspective (if it hasn't been changed by a setter).
 			@return The top of the screen.
 		 */
-		float getTop();
+		float getTop() const;
 
 		/*
 			@brief Gets the bottom of the screen.
 			FOR ORTHOGRAPHIC PROJECTIONS, will return -999 for perspective (if it hasn't been changed by a setter).
 			@return The bottom of the screen.
 		 */
-		float getBottom();
+		float getBottom() const;
 
 		/*
 			@brief Gets the FOV.
 			FOR PERSPECTIVE PROJECTIONS, will return -999 for orthograhpic (if it hasn't been changed by a setter).
 			@return The field of view.
 		 */
-		float getFOV();
+		float getFOV() const;
 
 		/*
 			@brief Gets the aspect ratio.
 			FOR PERSPECTIVE PROJECTIONS, will return -999 for orthograhpic (if it hasn't been changed by a setter).
 			@return The aspect ratio (screen width/height).
 		 */
-		float getAspectRatio();
+		float getAspectRatio() const;
 
 		/*
 			@brief Gets the near plane value.
 			FOR PERSPECTIVE PROJECTIONS, will return -999 for orthograhpic (if it hasn't been changed by a setter).
 			@return The distance to the near plane.
 		 */
-		float getNearPlane();
+		float getNearPlane() const;
 
 		/*
 			@brief Gets the far plane value.
 			FOR PERSPECTIVE PROJECTIONS, will return -999 for orthograhpic (if it hasn't been changed by a setter).
 			@return The distance to the far plane.
 		 */
-		float getFarPlane();
+		float getFarPlane() const;
 
 		/*
 			@brief Gets the projection matrix.
 			The projection matrix is passed to the shader before rendering an object to project the object's 3D coordinates onto the 2D screen.
 			@return The projection matrix.
 		 */
-		Onyx::Math::Mat4 getMatrix();
+		Onyx::Math::Mat4 getMatrix() const;
 
 		/*
 			@brief Sets the left of the screen.

@@ -44,26 +44,33 @@ namespace Onyx
 			@brief Uses the shader.
 			Not needed if using renderables.
 		 */
-		void use();
+		void use() const;
 
 		/*
 			@brief Gets the ID of the OpenGL shader program.
 			Access to the program ID is provided for the library, as well as for advanced users.
 			@return The ID of the OpenGL shader program.
 		 */
-		uint getProgramID();
+		uint getProgramID() const;
 
 		/*
 			@brief Gets the vertex shader source code.
 			@return The vertex shader source code.
 		 */
-		const char* getVertSource();
+		const char* getVertSource() const;
 
 		/*
 			@brief Gets the fragment shader source code.
 			@return The fragment shader source code.
 		 */
-		const char* getFragSource();
+		const char* getFragSource() const;
+
+		/*
+			@brief Sets a boolean uniform variable in the shader.
+			@param varName The name of the variable.
+			@param val The value to set the variable to.
+		 */
+		void setBool(const char* varName, bool val);
 
 		/*
 			@brief Sets an integer uniform variable in the shader.

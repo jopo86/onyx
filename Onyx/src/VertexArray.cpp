@@ -15,22 +15,22 @@ Onyx::VertexArray::VertexArray(float *vertices, ushort size, int format, bool he
 	this->heap = heap;
 }
 
-float* Onyx::VertexArray::getVertices()
+float* Onyx::VertexArray::getVertices() const
 {
 	return vertices;
 }
 
-ushort Onyx::VertexArray::getSize()
+ushort Onyx::VertexArray::getSize() const
 {
 	return size;
 }
 
-int Onyx::VertexArray::getFormat()
+int Onyx::VertexArray::getFormat() const
 {
 	return format;
 }
 
-bool Onyx::VertexArray::isOnHeap()
+bool Onyx::VertexArray::isOnHeap() const
 {
 	return heap;
 }

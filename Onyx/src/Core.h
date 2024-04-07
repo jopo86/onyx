@@ -11,6 +11,11 @@
 	@file A header file containing useful definitions used by the Onyx library as well as the user.
  */
 
+#define ONYX_VERSION_MAJOR		0
+#define ONYX_VERSION_MINOR		6
+#define ONYX_VERSION_PATCH		0
+#define ONYX_BETA				true
+
 /*
 	Definitions for system info.
  */
@@ -42,26 +47,22 @@
 
 /*
 	Definitions for vertex formats.
-	These are used to tell the MgMesh class how the array of vertices is formatted.
-	They allow specification of what types of vertices are in the array (V/C/T) and how they are ordered.
+	These are used to tell the Mesh class how the array of vertices is formatted.
+	They allow specification of what types of vertices are in the vertex array (V/C/T/N).
 	V = vertices, C = colors, T = texture coordinates
  */
 #define ONYX_VERTEX_FORMAT_V					400
+#define ONYX_VERTEX_FORMAT_VN					403
 #define ONYX_VERTEX_FORMAT_VC					401
-#define ONYX_VERTEX_FORMAT_CV					402
-#define ONYX_VERTEX_FORMAT_VT					403
-#define ONYX_VERTEX_FORMAT_TV					404
-#define ONYX_VERTEX_FORMAT_VN					405
-#define ONYX_VERTEX_FORMAT_VCT					406
-#define ONYX_VERTEX_FORMAT_VTC					407
-#define ONYX_VERTEX_FORMAT_CVT					408
-#define ONYX_VERTEX_FORMAT_TVC					409
-#define ONYX_VERTEX_FORMAT_CTV					410
-#define ONYX_VERTEX_FORMAT_TCV					411
+#define ONYX_VERTEX_FORMAT_VT					402
+#define ONYX_VERTEX_FORMAT_VCT					404
+#define ONYX_VERTEX_FORMAT_VNT					405
+#define ONYX_VERTEX_FORMAT_VNC					406
+#define ONYX_VERTEX_FORMAT_VNCT					407
 
 /*
 	Definitions for meshes.
-	Used by MgMeshPresets::GetIndices(int mesh)
+	Used by MeshPresets::GetIndices(int mesh)
  									   ^^^^^^
  */
 #define ONYX_MESH_TRIANGLE						411
@@ -86,7 +87,7 @@
 
 /*
 	Definitions for each key on a keyboard.
-	These are used to specify what the target key is when testing if a key is up/down by the MgInputHandler class.
+	These are used to specify what the target key is when testing if a key is up/down by the InputHandler class.
  */
 #define ONYX_KEY_UNKNOWN						-1
 #define ONYX_KEY_SPACE							32
@@ -213,7 +214,7 @@
 
 /*
 	Definitions for each button on a mouse.
-	These are used to specify what the target button is when testing if a mouse button is up/down by the MgInputHandler class.
+	These are used to specify what the target button is when testing if a mouse button is up/down by the InputHandler class.
  */
 #define ONYX_MOUSE_BUTTON_1						0
 #define ONYX_MOUSE_BUTTON_2						1
@@ -230,7 +231,7 @@
 
 /*
 	Definitions for keystates.
-	Used by MgInputHandler.
+	Used by InputHandler.
  */
 #define ONYX_KEYSTATE_UNTOUCHED				   -1
 #define ONYX_KEYSTATE_RELEASE					0
@@ -268,9 +269,39 @@ namespace Onyx
 	void Init(ErrorHandler& errorHandler);
 
 	/*
+		@brief Gets the major version (X.y.z) of the Onyx library.
+		@return The major version number.
+	 */
+	int GetVersionMajor();
+
+	/*
+		@brief Gets the minor version (x.Y.z) of the Onyx library.
+		@return The minor version number.
+	 */
+	int GetVersionMinor();
+
+	/*
+		@brief Gets the patch version (x.y.Z) of the Onyx library.
+		@return The patch version number.
+	 */
+	int GetVersionPatch();
+
+	/*
+		@brief Gets whether this version of the Onyx library is in beta.
+		@return Whether the library is in beta.
+	 */
+	bool IsBeta();
+
+	/*
+		@brief Gets the version of the Onyx library as a string.
+		@return The version number in the format "x.y.z-preRelease(?)".
+	 */
+	std::string GetVersionString();
+
+	/*
 		@brief Terminates the Onyx library.
 		Frees space used by FreeType.
-	 ! Does not dispose of any objects that may have been created.
+	 !  Does not dispose of any objects that may have been created.
 	 */
 	void Terminate();
 

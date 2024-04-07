@@ -49,25 +49,25 @@ namespace Onyx
 			This is used by the library, it does not have much use for the user.
 			@return A pointer (array) to the byte data.
 		 */
-		ubyte* getData();
+		ubyte* getData() const;
 
 		/*
 			@brief Gets the width of the image.
 			@return The width of the image.
 		 */
-		int getWidth();
+		int getWidth() const;
 
 		/*
 			@brief Gets the height of the image.
 			@return The height of the image.
 		 */
-		int getHeight();
+		int getHeight() const;
 
 		/*
 			@brief Gets the format of the image.
 			@return The format of the image as a number of channels: 3 = RGB, 4 = RGBA.
 		 */
-		int getNChannels();
+		int getNChannels() const;
 
 		/*
 			@brief Disposes of the image data.

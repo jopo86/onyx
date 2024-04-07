@@ -19,7 +19,7 @@ Onyx::Projection Onyx::Projection::Orthographic(float left, float right, float t
 	proj.right = right;
 	proj.top = top;
 	proj.bottom = bottom;
-	proj.updateMatrixOrtho();
+	proj.update();
 	return proj;
 }
 
@@ -31,7 +31,7 @@ Onyx::Projection Onyx::Projection::Perspective(float fov, int screenWidth, int s
 	proj.aspectRatio = (float)screenWidth / (float)screenHeight;
 	proj.nearPlane = 0.1f;
 	proj.farPlane = 100.0f;
-	proj.updateMatrixPersp();
+	proj.update();
 	return proj;
 }
 
@@ -43,68 +43,68 @@ Onyx::Projection Onyx::Projection::Perspective(float fov, int screenWidth, int s
 	proj.aspectRatio = (float)screenWidth / (float)screenHeight;
 	proj.nearPlane = nearPlane;
 	proj.farPlane = farPlane;
-	proj.updateMatrixPersp();
+	proj.update();
 	return proj;
 }
 
-void Onyx::Projection::updateMatrixOrtho()
+void Onyx::Projection::update()
 {
-	type = ONYX_PROJECTION_TYPE_ORTHOGRAPHIC;
-	mat = OrthographicProjection(left, right, top, bottom);
+	if (type == ONYX_PROJECTION_TYPE_ORTHOGRAPHIC)
+	{
+		mat = OrthographicProjection(left, right, top, bottom);
+	}
+	else if (type == ONYX_PROJECTION_TYPE_PERSPECTIVE)
+	{
+		mat = PerspectiveProjection(fov, aspectRatio, nearPlane, farPlane);
+	}
 }
 
-void Onyx::Projection::updateMatrixPersp()
-{
-	type = ONYX_PROJECTION_TYPE_PERSPECTIVE;
-	mat = PerspectiveProjection(fov, aspectRatio, nearPlane, farPlane);
-}
-
-int Onyx::Projection::getType()
+int Onyx::Projection::getType() const
 {
 	return type;
 }
 
-float Onyx::Projection::getLeft()
+float Onyx::Projection::getLeft() const
 {
 	return left;
 }
 
-float Onyx::Projection::getRight()
+float Onyx::Projection::getRight() const
 {
 	return right;
 }
 
-float Onyx::Projection::getTop()
+float Onyx::Projection::getTop() const
 {
 	return top;
 }
 
-float Onyx::Projection::getBottom()
+float Onyx::Projection::getBottom() const
 {
 	return bottom;
 }
 
-float Onyx::Projection::getFOV()
+float Onyx::Projection::getFOV() const
 {
 	return fov;
 }
 
-float Onyx::Projection::getAspectRatio()
+float Onyx::Projection::getAspectRatio() const
 {
 	return aspectRatio;
 }
 
-float Onyx::Projection::getNearPlane()
+float Onyx::Projection::getNearPlane() const
 {
 	return nearPlane;
 }
 
-float Onyx::Projection::getFarPlane()
+float Onyx::Projection::getFarPlane() const
 {
 	return farPlane;
 }
 
-Mat4 Onyx::Projection::getMatrix()
+Mat4 Onyx::Projection::getMatrix() const
 {
 	return mat;
 }

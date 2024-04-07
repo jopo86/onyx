@@ -99,27 +99,27 @@ namespace Onyx
 			@brief Gets the position of camera.
 			@return The position of the camera.
 		 */
-		Onyx::Math::Vec3 getPosition();
+		Onyx::Math::Vec3 getPosition() const;
 
 		/*
 			@brief Gets the projection of the camera.
 			@return The projection of the camera.
 		 */
-		Projection getProjection();
+		Projection getProjection() const;
 
 		/*
 			@brief Gets the view matrix of the camera.
 			Used by the renderer to render objects from the camera's POV.
 			@return The view matrix.
 		 */
-		Onyx::Math::Mat4 getViewMatrix();
+		Onyx::Math::Mat4 getViewMatrix() const;
 
 		/*
 			@brief Gets the projection matrix of the camera.
 			Used by the renderer to render objects with perspective or orthographically.
 			@return The projection matrix.
 		 */
-		Onyx::Math::Mat4 getProjectionMatrix();
+		Onyx::Math::Mat4 getProjectionMatrix() const;
 
 		/*
 			@brief Sets the pitch limit of the camera.

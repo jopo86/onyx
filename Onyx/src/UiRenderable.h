@@ -126,26 +126,26 @@ namespace Onyx
 			@brief Gets the mesh associated with the renderable.
 			@return The mesh.
 		 */
-		Mesh getMesh();
+		Mesh getMesh() const;
 
 		/*
 			@brief Gets the shader associated with the renderable.
 			@return The shader.
 		 */
-		Shader getShader();
+		Shader getShader() const;
 
 		/*
 			@brief Gets the texture associated with the renderable.
 			@return The texture.
 		 */
-		Texture getTexture();
+		Texture getTexture() const;
 
 		/*
 			@brief Gets whether the renderable is hidden.
 			See hide() and show() for more info.
 			@return Whether the renderable is hidden.
 		 */
-		bool isHidden();
+		bool isHidden() const;
 
 		/*
 			@brief Disposes of the renderable, including the associated mesh, shader, and texture.

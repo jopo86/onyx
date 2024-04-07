@@ -17,6 +17,7 @@ Onyx::Window::Window()
 	p_inputHandler = nullptr;
 	p_cam = nullptr;
 	p_textRenderer = nullptr;
+	p_renderer = nullptr;
 	fullscreen = false;
 	initialized = false;
 	frame = fps = 0;
@@ -33,6 +34,7 @@ Onyx::Window::Window(const char *title, int width, int height)
 	p_inputHandler = nullptr;
 	p_cam = nullptr;
 	p_textRenderer = nullptr;
+	p_renderer = nullptr;
 	fullscreen = false;
 	initialized = false;
 	frame = fps = 0;
@@ -133,57 +135,57 @@ void Onyx::Window::toggleFullscreen()
 	else setFullscreen();
 }
 
-GLFWwindow *Onyx::Window::getGlfwWindowPtr()
+GLFWwindow *Onyx::Window::getGlfwWindowPtr() const
 {
 	return p_glfwWin;
 }
 
-const char *Onyx::Window::getTitle()
+const char *Onyx::Window::getTitle() const
 {
 	return title;
 }
 
-int Onyx::Window::getWidth()
+int Onyx::Window::getWidth() const
 {
 	return width;
 }
 
-int Onyx::Window::getHeight()
+int Onyx::Window::getHeight() const
 {
 	return height;
 }
 
-int Onyx::Window::getBufferWidth()
+int Onyx::Window::getBufferWidth() const
 {
 	return bufferWidth;
 }
 
-int Onyx::Window::getBufferHeight()
+int Onyx::Window::getBufferHeight() const
 {
 	return bufferHeight;
 }
 
-int Onyx::Window::getFrame()
+int Onyx::Window::getFrame() const
 {
 	return frame;
 }
 
-bool Onyx::Window::isInitialized()
+bool Onyx::Window::isInitialized() const
 {
 	return initialized;
 }
 
-int Onyx::Window::getFPS()
+int Onyx::Window::getFPS() const
 {
 	return fps;
 }
 
-double Onyx::Window::getDeltaTime()
+double Onyx::Window::getDeltaTime() const
 {
 	return deltaTime;
 }
 
-bool Onyx::Window::isOpen()
+bool Onyx::Window::isOpen() const
 {
 	return !glfwWindowShouldClose(p_glfwWin);
 }

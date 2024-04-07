@@ -86,68 +86,68 @@ namespace Onyx
 			Access to the GLFW window is provided for the library, as well as for advanced users.
 			@return A pointer to the GLFW window.
 		 */
-		GLFWwindow* getGlfwWindowPtr();
+		GLFWwindow* getGlfwWindowPtr() const;
 
 		/*
 			@brief Gets the title of the window.
 			@return The title of the window.
 		 */
-		const char* getTitle();
+		const char* getTitle() const;
 
 		/*
 			@brief Gets the width of the window.
 			@return The width of the window.
 		 */
-		int getWidth();
+		int getWidth() const;
 
 		/*
 			@brief Gets the height of the window.
 			@return The height of the window.
 		 */
-		int getHeight();
+		int getHeight() const;
 
 		/*
 			@brief Gets the width of the rendering frame of the window, not including borders.
 			@return The buffer width of the window, explained above.
 		 */
-		int getBufferWidth();
+		int getBufferWidth() const;
 
 		/*
 			@brief Gets the height of the rendering frame of the window, not including borders.
 			@return The buffer height of the window, explained above.
 		 */
-		int getBufferHeight();
+		int getBufferHeight() const;
 
 		/*
 			@brief Gets the current frame number.
 			The frame number is increased every time startRender() is called.
 			@return The current frame number.
 		 */
-		int getFrame();
+		int getFrame() const;
 
 		/*
 			@brief Gets the initialization status of the window.
 			@return Whether the window has been initialized.
 		 */
-		bool isInitialized();
+		bool isInitialized() const;
 
 		/*
 			@brief Gets the current frames per second.
 			@return The current frames per second.
 		 */
-		int getFPS();
+		int getFPS() const;
 
 		/*
 			@brief Gets the time since the last frame, in seconds.
 			@return The time since the last frame, in seconds.
 		 */
-		double getDeltaTime();
+		double getDeltaTime() const;
 
 		/*
 			@brief Gets the open/closed status of the window.
 			@return Whether the window is open.
 		 */
-		bool isOpen();
+		bool isOpen() const;
 
 		/*
 			@brief Sets the background color of the window.

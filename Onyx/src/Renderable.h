@@ -90,14 +90,14 @@ namespace Onyx
 			Note that this function inc/decrements the renderable's rotation, it does not set it.
 			Directly setting a transform is not natively supported, that would be up to the user to program.
 			@param degrees The degree angle to rotate.
-			@param axes The axes to rotate around. Here are some examples:
-			(1, 0, 0) will rotate the specified angle around the x axis.
+			@param mask Specifies the axes to rotate around. Here are some examples:
+			(1, 0, 0) will rotate the specified angle around the x axis only.
+			(0, 1, 0) will rotate the specified angle around the y axis only.
+			(0, 0, 1) will rotate the specified angle around the z axis only.
 			(1, 1, 1) will rotate the specified angle around all axes.
-			(0, 0.5, 0) will rotate half the specified angle around the y axis.
-			(0.6, 0, 1) will rotate 6/10 the specified angle around the x axis and the full specified angle around the z axis.
-			Numbers below 0 or above 1 will be treated as 0 or 1 respectively.
+			Numbers below 0 are treated as 0 and any other number is treated as 1.
 		 */
-		void rotate(float degrees, Onyx::Math::Vec3 axes);
+		void rotate(float degrees, Onyx::Math::Vec3 mask);
 
 		/*
 			@brief Scales the renderable in all dimensions by the specified scalar.
@@ -130,28 +130,34 @@ namespace Onyx
 
 		/*
 			@brief Gets the mesh associated with the renderable.
-			@return The mesh.
+			@return A pointer to the mesh.
 		 */
-		Mesh getMesh();
+		Mesh* getMesh();
 
 		/*
 			@brief Gets the shader associated with the renderable.
-			@return The shader.
+			@return A pointer to the shader.
 		 */
-		Shader getShader();
+		Shader* getShader();
 
 		/*
 			@brief Gets the texture associated with the renderable.
-			@return The texture.
+			@return A pointer to the texture.
 		 */
-		Texture getTexture();
+		Texture* getTexture();
+
+		/*
+			@brief Gets the model matrix of the renderable.
+			@return The model matrix.
+		 */
+		const Onyx::Math::Mat4& getModel() const;
 
 		/*
 			@brief Gets whether the renderable is hidden.
 			See hide() and show() for more info.
 			@return Whether the renderable is hidden.
 		 */
-		bool isHidden();
+		bool isHidden() const;
 
 		/*
 			@brief Disposes of the renderable, including the associated mesh, shader, and texture.
@@ -166,6 +172,7 @@ namespace Onyx
 		Texture texture;
 
 		Onyx::Math::Mat4 model;
+		Onyx::Math::Mat4 inverseModel;
 
 		bool hidden;
 	};

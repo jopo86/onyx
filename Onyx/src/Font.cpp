@@ -89,22 +89,22 @@ void Onyx::Font::populateGlyphs()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-std::string Onyx::Font::getTtfFilePath()
+std::string Onyx::Font::getTtfFilePath() const
 {
 	return ttfFilePath;
 }
 
-uint Onyx::Font::getSize()
+uint Onyx::Font::getSize() const
 {
 	return size;
 }
 
-std::map<char, Onyx::Glyph> Onyx::Font::getGlyphs()
+std::map<char, Onyx::Glyph> Onyx::Font::getGlyphs() const
 {
 	return glyphs;
 }
 
-Onyx::Glyph& Onyx::Font::operator[](char c)
+const Onyx::Glyph& Onyx::Font::operator[](char c) const
 {
 	return glyphs.at(c);
 }

@@ -117,22 +117,22 @@ void Onyx::Camera::rotate(float _yaw, float _pitch)
 	front = front.getNormalized();
 }
 
-Vec3 Onyx::Camera::getPosition()
+Vec3 Onyx::Camera::getPosition() const
 {
 	return pos;
 }
 
-Onyx::Projection Onyx::Camera::getProjection()
+Onyx::Projection Onyx::Camera::getProjection() const
 {
 	return proj;
 }
 
-Mat4 Onyx::Camera::getViewMatrix()
+Mat4 Onyx::Camera::getViewMatrix() const
 {
 	return view;
 }
 
-Mat4 Onyx::Camera::getProjectionMatrix()
+Mat4 Onyx::Camera::getProjectionMatrix() const
 {
 	return proj.getMatrix();
 }

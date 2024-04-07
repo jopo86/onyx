@@ -1,12 +1,13 @@
 #version 410 core
 
-layout (location = 0) in vec4 vertex;
-out vec2 texCoords;
+layout (location = 0) in vec4 i_vertex;
+
+out vec2 io_texCoord;
 
 uniform mat4 u_projection;
 
 void main()
 {
-	gl_Position = u_projection * vec4(vertex.xy, 0.0, 1.0);
-	texCoords = vertex.zw;
+	gl_Position = u_projection * vec4(i_vertex.xy, 0.0, 1.0);
+	io_texCoord = i_vertex.zw;
 }

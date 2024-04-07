@@ -52,14 +52,14 @@ namespace Onyx
 			@brief Binds the texture.
 			Not needed if using renderables.
 		 */
-		void bind();
+		void bind() const;
 
 		/*
 			@brief Gets the ID of the texture in OpenGL.
 			Access to the texture ID is provided for the library, as well as for advanced users.
 			@return The ID of the OpenGL texture.
 		 */
-		uint getTextureID();
+		uint getTextureID() const;
 
 		/*
 			@brief Disposes of the texture.

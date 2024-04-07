@@ -52,6 +52,12 @@ namespace Onyx
 		 */
 		Shader VCT();
 
+		Shader VNC();
+
+		Shader VNT();
+
+		Shader VNCT();
+
 		/*
 			@brief Creates a shader for UI elements that colors the mesh the specified color.
 			Compatible with vertex format V.

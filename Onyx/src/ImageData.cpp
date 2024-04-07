@@ -52,22 +52,22 @@ Onyx::ImageData Onyx::ImageData::Load(std::string filepath)
 	return ImageData(data, width, height, nChannels);
 }
 
-ubyte *Onyx::ImageData::getData()
+ubyte *Onyx::ImageData::getData() const
 {
 	return data;
 }
 
-int Onyx::ImageData::getWidth()
+int Onyx::ImageData::getWidth() const
 {
 	return width;
 }
 
-int Onyx::ImageData::getHeight()
+int Onyx::ImageData::getHeight() const
 {
 	return height;
 }
 
-int Onyx::ImageData::getNChannels()
+int Onyx::ImageData::getNChannels() const
 {
 	return nChannels;
 }

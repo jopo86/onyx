@@ -14,17 +14,17 @@ Onyx::IndexArray::IndexArray(uint *indices, ushort size, bool heap)
 	this->heap = heap;
 }
 
-uint* Onyx::IndexArray::getIndices()
+uint* Onyx::IndexArray::getIndices() const
 {
 	return indices;
 }
 
-ushort Onyx::IndexArray::getSize()
+ushort Onyx::IndexArray::getSize() const
 {
 	return size;
 }
 
-bool Onyx::IndexArray::isOnHeap()
+bool Onyx::IndexArray::isOnHeap() const
 {
 	return heap;
 }

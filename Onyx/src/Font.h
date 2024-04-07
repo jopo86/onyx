@@ -80,21 +80,21 @@ namespace Onyx
 			@brief Gets the path of the TrueType font file.
 			@return The path of the TrueType font file.
 		 */
-		std::string getTtfFilePath();
+		std::string getTtfFilePath() const;
 
 		/*
 			@brief Gets the size of the font.
 			@return The size of the font.
 		 */
-		uint getSize();
+		uint getSize() const;
 
 		/*
 			@brief Gets the glyphs of the font.
 			@return A map of characters and their corresponding glyphs.
 		 */
-		std::map<char, Glyph> getGlyphs();
+		std::map<char, Glyph> getGlyphs() const;
 
-		Glyph& operator[](char c);
+		const Glyph& operator[](char c) const;
 
 		/*
 			@brief Disposes of the font.

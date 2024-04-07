@@ -28,25 +28,25 @@ namespace Onyx
 			@brief Gets the vertex data of the vertex array.
 			@return The vertex data of the vertex array.
 		 */
-		float* getVertices();
+		float* getVertices() const;
 
 		/*
 			@brief Gets the size of the vertex array.
 			@return The size of the vertex array, in bytes.
 		 */
-		ushort getSize();
+		ushort getSize() const;
 
 		/*
 			@brief Gets the vertex format of the vertex array.
 			@return The vertex format of the vertex array.
 		 */
-		int getFormat();
+		int getFormat() const;
 
 		/*
 			@brief Gets whether the vertex data is on the heap or not.
 			@return Whether the vertex data is on the heap or not.
 		 */
-		bool isOnHeap();
+		bool isOnHeap() const;
 
 		/*
 			@brief Sets the vertex data of the vertex array.

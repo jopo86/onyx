@@ -56,7 +56,7 @@ namespace Onyx
 			@brief Gets the type of projection.
 			@return The type of projection - either MG_PROJECTION_TYPE_ORTHOGRAPHIC or MG_PROJECTION_TYPE_PERSPECTIVE.
 		 */
-		int getType() const;
+		Onyx::ProjectionType getType() const;
 
 		/*
 			@brief Gets the left of the screen.
@@ -178,7 +178,7 @@ namespace Onyx
 		void setFarPlane(float val);
 
 	private:
-		int type;
+		Onyx::ProjectionType type;
 		float left, right, top, bottom, fov, aspectRatio, nearPlane, farPlane;
 
 		Onyx::Math::Mat4 mat;

@@ -136,7 +136,7 @@ void lightingTest()
 	};
 
 	Onyx::Mesh objMesh(
-		Onyx::VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_VN, false),
+		Onyx::VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VN, false),
 		Onyx::IndexArray(indices, sizeof(indices), false)
 	);
 
@@ -160,7 +160,7 @@ void lightingTest()
 
 	Onyx::UiRenderable ui(
 		Onyx::Mesh(
-			Onyx::VertexArray(uiVertices, sizeof(uiVertices), ONYX_VERTEX_FORMAT_V, false),
+			Onyx::VertexArray(uiVertices, sizeof(uiVertices), Onyx::VertexFormat::V, false),
 			Onyx::IndexArray(uiIndices, sizeof(uiIndices), false)
 		),
 		Vec4(1.0f, 1.0f, 1.0f, 0.2f)
@@ -188,13 +188,13 @@ void lightingTest()
 
 		input.update();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(1.0f * CAM_SPEED * window.getDeltaTime());
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-1.0f * CAM_SPEED * window.getDeltaTime());
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-1.0f * CAM_SPEED * window.getDeltaTime());
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(1.0f * CAM_SPEED * window.getDeltaTime());
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(1.0f * CAM_SPEED * window.getDeltaTime());
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-1.0f * CAM_SPEED * window.getDeltaTime());
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(1.0f * CAM_SPEED * window.getDeltaTime());
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-1.0f * CAM_SPEED * window.getDeltaTime());
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-1.0f * CAM_SPEED * window.getDeltaTime());
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(1.0f * CAM_SPEED * window.getDeltaTime());
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(1.0f * CAM_SPEED * window.getDeltaTime());
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-1.0f * CAM_SPEED * window.getDeltaTime());
 
 		cam.rotate(input.getMouseDeltas().getX() * 0.005f * CAM_SENS, input.getMouseDeltas().getY() * 0.005f * CAM_SENS);
 

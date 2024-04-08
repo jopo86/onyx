@@ -31,7 +31,7 @@ Onyx::Mesh Onyx::MeshPresets::Triangle(Vec2 a, Vec2 b, Vec2 c)
 	};
 
 	return Mesh(
-		VertexArray(vertices, 9 * sizeof(float), ONYX_VERTEX_FORMAT_V, true),
+		VertexArray(vertices, 9 * sizeof(float), Onyx::VertexFormat::V, true),
 		IndexArray(indices, 3 * sizeof(uint), true)
 	);
 }
@@ -66,7 +66,7 @@ Onyx::Mesh Onyx::MeshPresets::Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
 	};
 
 	return Mesh(
-		VertexArray(vertices, 12 * sizeof(float), ONYX_VERTEX_FORMAT_V, true),
+		VertexArray(vertices, 12 * sizeof(float), Onyx::VertexFormat::V, true),
 		IndexArray(indices, 6 * sizeof(uint), true)
 	);
 }
@@ -124,7 +124,7 @@ Onyx::Mesh Onyx::MeshPresets::RectPrism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, 
 	};
 
 	return Mesh(
-		VertexArray(vertices, 24 * sizeof(float), ONYX_VERTEX_FORMAT_V, true),
+		VertexArray(vertices, 24 * sizeof(float), Onyx::VertexFormat::V, true),
 		IndexArray(indices, 36 * sizeof(uint), true)
 	);
 }
@@ -140,7 +140,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float side)
 		 0.0f,         height / 2.0f
 	};
 
-	return VertexArray(vertices, 6 * sizeof(float), ONYX_VERTEX_FORMAT_V, true);
+	return VertexArray(vertices, 6 * sizeof(float), Onyx::VertexFormat::V, true);
 }
 
 Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float base, float height)
@@ -151,7 +151,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float base, float heigh
 		 0.0f,         height / 2.0f
 	};
 
-	return VertexArray(vertices, 6 * sizeof(float), ONYX_VERTEX_FORMAT_V, true);
+	return VertexArray(vertices, 6 * sizeof(float), Onyx::VertexFormat::V, true);
 }
 
 Onyx::VertexArray Onyx::MeshPresets::GetSquareVertices(float side)
@@ -163,7 +163,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetSquareVertices(float side)
 		-side / 2.0f,  side / 2.0f
 	};
 
-	return VertexArray(vertices, 8 * sizeof(float), ONYX_VERTEX_FORMAT_V, true);
+	return VertexArray(vertices, 8 * sizeof(float), Onyx::VertexFormat::V, true);
 }
 
 Onyx::VertexArray Onyx::MeshPresets::GetQuadVertices(float width, float height)
@@ -175,7 +175,7 @@ Onyx::VertexArray Onyx::MeshPresets::GetQuadVertices(float width, float height)
 		-width / 2.0f,  height / 2.0f
 	};
 
-	return VertexArray(vertices, 8 * sizeof(float), ONYX_VERTEX_FORMAT_V, true);
+	return VertexArray(vertices, 8 * sizeof(float), Onyx::VertexFormat::V, true);
 }
 
 Onyx::VertexArray Onyx::MeshPresets::GetRectPrismVertices(float width, float height, float depth)
@@ -191,23 +191,23 @@ Onyx::VertexArray Onyx::MeshPresets::GetRectPrismVertices(float width, float hei
 		-width / 2.0f,  height / 2.0f, -depth / 2.0f
 	};
 
-	return VertexArray(vertices, 24 * sizeof(float), ONYX_VERTEX_FORMAT_V, true);
+	return VertexArray(vertices, 24 * sizeof(float), Onyx::VertexFormat::V, true);
 }
 
-Onyx::IndexArray Onyx::MeshPresets::GetIndices(int mesh)
+Onyx::IndexArray Onyx::MeshPresets::GetIndices(Onyx::MeshType meshType)
 {
 	IndexArray retval;
 
-	switch (mesh)
+	switch (meshType)
 	{
-		case ONYX_MESH_TRIANGLE:
+		case Onyx::MeshType::Triangle:
 		{
 			uint* indices = new uint[3]{ 0, 1, 2 };
 			retval = IndexArray(indices, 3 * sizeof(uint), true);
 			break;
 		}
 
-		case ONYX_MESH_SQUARE: case ONYX_MESH_RECT:
+		case Onyx::MeshType::Square: case Onyx::MeshType::Rect:
 		{
 			uint* indices = new uint[6]{
 				0, 1, 2,
@@ -217,7 +217,7 @@ Onyx::IndexArray Onyx::MeshPresets::GetIndices(int mesh)
 			break;
 		}
 
-		case ONYX_MESH_CUBE: case ONYX_MESH_RECT_PRISM:
+		case Onyx::MeshType::Cube: case Onyx::MeshType::RectPrism:
 		{
 			uint* indices = new uint[36]{
 				0, 1, 2,

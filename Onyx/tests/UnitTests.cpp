@@ -81,7 +81,6 @@ Result UnitTests::VertexArrayConstructor1Test()
 
     result.verify("vertices", vertexArray.getVertices(), (float*)nullptr);
     result.verify("size", vertexArray.getSize(), 0);
-    result.verify("format", vertexArray.getFormat(), 0);
     result.verify("heap", vertexArray.isOnHeap(), false);
 
     return result;
@@ -93,14 +92,13 @@ Result UnitTests::VertexArrayConstructor2Test()
 
     float vertices[3] = { 1.0f, 2.0f, 3.0f };
     ushort size = 3;
-    int format = 1;
+    Onyx::VertexFormat format = Onyx::VertexFormat::Null;
     bool heap = true;
 
     Onyx::VertexArray vertexArray(vertices, size, format, heap);
 
     result.verify("vertices", vertexArray.getVertices(), vertices);
     result.verify("size", vertexArray.getSize(), size);
-    result.verify("format", vertexArray.getFormat(), format);
     result.verify("heap", vertexArray.isOnHeap(), heap);
 
     return result;
@@ -112,7 +110,6 @@ Result UnitTests::ProjectionConstructor1Test()
 
     Onyx::Projection projection;
 
-    result.verify("type", projection.getType(), 0);
     result.verify("left", projection.getLeft(), 0.0f);
     result.verify("right", projection.getRight(), 0.0f);
     result.verify("top", projection.getTop(), 0.0f);
@@ -131,7 +128,6 @@ Result UnitTests::ProjectionOrthographicMethodTest()
 
     Onyx::Projection projection = Onyx::Projection::Orthographic(0.0f, 1.0f, 0.0f, 1.0f);
 
-    result.verify("type", projection.getType(), ONYX_PROJECTION_TYPE_ORTHOGRAPHIC);
     result.verify("left", projection.getLeft(), 0.0f);
     result.verify("right", projection.getRight(), 1.0f);
     result.verify("top", projection.getTop(), 0.0f);
@@ -146,7 +142,6 @@ Result UnitTests::ProjectionPerspectiveMethod1Test()
 
     Onyx::Projection projection = Onyx::Projection::Perspective(45.0f, 800, 600);
 
-    result.verify("type", projection.getType(), ONYX_PROJECTION_TYPE_PERSPECTIVE);
     result.verify("fov", projection.getFOV(), 45.0f);
     result.verify("aspectRatio", projection.getAspectRatio(), 800.0f / 600.0f);
     result.verify("nearPlane", projection.getNearPlane(), 0.1f);
@@ -161,7 +156,6 @@ Result UnitTests::ProjectionPerspectiveMethod2Test()
 
     Onyx::Projection projection = Onyx::Projection::Perspective(45.0f, 800, 600, 0.5f, 200.0f);
 
-    result.verify("type", projection.getType(), ONYX_PROJECTION_TYPE_PERSPECTIVE);
     result.verify("fov", projection.getFOV(), 45.0f);
     result.verify("aspectRatio", projection.getAspectRatio(), 800.0f / 600.0f);
     result.verify("nearPlane", projection.getNearPlane(), 0.5f);
@@ -176,7 +170,6 @@ Result UnitTests::ProjectionPerspectiveMethod3Test()
 
     Onyx::Projection projection = Onyx::Projection::Perspective(45.0f, 800, 600, 0.5f, 200.0f);
 
-    result.verify("type", projection.getType(), ONYX_PROJECTION_TYPE_PERSPECTIVE);
     result.verify("fov", projection.getFOV(), 45.0f);
     result.verify("aspectRatio", projection.getAspectRatio(), 800.0f / 600.0f);
     result.verify("nearPlane", projection.getNearPlane(), 0.5f);

@@ -223,7 +223,7 @@ void Onyx::Window::CB_framebufferSize(GLFWwindow* p_glfwWin, int width, int heig
 
 	if (p_cam != nullptr)
 	{
-		if (p_cam->getProjection().getType() != ONYX_PROJECTION_TYPE_PERSPECTIVE) return;
+		if (p_cam->getProjection().getType() != Onyx::ProjectionType::Perspective) return;
 		Projection proj = p_cam->getProjection();
 		p_cam->setProjection(Projection::Perspective(proj.getFOV(), width, height, proj.getNearPlane(), proj.getFarPlane()));
 	}

@@ -31,7 +31,7 @@ void PresetTests::MeshTest__Triangle1()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -39,14 +39,14 @@ void PresetTests::MeshTest__Triangle1()
 		
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -84,7 +84,7 @@ void PresetTests::MeshTest__Triangle2()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -92,14 +92,14 @@ void PresetTests::MeshTest__Triangle2()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -137,7 +137,7 @@ void PresetTests::MeshTest__Triangle3()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -145,14 +145,14 @@ void PresetTests::MeshTest__Triangle3()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -190,7 +190,7 @@ void PresetTests::MeshTest__Square()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -198,14 +198,14 @@ void PresetTests::MeshTest__Square()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -243,7 +243,7 @@ void PresetTests::MeshTest__Quad1()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -251,14 +251,14 @@ void PresetTests::MeshTest__Quad1()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -296,7 +296,7 @@ void PresetTests::MeshTest__Quad2()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -304,14 +304,14 @@ void PresetTests::MeshTest__Quad2()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -349,7 +349,7 @@ void PresetTests::MeshTest__Cube()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -357,14 +357,14 @@ void PresetTests::MeshTest__Cube()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -402,7 +402,7 @@ void PresetTests::MeshAndShaderTest__RectPrism1__V_Color()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -410,14 +410,14 @@ void PresetTests::MeshAndShaderTest__RectPrism1__V_Color()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -458,7 +458,7 @@ void PresetTests::MeshAndShaderTest__RectPrism2__V_XYZtoRGB()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -466,14 +466,14 @@ void PresetTests::MeshAndShaderTest__RectPrism2__V_XYZtoRGB()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -506,7 +506,7 @@ void PresetTests::ShaderTest__VC()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_VC, false), Onyx::MeshPresets::GetIndices(ONYX_MESH_TRIANGLE)),
+		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VC, false), Onyx::MeshPresets::GetIndices(Onyx::MeshType::Triangle)),
 		Onyx::ShaderPresets::VC()
 	);
 
@@ -520,7 +520,7 @@ void PresetTests::ShaderTest__VC()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -528,14 +528,14 @@ void PresetTests::ShaderTest__VC()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -569,7 +569,7 @@ void PresetTests::ShaderTest__VT()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_VT, false), IndexArray(Onyx::MeshPresets::GetIndices(ONYX_MESH_SQUARE))),
+		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VT, false), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
 		Onyx::ShaderPresets::VT(),
 		Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg"))
 	);
@@ -584,7 +584,7 @@ void PresetTests::ShaderTest__VT()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -592,14 +592,14 @@ void PresetTests::ShaderTest__VT()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -633,7 +633,7 @@ void PresetTests::ShaderTest__VCT()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), ONYX_VERTEX_FORMAT_VCT, false), IndexArray(Onyx::MeshPresets::GetIndices(ONYX_MESH_SQUARE))),
+		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VCT, false), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
 		Onyx::ShaderPresets::VCT(),
 		Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg"))
 	);
@@ -648,7 +648,7 @@ void PresetTests::ShaderTest__VCT()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -656,14 +656,14 @@ void PresetTests::ShaderTest__VCT()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -701,7 +701,7 @@ void PresetTests::RenderableTest__ColoredTriangle1()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -709,14 +709,14 @@ void PresetTests::RenderableTest__ColoredTriangle1()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -754,7 +754,7 @@ void PresetTests::RenderableTest__ColoredTriangle2()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -762,14 +762,14 @@ void PresetTests::RenderableTest__ColoredTriangle2()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -807,7 +807,7 @@ void PresetTests::RenderableTest__ColoredTriangle3()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -815,14 +815,14 @@ void PresetTests::RenderableTest__ColoredTriangle3()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -860,7 +860,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle1()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -868,14 +868,14 @@ void PresetTests::RenderableTest__VertexColoredTriangle1()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -913,7 +913,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle2()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -921,14 +921,14 @@ void PresetTests::RenderableTest__VertexColoredTriangle2()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -966,7 +966,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle3()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -974,14 +974,14 @@ void PresetTests::RenderableTest__VertexColoredTriangle3()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1019,7 +1019,7 @@ void PresetTests::RenderableTest__TexturedTriangle1()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1027,14 +1027,14 @@ void PresetTests::RenderableTest__TexturedTriangle1()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1072,7 +1072,7 @@ void PresetTests::RenderableTest__TexturedTriangle2()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1080,14 +1080,14 @@ void PresetTests::RenderableTest__TexturedTriangle2()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1125,7 +1125,7 @@ void PresetTests::RenderableTest__TexturedTriangle3()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1133,14 +1133,14 @@ void PresetTests::RenderableTest__TexturedTriangle3()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1178,7 +1178,7 @@ void PresetTests::RenderableTest__ColoredSquare()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1186,14 +1186,14 @@ void PresetTests::RenderableTest__ColoredSquare()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1231,7 +1231,7 @@ void PresetTests::RenderableTest__ColoredQuad1()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1239,14 +1239,14 @@ void PresetTests::RenderableTest__ColoredQuad1()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1284,7 +1284,7 @@ void PresetTests::RenderableTest__ColoredQuad2()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1292,14 +1292,14 @@ void PresetTests::RenderableTest__ColoredQuad2()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1337,7 +1337,7 @@ void PresetTests::RenderableTest__VertexColoredSquare()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1345,14 +1345,14 @@ void PresetTests::RenderableTest__VertexColoredSquare()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1390,7 +1390,7 @@ void PresetTests::RenderableTest__VertexColoredQuad1()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1398,14 +1398,14 @@ void PresetTests::RenderableTest__VertexColoredQuad1()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1443,7 +1443,7 @@ void PresetTests::RenderableTest__VertexColoredQuad2()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1451,14 +1451,14 @@ void PresetTests::RenderableTest__VertexColoredQuad2()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1496,7 +1496,7 @@ void PresetTests::RenderableTest__TexturedSquare()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1504,14 +1504,14 @@ void PresetTests::RenderableTest__TexturedSquare()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1549,7 +1549,7 @@ void PresetTests::RenderableTest__TexturedQuad1()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1557,14 +1557,14 @@ void PresetTests::RenderableTest__TexturedQuad1()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1602,7 +1602,7 @@ void PresetTests::RenderableTest__TexturedQuad2()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1610,14 +1610,14 @@ void PresetTests::RenderableTest__TexturedQuad2()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1655,7 +1655,7 @@ void PresetTests::RenderableTest__ColoredCube()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1663,14 +1663,14 @@ void PresetTests::RenderableTest__ColoredCube()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
@@ -1708,7 +1708,7 @@ void PresetTests::RenderableTest__TexturedCube()
 	double camSens = 30.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
 
 	while (window.isOpen())
 	{
@@ -1716,14 +1716,14 @@ void PresetTests::RenderableTest__TexturedCube()
 
 		double deltaTime = window.getDeltaTime();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();

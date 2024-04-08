@@ -7,7 +7,7 @@ Onyx::Texture::Texture()
 	tex = 0;
 }
 
-Onyx::Texture::Texture(ImageData imageData, int textureWrap)
+Onyx::Texture::Texture(ImageData imageData, Onyx::TextureWrap textureWrap)
 {
 	tex = 0;
 
@@ -16,22 +16,26 @@ Onyx::Texture::Texture(ImageData imageData, int textureWrap)
 
 	switch (textureWrap)
 	{
-		case ONYX_TEXTURE_WRAP_REPEAT:
+		case Onyx::TextureWrap::Null:
+			Onyx::Err("Texture creation failed: texture wrap is null. (aborted");
+			return;
+
+		case Onyx::TextureWrap::Repeat:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			break;
 
-		case ONYX_TEXTURE_WRAP_MIRRORED_REPEAT:
+		case Onyx::TextureWrap::MirroredRepeat:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 			break;
 
-		case ONYX_TEXTURE_WRAP_CLAMP_TO_EDGE:
+		case Onyx::TextureWrap::ClampToEdge:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			break;
 
-		case ONYX_TEXTURE_WRAP_CLAMP_TO_BORDER:
+		case Onyx::TextureWrap::ClampToBorder:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 			break;
@@ -48,7 +52,7 @@ Onyx::Texture::Texture(ImageData imageData, int textureWrap)
 	imageData.dispose();
 }
 
-Onyx::Texture::Texture(ImageData& imageData, bool disposeImageData, int textureWrap)
+Onyx::Texture::Texture(ImageData& imageData, bool disposeImageData, Onyx::TextureWrap textureWrap)
 {
 	tex = 0;
 
@@ -57,22 +61,22 @@ Onyx::Texture::Texture(ImageData& imageData, bool disposeImageData, int textureW
 
 	switch (textureWrap)
 	{
-		case ONYX_TEXTURE_WRAP_REPEAT:
+		case Onyx::TextureWrap::Repeat:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			break;
 
-		case ONYX_TEXTURE_WRAP_MIRRORED_REPEAT:
+		case Onyx::TextureWrap::MirroredRepeat:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 			break;
 
-		case ONYX_TEXTURE_WRAP_CLAMP_TO_EDGE:
+		case Onyx::TextureWrap::ClampToEdge:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			break;
 
-		case ONYX_TEXTURE_WRAP_CLAMP_TO_BORDER:
+		case Onyx::TextureWrap::ClampToBorder:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 			break;

@@ -44,7 +44,7 @@ Onyx::Camera::Camera(Window& window, Projection proj)
 	this->proj = proj;
 	pitchClamp = 88.0f;
 
-	if (proj.getType() == ONYX_PROJECTION_TYPE_PERSPECTIVE) rotate(-90.0f, 0.0f);
+	if (proj.getType() == Onyx::ProjectionType::Perspective) rotate(-90.0f, 0.0f);
 
 	update();
 }
@@ -62,7 +62,7 @@ Onyx::Camera::Camera(Window& window, Projection proj, float pitchClamp)
 	this->proj = proj;
 	this->pitchClamp = pitchClamp;
 
-	if (proj.getType() == ONYX_PROJECTION_TYPE_PERSPECTIVE) rotate(-90.0f, 0.0f);
+	if (proj.getType() == Onyx::ProjectionType::Perspective) rotate(-90.0f, 0.0f);
 
 	update();
 }

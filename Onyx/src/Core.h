@@ -16,232 +16,39 @@
 #define ONYX_VERSION_PATCH		1
 #define ONYX_BETA				true
 
-/*
-	Definitions for system info.
- */
+ /*
+	 Definitions for system info.
+  */
 #if defined(__LP64__) || defined(_LP64) || defined(__amd64__) || defined(__x86_64__) || defined(_M_X64) || defined(_WIN64) || defined(__ia64__) || defined(_M_IA64) || defined(__aarch64__) || defined(__powerpc64__) || defined(__ppc64__) || defined(__PPC64__) || defined(__mips64__) || defined(__mips64) || defined(__mips64) || defined(__sparc64__) || defined(__arch64__)
-	#define ONYX_ARCH_64
+#define ONYX_ARCH_64
 #elif defined(__i386__) || defined(_M_IX86) || defined(__arm__) || defined(__mips__) || defined(__mips) || defined(__sparc__) || defined(__PPC__) || defined(__ppc__) || defined(__powerpc__) || defined(__powerpc) || defined(__ppc64__) || defined(__PPC64__) || defined(__ppc64) || defined(__PPC64) || defined(__mip) || defined(__mips) || defined(__mips__)
-	#define ONYX_ARCH_32
+#define ONYX_ARCH_32
 #else
-	#define ONYX_ARCH_UNKNOWN
+#define ONYX_ARCH_UNKNOWN
 #endif
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
-	#define ONYX_OS_WINDOWS
+#define ONYX_OS_WINDOWS
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
-	#define ONYX_OS_LINUX
+#define ONYX_OS_LINUX
 #elif defined(__APPLE__) || defined(__MACH__)
-	#define ONYX_OS_MAC
+#define ONYX_OS_MAC
 #else
-	#define ONYX_OS_UNKNOWN
+#define ONYX_OS_UNKNOWN
 #endif
 
 #ifdef ONYX_ARCH_64
-	#define ONYX_BUFFER_SIZE					1024
+#define ONYX_BUFFER_SIZE					1024
 #elif defined(ONYX_ARCH_32)
-	#define ONYX_BUFFER_SIZE					512
+#define ONYX_BUFFER_SIZE					512
 #else
-	#define ONYX_BUFFER_SIZE					256
+#define ONYX_BUFFER_SIZE					256
 #endif
 
-/*
-	Definitions for vertex formats.
-	These are used to tell the Mesh class how the array of vertices is formatted.
-	They allow specification of what types of vertices are in the vertex array (V/C/T/N).
-	V = vertices, C = colors, T = texture coordinates
- */
-#define ONYX_VERTEX_FORMAT_V					400
-#define ONYX_VERTEX_FORMAT_VN					403
-#define ONYX_VERTEX_FORMAT_VC					401
-#define ONYX_VERTEX_FORMAT_VT					402
-#define ONYX_VERTEX_FORMAT_VCT					404
-#define ONYX_VERTEX_FORMAT_VNT					405
-#define ONYX_VERTEX_FORMAT_VNC					406
-#define ONYX_VERTEX_FORMAT_VNCT					407
-
-/*
-	Definitions for meshes.
-	Used by MeshPresets::GetIndices(int mesh)
- 									   ^^^^^^
- */
-#define ONYX_MESH_TRIANGLE						411
-#define ONYX_MESH_SQUARE						412
-#define ONYX_MESH_RECT							413
-#define ONYX_MESH_CUBE							414
-#define ONYX_MESH_RECT_PRISM					415
-
-/*
-	Definitions for projection types.
- */
-#define ONYX_PROJECTION_TYPE_ORTHOGRAPHIC		416
-#define ONYX_PROJECTION_TYPE_PERSPECTIVE		417
-
-/*
-	Definitions for texture wrap options.
- */
-#define ONYX_TEXTURE_WRAP_REPEAT				418
-#define ONYX_TEXTURE_WRAP_MIRRORED_REPEAT		419
-#define ONYX_TEXTURE_WRAP_CLAMP_TO_EDGE			420
-#define ONYX_TEXTURE_WRAP_CLAMP_TO_BORDER		421
-
-/*
-	Definitions for each key on a keyboard.
-	These are used to specify what the target key is when testing if a key is up/down by the InputHandler class.
- */
-#define ONYX_KEY_UNKNOWN						-1
-#define ONYX_KEY_SPACE							32
-#define ONYX_KEY_APOSTROPHE						39
-#define ONYX_KEY_COMMA							44
-#define ONYX_KEY_MINUS							45
-#define ONYX_KEY_PERIOD							46
-#define ONYX_KEY_SLASH							47
-#define ONYX_KEY_0								48
-#define ONYX_KEY_1								49
-#define ONYX_KEY_2								50
-#define ONYX_KEY_3								51
-#define ONYX_KEY_4								52
-#define ONYX_KEY_5								53
-#define ONYX_KEY_6								54
-#define ONYX_KEY_7								55
-#define ONYX_KEY_8								56
-#define ONYX_KEY_9								57
-#define ONYX_KEY_SEMICOLON						59
-#define ONYX_KEY_EQUAL							61
-#define ONYX_KEY_A								65
-#define ONYX_KEY_B								66
-#define ONYX_KEY_C								67
-#define ONYX_KEY_D								68
-#define ONYX_KEY_E								69
-#define ONYX_KEY_F								70
-#define ONYX_KEY_G								71
-#define ONYX_KEY_H								72
-#define ONYX_KEY_I								73
-#define ONYX_KEY_J								74
-#define ONYX_KEY_K								75
-#define ONYX_KEY_L								76
-#define ONYX_KEY_M								77
-#define ONYX_KEY_N								78
-#define ONYX_KEY_O								79
-#define ONYX_KEY_P								80
-#define ONYX_KEY_Q								81
-#define ONYX_KEY_R								82
-#define ONYX_KEY_S								83
-#define ONYX_KEY_T								84
-#define ONYX_KEY_U								85
-#define ONYX_KEY_V								86
-#define ONYX_KEY_W								87
-#define ONYX_KEY_X								88
-#define ONYX_KEY_Y								89
-#define ONYX_KEY_Z								90
-#define ONYX_KEY_LEFT_BRACKET					91
-#define ONYX_KEY_BACKSLASH						92
-#define ONYX_KEY_RIGHT_BRACKET					93
-#define ONYX_KEY_GRAVE_ACCENT					96
-#define ONYX_KEY_WORLD_1						161
-#define ONYX_KEY_WORLD_2						162
-#define ONYX_KEY_ESCAPE							256
-#define ONYX_KEY_ENTER							257
-#define ONYX_KEY_TAB							258
-#define ONYX_KEY_BACKSPACE						259
-#define ONYX_KEY_INSERT							260
-#define ONYX_KEY_DELETE							261
-#define ONYX_KEY_RIGHT							262
-#define ONYX_KEY_LEFT							263
-#define ONYX_KEY_DOWN							264
-#define ONYX_KEY_UP								265
-#define ONYX_KEY_PAGE_UP						266
-#define ONYX_KEY_PAGE_DOWN						267
-#define ONYX_KEY_HOME							268
-#define ONYX_KEY_END							269
-#define ONYX_KEY_CAPS_LOCK						280
-#define ONYX_KEY_SCROLL_LOCK					281
-#define ONYX_KEY_NUM_LOCK						282
-#define ONYX_KEY_PRINT_SCREEN					283
-#define ONYX_KEY_PAUSE							284
-#define ONYX_KEY_F1								290
-#define ONYX_KEY_F2								291
-#define ONYX_KEY_F3								292
-#define ONYX_KEY_F4								293
-#define ONYX_KEY_F5								294
-#define ONYX_KEY_F6								295
-#define ONYX_KEY_F7								296
-#define ONYX_KEY_F8								297
-#define ONYX_KEY_F9								298
-#define ONYX_KEY_F10							299
-#define ONYX_KEY_F11							300
-#define ONYX_KEY_F12							301
-#define ONYX_KEY_F13							302
-#define ONYX_KEY_F14							303
-#define ONYX_KEY_F15							304
-#define ONYX_KEY_F16							305
-#define ONYX_KEY_F17							306
-#define ONYX_KEY_F18							307
-#define ONYX_KEY_F19							308
-#define ONYX_KEY_F20							309
-#define ONYX_KEY_F21							310
-#define ONYX_KEY_F22							311
-#define ONYX_KEY_F23							312
-#define ONYX_KEY_F24							313
-#define ONYX_KEY_F25							314
-#define ONYX_KEY_NUMPAD_0						320
-#define ONYX_KEY_NUMPAD_1						321
-#define ONYX_KEY_NUMPAD_2						322
-#define ONYX_KEY_NUMPAD_3						323
-#define ONYX_KEY_NUMPAD_4						324
-#define ONYX_KEY_NUMPAD_5						325
-#define ONYX_KEY_NUMPAD_6						326
-#define ONYX_KEY_NUMPAD_7						327
-#define ONYX_KEY_NUMPAD_8						328
-#define ONYX_KEY_NUMPAD_9						329
-#define ONYX_KEY_NUMPAD_DECIMAL					330
-#define ONYX_KEY_NUMPAD_DIVIDE					331
-#define ONYX_KEY_NUMPAD_MULTIPLY				332
-#define ONYX_KEY_NUMPAD_SUBTRACT				333
-#define ONYX_KEY_NUMPAD_ADD						334
-#define ONYX_KEY_NUMPAD_ENTER					335
-#define ONYX_KEY_NUMPAD_EQUAL					336
-#define ONYX_KEY_LEFT_SHIFT						340
-#define ONYX_KEY_LEFT_CONTROL					341
-#define ONYX_KEY_LEFT_ALT						342
-#define ONYX_KEY_LEFT_SUPER						343
-#define ONYX_KEY_RIGHT_SHIFT					344
-#define ONYX_KEY_RIGHT_CONTROL					345
-#define ONYX_KEY_RIGHT_ALT						346
-#define ONYX_KEY_RIGHT_SUPER					347
-#define ONYX_KEY_MENU							348
-#define ONYX_MAX_KEY							ONYX_KEY_MENU
-
-/*
-	Definitions for each button on a mouse.
-	These are used to specify what the target button is when testing if a mouse button is up/down by the InputHandler class.
- */
-#define ONYX_MOUSE_BUTTON_1						0
-#define ONYX_MOUSE_BUTTON_2						1
-#define ONYX_MOUSE_BUTTON_3						2
-#define ONYX_MOUSE_BUTTON_4						3
-#define ONYX_MOUSE_BUTTON_5						4
-#define ONYX_MOUSE_BUTTON_6						5
-#define ONYX_MOUSE_BUTTON_7						6
-#define ONYX_MOUSE_BUTTON_8						7
-#define ONYX_MOUSE_BUTTON_LEFT					ONYX_MOUSE_BUTTON_1
-#define ONYX_MOUSE_BUTTON_RIGHT					ONYX_MOUSE_BUTTON_2
-#define ONYX_MOUSE_BUTTON_MIDDLE				ONYX_MOUSE_BUTTON_3
-#define ONYX_MAX_MOUSE_BUTTON					ONYX_MOUSE_BUTTON_8
-
-/*
-	Definitions for keystates.
-	Used by InputHandler.
- */
-#define ONYX_KEYSTATE_UNTOUCHED				   -1
-#define ONYX_KEYSTATE_RELEASE					0
-#define ONYX_KEYSTATE_PRESS						1
-#define ONYX_KEYSTATE_REPEAT					2
-
-/*
-	Type definitions for convenience.
-	These are used by the library, but can be used by the user as well.
- */
+  /*
+   Type definitions for convenience.
+   These are used by the library, but can be used by the user as well.
+   */
 typedef char								byte;
 typedef unsigned char						ubyte;
 typedef unsigned short						ushort;
@@ -254,6 +61,224 @@ typedef unsigned long long					ulonglong;
  */
 namespace Onyx
 {
+	/*
+		@brief Definitions for the different vertex formats.
+		Used for the VertexArray class.
+	 */
+	enum class VertexFormat
+	{
+		Null,
+		V,
+		VN,
+		VC,
+		VT,
+		VCT,
+		VNT,
+		VNC,
+		VNCT
+	};
+
+	/*
+		@brief Definitions for the different mesh types.
+		Used for GetVertices() and GetIndices() in the MeshPresets namespace.
+	 */
+	enum class MeshType
+	{
+		Null,
+		Triangle,
+		Square,
+		Rect,
+		Cube,
+		RectPrism
+	};
+
+	/*
+		@brief Definitions for the different projection types.
+		Used for creating a Projection object, which is assigned to a Camera object.
+	 */
+	enum class ProjectionType
+	{
+		Null,
+		Orthographic,
+		Perspective
+	};
+
+	/*
+		@brief Definitions for the different texture wrap options.
+		Used for creating a Texture object.
+	 */
+	enum class TextureWrap
+	{
+		Null,
+		Repeat,
+		MirroredRepeat,
+		ClampToEdge,
+		ClampToBorder
+	};
+
+	/*
+		@brief Definitions for keys on a keyboard.
+		Used for polling input from an InputHandler object.
+	 */
+	enum Key
+	{
+		Unknown = -1,
+		Space = 32,
+		Apostrophe = 39,
+		Comma = 44,
+		Minus = 45,
+		Period = 46,
+		Slash = 47,
+		Num0 = 48,
+		Num1 = 49,
+		Num2 = 50,
+		Num3 = 51,
+		Num4 = 52,
+		Num5 = 53,
+		Num6 = 54,
+		Num7 = 55,
+		Num8 = 56,
+		Num9 = 57,
+		Semicolon = 59,
+		Equal = 61,
+		A = 65,
+		B = 66,
+		C = 67,
+		D = 68,
+		E = 69,
+		F = 70,
+		G = 71,
+		H = 72,
+		I = 73,
+		J = 74,
+		K = 75,
+		L = 76,
+		M = 77,
+		N = 78,
+		O = 79,
+		P = 80,
+		Q = 81,
+		R = 82,
+		S = 83,
+		T = 84,
+		U = 85,
+		V = 86,
+		W = 87,
+		X = 88,
+		Y = 89,
+		Z = 90,
+		LeftBracket = 91,
+		Backslash = 92,
+		RightBracket = 93,
+		GraveAccent = 96,
+		World1 = 161,
+		World2 = 162,
+		Escape = 256,
+		Enter = 257,
+		Tab = 258,
+		Backspace = 259,
+		Insert = 260,
+		Delete = 261,
+		ArrowRight = 262,
+		ArrowLeft = 263,
+		ArrowDown = 264,
+		ArrowUp = 265,
+		PageUp = 266,
+		PageDown = 267,
+		Home = 268,
+		End = 269,
+		CapsLock = 280,
+		ScrollLock = 281,
+		NumLock = 282,
+		PrintScreen = 283,
+		Pause = 284,
+		F1 = 290,
+		F2 = 291,
+		F3 = 292,
+		F4 = 293,
+		F5 = 294,
+		F6 = 295,
+		F7 = 296,
+		F8 = 297,
+		F9 = 298,
+		F10 = 299,
+		F11 = 300,
+		F12 = 301,
+		F13 = 302,
+		F14 = 303,
+		F15 = 304,
+		F16 = 305,
+		F17 = 306,
+		F18 = 307,
+		F19 = 308,
+		F20 = 309,
+		F21 = 310,
+		F22 = 311,
+		F23 = 312,
+		F24 = 313,
+		F25 = 314,
+		Numpad0 = 320,
+		Numpad1 = 321,
+		Numpad2 = 322,
+		Numpad3 = 323,
+		Numpad4 = 324,
+		Numpad5 = 325,
+		Numpad6 = 326,
+		Numpad7 = 327,
+		Numpad8 = 328,
+		Numpad9 = 329,
+		NumpadDecimal = 330,
+		NumpadDivide = 331,
+		NumpadMultiply = 332,
+		NumpadSubtract = 333,
+		NumpadAdd = 334,
+		NumpadEnter = 335,
+		NumpadEqual = 336,
+		LeftShift = 340,
+		LeftControl = 341,
+		LeftAlt = 342,
+		LeftSuper = 343,
+		RightShift = 344,
+		RightControl = 345,
+		RightAlt = 346,
+		RightSuper = 347,
+		Menu = 348,
+		MaxKey = Menu
+	};
+
+	/*
+		@brief Definitions for mouse buttons.
+		Used for polling input from an InputHandler object.
+	 */
+	enum MouseButton
+	{
+		Unkown = -1,
+		Button1 = 0,
+		Button2 = 1,
+		Button3 = 2,
+		Button4 = 3,
+		Button5 = 4,
+		Button6 = 5,
+		Button7 = 6,
+		Button8 = 7,
+		Left = Button1,
+		Right = Button2,
+		Middle = Button3,
+		MaxButton = Button8
+	};
+
+	/*
+		@brief Definitions for key states.
+		Used for polling input from an InputHandler object.
+	 */
+	enum KeyState
+	{
+		Untouched = -1,
+		Release = 0,
+		Press = 1,
+		Repeat = 2
+	};
+
 	/*
 		@brief Initializes the Onyx library.
 		Defines some essential variables that may cause errors in the future if undefined.
@@ -321,7 +346,7 @@ namespace Onyx
 		@return Whether Init() has been called.
 	 */
 	bool IsInitialized();
-	
+
 	/*
 		@brief Sets the error handler to use for the library.
 		@param errorHandler The error handler to use.

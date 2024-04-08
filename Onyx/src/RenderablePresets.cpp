@@ -99,7 +99,7 @@ Onyx::Renderable Onyx::RenderablePresets::TexturedTriangle(Vec2 a, Vec2 b, Vec2 
 
 	return Renderable(
 		Mesh(
-			VertexArray(vertices, 15 * sizeof(float), ONYX_VERTEX_FORMAT_VT, true),
+			VertexArray(vertices, 15 * sizeof(float), Onyx::VertexFormat::VT, true),
 			IndexArray(indices, 3 * sizeof(uint), true)
 		),
 		ShaderPresets::VT(),
@@ -210,7 +210,7 @@ Onyx::Renderable Onyx::RenderablePresets::TexturedQuad(Vec2 a, Vec2 b, Vec2 c, V
 
 	return Renderable(
 		Mesh(
-			VertexArray(vertices, 20 * sizeof(float), ONYX_VERTEX_FORMAT_VT, true),
+			VertexArray(vertices, 20 * sizeof(float), Onyx::VertexFormat::VT, true),
 			IndexArray(indices, 6 * sizeof(uint), true)
 		),
 		ShaderPresets::VT(),
@@ -279,7 +279,7 @@ Onyx::Renderable Onyx::RenderablePresets::ColoredCube(float side, Vec4 rgba)
 
 	return Renderable(
 		Mesh(
-			VertexArray(vertices, 240 * sizeof(float), ONYX_VERTEX_FORMAT_VNC, true),
+			VertexArray(vertices, 240 * sizeof(float), Onyx::VertexFormat::VNC, true),
 			IndexArray(indices, 36 * sizeof(uint), true)
 		),
 		ShaderPresets::VNC()
@@ -342,7 +342,7 @@ Onyx::Renderable Onyx::RenderablePresets::TexturedCube(float side, Texture textu
 
 	return Renderable(
 		Mesh(
-			VertexArray(vertices, 192 * sizeof(float), ONYX_VERTEX_FORMAT_VNT, true),
+			VertexArray(vertices, 192 * sizeof(float), Onyx::VertexFormat::VNT, true),
 			IndexArray(indices, 36 * sizeof(uint), true)
 		),
 		ShaderPresets::VNT(),

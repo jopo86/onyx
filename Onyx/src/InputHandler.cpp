@@ -8,16 +8,16 @@ Onyx::InputHandler::InputHandler()
 {
 	p_win = nullptr;
 
-	for (int i = 0; i < ONYX_MAX_KEY; i++)
+	for (int i = 0; i < Onyx::Key::MaxKey; i++)
 	{
-		keys[i] = ONYX_KEYSTATE_UNTOUCHED;
+		keys[i] = Onyx::KeyState::Untouched;
 		keyCooldowns[i] = 0.0f;
 		setKeyCooldowns[i] = 0.0f;
 	}
 
-	for (int i = 0; i < ONYX_MAX_MOUSE_BUTTON; i++)
+	for (int i = 0; i < Onyx::MouseButton::MaxButton; i++)
 	{
-		buttons[i] = ONYX_KEYSTATE_UNTOUCHED;
+		buttons[i] = Onyx::KeyState::Untouched;
 		buttonCooldowns[i] = 0.0f;
 		setButtonCooldowns[i] = 0.0f;
 	}
@@ -39,16 +39,16 @@ Onyx::InputHandler::InputHandler(Window& window)
 	mousePos = DVec2(mouseX, mouseY);
 	lastMousePos = DVec2(mouseX, mouseY);
 
-	for (int i = 0; i < ONYX_MAX_KEY; i++)
+	for (int i = 0; i < Onyx::Key::MaxKey; i++)
 	{
-		keys[i] = ONYX_KEYSTATE_UNTOUCHED;
+		keys[i] = Onyx::KeyState::Untouched;
 		keyCooldowns[i] = 0.0f;
 		setKeyCooldowns[i] = 0.0f;
 	}
 
-	for (int i = 0; i < ONYX_MAX_MOUSE_BUTTON; i++)
+	for (int i = 0; i < Onyx::MouseButton::MaxButton; i++)
 	{
-		buttons[i] = ONYX_KEYSTATE_UNTOUCHED;
+		buttons[i] = Onyx::KeyState::Untouched;
 		buttonCooldowns[i] = 0.0f;
 		setButtonCooldowns[i] = 0.0f;
 	}
@@ -77,65 +77,71 @@ void Onyx::InputHandler::update()
 	}
 }
 
-int Onyx::InputHandler::getKeystate(int key) const
+Onyx::KeyState Onyx::InputHandler::getKeyState(Onyx::Key key) const
 {
 	return keys[key];
 }
 
-bool Onyx::InputHandler::isKeyPressed(int key)
+bool Onyx::InputHandler::isKeyPressed(Onyx::Key key)
 {
-	bool retval = keyCooldowns[key] <= 0 ? keys[key] == ONYX_KEYSTATE_PRESS : false;
+	if (key < 0) return false;
+	bool retval = keyCooldowns[key] <= 0 ? keys[key] == Onyx::KeyState::Press : false;
 	if (retval) keyCooldowns[key] = setKeyCooldowns[key];
 	return retval;
 }
 
-bool Onyx::InputHandler::isKeyRepeated(int key)
+bool Onyx::InputHandler::isKeyRepeated(Onyx::Key key)
 {
-	bool retval = keyCooldowns[key] <= 0 ? keys[key] == ONYX_KEYSTATE_REPEAT : false;
+	if (key < 0) return false;
+	bool retval = keyCooldowns[key] <= 0 ? keys[key] == Onyx::KeyState::Repeat : false;
 	if (retval) keyCooldowns[key] = setKeyCooldowns[key];
 	return retval;
 }
 
-bool Onyx::InputHandler::isKeyDown(int key)
+bool Onyx::InputHandler::isKeyDown(Onyx::Key key)
 {
-	bool retval = keyCooldowns[key] <= 0 ? keys[key] == ONYX_KEYSTATE_PRESS || keys[key] == ONYX_KEYSTATE_REPEAT : false;
+	if (key < 0) return false;
+	bool retval = keyCooldowns[key] <= 0 ? keys[key] == Onyx::KeyState::Press || keys[key] == Onyx::KeyState::Repeat : false;
 	if (retval) keyCooldowns[key] = setKeyCooldowns[key];
 	return retval;
 }
 
-int Onyx::InputHandler::getMouseButtonState(int button) const
+Onyx::KeyState Onyx::InputHandler::getMouseButtonState(Onyx::MouseButton button) const
 {
 	return buttons[button];
 }
 
-bool Onyx::InputHandler::isMouseButtonPressed(int button)
+bool Onyx::InputHandler::isMouseButtonPressed(Onyx::MouseButton button)
 {
-	bool retval = buttonCooldowns[button] <= 0 ? buttons[button] == ONYX_KEYSTATE_PRESS : false;
+	if (button < 0) return false;
+	bool retval = buttonCooldowns[button] <= 0 ? buttons[button] == Onyx::KeyState::Press : false;
 	if (retval) buttonCooldowns[button] = setButtonCooldowns[button];
 	return retval;
 }
 
-bool Onyx::InputHandler::isMouseButtonRepeated(int button)
+bool Onyx::InputHandler::isMouseButtonRepeated(Onyx::MouseButton button)
 {
-	bool retval = buttonCooldowns[button] <= 0 ? buttons[button] == ONYX_KEYSTATE_REPEAT : false;
+	if (button < 0) return false;
+	bool retval = buttonCooldowns[button] <= 0 ? buttons[button] == Onyx::KeyState::Repeat : false;
 	if (retval) buttonCooldowns[button] = setButtonCooldowns[button];
 	return retval;
 }
 
-bool Onyx::InputHandler::isMouseButtonDown(int button)
+bool Onyx::InputHandler::isMouseButtonDown(Onyx::MouseButton button)
 {
-	bool retval = buttonCooldowns[button] <= 0 ? buttons[button] == ONYX_KEYSTATE_PRESS || buttons[button] == ONYX_KEYSTATE_REPEAT : false;
+	if (button < 0) return false;
+	bool retval = buttonCooldowns[button] <= 0 ? buttons[button] == Onyx::KeyState::Press || buttons[button] == Onyx::KeyState::Repeat : false;
 	if (retval) buttonCooldowns[button] = setButtonCooldowns[button];
 	return retval;
 }
 
-void Onyx::InputHandler::setKeyCooldown(int key, float cooldown)
+void Onyx::InputHandler::setKeyCooldown(Onyx::Key key, float cooldown)
 {
 	activeKeyCooldowns.push_back(key);
 	setKeyCooldowns[key] = cooldown;
 }
 
-void Onyx::InputHandler::setMouseButtonCooldown(int button, float cooldown)
+void Onyx::InputHandler::setMouseButtonCooldown(Onyx::MouseButton button, float cooldown)
 {
 	activeButtonCooldowns.push_back(button);
 	setButtonCooldowns[button] = cooldown;
@@ -164,12 +170,12 @@ Onyx::Math::DVec2& Onyx::InputHandler::getMouseDeltas() const
 
 void Onyx::InputHandler::RCB_key(int key, int scancode, int action, int mods) 
 {
-	keys[key] = action;
+	keys[key] = (Onyx::KeyState)action;
 }
 
 void Onyx::InputHandler::RCB_mouseButton(int button, int action, int mods) 
 {
-	buttons[button] = action;
+	buttons[button] = (Onyx::KeyState)action;
 }
 
 void Onyx::InputHandler::RCB_cursorPos(double x, double y) 

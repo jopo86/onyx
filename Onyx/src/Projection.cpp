@@ -7,14 +7,14 @@ using Onyx::Math::PerspectiveProjection;
 Onyx::Projection::Projection()
 {
 	mat = Mat4();
-	type = 0;
+	type = Onyx::ProjectionType::Null;
 	left = right = top = bottom = fov = aspectRatio = nearPlane = farPlane = 0.0f;
 }
 
 Onyx::Projection Onyx::Projection::Orthographic(float left, float right, float top, float bottom)
 {
 	Projection proj;
-	proj.type = ONYX_PROJECTION_TYPE_ORTHOGRAPHIC;
+	proj.type = Onyx::ProjectionType::Orthographic;
 	proj.left = left;
 	proj.right = right;
 	proj.top = top;
@@ -26,7 +26,7 @@ Onyx::Projection Onyx::Projection::Orthographic(float left, float right, float t
 Onyx::Projection Onyx::Projection::Perspective(float fov, int screenWidth, int screenHeight)
 {
 	Projection proj;
-	proj.type = ONYX_PROJECTION_TYPE_PERSPECTIVE;
+	proj.type = Onyx::ProjectionType::Perspective;
 	proj.fov = fov;
 	proj.aspectRatio = (float)screenWidth / (float)screenHeight;
 	proj.nearPlane = 0.1f;
@@ -38,7 +38,7 @@ Onyx::Projection Onyx::Projection::Perspective(float fov, int screenWidth, int s
 Onyx::Projection Onyx::Projection::Perspective(float fov, int screenWidth, int screenHeight, float nearPlane, float farPlane)
 {
 	Projection proj;
-	proj.type = ONYX_PROJECTION_TYPE_PERSPECTIVE;
+	proj.type = Onyx::ProjectionType::Perspective;
 	proj.fov = fov;
 	proj.aspectRatio = (float)screenWidth / (float)screenHeight;
 	proj.nearPlane = nearPlane;
@@ -49,17 +49,17 @@ Onyx::Projection Onyx::Projection::Perspective(float fov, int screenWidth, int s
 
 void Onyx::Projection::update()
 {
-	if (type == ONYX_PROJECTION_TYPE_ORTHOGRAPHIC)
+	if (type == Onyx::ProjectionType::Orthographic)
 	{
 		mat = OrthographicProjection(left, right, top, bottom);
 	}
-	else if (type == ONYX_PROJECTION_TYPE_PERSPECTIVE)
+	else if (type == Onyx::ProjectionType::Perspective)
 	{
 		mat = PerspectiveProjection(fov, aspectRatio, nearPlane, farPlane);
 	}
 }
 
-int Onyx::Projection::getType() const
+Onyx::ProjectionType Onyx::Projection::getType() const
 {
 	return type;
 }

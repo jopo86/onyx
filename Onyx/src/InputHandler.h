@@ -45,56 +45,56 @@ namespace Onyx
 			Either ONYX_KEYSTATE_UP, DOWN, or REPEAT.
 			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
 		 */
-		int getKeystate(int key) const;
+		Onyx::KeyState getKeyState(Onyx::Key key) const;
 
 		/*
 			@brief Gets whether the specified key was pressed but is not repeating.
 			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
 			@return Whether the specified key was pressed but is not repeating.
 		 */
-		bool isKeyPressed(int key);
+		bool isKeyPressed(Onyx::Key key);
 
 		/*
 			@brief Gets whether the specified key has been pressed long enough to be repeating.
 			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
 			@return Whether the specified key has been pressed long enough to be repeating.
 		 */
-		bool isKeyRepeated(int key);
+		bool isKeyRepeated(Onyx::Key key);
 
 		/*
 			@brief Gets whether the specified key is currently pressed down.
 			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
 			@return Whether the specified key is pressed down.
 		 */
-		bool isKeyDown(int key);
+		bool isKeyDown(Onyx::Key key);
 
 		/*
 			@brief Gets the keystate of the specified mouse button.
 			Either ONYX_KEYSTATE_UP, DOWN, or REPEAT.
 			@param button The mouse button to check. Use the definitions prefixed with ONYX_MOUSE_BUTTON.
 		 */
-		int getMouseButtonState(int button) const;
+		Onyx::KeyState getMouseButtonState(Onyx::MouseButton button) const;
 
 		/*
 			@brief Gets whether the specified mouse button was pressed but is not repeating.
 			@param button The mouse button to check. Use the definitions prefixed with ONYX_KEY.
 			@return Whether the specified mouse button was pressed but is not repeating.
 		 */
-		bool isMouseButtonPressed(int button);
+		bool isMouseButtonPressed(Onyx::MouseButton button);
 
 		/*
 			@brief Gets whether the specified mouse button has been pressed long enough to be repeating.
 			@param button The mouse button to check. Use the definitions prefixed with ONYX_KEY.
 			@return Whether the specified mouse button has been pressed long enough to be repeating.
 		 */
-		bool isMouseButtonRepeated(int button);
+		bool isMouseButtonRepeated(Onyx::MouseButton button);
 
 		/*
 			@brief Gets whether the specified mouse button is currently pressed down.
 			@param button The mouse button to check. Use the definitions prefixed with ONYX_KEY.
 			@return Whether the specified mouse button is pressed down.
 		 */
-		bool isMouseButtonDown(int button);
+		bool isMouseButtonDown(Onyx::MouseButton button);
 
 		/*
 			@brief Sets a cooldown for the specified key.
@@ -104,7 +104,7 @@ namespace Onyx
 			@param key The key to apply the cooldown to.
 			@param cooldown The cooldown time, in seconds.
 		 */
-		void setKeyCooldown(int key, float cooldown);
+		void setKeyCooldown(Onyx::Key key, float cooldown);
 
 		/*
 			@brief Sets a cooldown for the specified mouse button.
@@ -114,7 +114,7 @@ namespace Onyx
 			@param button The mouse button to apply the cooldown to.
 			@param cooldown The cooldown time, in seconds.
 		 */
-		void setMouseButtonCooldown(int button, float cooldown);
+		void setMouseButtonCooldown(Onyx::MouseButton button, float cooldown);
 
 		/*
 			@brief Sets whether the cursor is locked.
@@ -144,16 +144,16 @@ namespace Onyx
 	private:
 		Window* p_win;
 
-		int keys[ONYX_MAX_KEY];
-		float keyCooldowns[ONYX_MAX_KEY];
-		float setKeyCooldowns[ONYX_MAX_KEY];
+		Onyx::KeyState keys[Onyx::Key::MaxKey];
+		float keyCooldowns[Onyx::Key::MaxKey];
+		float setKeyCooldowns[Onyx::Key::MaxKey];
 
-		int buttons[ONYX_MAX_MOUSE_BUTTON];
-		float buttonCooldowns[ONYX_MAX_MOUSE_BUTTON];
-		float setButtonCooldowns[ONYX_MAX_MOUSE_BUTTON];
+		Onyx::KeyState buttons[Onyx::MouseButton::MaxButton];
+		float buttonCooldowns[Onyx::MouseButton::MaxButton];
+		float setButtonCooldowns[Onyx::MouseButton::MaxButton];
 
-		std::vector<int> activeKeyCooldowns;
-		std::vector<int> activeButtonCooldowns;
+		std::vector<Onyx::Key> activeKeyCooldowns;
+		std::vector<Onyx::MouseButton> activeButtonCooldowns;
 
 		Onyx::Math::DVec2 mousePos;
 		Onyx::Math::DVec2 lastMousePos;

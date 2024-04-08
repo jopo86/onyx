@@ -33,33 +33,37 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 
 	switch (vertexArray.getFormat())
 	{
-		case ONYX_VERTEX_FORMAT_V:
+		case Onyx::VertexFormat::Null:
+			Onyx::Err("Mesh creation failed: vertex format is null. (aborted)");
+			return;
+
+		case Onyx::VertexFormat::V:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 			glEnableVertexAttribArray(0);
 			break;
 
-		case ONYX_VERTEX_FORMAT_VN:
+		case Onyx::VertexFormat::VN:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(3);
 			break;
 
-		case ONYX_VERTEX_FORMAT_VC:
+		case Onyx::VertexFormat::VC:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
 			break;
 
-		case ONYX_VERTEX_FORMAT_VT:
+		case Onyx::VertexFormat::VT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(2);
 			break;
 
-		case ONYX_VERTEX_FORMAT_VCT:
+		case Onyx::VertexFormat::VCT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
@@ -68,7 +72,7 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 			glEnableVertexAttribArray(2);
 			break;
 
-		case ONYX_VERTEX_FORMAT_VNT:
+		case Onyx::VertexFormat::VNT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -77,7 +81,7 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 			glEnableVertexAttribArray(3);
 			break;
 
-		case ONYX_VERTEX_FORMAT_VNC:
+		case Onyx::VertexFormat::VNC:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(6 * sizeof(float)));
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -86,7 +90,7 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
 			glEnableVertexAttribArray(3);
 			break;
 
-		case ONYX_VERTEX_FORMAT_VNCT:
+		case Onyx::VertexFormat::VNCT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(3 * sizeof(float)));
 			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(6 * sizeof(float)));

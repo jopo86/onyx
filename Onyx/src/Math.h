@@ -67,6 +67,8 @@ namespace Onyx
 			friend bool operator==(const Vec2& vec1, const Vec2& vec2);
 			friend bool operator!=(const Vec2& vec1, const Vec2& vec2);
 
+			float operator[](int index) const;
+
 			void operator=(const Vec2& vec);
 			Vec2 operator+(const Vec2& vec) const;
 			void operator+=(const Vec2& vec);
@@ -113,6 +115,8 @@ namespace Onyx
 
 			friend bool operator==(const Vec3& vec1, const Vec3& vec2);
 			friend bool operator!=(const Vec3& vec1, const Vec3& vec2);
+
+			float operator[](int index) const;
 
 			void operator=(const Vec3& vec);
 			Vec3 operator+(const Vec3& vec) const;
@@ -166,6 +170,8 @@ namespace Onyx
 			friend bool operator==(const Vec4& vec1, const Vec4& vec2);
 			friend bool operator!=(const Vec4& vec1, const Vec4& vec2);
 
+			float operator[](int index) const;
+
 			void operator=(const Vec4& vec);
 			Vec4 operator+(const Vec4& vec) const;
 			void operator+=(const Vec4& vec);
@@ -213,6 +219,8 @@ namespace Onyx
 			friend bool operator==(const DVec2& vec1, const DVec2& vec2);
 			friend bool operator!=(const DVec2& vec1, const DVec2& vec2);
 
+			double operator[](int index) const;
+
 			void operator=(const DVec2& vec);
 			DVec2 operator+(const DVec2& vec) const;
 			void operator+=(const DVec2& vec);
@@ -259,6 +267,8 @@ namespace Onyx
 
 			friend bool operator==(const DVec3& vec1, const DVec3& vec2);
 			friend bool operator!=(const DVec3& vec1, const DVec3& vec2);
+
+			double operator[](int index) const;
 
 			void operator=(const DVec3& vec);
 			DVec3 operator+(const DVec3& vec) const;
@@ -312,6 +322,8 @@ namespace Onyx
 			friend bool operator==(const DVec4& vec1, const DVec4& vec2);
 			friend bool operator!=(const DVec4& vec1, const DVec4& vec2);
 
+			double operator[](int index) const;
+
 			void operator=(const DVec4& vec);
 			DVec4 operator+(const DVec4& vec) const;
 			void operator+=(const DVec4& vec);
@@ -354,6 +366,8 @@ namespace Onyx
 			friend bool operator==(const IVec2& vec1, const IVec2& vec2);
 			friend bool operator!=(const IVec2& vec1, const IVec2& vec2);
 
+			int operator[](int index) const;
+
 			void operator=(const IVec2& vec);
 			IVec2 operator+(const IVec2& vec) const;
 			void operator+=(const IVec2& vec);
@@ -394,6 +408,8 @@ namespace Onyx
 
 			friend bool operator==(const IVec3& vec1, const IVec3& vec2);
 			friend bool operator!=(const IVec3& vec1, const IVec3& vec2);
+
+			int operator[](int index) const;
 
 			void operator=(const IVec3& vec);
 			IVec3 operator+(const IVec3& vec) const;
@@ -442,6 +458,8 @@ namespace Onyx
 			friend bool operator==(const IVec4& vec1, const IVec4& vec2);
 			friend bool operator!=(const IVec4& vec1, const IVec4& vec2);
 
+			int operator[](int index) const;
+
 			void operator=(const IVec4& vec);
 			IVec4 operator+(const IVec4& vec) const;
 			void operator+=(const IVec4& vec);
@@ -477,6 +495,8 @@ namespace Onyx
 
 			friend bool operator==(const UVec2& vec1, const UVec2& vec2);
 			friend bool operator!=(const UVec2& vec1, const UVec2& vec2);
+
+			uint operator[](int index) const;
 
 			void operator=(const UVec2& vec);
 			UVec2 operator+(const UVec2& vec) const;
@@ -514,6 +534,8 @@ namespace Onyx
 
 			friend bool operator==(const UVec3& vec1, const UVec3& vec2);
 			friend bool operator!=(const UVec3& vec1, const UVec3& vec2);
+
+			uint operator[](int index) const;
 
 			void operator=(const UVec3& vec);
 			UVec3 operator+(const UVec3& vec) const;
@@ -557,6 +579,8 @@ namespace Onyx
 
 			friend bool operator==(const UVec4& vec1, const UVec4& vec2);
 			friend bool operator!=(const UVec4& vec1, const UVec4& vec2);
+
+			uint operator[](int index) const;
 
 			void operator=(const UVec4& vec);
 			UVec4 operator+(const UVec4& vec) const;
@@ -674,6 +698,8 @@ namespace Onyx
 
 			float* data() const;
 
+			Vec2 operator[](int index) const;
+
 			void operator=(const Mat2x2& mat);
 			Mat2x2 operator+(const Mat2x2& mat) const;
 			void operator+=(const Mat2x2& mat);
@@ -700,6 +726,8 @@ namespace Onyx
 			glm::mat2x3 getMMat() const;
 
 			float* data() const;
+
+			Vec3 operator[](int index) const;
 
 			void operator=(const Mat2x3& mat);
 			Mat2x3 operator+(const Mat2x3& mat) const;
@@ -728,6 +756,8 @@ namespace Onyx
 
 			float* data() const;
 
+			Vec4 operator[](int index) const;
+
 			void operator=(const Mat2x4& mat);
 			Mat2x4 operator+(const Mat2x4& mat) const;
 			void operator+=(const Mat2x4& mat);
@@ -754,6 +784,8 @@ namespace Onyx
 			glm::mat3x2 getMMat() const;
 
 			float* data() const;
+
+			Vec2 operator[](int index) const;
 
 			void operator=(const Mat3x2& mat);
 			Mat3x2 operator+(const Mat3x2& mat) const;
@@ -782,6 +814,8 @@ namespace Onyx
 
 			float* data() const;
 
+			Vec3 operator[](int index) const;
+
 			void operator=(const Mat3x3& mat);
 			Mat3x3 operator+(const Mat3x3& mat) const;
 			void operator+=(const Mat3x3& mat);
@@ -808,6 +842,8 @@ namespace Onyx
 			glm::mat3x4 getMMat() const;
 
 			float* data() const;
+
+			Vec4 operator[](int index) const;
 
 			void operator=(const Mat3x4& mat);
 			Mat3x4 operator+(const Mat3x4& mat) const;
@@ -836,6 +872,8 @@ namespace Onyx
 
 			float* data() const;
 
+			Vec2 operator[](int index) const;
+
 			void operator=(const Mat4x2& mat);
 			Mat4x2 operator+(const Mat4x2& mat) const;
 			void operator+=(const Mat4x2& mat);
@@ -862,6 +900,8 @@ namespace Onyx
 			glm::mat4x3 getMMat() const;
 
 			float* data() const;
+
+			Vec3 operator[](int index) const;
 
 			void operator=(const Mat4x3& mat);
 			Mat4x3 operator+(const Mat4x3& mat) const;
@@ -893,6 +933,8 @@ namespace Onyx
 			glm::mat4x4 getMMat() const;
 
 			float* data() const;
+
+			Vec4 operator[](int index) const;
 
 			void operator=(const Mat4x4& mat);
 			Mat4x4 operator+(const Mat4x4& mat) const;

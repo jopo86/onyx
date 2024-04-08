@@ -3,11 +3,12 @@
 Onyx::VertexArray::VertexArray()
 {
 	vertices = nullptr;
-	size = format = 0;
+	size = 0;
+	format = Onyx::VertexFormat::Null;
 	heap = false;
 }
 
-Onyx::VertexArray::VertexArray(float *vertices, ushort size, int format, bool heap)
+Onyx::VertexArray::VertexArray(float *vertices, ushort size, VertexFormat format, bool heap)
 {
 	this->vertices = vertices;
 	this->size = size;
@@ -25,7 +26,7 @@ ushort Onyx::VertexArray::getSize() const
 	return size;
 }
 
-int Onyx::VertexArray::getFormat() const
+Onyx::VertexFormat Onyx::VertexArray::getFormat() const
 {
 	return format;
 }
@@ -45,7 +46,7 @@ void Onyx::VertexArray::setSize(ushort size)
 	this->size = size;
 }
 
-void Onyx::VertexArray::setFormat(int format)
+void Onyx::VertexArray::setFormat(VertexFormat format)
 {
 	this->format = format;
 }

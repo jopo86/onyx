@@ -104,7 +104,7 @@ void Onyx::Demo()
 	};
 
 	UiRenderable textBg(
-		Mesh(VertexArray(bgVertices, sizeof(bgVertices), ONYX_VERTEX_FORMAT_V, false), IndexArray(bgIndices, sizeof(bgIndices), false)),
+		Mesh(VertexArray(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V, false), IndexArray(bgIndices, sizeof(bgIndices), false)),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
 	);
 
@@ -127,11 +127,11 @@ void Onyx::Demo()
 
 	input.setCursorLock(true);
 
-	input.setKeyCooldown(ONYX_KEY_F12, 1.0f);
-	input.setKeyCooldown(ONYX_KEY_1, 0.5f);
-	input.setKeyCooldown(ONYX_KEY_2, 0.5f);
-	input.setKeyCooldown(ONYX_KEY_3, 0.5f);
-	input.setMouseButtonCooldown(ONYX_MOUSE_BUTTON_LEFT, 0.5f);
+	input.setKeyCooldown(Onyx::Key::F12, 1.0f);
+	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num2, 0.5f);
+	input.setKeyCooldown(Onyx::Key::Num3, 0.5f);
+	input.setMouseButtonCooldown(Onyx::MouseButton::Left, 0.5f);
 
 	int fps = 0;
 
@@ -144,21 +144,21 @@ void Onyx::Demo()
 		double deltaTime = window.getDeltaTime();
 		if (window.getFrame() % 100 == 0 || window.getFrame() == 2) fps = window.getFPS();
 
-		if (input.isKeyDown(ONYX_KEY_ESCAPE)) window.close();
-		if (input.isKeyDown(ONYX_KEY_W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_SPACE)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_C)) cam.translateUD(-camSpeed * deltaTime);
-		if (input.isKeyDown(ONYX_KEY_F12)) window.toggleFullscreen();
-		if (input.isKeyDown(ONYX_KEY_1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(ONYX_KEY_2))
+		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen();
+		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyDown(Onyx::Key::Num2))
 		{
 			redCube.toggleVisibility();
 			containerCube.toggleVisibility();
 		}
-		if (input.isKeyDown(ONYX_KEY_3)) renderer.toggleLightingEnabled();
+		if (input.isKeyDown(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();

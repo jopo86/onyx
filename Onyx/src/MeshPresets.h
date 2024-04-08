@@ -99,6 +99,6 @@ namespace Onyx
 		VertexArray GetSquareVertices(float side);
 		VertexArray GetQuadVertices(float width, float height);
 		VertexArray GetRectPrismVertices(float width, float height, float depth);
-		IndexArray GetIndices(int mesh);
+		IndexArray GetIndices(Onyx::MeshType meshType);
 	}
 }

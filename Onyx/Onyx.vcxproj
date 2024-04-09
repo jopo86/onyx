@@ -162,7 +162,7 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\ErrorHandler.cpp" />
-    <ClCompile Include="src\File.cpp" />
+    <ClCompile Include="src\FileUtils.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\ImageData.cpp" />
@@ -192,7 +192,7 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\ErrorHandler.h" />
-    <ClInclude Include="src\File.h" />
+    <ClInclude Include="src\FileUtils.h" />
     <ClInclude Include="src\Font.h" />
     <ClInclude Include="src\ImageData.h" />
     <ClInclude Include="src\IndexArray.h" />

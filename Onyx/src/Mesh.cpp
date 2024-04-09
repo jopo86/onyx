@@ -154,6 +154,4 @@ void Onyx::Mesh::dispose()
 	if (vbo) glDeleteBuffers(1, &vbo);
 	if (ibo) glDeleteBuffers(1, &ibo);
 	vao = vbo = ibo = 0;
-	if (vertexArray.getVertices() != nullptr && vertexArray.isOnHeap()) delete[] vertexArray.getVertices();
-	if (indexArray.getIndices() != nullptr && indexArray.isOnHeap()) delete[] indexArray.getIndices();
 }

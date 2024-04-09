@@ -16,8 +16,8 @@ Onyx::TextRenderer::TextRenderer(Window& window)
 	window.p_textRenderer = this;
 
 	shader = Shader(
-		File(Onyx::Resources("shaders/UI_Text.vert")).readLiteral(),
-		File(Onyx::Resources("shaders/UI_Text.frag")).readLiteral()
+		FileUtils::ReadLiteral(Onyx::Resources("shaders/UI_Text.vert")),
+		FileUtils::ReadLiteral(Onyx::Resources("shaders/UI_Text.frag"))
 	);
 	Projection proj = Projection::Orthographic(0.0f, window.getBufferWidth(), window.getBufferHeight(), 0.0f);
 	shader.use();

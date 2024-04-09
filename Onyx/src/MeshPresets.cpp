@@ -31,8 +31,8 @@ Onyx::Mesh Onyx::MeshPresets::Triangle(Vec2 a, Vec2 b, Vec2 c)
 	};
 
 	return Mesh(
-		VertexArray(vertices, 9 * sizeof(float), Onyx::VertexFormat::V, true),
-		IndexArray(indices, 3 * sizeof(uint), true)
+		VertexArray(vertices, 9 * sizeof(float), Onyx::VertexFormat::V),
+		IndexArray(indices, 3 * sizeof(uint))
 	);
 }
 
@@ -65,9 +65,12 @@ Onyx::Mesh Onyx::MeshPresets::Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
 		2, 3, 0
 	};
 
+	Onyx::AddMalloc(vertices, true);
+	Onyx::AddMalloc(indices, true);
+
 	return Mesh(
-		VertexArray(vertices, 12 * sizeof(float), Onyx::VertexFormat::V, true),
-		IndexArray(indices, 6 * sizeof(uint), true)
+		VertexArray(vertices, 12 * sizeof(float), Onyx::VertexFormat::V),
+		IndexArray(indices, 6 * sizeof(uint))
 	);
 }
 
@@ -123,9 +126,12 @@ Onyx::Mesh Onyx::MeshPresets::RectPrism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, 
 		6, 2, 1
 	};
 
+	Onyx::AddMalloc(vertices, true);
+	Onyx::AddMalloc(indices, true);
+
 	return Mesh(
-		VertexArray(vertices, 24 * sizeof(float), Onyx::VertexFormat::V, true),
-		IndexArray(indices, 36 * sizeof(uint), true)
+		VertexArray(vertices, 24 * sizeof(float), Onyx::VertexFormat::V),
+		IndexArray(indices, 36 * sizeof(uint))
 	);
 }
 
@@ -140,7 +146,9 @@ Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float side)
 		 0.0f,         height / 2.0f
 	};
 
-	return VertexArray(vertices, 6 * sizeof(float), Onyx::VertexFormat::V, true);
+	Onyx::AddMalloc(vertices, true);
+
+	return VertexArray(vertices, 6 * sizeof(float), Onyx::VertexFormat::V);
 }
 
 Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float base, float height)
@@ -151,7 +159,9 @@ Onyx::VertexArray Onyx::MeshPresets::GetTriangleVertices(float base, float heigh
 		 0.0f,         height / 2.0f
 	};
 
-	return VertexArray(vertices, 6 * sizeof(float), Onyx::VertexFormat::V, true);
+	Onyx::AddMalloc(vertices, true);
+
+	return VertexArray(vertices, 6 * sizeof(float), Onyx::VertexFormat::V);
 }
 
 Onyx::VertexArray Onyx::MeshPresets::GetSquareVertices(float side)
@@ -163,7 +173,9 @@ Onyx::VertexArray Onyx::MeshPresets::GetSquareVertices(float side)
 		-side / 2.0f,  side / 2.0f
 	};
 
-	return VertexArray(vertices, 8 * sizeof(float), Onyx::VertexFormat::V, true);
+	Onyx::AddMalloc(vertices, true);
+
+	return VertexArray(vertices, 8 * sizeof(float), Onyx::VertexFormat::V);
 }
 
 Onyx::VertexArray Onyx::MeshPresets::GetQuadVertices(float width, float height)
@@ -175,7 +187,9 @@ Onyx::VertexArray Onyx::MeshPresets::GetQuadVertices(float width, float height)
 		-width / 2.0f,  height / 2.0f
 	};
 
-	return VertexArray(vertices, 8 * sizeof(float), Onyx::VertexFormat::V, true);
+	Onyx::AddMalloc(vertices, true);
+
+	return VertexArray(vertices, 8 * sizeof(float), Onyx::VertexFormat::V);
 }
 
 Onyx::VertexArray Onyx::MeshPresets::GetRectPrismVertices(float width, float height, float depth)
@@ -191,7 +205,9 @@ Onyx::VertexArray Onyx::MeshPresets::GetRectPrismVertices(float width, float hei
 		-width / 2.0f,  height / 2.0f, -depth / 2.0f
 	};
 
-	return VertexArray(vertices, 24 * sizeof(float), Onyx::VertexFormat::V, true);
+	Onyx::AddMalloc(vertices, true);
+
+	return VertexArray(vertices, 24 * sizeof(float), Onyx::VertexFormat::V);
 }
 
 Onyx::IndexArray Onyx::MeshPresets::GetIndices(Onyx::MeshType meshType)
@@ -203,7 +219,8 @@ Onyx::IndexArray Onyx::MeshPresets::GetIndices(Onyx::MeshType meshType)
 		case Onyx::MeshType::Triangle:
 		{
 			uint* indices = new uint[3]{ 0, 1, 2 };
-			retval = IndexArray(indices, 3 * sizeof(uint), true);
+			Onyx::AddMalloc(indices, true);
+			retval = IndexArray(indices, 3 * sizeof(uint));
 			break;
 		}
 
@@ -213,7 +230,8 @@ Onyx::IndexArray Onyx::MeshPresets::GetIndices(Onyx::MeshType meshType)
 				0, 1, 2,
 				2, 3, 0
 			};
-			retval = IndexArray(indices, 6 * sizeof(uint), true);
+			Onyx::AddMalloc(indices, true);
+			retval = IndexArray(indices, 6 * sizeof(uint));
 			break;
 		}
 
@@ -238,7 +256,8 @@ Onyx::IndexArray Onyx::MeshPresets::GetIndices(Onyx::MeshType meshType)
 				1, 5, 6,
 				6, 2, 1
 			};
-			retval = IndexArray(indices, 36 * sizeof(uint), true);
+			Onyx::AddMalloc(indices, true);
+			retval = IndexArray(indices, 36 * sizeof(uint));
 			break;
 		}
 	}

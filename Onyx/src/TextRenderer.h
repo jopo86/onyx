@@ -7,7 +7,7 @@
 #include "Math.h"
 #include "Window.h"
 #include "Shader.h"
-#include "File.h"
+#include "FileUtils.h"
 #include "Projection.h"
 #include "Renderer.h"
 
@@ -32,7 +32,7 @@ namespace Onyx
 			@param window The associated window.
 			Note: the text renderer will render text to whichever window's context is active, but the position will be relative to its 'associated' window.
 		 */
-		TextRenderer(Window& window);
+		TextRenderer(Onyx::Window& window);
 
 		/*
 			@brief Renders text to the screen using the currently set font.

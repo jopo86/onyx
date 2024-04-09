@@ -4,7 +4,7 @@
 
 #include "Core.h"
 #include "Shader.h"
-#include "File.h"
+#include "FileUtils.h"
 #include "Math.h"
 
 namespace Onyx

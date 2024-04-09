@@ -506,7 +506,7 @@ void PresetTests::ShaderTest__VC()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VC, false), Onyx::MeshPresets::GetIndices(Onyx::MeshType::Triangle)),
+		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VC), Onyx::MeshPresets::GetIndices(Onyx::MeshType::Triangle)),
 		Onyx::ShaderPresets::VC()
 	);
 
@@ -569,7 +569,7 @@ void PresetTests::ShaderTest__VT()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VT, false), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
+		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VT), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
 		Onyx::ShaderPresets::VT(),
 		Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg"))
 	);
@@ -633,7 +633,7 @@ void PresetTests::ShaderTest__VCT()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VCT, false), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
+		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VCT), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
 		Onyx::ShaderPresets::VCT(),
 		Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg"))
 	);

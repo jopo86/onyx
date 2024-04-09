@@ -387,6 +387,15 @@ namespace Onyx
 	double GetTime();
 
 	/*
+		@brief Adds a pointer to a dynamically allocated object.
+		Onyx will free the memory when it is terminated.
+		This is mainly for the library, but can be used by the user.
+		@param ptr The pointer to the object.
+		@param arr Whether the object is an array.
+	 */
+	void AddMalloc(void* ptr, bool arr);
+
+	/*
 		@brief Parent class for disposable objects.
 	 */
 	class Disposable

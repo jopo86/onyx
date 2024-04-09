@@ -18,10 +18,8 @@ namespace Onyx
 			@param vertices The vertices to be used in the vertex array.
 			@param size The size of the vertex array, in bytes.
 			@param format The vertex format. Use definitions prefixed with ONYX_VERTEX_FORMAT.
-			@param heap Whether the first argument is on the heap or not.
-			This is important for freeing the memory when the vertex array is used by a mesh.
 		 */
-		VertexArray(float* vertices, ushort size, Onyx::VertexFormat format, bool heap);
+		VertexArray(float* vertices, ushort size, Onyx::VertexFormat format);
 
 
 		/*
@@ -41,12 +39,6 @@ namespace Onyx
 			@return The vertex format of the vertex array.
 		 */
 		Onyx::VertexFormat getFormat() const;
-
-		/*
-			@brief Gets whether the vertex data is on the heap or not.
-			@return Whether the vertex data is on the heap or not.
-		 */
-		bool isOnHeap() const;
 
 		/*
 			@brief Sets the vertex data of the vertex array.
@@ -70,6 +62,5 @@ namespace Onyx
 		float* vertices;
 		ushort size;
 		Onyx::VertexFormat format;
-		bool heap;
 	};
 }

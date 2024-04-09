@@ -39,13 +39,13 @@ void lightingTest()
 
 
 	Onyx::Shader objShader(
-		Onyx::File(Onyx::Resources("../tests/shaders/obj.vert")).readLiteral(),
-		Onyx::File(Onyx::Resources("../tests/shaders/obj.frag")).readLiteral()
+		Onyx::FileUtils::ReadLiteral(Onyx::Resources("../tests/shaders/obj.vert")),
+		Onyx::FileUtils::ReadLiteral(Onyx::Resources("../tests/shaders/obj.frag"))
 	);
 
 	Onyx::Shader lightShader(
-		Onyx::File(Onyx::Resources("../tests/shaders/light.vert")).readLiteral(),
-		Onyx::File(Onyx::Resources("../tests/shaders/light.frag")).readLiteral()
+		Onyx::FileUtils::ReadLiteral(Onyx::Resources("../tests/shaders/light.vert")),
+		Onyx::FileUtils::ReadLiteral(Onyx::Resources("../tests/shaders/light.frag"))
 	);
 
 	lightShader.use();
@@ -136,8 +136,8 @@ void lightingTest()
 	};
 
 	Onyx::Mesh objMesh(
-		Onyx::VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VN, false),
-		Onyx::IndexArray(indices, sizeof(indices), false)
+		Onyx::VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VN),
+		Onyx::IndexArray(indices, sizeof(indices))
 	);
 
 	Onyx::Renderable obj(objMesh, objShader);
@@ -160,8 +160,8 @@ void lightingTest()
 
 	Onyx::UiRenderable ui(
 		Onyx::Mesh(
-			Onyx::VertexArray(uiVertices, sizeof(uiVertices), Onyx::VertexFormat::V, false),
-			Onyx::IndexArray(uiIndices, sizeof(uiIndices), false)
+			Onyx::VertexArray(uiVertices, sizeof(uiVertices), Onyx::VertexFormat::V),
+			Onyx::IndexArray(uiIndices, sizeof(uiIndices))
 		),
 		Vec4(1.0f, 1.0f, 1.0f, 0.2f)
 	);

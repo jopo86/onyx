@@ -5,6 +5,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <vector>
+
 #include "Core.h"
 #include "Window.h"
 #include "InputHandler.h"
@@ -24,6 +26,8 @@ bool initialized = false;
 Onyx::ErrorHandler* p_errorHandler = nullptr;
 std::string resourcePath;
 FT_Library ft;
+
+std::vector<std::pair<void*, bool>> mallocs;
 
 void Onyx::Init()
 {
@@ -74,6 +78,13 @@ void Onyx::Terminate()
 	if (!initialized) return;
 
 	FT_Done_FreeType(ft);
+
+	for (int i = mallocs.size() - 1; i >= 0; i--)
+	{
+		if (mallocs[i].second) delete[] mallocs[i].first;
+		else delete mallocs[i].first;
+		mallocs.pop_back();
+	}
 	initialized = false;
 }
 
@@ -104,7 +115,7 @@ void Onyx::Demo()
 	};
 
 	UiRenderable textBg(
-		Mesh(VertexArray(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V, false), IndexArray(bgIndices, sizeof(bgIndices), false)),
+		Mesh(VertexArray(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V), IndexArray(bgIndices, sizeof(bgIndices))),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
 	);
 
@@ -236,4 +247,9 @@ FT_Library* Onyx::GetFreeTypeLibrary()
 double Onyx::GetTime()
 {
 	return glfwGetTime();
+}
+
+void Onyx::AddMalloc(void* ptr, bool array)
+{
+	mallocs.push_back(std::pair<void*, bool>(ptr, array));
 }

@@ -24,29 +24,6 @@ Result UnitTests::ErrorHandlerConstructor2Test()
 	return result;
 }
 
-Result UnitTests::FileConstructor1Test()
-{
-	Result result("FileConstructor1Test", true, "");
-
-	Onyx::File file;
-
-	result.verify("path", file.getPath(), "");
-
-	return result;
-}
-
-Result UnitTests::FileConstructor2Test()
-{
-	Result result("FileConstructor2Test", true, "");
-
-	std::string path = "test.txt";
-	Onyx::File file(path);
-
-	result.verify("path", file.getPath(), path);
-
-	return result;
-}
-
 Result UnitTests::WindowConstructor1Test()
 {
 	Result result("WindowConstructor1Test", true, "");
@@ -81,7 +58,6 @@ Result UnitTests::VertexArrayConstructor1Test()
 
     result.verify("vertices", vertexArray.getVertices(), (float*)nullptr);
     result.verify("size", vertexArray.getSize(), 0);
-    result.verify("heap", vertexArray.isOnHeap(), false);
 
     return result;
 }
@@ -93,13 +69,11 @@ Result UnitTests::VertexArrayConstructor2Test()
     float vertices[3] = { 1.0f, 2.0f, 3.0f };
     ushort size = 3;
     Onyx::VertexFormat format = Onyx::VertexFormat::Null;
-    bool heap = true;
 
-    Onyx::VertexArray vertexArray(vertices, size, format, heap);
+    Onyx::VertexArray vertexArray(vertices, size, format);
 
     result.verify("vertices", vertexArray.getVertices(), vertices);
     result.verify("size", vertexArray.getSize(), size);
-    result.verify("heap", vertexArray.isOnHeap(), heap);
 
     return result;
 }
@@ -186,7 +160,6 @@ Result UnitTests::IndexArrayConstructor1Test()
 
     result.verify("indices", indexArray.getIndices(), (uint*)nullptr);
     result.verify("size", indexArray.getSize(), 0);
-    result.verify("heap", indexArray.isOnHeap(), false);
 
     return result;
 }
@@ -197,11 +170,10 @@ Result UnitTests::IndexArrayConstructor2Test()
 
     uint indices[3] = { 0, 1, 2 };
 
-    Onyx::IndexArray indexArray(indices, 3, true);
+    Onyx::IndexArray indexArray(indices, 3);
 
     result.verify("indices", indexArray.getIndices(), indices);
     result.verify("size", indexArray.getSize(), 3);
-    result.verify("heap", indexArray.isOnHeap(), true);
 
     return result;
 }
@@ -247,8 +219,6 @@ void UnitTests::RunAllConstructorTests()
 
 	results.push_back(ErrorHandlerConstructor1Test());
 	results.push_back(ErrorHandlerConstructor2Test());
-	results.push_back(FileConstructor1Test());
-	results.push_back(FileConstructor2Test());
 	results.push_back(WindowConstructor1Test());
 	results.push_back(WindowConstructor2Test());
     results.push_back(VertexArrayConstructor1Test());

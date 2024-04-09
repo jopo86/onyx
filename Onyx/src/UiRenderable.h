@@ -83,7 +83,7 @@ namespace Onyx
 			Directly setting a transform is not natively supported, that would be up to the user to program.
 			@param xy The vector to move by.
 		 */
-		void translate(Onyx::Math::Vec2 xy);
+		void translate(Math::Vec2 xy);
 
 		/*
 			@brief Rotates the renderable by the specified degree angle.
@@ -114,7 +114,7 @@ namespace Onyx
 			(2, 0.5) will double the renderable's size on the x axis and half it on the y axis.
 			If any scalar is 0, it will effectively hide the renderable.
 		 */
-		void scale(Onyx::Math::Vec2 xyScalar);
+		void scale(Math::Vec2 xyScalar);
 
 		/*
 			@brief Resets the renderable's transforms.

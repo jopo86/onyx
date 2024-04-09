@@ -7,7 +7,6 @@
 #include "../src/Core.h"
 #include "../src/ErrorHandler.h"
 #include "../src/Window.h"
-#include "../src/File.h"
 #include "../src/VertexArray.h"
 #include "../src/Texture.h"
 #include "../src/TextRenderer.h"

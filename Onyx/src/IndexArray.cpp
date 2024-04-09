@@ -4,14 +4,12 @@ Onyx::IndexArray::IndexArray()
 {
 	indices = nullptr;
 	size = 0;
-	heap = false;
 }
 
-Onyx::IndexArray::IndexArray(uint *indices, ushort size, bool heap)
+Onyx::IndexArray::IndexArray(uint *indices, ushort size)
 {
 	this->indices = indices;
 	this->size = size;
-	this->heap = heap;
 }
 
 uint* Onyx::IndexArray::getIndices() const
@@ -22,11 +20,6 @@ uint* Onyx::IndexArray::getIndices() const
 ushort Onyx::IndexArray::getSize() const
 {
 	return size;
-}
-
-bool Onyx::IndexArray::isOnHeap() const
-{
-	return heap;
 }
 
 void Onyx::IndexArray::setIndices(uint *indices)

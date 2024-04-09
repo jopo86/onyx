@@ -172,7 +172,7 @@ void lightingTest()
 	renderer.add(ui);
 
 	Onyx::TextRenderer textRenderer(window);
-	Onyx::Font roboto(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
+	Onyx::Font roboto = Onyx::Font::Load(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
 	textRenderer.setFont(roboto);
 
 	const float CAM_SPEED = 4.0f;

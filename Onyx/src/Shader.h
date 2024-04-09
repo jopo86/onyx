@@ -5,6 +5,7 @@
 #include "Core.h"
 #include "ErrorHandler.h"
 #include "Math.h"
+#include "FileUtils.h"
 
 namespace Onyx
 {
@@ -39,6 +40,13 @@ namespace Onyx
 			@param other The other shader object.
 		*/
 		Shader(const Shader& other);
+
+		/*
+			@brief Loads a new Shader object from the specified vertex and fragment shader file paths.
+			@param vertSource The vertex shader file path.
+			@param fragSource The fragment shader file path.
+		 */
+		static Shader Load(const std::string& vertPath, const std::string& fragPath);
 
 		/*
 			@brief Uses the shader.

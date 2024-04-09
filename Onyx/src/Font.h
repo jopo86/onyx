@@ -58,23 +58,19 @@ namespace Onyx
 	{
 	public:
 		/*
-			@brief Creates a font, Roboto by default (from the resources/fonts folder).
-			Size is set to 16 by default.
+			@brief Creates an empty font.
+			Using a font constructued like this will result in undefined behavior.
+			Use the static Load() function to load a font from a TrueType font file.
 		 */
 		Font();
 
 		/*
-			@brief Creates a font, Roboto by default (from the resources/fonts folder), with the specified size.
-			@param size The size of the font.
-		 */
-		Font(uint size);
-
-		/*
-			@brief Creates a font from the specified TrueType font file and the specified size.
+			@brief Loads a font from the specified TrueType font file and the specified size.
 			@param ttfFilePath The path of the TrueType font file.
 			@param size The size of the font.
+			@return The font.
 		 */
-		Font(std::string ttfFilePath, uint size);
+		static Font Load(const std::string& ttfFilePath, uint size);
 
 		/*
 			@brief Gets the path of the TrueType font file.
@@ -109,7 +105,5 @@ namespace Onyx
 		uint size;
 
 		std::map<char, Glyph> glyphs;
-
-		void populateGlyphs();
 	};
 }

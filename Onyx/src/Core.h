@@ -87,7 +87,7 @@ namespace Onyx
 		Null,
 		Triangle,
 		Square,
-		Rect,
+		Quad,
 		Cube,
 		RectPrism
 	};

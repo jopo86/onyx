@@ -90,6 +90,14 @@ Onyx::Shader::Shader(const Shader& other)
 	fragSource = other.fragSource;
 }
 
+Onyx::Shader Onyx::Shader::Load(const std::string& vertPath, const std::string& fragPath)
+{
+	return Shader(
+		FileUtils::ReadLiteral(vertPath),
+		FileUtils::ReadLiteral(fragPath)
+	);
+}
+
 void Onyx::Shader::use() const
 {
 	glUseProgram(prog);

@@ -224,7 +224,7 @@ Onyx::IndexArray Onyx::MeshPresets::GetIndices(Onyx::MeshType meshType)
 			break;
 		}
 
-		case Onyx::MeshType::Square: case Onyx::MeshType::Rect:
+		case Onyx::MeshType::Square: case Onyx::MeshType::Quad:
 		{
 			uint* indices = new uint[6]{
 				0, 1, 2,

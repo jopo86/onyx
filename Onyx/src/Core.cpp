@@ -1,4 +1,4 @@
-#pragma warning(disable : 4244)
+#pragma warning(disable : 4244; disable: 4267)
 
 #include <map>
 
@@ -129,8 +129,8 @@ void Onyx::Demo()
 	renderer.add(containerCube);
 	renderer.add(textBg);
 
-	Font robotoReg(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
-	Font robotoBold(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
+	Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
+	Font robotoBold = Font::Load(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
 	TextRenderer textRenderer(window);
 
 	double camSpeed = 5.0;

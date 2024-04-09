@@ -4,58 +4,36 @@
 
 Onyx::Font::Font()
 {
-	p_ft = Onyx::GetFreeTypeLibrary();
-
-	ttfFilePath = Onyx::GetResourcePath() + "fonts/Roboto/Roboto-Regular.ttf";
-	size = 16;
-
-	populateGlyphs();
+	p_ft = nullptr;
+	ttfFilePath = "";
 }
 
-Onyx::Font::Font(uint size)
+Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 {
-	p_ft = Onyx::GetFreeTypeLibrary();
-
-	ttfFilePath = Onyx::GetResourcePath() + "fonts/Roboto/Roboto-Regular.ttf";
-	this->size = size;
-
-	populateGlyphs();
-}
-
-Onyx::Font::Font(std::string ttfFilePath, uint size)
-{
-	p_ft = Onyx::GetFreeTypeLibrary();
-
 	std::ifstream file(ttfFilePath);
-	if (!file.good())
+	if (!file.is_open())
 	{
-		Err("Font file not found: \"" + ttfFilePath + "\"\nAborting font creation.");
+		Err("Font file not found (or permission denied): \"" + ttfFilePath + "\"");
 		file.close();
-		return;
+		return Font();
 	}
-
 	file.close();
 
-	this->ttfFilePath = ttfFilePath;
-	this->size = size;
-
-	populateGlyphs();
-}
-
-void Onyx::Font::populateGlyphs()
-{
-	if (FT_New_Face(*p_ft, ttfFilePath.c_str(), 0, &face))
+	Font font;
+	font.p_ft = GetFreeTypeLibrary();
+	
+	if (FT_New_Face(*font.p_ft, ttfFilePath.c_str(), 0, &font.face))
 	{
-		Err("Failed to load font: \"" + ttfFilePath + "\"");
-		return;
+		Err("Font file found, but failed to load font: \"" + ttfFilePath + "\"");
+		return font;
 	}
 
-	FT_Set_Pixel_Sizes(face, 0, size);
+	FT_Set_Pixel_Sizes(font.face, 0, size);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	for (ubyte c = 0; c < 128; c++)
 	{
-		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+		if (FT_Load_Char(font.face, c, FT_LOAD_RENDER))
 		{
 			Err("Failed to load glyph for character '" + std::to_string(c) + "'");
 			continue;
@@ -66,10 +44,10 @@ void Onyx::Font::populateGlyphs()
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glTexImage2D(
 			GL_TEXTURE_2D, 0, GL_RED,
-			face->glyph->bitmap.width,
-			face->glyph->bitmap.rows,
+			font.face->glyph->bitmap.width,
+			font.face->glyph->bitmap.rows,
 			0, GL_RED, GL_UNSIGNED_BYTE,
-			face->glyph->bitmap.buffer
+			font.face->glyph->bitmap.buffer
 		);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -78,15 +56,17 @@ void Onyx::Font::populateGlyphs()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		Glyph info = {
-			tex, face->glyph->bitmap.width, face->glyph->bitmap.rows,
-			face->glyph->bitmap_left, face->glyph->bitmap_top,
-			static_cast<uint>(face->glyph->advance.x)
+			tex, font.face->glyph->bitmap.width, font.face->glyph->bitmap.rows,
+			font.face->glyph->bitmap_left, font.face->glyph->bitmap_top,
+			static_cast<uint>(font.face->glyph->advance.x)
 		};
 
-		glyphs.insert(std::pair<char, Glyph>(c, info));
+		font.glyphs.insert(std::pair<char, Glyph>(c, info));
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return font;
 }
 
 std::string Onyx::Font::getTtfFilePath() const

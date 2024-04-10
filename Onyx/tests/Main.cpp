@@ -11,9 +11,10 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 void lightingTest();
 
+
 int main()
 {
-	Onyx::ErrorHandler errorHandler(true, false);
+	Onyx::ErrorHandler errorHandler(false, false, false);
 	Onyx::Init(errorHandler);
 	Onyx::Demo();
 	Onyx::Terminate();
@@ -28,7 +29,7 @@ int main()
 
 void lightingTest()
 {
-	Onyx::ErrorHandler errorHandler(true, false);
+	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
 	Onyx::Window window("Lighting Test", 1280, 720);

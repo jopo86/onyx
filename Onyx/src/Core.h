@@ -336,6 +336,12 @@ namespace Onyx
 	void Demo();
 
 	/*
+		@brief Passes a warning to the error handler.
+		@param msg The warning message.
+	 */
+	void Warn(std::string msg);
+
+	/*
 		@brief Passes an error to the error handler.
 		This is just used by the library, it shouldn't really be used by the user.
 	 */
@@ -361,6 +367,12 @@ namespace Onyx
 	void SetResourcePath(std::string path);
 
 	/*
+		@brief Sets the user pointer for the library.
+		This is needs to be used for setting any callbacks that are member functions.
+	 */
+	void SetUserPtr(void* ptr);
+
+	/*
 		@brief Gets the filepath that resources such as shader presets are stored in.
 		This function is used by the library when reading files.
 		@return The path of the resources folder.
@@ -379,6 +391,12 @@ namespace Onyx
 		@return The FreeType library.
 	 */
 	FT_Library* GetFreeTypeLibrary();
+
+	/*
+		@brief Gets the user pointer for the library.
+		This is needs to be used for setting any callbacks that are member functions.
+	 */
+	void* GetUserPtr();
 
 	/*
 		@brief Gets the time (sec) since the backends were initialized, so when the first window was initialized.

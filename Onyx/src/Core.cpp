@@ -26,6 +26,7 @@ bool initialized = false;
 Onyx::ErrorHandler* p_errorHandler = nullptr;
 std::string resourcePath;
 FT_Library ft;
+void* p_user;
 
 std::vector<std::pair<void*, bool>> mallocs;
 
@@ -206,6 +207,11 @@ void Onyx::Demo()
 	robotoBold.dispose();
 }
 
+void Onyx::Warn(std::string msg)
+{
+	if (p_errorHandler != nullptr) p_errorHandler->warn(msg);
+}
+
 void Onyx::Err(std::string msg)
 {
 	if (p_errorHandler != nullptr) p_errorHandler->err(msg);
@@ -229,6 +235,11 @@ void Onyx::SetResourcePath(std::string path)
 	else resourcePath = path;
 }
 
+void Onyx::SetUserPtr(void* ptr)
+{
+	p_user = ptr;
+}
+
 std::string Onyx::GetResourcePath()
 {
 	return resourcePath;
@@ -242,6 +253,11 @@ std::string Onyx::Resources(std::string path)
 FT_Library* Onyx::GetFreeTypeLibrary()
 {
 	return &ft;
+}
+
+void* Onyx::GetUserPtr()
+{
+	return p_user;
 }
 
 double Onyx::GetTime()

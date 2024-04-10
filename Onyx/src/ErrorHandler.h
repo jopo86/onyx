@@ -15,64 +15,108 @@ namespace Onyx
 	{
 	public:
 		/*
-			@brief Creates a new ErrorHandler object with both logging and throwing disabled.
+			@brief Creates a new ErrorHandler object with all settings set to false.
 		 */
-
 		ErrorHandler();
+
 		/*
-			@brief Creates a new ErrorHandler object with the specified logging and throwing settings.
-			@param logging Whether to log all errors.
-			@param throwing Whether to throw all errors.
+			@brief Creates a new ErrorHandler object with the specified settings.
+			@param logWarnings Whether to log warnings.
+			@param logErrors Whether to log errors.
+			@param throwErrors Whether to throw errors.
 		 */
-		ErrorHandler(bool logging, bool throwing);
+		ErrorHandler(bool logWarnings, bool logErrors, bool throwErrors);
+
+		/*
+			@brief Passes a warning to the handler.
+			This is just used by the library, it shouldn't really be used by the user.
+			@param msg The warning message to pass.
+		 */
+		void warn(std::string msg);
 
 		/*
 			@brief Passes an error to the handler.
 			This is just used by the library, it shouldn't really be used by the user.
-			@param error The error to pass.
+			@param msg The error message to pass.
 		 */
-		void err(std::string error);
+		void err(std::string msg);
 
 		/*
-			@brief Changes the logging setting.
-			@param enabled Whether to log all errors.
+			@brief Gets whether the handler logs warnings.
+			@return Whether the handler logs warnings.
 		 */
-		void setLogging(bool enabled);
+		bool logsWarnings() const;
 
 		/*
-			@brief Changes the throwing setting.
-			@param enabled Whether to throw all errors.
+			@brief Gets whether the handler logs errors.
+			@return Whether the handler logs errors.
 		 */
-		void setThrowing(bool enabled);
+		bool logsErrors() const;
 
 		/*
-			@brief Gets all errors that have been passed.
-			@return A vector containing each error as a string.
+			@brief Gets whether the handler throws errors.
+			@return Whether the handler throws errors.
 		 */
-		std::vector<std::string> getErrors() const;
+		bool throwsErrors() const;
 
 		/*
-			@brief Gets the last error that was passed.
-			@return The most recently passed error as a string.
+			@brief Gets the list of warnings that have been passed to the handler.
+			@return The list of warnings that have been passed to the handler.
 		 */
-		std::string getLastError() const;
+		const std::vector<std::string>& getWarningList() const;
 
 		/*
-			@brief Gets the logging setting.
-			@return Whether logging is enabled.
+			@brief Gets the list of errors that have been passed to the handler.
+			@return The list of errors that have been passed to the handler.
 		 */
-		bool isLogging() const;
+		const std::vector<std::string>& getErrorList() const;
 
 		/*
-			@brief Gets the throwing setting.
-			@return Whether throwing is enabled.
+			@brief Gets the list of all messages (errors and warnings) that have been passed to the handler.
+			@return The list of all messages that have been passed to the handler.
 		 */
-		bool isThrowing() const;
+		const std::vector<std::string>& getAllMessageList() const;
+
+		/*
+			@brief Sets whether the handler logs warnings.
+			@param logWarnings Whether the handler should log warnings.
+		 */
+		void setLogsWarnings(bool logWarnings);
+
+		/*
+			@brief Sets whether the handler logs errors.
+			@param logErrors Whether the handler should log errors.
+		 */
+		void setLogsErrors(bool logErrors);
+
+		/*
+			@brief Sets whether the handler throws errors.
+			@param throwErrors Whether the handler should throw errors.
+		 */
+		void setThrowsErrors(bool throwErrors);
+
+		/*
+			@brief Sets the callback function to call when an error is passed to the handler.
+			@param callback The callback function to call when an error is passed to the handler.
+		 */
+		void setErrorCallback(void (*callback)(std::string));
+
+		/*
+			@brief Sets the callback function to call when a warning is passed to the handler.
+			@param callback The callback function to call when a warning is passed to the handler.
+		 */
+		void setWarningCallback(void (*callback)(std::string));
 
 	private:
-		std::vector<std::string> errors;
+		std::vector<std::string> warningList;
+		std::vector<std::string> errorList;
+		std::vector<std::string> allMessageList;
 
-		bool logging;
-		bool throwing;
+		bool logWarnings;
+		bool logErrors;
+		bool throwErrors;
+
+		void (*errorCallback)(std::string);
+		void (*warningCallback)(std::string);
 	};
 }

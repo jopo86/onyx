@@ -6,8 +6,9 @@ Result UnitTests::ErrorHandlerConstructor1Test()
 
 	Onyx::ErrorHandler errorHandler;
 
-	result.verify("logging", errorHandler.isLogging(), false);
-	result.verify("throwing", errorHandler.isThrowing(), false);
+    result.verify("logsWarnings", errorHandler.logsWarnings(), false);
+	result.verify("logsErrors", errorHandler.logsErrors(), false);
+	result.verify("throwsErrors", errorHandler.throwsErrors(), false);
 
 	return result;
 }
@@ -16,10 +17,11 @@ Result UnitTests::ErrorHandlerConstructor2Test()
 {
 	Result result("ErrorHandlerConstructor2Test", true, "");
 
-	Onyx::ErrorHandler errorHandler(true, true);
+	Onyx::ErrorHandler errorHandler(true, true, true);
 
-	result.verify("logging", errorHandler.isLogging(), true);
-	result.verify("throwing", errorHandler.isThrowing(), true);
+	result.verify("logsWarnings", errorHandler.logsWarnings(), true);
+	result.verify("logsErrors", errorHandler.logsErrors(), true);
+    result.verify("throwsErrors", errorHandler.throwsErrors(), true);
 
 	return result;
 }

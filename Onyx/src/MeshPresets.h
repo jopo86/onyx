@@ -1,12 +1,7 @@
 #pragma once
 
-#include <cmath>
-
-#include "Core.h"
 #include "Mesh.h"
 #include "Math.h"
-#include "VertexArray.h"
-#include "IndexArray.h"
 
 namespace Onyx
 {

@@ -1,5 +1,9 @@
 #include "UiRenderable.h"
 
+#include <glad/glad.h>
+
+#include "ShaderPresets.h"
+
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 
 Onyx::UiRenderable::UiRenderable() 

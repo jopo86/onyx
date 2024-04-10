@@ -1,10 +1,6 @@
 #pragma once
 
-#include <string>
-
-#include "Core.h"
 #include "Shader.h"
-#include "FileUtils.h"
 #include "Math.h"
 
 namespace Onyx

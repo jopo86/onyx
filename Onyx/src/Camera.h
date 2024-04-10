@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Core.h"
+#include "Window.h"
+#include "Renderer.h"
 #include "Projection.h"
 #include "Math.h"
-#include "Window.h"
 
 namespace Onyx
 {

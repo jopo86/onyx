@@ -1,24 +1,13 @@
 #pragma warning(disable : 4244; disable: 4267)
 
-#include <map>
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include <vector>
-
 #include "Core.h"
-#include "Window.h"
-#include "InputHandler.h"
+
+#include <string>
+
 #include "Math.h"
-#include "Mesh.h"
-#include "Renderable.h"
-#include "UiRenderable.h"
-#include "ShaderPresets.h"
-#include "MeshPresets.h"
-#include "Renderer.h"
-#include "TextRenderer.h"
+#include "Window.h"
 #include "RenderablePresets.h"
+#include "Projection.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
@@ -209,12 +198,12 @@ void Onyx::Demo()
 	robotoBold.dispose();
 }
 
-void Onyx::Warn(std::string msg)
+void Onyx::Warn(const std::string& msg)
 {
 	if (p_errorHandler != nullptr) p_errorHandler->warn(msg);
 }
 
-void Onyx::Err(std::string msg)
+void Onyx::Err(const std::string& msg)
 {
 	if (p_errorHandler != nullptr) p_errorHandler->err(msg);
 }

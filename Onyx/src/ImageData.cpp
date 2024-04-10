@@ -1,5 +1,6 @@
 #include "ImageData.h"
 
+#include <fstream>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
 
@@ -25,7 +26,7 @@ Onyx::ImageData::ImageData(const ImageData& other)
 	nChannels = other.nChannels;
 }
 
-Onyx::ImageData Onyx::ImageData::Load(std::string filepath)
+Onyx::ImageData Onyx::ImageData::Load(const std::string& filepath)
 {
 	std::ifstream file(filepath);
 	if (!file.is_open())

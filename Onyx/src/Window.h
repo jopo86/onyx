@@ -4,10 +4,9 @@
 #include <GLFW/glfw3.h>
 
 #include "Core.h"
-#include "ErrorHandler.h"
-#include "Camera.h"
 #include "Math.h"
 #include "InputHandler.h"
+#include "Camera.h"
 #include "TextRenderer.h"
 #include "Renderer.h"
 

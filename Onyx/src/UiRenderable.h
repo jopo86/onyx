@@ -3,10 +3,8 @@
 #include "Core.h"
 #include "Math.h"
 #include "Mesh.h"
-#include "Shader.h"
 #include "Texture.h"
-#include "Font.h"
-#include "ShaderPresets.h"
+#include "Shader.h"
 
 namespace Onyx
 {

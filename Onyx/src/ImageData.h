@@ -1,9 +1,8 @@
 #pragma once
 
-#include <fstream>
+#include <iostream>
 
 #include "Core.h"
-#include "ErrorHandler.h"
 
 namespace Onyx
 {
@@ -42,7 +41,7 @@ namespace Onyx
 			@param filepath The file path to the image.
 			@return The ImageData object that was created.
 		 */
-		static ImageData Load(std::string filepath);
+		static ImageData Load(const std::string& filepath);
 
 		/*
 			@brief Gets the actual byte data of the image.

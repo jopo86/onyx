@@ -1,6 +1,11 @@
 #include "FileUtils.h"
 
-std::string Onyx::FileUtils::Read(std::string path)
+#include <fstream>
+#include <string>
+
+#include "Core.h"
+
+std::string Onyx::FileUtils::Read(const std::string& path)
 {
 	std::ifstream file(path);
 	if (!file.is_open()) Onyx::Err("File not found (or access denied): \"" + path + "\"");
@@ -15,7 +20,7 @@ std::string Onyx::FileUtils::Read(std::string path)
 	return contents;
 }
 
-const char* Onyx::FileUtils::ReadLiteral(std::string path)
+const char* Onyx::FileUtils::ReadLiteral(const std::string& path)
 {
 	std::ifstream file(path);
 	if (!file.is_open()) Onyx::Err("File not found (or access denied): \"" + path + "\"");
@@ -31,7 +36,7 @@ const char* Onyx::FileUtils::ReadLiteral(std::string path)
 	return contents->c_str();
 }
 
-std::vector<std::string> Onyx::FileUtils::ReadLines(std::string path)
+std::vector<std::string> Onyx::FileUtils::ReadLines(const std::string& path)
 {
 	std::ifstream file(path);
 	if (!file.is_open()) Onyx::Err("File not found (or access denied): \"" + path + "\"");
@@ -46,7 +51,7 @@ std::vector<std::string> Onyx::FileUtils::ReadLines(std::string path)
 	return lines;
 }
 
-void Onyx::FileUtils::Write(std::string path, std::string text, bool append)
+void Onyx::FileUtils::Write(const std::string& path, const std::string& text, bool append)
 {
 	std::ofstream file;
 	if (append) file.open(path, std::ios::app);

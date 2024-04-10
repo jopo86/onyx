@@ -1,5 +1,7 @@
 #include "Renderable.h"
 
+#include <glad/glad.h>
+
 using Onyx::Math::Mat4;
 using Onyx::Math::Vec3;
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <string>
 #include <vector>
 
 namespace Onyx
@@ -32,14 +31,14 @@ namespace Onyx
 			This is just used by the library, it shouldn't really be used by the user.
 			@param msg The warning message to pass.
 		 */
-		void warn(std::string msg);
+		void warn(const std::string& msg);
 
 		/*
 			@brief Passes an error to the handler.
 			This is just used by the library, it shouldn't really be used by the user.
 			@param msg The error message to pass.
 		 */
-		void err(std::string msg);
+		void err(const std::string& msg);
 
 		/*
 			@brief Gets whether the handler logs warnings.

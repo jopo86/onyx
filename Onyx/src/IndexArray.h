@@ -21,7 +21,7 @@ namespace Onyx
 			@param indices The indices to be used in the index array.
 			@param size The size of the index array, in bytes.
 		 */
-		IndexArray(uint* indices, ushort size);
+		IndexArray(uint* indices, uint size);
 
 		/*
 			@brief Gets the index data of the index array.
@@ -33,7 +33,7 @@ namespace Onyx
 			@brief Gets the size of the index array.
 			@return The size of the index array, in bytes.
 		 */
-		ushort getSize() const;
+		uint getSize() const;
 
 		/*
 			@brief Sets the index data of the index array.
@@ -45,10 +45,10 @@ namespace Onyx
 			@brief Sets the size of the index array.
 			@param size The new size of the index array, in bytes.
 		 */
-		void setSize(ushort size);
+		void setSize(uint size);
 
 	private:
 		uint* indices;
-		ushort size;
+		uint size;
 	};
 }

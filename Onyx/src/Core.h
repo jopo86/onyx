@@ -1,11 +1,10 @@
 #pragma once
 
-#include <string>
-
-#include "ErrorHandler.h"
-
+#include <iostream>
 #include <ft2build.h>
 #include FT_FREETYPE_H
+
+#include "ErrorHandler.h"
 
 /*
 	@file A header file containing useful definitions used by the Onyx library as well as the user.
@@ -339,13 +338,13 @@ namespace Onyx
 		@brief Passes a warning to the error handler.
 		@param msg The warning message.
 	 */
-	void Warn(std::string msg);
+	void Warn(const std::string& msg);
 
 	/*
 		@brief Passes an error to the error handler.
 		This is just used by the library, it shouldn't really be used by the user.
 	 */
-	void Err(std::string msg);
+	void Err(const std::string& msg);
 
 	/*
 		@brief Gets whether the library has been initialized.

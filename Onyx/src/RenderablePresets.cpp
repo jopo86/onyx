@@ -1,5 +1,8 @@
 #include "RenderablePresets.h"
 
+#include "MeshPresets.h"
+#include "ShaderPresets.h"
+
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 Onyx::Renderable Onyx::RenderablePresets::ColoredTriangle(float side, Vec3 rgb)

@@ -6,7 +6,7 @@ Onyx::IndexArray::IndexArray()
 	size = 0;
 }
 
-Onyx::IndexArray::IndexArray(uint *indices, ushort size)
+Onyx::IndexArray::IndexArray(uint *indices, uint size)
 {
 	this->indices = indices;
 	this->size = size;
@@ -17,7 +17,7 @@ uint* Onyx::IndexArray::getIndices() const
 	return indices;
 }
 
-ushort Onyx::IndexArray::getSize() const
+uint Onyx::IndexArray::getSize() const
 {
 	return size;
 }
@@ -27,7 +27,7 @@ void Onyx::IndexArray::setIndices(uint *indices)
 	this->indices = indices;
 }
 
-void Onyx::IndexArray::setSize(ushort size)
+void Onyx::IndexArray::setSize(uint size)
 {
 	this->size = size;
 }

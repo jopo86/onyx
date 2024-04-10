@@ -2,6 +2,10 @@
 
 #include "TextRenderer.h"
 
+#include <glad/glad.h>
+
+#include "Projection.h"
+
 using Onyx::Math::Mat4;
 
 bool Onyx::TextRenderer::wireframe = false;
@@ -15,10 +19,7 @@ Onyx::TextRenderer::TextRenderer(Window& window)
 {
 	window.p_textRenderer = this;
 
-	shader = Shader(
-		FileUtils::ReadLiteral(Onyx::Resources("shaders/UI_Text.vert")),
-		FileUtils::ReadLiteral(Onyx::Resources("shaders/UI_Text.frag"))
-	);
+	shader = Shader::Load(Onyx::Resources("shaders/UI_Text.vert"), Onyx::Resources("shaders/UI_Text.frag"));
 	Projection proj = Projection::Orthographic(0.0f, window.getBufferWidth(), window.getBufferHeight(), 0.0f);
 	shader.use();
 	shader.setMat4("u_projection", proj.getMatrix());

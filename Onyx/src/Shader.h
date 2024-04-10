@@ -1,11 +1,9 @@
 #pragma once
 
-#include <glad/glad.h>
+#include <iostream>
 
 #include "Core.h"
-#include "ErrorHandler.h"
 #include "Math.h"
-#include "FileUtils.h"
 
 namespace Onyx
 {

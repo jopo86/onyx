@@ -1,5 +1,7 @@
 #include "Mesh.h"
 
+#include <glad/glad.h>
+
 Onyx::Mesh::Mesh()
 {
 	vao = vbo = ibo = 0;

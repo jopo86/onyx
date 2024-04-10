@@ -1,5 +1,8 @@
 #include "Math.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 float Onyx::Math::Radians(float degrees)
 {
 	return glm::radians(degrees);

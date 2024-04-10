@@ -19,7 +19,7 @@ namespace Onyx
 			@param size The size of the vertex array, in bytes.
 			@param format The vertex format. Use definitions prefixed with ONYX_VERTEX_FORMAT.
 		 */
-		VertexArray(float* vertices, ushort size, Onyx::VertexFormat format);
+		VertexArray(float* vertices, uint size, Onyx::VertexFormat format);
 
 
 		/*
@@ -32,7 +32,7 @@ namespace Onyx
 			@brief Gets the size of the vertex array.
 			@return The size of the vertex array, in bytes.
 		 */
-		ushort getSize() const;
+		uint getSize() const;
 
 		/*
 			@brief Gets the vertex format of the vertex array.
@@ -50,7 +50,7 @@ namespace Onyx
 			@brief Sets the size of the vertex array.
 			@param size The new size of the vertex array, in bytes.
 		 */
-		void setSize(ushort size);
+		void setSize(uint size);
 
 		/*
 			@brief Sets the vertex format of the vertex array.
@@ -60,7 +60,7 @@ namespace Onyx
 
 	private:
 		float* vertices;
-		ushort size;
+		uint size;
 		Onyx::VertexFormat format;
 	};
 }

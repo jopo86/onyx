@@ -1,13 +1,7 @@
 #pragma once
 
-#include <vector>
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include "Core.h"
 #include "Window.h"
-#include "Math.h"
+#include "Core.h"
 
 namespace Onyx
 {

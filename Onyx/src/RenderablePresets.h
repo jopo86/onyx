@@ -1,10 +1,8 @@
 #pragma once
 
-#include "Core.h"
 #include "Renderable.h"
 #include "Math.h"
-#include "ShaderPresets.h"
-#include "MeshPresets.h"
+#include "Texture.h"
 
 namespace Onyx
 {

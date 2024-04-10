@@ -16,7 +16,7 @@ Onyx::ErrorHandler::ErrorHandler(bool logWarnings, bool logErrors, bool throwErr
 	warningCallback = nullptr;
 }
 
-void Onyx::ErrorHandler::warn(std::string msg)
+void Onyx::ErrorHandler::warn(const std::string& msg)
 {
 	if (logWarnings) std::cout << "Onyx Warning: " << msg << "\n";
 	warningList.push_back(msg);
@@ -24,7 +24,7 @@ void Onyx::ErrorHandler::warn(std::string msg)
 	if (warningCallback != nullptr) warningCallback(msg);
 }
 
-void Onyx::ErrorHandler::err(std::string msg)
+void Onyx::ErrorHandler::err(const std::string& msg)
 {
 	if (logErrors) std::cout << "Onyx Error: " << msg << "\n";
 	errorList.push_back(msg);

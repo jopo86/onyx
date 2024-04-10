@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-#include <iostream>
+#include <glad/glad.h>
 
 Onyx::Texture::Texture()
 {

@@ -1,15 +1,12 @@
 #pragma once
 
-#include <string>
+#include <iostream>
 
 #include "Core.h"
-#include "Font.h"
-#include "Math.h"
 #include "Window.h"
+#include "Math.h"
+#include "Font.h"
 #include "Shader.h"
-#include "FileUtils.h"
-#include "Projection.h"
-#include "Renderer.h"
 
 namespace Onyx
 {

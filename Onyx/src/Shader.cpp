@@ -1,5 +1,9 @@
 #include "Shader.h"
 
+#include <glad/glad.h>
+
+#include "FileUtils.h"
+
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::DVec2,
 Onyx::Math::DVec3, Onyx::Math::DVec4, Onyx::Math::IVec2, Onyx::Math::IVec3,
 Onyx::Math::IVec4, Onyx::Math::UVec2, Onyx::Math::UVec3, Onyx::Math::UVec4,

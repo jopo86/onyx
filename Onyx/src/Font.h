@@ -1,16 +1,12 @@
 #pragma once
 
-#include <string>
+#include <iostream>
 #include <map>
-#include <fstream>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include <glad/glad.h>
-
 #include "Core.h"
-#include "Math.h"
 
 namespace Onyx
 {

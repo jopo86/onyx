@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Math.h"
 
 namespace Onyx

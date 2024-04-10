@@ -2,6 +2,10 @@
 
 #include "Font.h"
 
+#include <string>
+#include <fstream>
+#include <glad/glad.h>
+
 Onyx::Font::Font()
 {
 	p_ft = nullptr;

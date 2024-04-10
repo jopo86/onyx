@@ -3,12 +3,11 @@
 #include <vector>
 
 #include "Core.h"
+#include "Window.h"
+#include "Camera.h"
+#include "Lighting.h"
 #include "Renderable.h"
 #include "UiRenderable.h"
-#include "Camera.h"
-#include "Projection.h"
-#include "Window.h"
-#include "Lighting.h"
 
 namespace Onyx
 {

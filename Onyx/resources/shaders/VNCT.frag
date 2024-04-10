@@ -2,7 +2,7 @@
 
 out vec4 o_color;
 
-in vec3 io_normal;
+in float io_diffuseFactor;
 in vec4 io_color;
 in vec2 io_texCoord;
 
@@ -31,11 +31,7 @@ void main()
 	vec3 color = u_lighting.color * io_color.rgb * texColor.rgb;
 
 	vec3 ambient = color * u_lighting.ambientStrength;
-
-	vec3 normal = normalize(io_normal);
-	vec3 lightDir = normalize(-u_lighting.direction);
-	float diffuseFactor = max(dot(normal, lightDir), 0.0);
-	vec3 diffuse = color * diffuseFactor;
+	vec3 diffuse = color * io_diffuseFactor;
 	
 	o_color = vec4(diffuse + ambient, texColor.a * io_color.a);
 }

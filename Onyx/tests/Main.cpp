@@ -11,10 +11,9 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 void lightingTest();
 
-
 int main()
 {
-	Onyx::ErrorHandler errorHandler(false, false, false);
+	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 	Onyx::Demo();
 	Onyx::Terminate();
@@ -38,16 +37,8 @@ void lightingTest()
 
 	Onyx::InputHandler input(window);
 
-
-	Onyx::Shader objShader(
-		Onyx::FileUtils::ReadLiteral(Onyx::Resources("../tests/shaders/obj.vert")),
-		Onyx::FileUtils::ReadLiteral(Onyx::Resources("../tests/shaders/obj.frag"))
-	);
-
-	Onyx::Shader lightShader(
-		Onyx::FileUtils::ReadLiteral(Onyx::Resources("../tests/shaders/light.vert")),
-		Onyx::FileUtils::ReadLiteral(Onyx::Resources("../tests/shaders/light.frag"))
-	);
+	Onyx::Shader objShader = Onyx::Shader::Load(Onyx::Resources("shaders/obj.vert"), Onyx::Resources("shaders/obj.frag"));
+	Onyx::Shader lightShader = Onyx::Shader::Load(Onyx::Resources("shaders/light.vert"), Onyx::Resources("shaders/light.frag"));
 
 	lightShader.use();
 	lightShader.setVec3("u_color", Vec3(1.0f, 1.0f, 1.0f));

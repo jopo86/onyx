@@ -97,8 +97,10 @@ void Onyx::Demo()
 
 	InputHandler input(window);
 
+	Texture container = Texture(ImageData::Load(Resources("textures/container.jpg")));
+
 	Renderable redCube = RenderablePresets::ColoredCube(1.0f, Vec3(1.0f, 0.0f, 0.0f));
-	Renderable containerCube = RenderablePresets::TexturedCube(1.0f, ImageData::Load(Resources("textures/container.jpg")));
+	Renderable containerCube = RenderablePresets::TexturedCube(1.0f, container);
 
 	redCube.translate(Vec3(-1.0f, 0.0f, 0.0f));
 	containerCube.translate(Vec3(1.0f, 0.0f, 0.0f));

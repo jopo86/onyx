@@ -54,7 +54,7 @@ namespace Onyx
 			@param view The view matrix to use, generally from an Camera.
 			@param proj The projection matrix to use, generally from an Camera.
 		 */
-		void render(Onyx::Math::Mat4 view, Onyx::Math::Mat4 proj);
+		void render(const Onyx::Math::Mat4& view, const Onyx::Math::Mat4& proj);
 
 		/*
 			@brief Hides the renderable.
@@ -80,7 +80,7 @@ namespace Onyx
 			Directly setting a transform is not natively supported, that would be up to the user to program.
 			@param xyz The vector to move by.
 		 */
-		void translate(Onyx::Math::Vec3 xyz);
+		void translate(const Onyx::Math::Vec3& xyz);
 
 		/*
 			@brief Rotates the renderable by the specified degree angle around the specified axes.
@@ -94,7 +94,7 @@ namespace Onyx
 			(1, 1, 1) will rotate the specified angle around all axes.
 			Numbers below 0 are treated as 0 and any other number is treated as 1.
 		 */
-		void rotate(float degrees, Onyx::Math::Vec3 mask);
+		void rotate(float degrees, const Onyx::Math::Vec3& mask);
 
 		/*
 			@brief Scales the renderable in all dimensions by the specified scalar.
@@ -117,7 +117,7 @@ namespace Onyx
 			(0.5, 0.5, 2) will half the renderable's size on the x and y axes, and double it's size on the z axis.
 			If any scalar is 0, it will effectively hide the renderable.
 		 */
-		void scale(Onyx::Math::Vec3 xyzScalar);
+		void scale(const Onyx::Math::Vec3& xyzScalar);
 
 		/*
 			@brief Resets the renderable's transforms.

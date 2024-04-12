@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "Lighting.h"
 #include "Renderable.h"
+#include "ModelRenderable.h"
 #include "UiRenderable.h"
 
 namespace Onyx
@@ -64,6 +65,12 @@ namespace Onyx
 			Note that renderables cannot be removed once added, instead use hide().
 		 */
 		void add(Renderable& renderable);
+
+		/*
+			@brief Adds a model renderable to the renderer.
+			Note that renderables cannot be removed once added, instead use hide().
+		 */
+		void add(ModelRenderable& modelRenderable);
 
 		/*
 			@brief Adds a UI renderable to the renderer.

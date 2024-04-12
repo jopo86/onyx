@@ -53,7 +53,7 @@ void Onyx::Renderable::render()
 	glUseProgram(0);
 }
 
-void Onyx::Renderable::render(Mat4 view, Mat4 proj)
+void Onyx::Renderable::render(const Mat4& view, const Mat4& proj)
 {
 	if (hidden) return;
 	shader.use();
@@ -84,14 +84,14 @@ void Onyx::Renderable::toggleVisibility()
 	hidden = !hidden;
 }
 
-void Onyx::Renderable::translate(Vec3 xyz)
+void Onyx::Renderable::translate(const Vec3& xyz)
 {
 	if (xyz.isZero()) return;
 	model.translate(xyz);
 	inverseModel = Math::Inverse(model);
 }
 
-void Onyx::Renderable::rotate(float degrees, Vec3 mask)
+void Onyx::Renderable::rotate(float degrees, const Vec3& mask)
 {
 	if (degrees == 0.0f || mask.isZero()) return;
 	model.rotate(degrees, mask);
@@ -105,7 +105,7 @@ void Onyx::Renderable::scale(float scalar)
 	inverseModel = Math::Inverse(model);
 }
 
-void Onyx::Renderable::scale(Vec3 xyzScalar)
+void Onyx::Renderable::scale(const Vec3& xyzScalar)
 {
 	if (xyzScalar.getX() == 1.0f && xyzScalar.getY() == 1.0f && xyzScalar.getZ() == 1.0f) return;
 	model.scale(xyzScalar);

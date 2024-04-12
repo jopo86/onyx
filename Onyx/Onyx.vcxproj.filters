@@ -99,6 +99,12 @@
     <ClCompile Include="src\FileUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModelRenderable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Projection.h">
@@ -177,6 +183,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\FileUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModelRenderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Triple.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

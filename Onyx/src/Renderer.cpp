@@ -76,6 +76,14 @@ void Onyx::Renderer::add(Renderable& renderable)
 	renderables.push_back(p_renderable);
 }
 
+void Onyx::Renderer::add(ModelRenderable& modelRenderable)
+{
+	for (Renderable& renderable : modelRenderable.renderables)
+	{
+		add(renderable);
+	}
+}
+
 void Onyx::Renderer::add(UiRenderable& uiRenderable)
 {
 	uiRenderables.push_back(&uiRenderable);

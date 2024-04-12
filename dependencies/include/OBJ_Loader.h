@@ -1,6 +1,7 @@
 // OBJ_Loader.h - A Single Header OBJ Model Loader
 
 #pragma once
+#pragma warning(disable: 4244)
 
 // Iostream - STD I/O Library
 #include <iostream>
@@ -18,7 +19,7 @@
 #include <math.h>
 
 // Print progress to console while loading (large models)
-#define OBJL_CONSOLE_OUTPUT
+//#define OBJL_CONSOLE_OUTPUT
 
 // Namespace: OBJL
 //
@@ -740,7 +741,7 @@ namespace objl
 			for (int i = 0; i < int(sface.size()); i++)
 			{
 				// See What type the vertex is.
-				int vtype;
+				int vtype = 0;
 
 				algorithm::split(sface[i], svert, "/");
 

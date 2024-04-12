@@ -87,14 +87,6 @@ void Onyx::Demo()
 	window.setBackgroundColor(Vec3(0.0f, 0.7f, 1.0f));
 
 	InputHandler input(window);
-
-	Texture container = Texture(ImageData::Load(Resources("textures/container.jpg")));
-
-	Renderable redCube = RenderablePresets::ColoredCube(1.0f, Vec3(1.0f, 0.0f, 0.0f));
-	Renderable containerCube = RenderablePresets::TexturedCube(1.0f, container);
-
-	redCube.translate(Vec3(-1.0f, 0.0f, 0.0f));
-	containerCube.translate(Vec3(1.0f, 0.0f, 0.0f));
 	
 	float bgVertices[] = {
 		10.0f,  710.0f, 0.0f,
@@ -108,6 +100,8 @@ void Onyx::Demo()
 		2, 3, 0
 	};
 
+	ModelRenderable car(Model::LoadOBJ(Onyx::Resources("models/Corvette C8.obj")));
+
 	UiRenderable textBg(
 		Mesh(VertexArray(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V), IndexArray(bgIndices, sizeof(bgIndices))),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
@@ -119,8 +113,7 @@ void Onyx::Demo()
 	Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
 	Renderer renderer(window, cam, lighting);
-	//renderer.add(redCube);
-	//renderer.add(containerCube);
+	renderer.add(car);
 	renderer.add(textBg);
 
 	Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
@@ -141,20 +134,7 @@ void Onyx::Demo()
 	int fps = 0;
 
 	Projection ortho = Projection::Orthographic(0, 1280, 720, 0);
-
-	Model* person = Model::LoadOBJ(Onyx::Resources("models/bugatti.obj"));
-	std::vector<Renderable> personRenderables;
-	for (int i = 0; i < person->meshes.size(); i++)
-	{
-		Renderable renderable(person->meshes[i], person->shaders[i], person->textures[i]);
-		personRenderables.push_back(renderable);
-	}
-
-	for (Renderable& renderable : personRenderables)
-	{
-		renderer.add(renderable);
-	}
-
+	
 
 	while (window.isOpen())
 	{
@@ -174,25 +154,17 @@ void Onyx::Demo()
 		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
 		if (input.isKeyDown(Onyx::Key::Num2))
 		{
-			redCube.toggleVisibility();
-			containerCube.toggleVisibility();
+			car.toggleVisibility();
 		}
 		if (input.isKeyDown(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
 
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
 
-		redCube.rotate(50.0f * deltaTime, Vec3(1, 1, 1));
-		containerCube.rotate(-50.0f * deltaTime, Vec3(1, 1, 1));
-
-		for (Renderable& renderable : personRenderables)
-		{
-			renderable.rotate(50.0f * deltaTime, Vec3(0, 1, 0));
-		}
+		car.rotate(20.0f * window.getDeltaTime(), Vec3(0, 1, 0));
 
 		window.startRender();
 		renderer.render();
-
 
 		TextRenderer::StartRender();
 		textRenderer.setFont(robotoBold);
@@ -203,7 +175,7 @@ void Onyx::Demo()
 
 		textRenderer.render("Toggle Fullscreen: [F12]", Vec2(25.0f, 30.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 		textRenderer.render("Toggle Lighting: [3]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Toggle Cube Visibility: [2]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
+		textRenderer.render("Toggle Car Visibility: [2]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 		textRenderer.render("Toggle Wireframe: [1]", Vec2(25.0f, 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 		textRenderer.render("Mouse to look around", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
 		textRenderer.render("Up/Down: [Space]/[C]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));

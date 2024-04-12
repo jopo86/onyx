@@ -48,6 +48,8 @@ namespace Onyx
 		 */
 		Shader VCT();
 
+		Shader VN_Color(Onyx::Math::Vec4 rgba);
+
 		Shader VNC();
 
 		Shader VNT();

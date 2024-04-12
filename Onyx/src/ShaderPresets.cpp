@@ -63,6 +63,17 @@ Onyx::Shader Onyx::ShaderPresets::VNC()
 	return shader;
 }
 
+Onyx::Shader Onyx::ShaderPresets::VN_Color(Vec4 rgba)
+{
+	Shader shader = Shader::Load(Onyx::Resources("shaders/VN_Color.vert"), Onyx::Resources("shaders/VN_Color.frag"));
+	shader.use();
+	shader.setVec4("u_color", rgba);
+	shader.setMat4("u_model", Mat4::Identity());
+	shader.setMat4("u_view", Mat4::Identity());
+	shader.setMat4("u_projection", Mat4::Identity());
+	return shader;
+}
+
 Onyx::Shader Onyx::ShaderPresets::VNT()
 {
 	Shader shader = Shader::Load(Onyx::Resources("shaders/VNT.vert"), Onyx::Resources("shaders/VNT.frag"));

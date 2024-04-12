@@ -8,6 +8,8 @@
 #include "Window.h"
 #include "RenderablePresets.h"
 #include "Projection.h"
+#include "Model.h"
+#include "ShaderPresets.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
@@ -117,8 +119,8 @@ void Onyx::Demo()
 	Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
 	Renderer renderer(window, cam, lighting);
-	renderer.add(redCube);
-	renderer.add(containerCube);
+	//renderer.add(redCube);
+	//renderer.add(containerCube);
 	renderer.add(textBg);
 
 	Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
@@ -139,6 +141,20 @@ void Onyx::Demo()
 	int fps = 0;
 
 	Projection ortho = Projection::Orthographic(0, 1280, 720, 0);
+
+	Model* person = Model::LoadOBJ(Onyx::Resources("models/bugatti.obj"));
+	std::vector<Renderable> personRenderables;
+	for (int i = 0; i < person->meshes.size(); i++)
+	{
+		Renderable renderable(person->meshes[i], person->shaders[i], person->textures[i]);
+		personRenderables.push_back(renderable);
+	}
+
+	for (Renderable& renderable : personRenderables)
+	{
+		renderer.add(renderable);
+	}
+
 
 	while (window.isOpen())
 	{
@@ -169,8 +185,14 @@ void Onyx::Demo()
 		redCube.rotate(50.0f * deltaTime, Vec3(1, 1, 1));
 		containerCube.rotate(-50.0f * deltaTime, Vec3(1, 1, 1));
 
+		for (Renderable& renderable : personRenderables)
+		{
+			renderable.rotate(50.0f * deltaTime, Vec3(0, 1, 0));
+		}
+
 		window.startRender();
 		renderer.render();
+
 
 		TextRenderer::StartRender();
 		textRenderer.setFont(robotoBold);

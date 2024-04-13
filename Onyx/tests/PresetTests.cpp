@@ -5,7 +5,7 @@
 using Onyx::ErrorHandler, Onyx::Window, Onyx::InputHandler,
 Onyx::Mesh, Onyx::Shader, Onyx::Renderable, Onyx::Camera,
 Onyx::Projection, Onyx::Renderer, Onyx::VertexArray,
-Onyx::IndexArray, Onyx::Texture, Onyx::ImageData,
+Onyx::IndexArray, Onyx::Texture,
 Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 void PresetTests::MeshTest__Triangle1()
@@ -571,7 +571,7 @@ void PresetTests::ShaderTest__VT()
 	Renderable obj(
 		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VT), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
 		Onyx::ShaderPresets::VT(),
-		Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg"))
+		Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg")
 	);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
@@ -635,7 +635,7 @@ void PresetTests::ShaderTest__VCT()
 	Renderable obj(
 		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VCT), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
 		Onyx::ShaderPresets::VCT(),
-		Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg"))
+		Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg")
 	);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
@@ -1007,7 +1007,7 @@ void PresetTests::RenderableTest__TexturedTriangle1()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(1.0f, Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg")));
+	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1060,7 +1060,7 @@ void PresetTests::RenderableTest__TexturedTriangle2()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(2.0f, 1.0f, Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg")));
+	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(2.0f, 1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1113,7 +1113,7 @@ void PresetTests::RenderableTest__TexturedTriangle3()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(Vec2(-0.9f, -0.6f), Vec2(0.8f, -0.9f), Vec2(0.1f, 0.8f), Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg")));
+	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(Vec2(-0.9f, -0.6f), Vec2(0.8f, -0.9f), Vec2(0.1f, 0.8f), Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1484,7 +1484,7 @@ void PresetTests::RenderableTest__TexturedSquare()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedSquare(1.0f, Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg")));
+	Renderable obj = Onyx::RenderablePresets::TexturedSquare(1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1537,7 +1537,7 @@ void PresetTests::RenderableTest__TexturedQuad1()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedQuad(2.0f, 1.0f, Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg")));
+	Renderable obj = Onyx::RenderablePresets::TexturedQuad(2.0f, 1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1590,7 +1590,7 @@ void PresetTests::RenderableTest__TexturedQuad2()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedQuad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f), Texture(ImageData::Load(Onyx::GetResourcePath() + "textures/container.jpg")));
+	Renderable obj = Onyx::RenderablePresets::TexturedQuad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f), Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1696,7 +1696,7 @@ void PresetTests::RenderableTest__TexturedCube()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedCube(1.0f, Texture(ImageData::Load(Onyx::Resources("textures/container.jpg"))));
+	Renderable obj = Onyx::RenderablePresets::TexturedCube(1.0f, Texture::Load(Onyx::Resources("textures/container.jpg")));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);

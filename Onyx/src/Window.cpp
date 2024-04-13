@@ -41,7 +41,7 @@ Onyx::Window::Window(const char *title, int width, int height)
 	lastFrameTime = deltaTime = 0;
 }
 
-void Onyx::Window::init()
+void Onyx::Window::init(int nSamplesMSAA)
 {
 	if (!glfwInit())
 	{
@@ -52,6 +52,7 @@ void Onyx::Window::init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_SAMPLES, nSamplesMSAA);
 
 #ifdef ONYX_OS_MAC
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
@@ -86,6 +87,7 @@ void Onyx::Window::init()
 
 	glViewport(0, 0, bufferWidth, bufferHeight);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

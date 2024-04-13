@@ -35,7 +35,7 @@ Result UnitTests::WindowConstructor1Test()
 	result.verify("title", win.getTitle(), "Onyx Window");
 	result.verify("width", win.getWidth(), 800);
 	result.verify("height", win.getHeight(), 600);
-
+    
 	return result;
 }
 
@@ -180,41 +180,6 @@ Result UnitTests::IndexArrayConstructor2Test()
     return result;
 }
 
-Result UnitTests::ImageDataConstructor1Test()
-{
-    Result result("ImageDataConstructor1Test", true, "");
-
-    Onyx::ImageData imageData;
-
-    result.verify("data", imageData.getData(), (ubyte*)nullptr);
-    result.verify("width", imageData.getWidth(), 0);
-    result.verify("height", imageData.getHeight(), 0);
-    result.verify("nChannels", imageData.getNChannels(), 0);
-
-    return result;
-}
-
-Result UnitTests::ImageDataConstructor2Test()
-{
-    Result result("ImageDataConstructor2Test", true, "");
-
-    ubyte* data = new ubyte[4 * 4 * 3];
-    int width = 4;
-    int height = 4;
-    int nChannels = 3;
-
-    Onyx::ImageData imageData(data, width, height, nChannels);
-
-    result.verify("data", imageData.getData(), data);
-    result.verify("width", imageData.getWidth(), width);
-    result.verify("height", imageData.getHeight(), height);
-    result.verify("nChannels", imageData.getNChannels(), nChannels);
-
-    delete[] data;
-
-    return result;
-}
-
 void UnitTests::RunAllConstructorTests()
 {
 	std::vector<Result> results;
@@ -232,8 +197,6 @@ void UnitTests::RunAllConstructorTests()
     results.push_back(ProjectionPerspectiveMethod3Test());
     results.push_back(IndexArrayConstructor1Test());
     results.push_back(IndexArrayConstructor2Test());
-    results.push_back(ImageDataConstructor1Test());
-    results.push_back(ImageDataConstructor2Test());
 
 	for (int i = 0; i < results.size(); i++)
 	{

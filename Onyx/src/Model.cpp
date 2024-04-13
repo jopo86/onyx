@@ -9,10 +9,7 @@
 
 using Onyx::Math::Vec4;
 
-Onyx::Model::Model()
-{
-
-}
+Onyx::Model::Model() {}
 
 Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 {
@@ -32,7 +29,6 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 	{
 		bool hasMaterial = objlMesh.MeshMaterial.name != "";
 		bool hasTexture = objlMesh.MeshMaterial.map_Kd != "";
-		std::cout << objlMesh.MeshName << ",\n";
 
 		std::vector<float>* vertices = new std::vector<float>;
 
@@ -56,25 +52,25 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 			indices->push_back(index);
 		}
 
-		AddMalloc(vertices, false);
-		AddMalloc(indices, false);
+		ModelUnit unit;
+		unit.name = objlMesh.MeshName;
 
-		Quartet<std::string, Mesh, Texture, Shader> meshData;
-		meshData.first = objlMesh.MeshName;
-
-		meshData.second = Mesh(
+		unit.mesh = Mesh(
 			VertexArray(vertices->data(), vertices->size() * sizeof(float), VertexFormat::VNT),
 			IndexArray(indices->data(), indices->size() * sizeof(uint))
 		);
 
 		if (hasTexture) {
-			meshData.third = Texture(ImageData::Load(model->directory + "/" + objlMesh.MeshMaterial.map_Kd));
-			meshData.fourth = ShaderPresets::VNT();
+			unit.texture = Texture::Load(model->directory + "/" + objlMesh.MeshMaterial.map_Kd);
+			unit.shader = ShaderPresets::VNT();
 		}
-		else if (hasMaterial) meshData.fourth = ShaderPresets::VN_Color(Vec4(objlMesh.MeshMaterial.Kd.X, objlMesh.MeshMaterial.Kd.Y, objlMesh.MeshMaterial.Kd.Z, 1.0f));
-		else meshData.fourth = ShaderPresets::VN_Color(Vec4(1.0f));
+		else if (hasMaterial) unit.shader = ShaderPresets::VN_Color(Vec4(objlMesh.MeshMaterial.Kd.X, objlMesh.MeshMaterial.Kd.Y, objlMesh.MeshMaterial.Kd.Z, 1.0f));
+		else unit.shader = ShaderPresets::VN_Color(Vec4(1.0f));
 
-		model->data.push_back(meshData);
+		model->data.push_back(unit);
+
+		delete vertices;
+		delete indices;
 	}
 
 	return *model;

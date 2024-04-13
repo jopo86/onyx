@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core.h"
-#include "ImageData.h"
 
 namespace Onyx
 {
@@ -19,25 +18,6 @@ namespace Onyx
 		Texture();
 
 		/*
-			@brief Creates a new Texture object from the specified image data.
-			Disposes of the image data after use.
-			This should be used for image data created anonymously, not as a variable.
-			@param imageData The image data to use and dispose.
-			@param textureWrap The texture wrap option. Use definitions prefixed with ONYX_TEXTURE_WRAP. Repeat by default.
-		 */
-		Texture(ImageData imageData, Onyx::TextureWrap textureWrap = Onyx::TextureWrap::Repeat);
-
-		/*
-			@brief Creates a new Texture object from the specified image data.
-			Disposes of the image data after use if the second argument is true.
-			This should be used for image data created as a variable, not anonymously.
-			@param imageData The image data to use.
-			@param disposeImageData Whether to dispose the image data after use.
-			@param textureWrap The texture wrap option. Use definitions prefixed with ONYX_TEXTURE_WRAP. Repeat by default.
-		 */
-		Texture(ImageData& imageData, bool disposeImageData, Onyx::TextureWrap textureWrap = Onyx::TextureWrap::Repeat);
-
-		/*
 			@brief Creates a new Texture object from another texture object.
 		 !	This function does not copy the texture data, rather the texture ID.
 		 !	This means that the texture data is shared, and disposing of one texture will dispose of the other.
@@ -45,6 +25,13 @@ namespace Onyx
 			@param other The other texture object.
 		*/
 		Texture(const Texture& other);
+
+		/*
+			@brief Creates a new Texture object from the specified image filepath.
+			@param filepath The path of the image.
+			@param textureWrap The texture wrap option. Repeat by default.
+		 */
+		static Texture Load(const std::string& filepath, Onyx::TextureWrap textureWrap = Onyx::TextureWrap::Repeat);
 
 		/*
 			@brief Binds the texture.

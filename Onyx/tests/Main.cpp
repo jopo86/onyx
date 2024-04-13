@@ -37,8 +37,8 @@ void lightingTest()
 
 	Onyx::InputHandler input(window);
 
-	Onyx::Shader objShader = Onyx::Shader::Load(Onyx::Resources("shaders/obj.vert"), Onyx::Resources("shaders/obj.frag"));
-	Onyx::Shader lightShader = Onyx::Shader::Load(Onyx::Resources("shaders/light.vert"), Onyx::Resources("shaders/light.frag"));
+	Onyx::Shader objShader = Onyx::Shader::Load(Onyx::Resources("../tests/shaders/obj.vert"), Onyx::Resources("../tests/shaders/obj.frag"));
+	Onyx::Shader lightShader = Onyx::Shader::Load(Onyx::Resources("../tests/shaders/light.vert"), Onyx::Resources("../tests/shaders/light.frag"));
 
 	lightShader.use();
 	lightShader.setVec3("u_color", Vec3(1.0f, 1.0f, 1.0f));
@@ -201,7 +201,7 @@ void lightingTest()
 
 		objShader.use();
 		objShader.setVec3("viewPos", cam.getPosition());
-		//objShader.setVec3("light.pos", lightPos);
+		objShader.setVec3("light.pos", lightPos);
 
 		lightColor.setX(sin(Onyx::GetTime() * 2.0f));
 		lightColor.setY(sin(Onyx::GetTime() * 0.7f));

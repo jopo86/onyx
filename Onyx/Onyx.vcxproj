@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ModelUnit.cpp" />
     <ClCompile Include="src\ModelRenderable.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Core.cpp" />
@@ -166,7 +167,6 @@
     <ClCompile Include="src\FileUtils.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\ImageData.cpp" />
     <ClCompile Include="src\IndexArray.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
     <ClCompile Include="src\Lighting.cpp" />
@@ -196,7 +196,6 @@
     <ClInclude Include="src\ErrorHandler.h" />
     <ClInclude Include="src\FileUtils.h" />
     <ClInclude Include="src\Font.h" />
-    <ClInclude Include="src\ImageData.h" />
     <ClInclude Include="src\IndexArray.h" />
     <ClInclude Include="src\InputHandler.h" />
     <ClInclude Include="src\Lighting.h" />
@@ -205,6 +204,7 @@
     <ClInclude Include="src\MeshPresets.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ModelRenderable.h" />
+    <ClInclude Include="src\ModelUnit.h" />
     <ClInclude Include="src\Projection.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\RenderablePresets.h" />
@@ -219,7 +219,6 @@
     <ClInclude Include="tests\PresetTests.h" />
     <ClInclude Include="tests\Result.h" />
     <ClInclude Include="tests\UnitTests.h" />
-    <ClInclude Include="src\Quartet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

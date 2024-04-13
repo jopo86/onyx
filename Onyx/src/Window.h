@@ -43,9 +43,9 @@ namespace Onyx
 			@brief Initializes the window.
 			This initializes the backends, including GLFW and OpenGL.
 			This function needs to be called before anything related to OpenGL occurs.
-			This function may cause errors, it is recommended to use the overload with an error handler.
+			@param nSamplesMSAA The number of samples used for Multi Sample Anti Aliasing. 0 by default.
 		 */
-		void init();
+		void init(int nSamplesMSAA = 0);
 
 		/*
 			@brief Prepares to render the current frame.

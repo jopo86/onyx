@@ -16,7 +16,6 @@
 #include "../src/Mesh.h"
 #include "../src/InputHandler.h"
 #include "../src/IndexArray.h"
-#include "../src/ImageData.h"
 #include "../src/Font.h"
 #include "../src/Camera.h"
 
@@ -35,8 +34,6 @@ namespace UnitTests
     Result ProjectionPerspectiveMethod3Test();
     Result IndexArrayConstructor1Test();
     Result IndexArrayConstructor2Test();
-    Result ImageDataConstructor1Test();
-    Result ImageDataConstructor2Test();
 
 	void RunAllConstructorTests();
 

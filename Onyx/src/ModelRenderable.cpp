@@ -9,12 +9,12 @@ Onyx::ModelRenderable::ModelRenderable()
 
 Onyx::ModelRenderable::ModelRenderable(Model& model)
 {
-	for (Quartet<std::string, Mesh, Texture, Shader>& meshData : model.data)
+	for (ModelUnit& unit : model.data)
 	{
 		renderableMap.insert(
 			std::pair<std::string, Renderable>(
-				meshData.first,
-				Renderable(meshData.second, meshData.fourth, meshData.third)
+				unit.name,
+				Renderable(unit.mesh, unit.shader, unit.texture)
 			)
 		);
 	}

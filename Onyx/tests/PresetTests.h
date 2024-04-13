@@ -16,7 +16,6 @@
 #include "../src/Mesh.h"
 #include "../src/InputHandler.h"
 #include "../src/IndexArray.h"
-#include "../src/ImageData.h"
 #include "../src/Font.h"
 #include "../src/Camera.h"
 #include "../src/MeshPresets.h"

@@ -83,7 +83,7 @@ void Onyx::Terminate()
 void Onyx::Demo()
 {
 	Window window("Onyx", 1280, 720);
-	window.init();
+	window.init(8);
 	window.setBackgroundColor(Vec3(0.0f, 0.7f, 1.0f));
 
 	InputHandler input(window);
@@ -100,7 +100,11 @@ void Onyx::Demo()
 		2, 3, 0
 	};
 
+	float start = GetTime();
 	ModelRenderable car(Model::LoadOBJ(Onyx::Resources("models/Corvette C8.obj")));
+	float duration = round((GetTime() - start) * 100) / 100;
+	
+	std::cout << "Model loaded in " << duration << " sec\n";
 
 	UiRenderable textBg(
 		Mesh(VertexArray(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V), IndexArray(bgIndices, sizeof(bgIndices))),

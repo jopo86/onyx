@@ -48,9 +48,6 @@
     <ClCompile Include="src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ImageData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\IndexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,6 +102,9 @@
     <ClCompile Include="src\ModelRenderable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ModelUnit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Projection.h">
@@ -129,9 +129,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ImageData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IndexArray.h">
@@ -191,7 +188,7 @@
     <ClInclude Include="src\ModelRenderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Quartet.h">
+    <ClInclude Include="src\ModelUnit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

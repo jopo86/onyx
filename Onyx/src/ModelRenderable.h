@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <map>
 
 #include "Core.h"
 #include "Model.h"
@@ -104,7 +104,13 @@ namespace Onyx
 			@brief Gets all of the model's renderables.
 			@return A vector of the model's renderables.
 		 */
-		const std::vector<Renderable>& getRenderables() const;
+		const std::map<std::string, Renderable>& getRenderables() const;
+
+		/*
+			@brief Gets the renderable with the specified name.
+			@return The renderable, by reference.
+		 */
+		Renderable& getRenderable(std::string name);
 
 		/*
 			@brief Disposes of all of the renderables contained within the ModelRenderable.
@@ -112,7 +118,7 @@ namespace Onyx
 		void dispose() override;
         
     private:
-        std::vector<Renderable> renderables;
+		std::map<std::string, Renderable> renderableMap;
 
         bool hidden;
     };

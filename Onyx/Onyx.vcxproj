@@ -219,7 +219,7 @@
     <ClInclude Include="tests\PresetTests.h" />
     <ClInclude Include="tests\Result.h" />
     <ClInclude Include="tests\UnitTests.h" />
-    <ClInclude Include="src\Triple.h" />
+    <ClInclude Include="src\Quartet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

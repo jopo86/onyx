@@ -191,7 +191,7 @@
     <ClInclude Include="src\ModelRenderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Triple.h">
+    <ClInclude Include="src\Quartet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

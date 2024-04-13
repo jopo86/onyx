@@ -3,7 +3,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "Triple.h"
+#include "Quartet.h"
 
 namespace Onyx
 {
@@ -33,6 +33,6 @@ namespace Onyx
 	private:
 
 		std::string directory;
-		std::vector<Triple<Mesh, Texture, Shader>> data;
+		std::vector<Quartet<std::string, Mesh, Texture, Shader>> data;
 	};
 }

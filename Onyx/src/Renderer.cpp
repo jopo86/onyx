@@ -78,9 +78,9 @@ void Onyx::Renderer::add(Renderable& renderable)
 
 void Onyx::Renderer::add(ModelRenderable& modelRenderable)
 {
-	for (Renderable& renderable : modelRenderable.renderables)
+	for (std::pair<const std::string, Renderable>& renderable : modelRenderable.renderableMap)
 	{
-		add(renderable);
+		add(renderable.second);
 	}
 }
 

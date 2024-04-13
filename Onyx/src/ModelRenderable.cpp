@@ -9,105 +9,115 @@ Onyx::ModelRenderable::ModelRenderable()
 
 Onyx::ModelRenderable::ModelRenderable(Model& model)
 {
-	for (Triple<Mesh, Texture, Shader>& meshData : model.data)
+	for (Quartet<std::string, Mesh, Texture, Shader>& meshData : model.data)
 	{
-		renderables.push_back(Renderable(meshData.first, meshData.third, meshData.second));
+		renderableMap.insert(
+			std::pair<std::string, Renderable>(
+				meshData.first,
+				Renderable(meshData.second, meshData.fourth, meshData.third)
+			)
+		);
 	}
 	hidden = false;
 }
 
 void Onyx::ModelRenderable::render()
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.render();
+		renderable.second.render();
 	}
 }
 
 void Onyx::ModelRenderable::render(const Mat4& view, const Mat4& proj)
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.render(view, proj);
+		renderable.second.render(view, proj);
 	}
 }
 
 void Onyx::ModelRenderable::hide()
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.hide();
+		renderable.second.hide();
 	}
 	hidden = true;
 }
 
 void Onyx::ModelRenderable::show()
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.show();
+		renderable.second.show();
 	}
 	hidden = false;
 }
 
 void Onyx::ModelRenderable::toggleVisibility()
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.toggleVisibility();
+		renderable.second.toggleVisibility();
 	}
 	hidden = !hidden;
 }
 
 void Onyx::ModelRenderable::translate(const Vec3& xyz)
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.translate(xyz);
+		renderable.second.translate(xyz);
 	}
 }
 
 void Onyx::ModelRenderable::rotate(float degrees, const Vec3& mask)
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.rotate(degrees, mask);
+		renderable.second.rotate(degrees, mask);
 	}
 }
 
 void Onyx::ModelRenderable::scale(float scalar)
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.scale(scalar);
+		renderable.second.scale(scalar);
 	}
 }
 
 void Onyx::ModelRenderable::scale(const Vec3& xyzScalar)
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.scale(xyzScalar);
+		renderable.second.scale(xyzScalar);
 	}
 }
 
 void Onyx::ModelRenderable::resetTransform()
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.resetTransform();
+		renderable.second.resetTransform();
 	}
 }
 
-const std::vector<Onyx::Renderable>& Onyx::ModelRenderable::getRenderables() const
+const std::map<std::string, Onyx::Renderable>& Onyx::ModelRenderable::getRenderables() const
 {
-	return renderables;
+	return renderableMap;
+}
+
+Onyx::Renderable& Onyx::ModelRenderable::getRenderable(std::string name)
+{
+	return renderableMap.at(name);
 }
 
 void Onyx::ModelRenderable::dispose()
 {
-	for (Renderable& renderable : renderables)
+	for (std::pair<const std::string, Renderable>& renderable : renderableMap)
 	{
-		renderable.dispose();
+		renderable.second.dispose();
 	}
 }

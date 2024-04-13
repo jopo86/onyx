@@ -11,5 +11,5 @@ Everything needed is included in the following links (from a release page, downl
 [All Releases](https://github.com/jopo86/onyx/releases)  
 
 ## Get Started
-I'm always lost when trying to learn a library by reading it's massive documentation. So, I've created two tutorials: the [Basic Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial) and the [Advanced Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial). I recommend you go through at least the basic tutorial before using the documentation.  
+I'm always lost when trying to learn a library by reading it's massive documentation. So, I've created two tutorials: the [Basic Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial) and the [Advanced Tutorial](https://github.com/jopo86/onyx/wiki/Advanced-Tutorial). I recommend you go through at least the basic tutorial before using the documentation.  
 Full documentation will come with the full release (1.0.0).  

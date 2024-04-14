@@ -266,6 +266,91 @@ void Onyx::Math::Vec3::operator*=(const float& scalar)
 	m_vec *= scalar;
 }
 
+Onyx::Math::Vec3 Onyx::Math::Vec3::Red()
+{
+	return Vec3(1.0f, 0.0f, 0.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Orange()
+{
+	return Vec3(1.0f, 0.5f, 0.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Yellow()
+{
+	return Vec3(1.0f, 1.0f, 0.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Green()
+{
+	return Vec3(0.0f, 1.0f, 0.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::DarkGreen()
+{
+	return Vec3(0.0f, 0.5f, 0.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Cyan()
+{
+	return Vec3(0.0f, 1.0f, 1.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::LightBlue()
+{
+	return Vec3(0.0f, 0.7f, 1.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Blue()
+{
+	return Vec3(0.0f, 0.0f, 1.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::NavyBlue()
+{
+	return Vec3(0.0f, 0.25f, 0.5f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Purple()
+{
+	return Vec3(0.4f, 0.0f, 1.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Pink()
+{
+	return Vec3(1.0f, 0.6f, 1.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Magenta()
+{
+	return Vec3(0.9f, 0.0f, 1.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::White()
+{
+	return Vec3(1.0f, 1.0f, 1.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::LightGray()
+{
+	return Vec3(0.8f, 0.8f, 0.8f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::DarkGray()
+{
+	return Vec3(0.4f, 0.4f, 0.4f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Black()
+{
+	return Vec3(0.0f, 0.0f, 0.0f);
+}
+
+Onyx::Math::Vec3 Onyx::Math::Vec3::Brown()
+{
+	return Vec3(0.3f, 0.2f, 0.0f);
+}
+
 Onyx::Math::Vec4::Vec4()
 {
 	m_vec = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -432,6 +517,91 @@ Onyx::Math::Vec4 Onyx::Math::Vec4::operator*(const float& scalar) const
 void Onyx::Math::Vec4::operator*=(const float& scalar)
 {
 	m_vec *= scalar;
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Red(float alpha)
+{
+	return Vec4(Vec3::Red(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Orange(float alpha)
+{
+    return Vec4(Vec3::Orange(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Yellow(float alpha)
+{
+    return Vec4(Vec3::Yellow(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Green(float alpha)
+{
+    return Vec4(Vec3::Green(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::DarkGreen(float alpha)
+{
+    return Vec4(Vec3::DarkGreen(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Cyan(float alpha)
+{
+    return Vec4(Vec3::Cyan(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::LightBlue(float alpha)
+{
+    return Vec4(Vec3::LightBlue(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Blue(float alpha)
+{
+    return Vec4(Vec3::Blue(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::NavyBlue(float alpha)
+{
+    return Vec4(Vec3::NavyBlue(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Purple(float alpha)
+{
+    return Vec4(Vec3::Purple(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Pink(float alpha)
+{
+    return Vec4(Vec3::Pink(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Magenta(float alpha)
+{
+    return Vec4(Vec3::Magenta(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::White(float alpha)
+{
+    return Vec4(Vec3::White(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::LightGray(float alpha)
+{
+    return Vec4(Vec3::LightGray(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::DarkGray(float alpha)
+{
+    return Vec4(Vec3::DarkGray(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Black(float alpha)
+{
+    return Vec4(Vec3::Black(), alpha);
+}
+
+Onyx::Math::Vec4 Onyx::Math::Vec4::Brown(float alpha)
+{
+    return Vec4(Vec3::Brown(), alpha);
 }
 
 Onyx::Math::DVec2::DVec2()

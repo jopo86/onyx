@@ -12,7 +12,7 @@
 
 #define ONYX_VERSION_MAJOR		0
 #define ONYX_VERSION_MINOR		7
-#define ONYX_VERSION_PATCH		3
+#define ONYX_VERSION_PATCH		4
 #define ONYX_BETA				true
 
  /*

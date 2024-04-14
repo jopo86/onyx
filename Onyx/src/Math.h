@@ -125,6 +125,24 @@ namespace Onyx
 			Vec3 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
+			static Vec3 Red();
+			static Vec3 Orange();
+			static Vec3 Yellow();
+			static Vec3 Green();
+			static Vec3 DarkGreen();
+			static Vec3 Cyan();
+			static Vec3 LightBlue();
+			static Vec3 Blue();
+			static Vec3 NavyBlue();
+			static Vec3 Purple();
+			static Vec3 Pink();
+			static Vec3 Magenta();
+			static Vec3 White();
+			static Vec3 LightGray();
+			static Vec3 DarkGray();
+			static Vec3 Black();
+			static Vec3 Brown();
+
 		private:
 			glm::vec3 m_vec;
 		};
@@ -178,6 +196,24 @@ namespace Onyx
 			void operator-=(const Vec4& vec);
 			Vec4 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
+
+			static Vec4 Red(float alpha = 1.0f);
+			static Vec4 Orange(float alpha = 1.0f);
+			static Vec4 Yellow(float alpha = 1.0f);
+			static Vec4 Green(float alpha = 1.0f);
+			static Vec4 DarkGreen(float alpha = 1.0f);
+			static Vec4 Cyan(float alpha = 1.0f);
+			static Vec4 LightBlue(float alpha = 1.0f);
+			static Vec4 Blue(float alpha = 1.0f);
+			static Vec4 NavyBlue(float alpha = 1.0f);
+			static Vec4 Purple(float alpha = 1.0f);
+			static Vec4 Pink(float alpha = 1.0f);
+			static Vec4 Magenta(float alpha = 1.0f);
+			static Vec4 White(float alpha = 1.0f);
+			static Vec4 LightGray(float alpha = 1.0f);
+			static Vec4 DarkGray(float alpha = 1.0f);
+			static Vec4 Black(float alpha = 1.0f);
+			static Vec4 Brown(float alpha = 1.0f);
 
 		private:
 			glm::vec4 m_vec;

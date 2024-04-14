@@ -2,6 +2,8 @@
 
 #include "Renderer.h"
 
+#include <map>
+
 bool Onyx::Renderer::wireframe = false;
 bool Onyx::Renderer::uiWireframeAllowed = false;
 float Onyx::Renderer::lineWidth = 1.0f;
@@ -38,7 +40,7 @@ Onyx::Renderer::Renderer(Window& window, Camera& cam, Lighting& lighting)
 {
 	renderables = {};
 	this->cam = &cam;
-	this->lighting = &lighting;
+	setLighting(lighting);
 	window.p_renderer = this;
 	ortho = Projection::Orthographic(0.0f, window.getBufferWidth(), window.getBufferHeight(), 0.0f).getMatrix();
 	lightingEnabled = true;
@@ -130,6 +132,22 @@ void Onyx::Renderer::setLighting(Lighting& lighting)
 		shader->setVec3("u_lighting.color", lighting.getColor());
 		shader->setFloat("u_lighting.ambientStrength", lighting.getAmbientStrength());
 		shader->setVec3("u_lighting.direction", lighting.getDirection());
+	}
+}
+
+void Onyx::Renderer::refreshLighting()
+{
+	for (Renderable* renderable : renderables)
+	{
+		Shader* shader = renderable->getShader();
+		shader->use();
+		shader->setBool("u_lighting.enabled", lightingEnabled);
+		if (lighting != nullptr)
+		{
+			shader->setVec3("u_lighting.color", lighting->getColor());
+			shader->setFloat("u_lighting.ambientStrength", lighting->getAmbientStrength());
+			shader->setVec3("u_lighting.direction", lighting->getDirection());
+		}
 	}
 }
 

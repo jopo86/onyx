@@ -18,8 +18,8 @@ int main()
 	Onyx::Demo();
 	Onyx::Terminate();
 
-	/*UnitTests::RunAllTests();
-	PresetTests::RunAllTests();*/
+	//UnitTests::RunAllTests();
+	//PresetTests::MeshTest__Triangle1();
 
 	//lightingTest();
 	

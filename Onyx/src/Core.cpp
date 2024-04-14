@@ -167,6 +167,10 @@ void Onyx::Demo()
 
 		car.rotate(20.0f * window.getDeltaTime(), Vec3(0, 1, 0));
 
+		float sinTime = sin(Onyx::GetTime());
+		lighting.setColor(Vec3(std::max(sinTime * 2.0f, 0.2f), std::max(sinTime * 0.7f, 0.2f), std::max(sinTime * 1.3f, 0.2f)));
+		renderer.refreshLighting();
+
 		window.startRender();
 		renderer.render();
 

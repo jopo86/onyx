@@ -6,7 +6,7 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3;
 
 Onyx::Mesh Onyx::MeshPresets::Triangle(float side)
 {
-	return Triangle(side, sqrtf(powf(side / 2.0f, 2.0f) + powf(side, 2.0f)));
+	return Triangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)));
 }
 
 Onyx::Mesh Onyx::MeshPresets::Triangle(float base, float height)

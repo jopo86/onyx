@@ -23,6 +23,7 @@ namespace Onyx
 	{
 		friend class Camera;
 		friend class Window;
+		friend class Lighting;
 
 	public:
 		/*
@@ -106,6 +107,12 @@ namespace Onyx
 			@param lighting The lighting settings to use.
 		 */
 		void setLighting(Lighting& lighting);
+
+		/*
+			@brief Refreshes the lighting variables in the shaders of all renderables contained in the renderer.
+			This needs to be called if the lighting values are changed after an object has been added to the renderer.
+		 */
+		void refreshLighting();
 
 		/*
 			@brief Sets whether wireframe rendering mode is enabled.

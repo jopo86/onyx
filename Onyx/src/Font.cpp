@@ -25,6 +25,8 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 
 	Font font;
 	font.p_ft = GetFreeTypeLibrary();
+	font.ttfFilePath = ttfFilePath;
+	font.size = size;
 	
 	if (FT_New_Face(*font.p_ft, ttfFilePath.c_str(), 0, &font.face))
 	{

@@ -13,7 +13,7 @@ void lightingTest();
 
 int main()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true, true);
 	Onyx::Init(errorHandler);
 	Onyx::Demo();
 	Onyx::Terminate();

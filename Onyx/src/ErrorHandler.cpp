@@ -1,17 +1,19 @@
 #include "ErrorHandler.h"
 
+#include "Core.h"
+
 Onyx::ErrorHandler::ErrorHandler()
 {
-	logWarnings = logErrors = throwErrors = false;
+	logWarnings = logErrors = crashOnError = false;
 	errorCallback = nullptr;
 	warningCallback = nullptr;
 }
 
-Onyx::ErrorHandler::ErrorHandler(bool logWarnings, bool logErrors, bool throwErrors)
+Onyx::ErrorHandler::ErrorHandler(bool logWarnings, bool logErrors, bool crashOnError)
 {
 	this->logWarnings = logWarnings;
 	this->logErrors = logErrors;
-	this->throwErrors = throwErrors;
+	this->crashOnError = crashOnError;
 	errorCallback = nullptr;
 	warningCallback = nullptr;
 }
@@ -30,8 +32,10 @@ void Onyx::ErrorHandler::err(const std::string& msg)
 	errorList.push_back(msg);
 	allMessageList.push_back(msg);
 	if (errorCallback != nullptr) errorCallback(msg);
-	if (throwErrors) throw std::runtime_error(msg);
-
+	if (crashOnError) {
+		Terminate();
+		exit(1);
+	}
 }
 
 bool Onyx::ErrorHandler::logsWarnings() const
@@ -44,9 +48,9 @@ bool Onyx::ErrorHandler::logsErrors() const
 	return logErrors;
 }
 
-bool Onyx::ErrorHandler::throwsErrors() const
+bool Onyx::ErrorHandler::crashesOnError() const
 {
-	return throwErrors;
+	return crashOnError;
 }
 
 const std::vector<std::string>& Onyx::ErrorHandler::getWarningList() const
@@ -64,19 +68,19 @@ const std::vector<std::string>& Onyx::ErrorHandler::getAllMessageList() const
 	return allMessageList;
 }
 
-void Onyx::ErrorHandler::setLogsWarnings(bool logWarnings)
+void Onyx::ErrorHandler::setLogWarnings(bool logWarnings)
 {
 	this->logWarnings = logWarnings;
 }
 
-void Onyx::ErrorHandler::setLogsErrors(bool logErrors)
+void Onyx::ErrorHandler::setLogErrors(bool logErrors)
 {
 	this->logErrors = logErrors;
 }
 
-void Onyx::ErrorHandler::setThrowsErrors(bool throwErrors)
+void Onyx::ErrorHandler::setCrashOnError(bool crashOnError)
 {
-	this->throwErrors = throwErrors;
+	this->crashOnError = crashOnError;
 }
 
 void Onyx::ErrorHandler::setWarningCallback(void (*callback)(std::string))

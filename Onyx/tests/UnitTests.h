@@ -9,7 +9,6 @@
 #include "../src/Window.h"
 #include "../src/VertexArray.h"
 #include "../src/Texture.h"
-#include "../src/TextRenderer.h"
 #include "../src/Shader.h"
 #include "../src/Renderer.h"
 #include "../src/Projection.h"

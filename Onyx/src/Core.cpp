@@ -10,6 +10,7 @@
 #include "Projection.h"
 #include "Model.h"
 #include "ShaderPresets.h"
+#include "TextRenderable.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
@@ -122,7 +123,44 @@ void Onyx::Demo()
 
 	Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
 	Font robotoBold = Font::Load(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
-	TextRenderer textRenderer(window);
+
+	std::vector<TextRenderable> textRenderables;
+
+	textRenderables.push_back(TextRenderable("Onyx Demo", robotoBold, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("FPS: 0", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("FRAME 0", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Toggle Fullscreen: [F12]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Toggle Lighting: [3]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Toggle Car Visibility: [2]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Toggle Wireframe: [1]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Mouse to look around", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Up/Down: [Space]/[C]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Forward/Left/Backward/Right: [W]/[A]/[S]/[D]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Exit: [ESCAPE]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+
+	textRenderables[0].translate(Vec2(23.0f, window.getBufferHeight() - 50.0f));
+	textRenderables[1].translate(Vec2(25.0f, window.getBufferHeight() - 80.0f));
+	textRenderables[1].scale(0.6f);
+	textRenderables[2].translate(Vec2(25.0f, window.getBufferHeight() - 100.0f));
+	textRenderables[2].scale(0.6f);
+	textRenderables[3].translate(Vec2(25.0f, 30.0f));
+	textRenderables[3].scale(0.6f);
+	textRenderables[4].translate(Vec2(25.0f, 55.0f));
+	textRenderables[4].scale(0.6f);
+	textRenderables[5].translate(Vec2(25.0f, 80.0f));
+	textRenderables[5].scale(0.6f);
+	textRenderables[6].translate(Vec2(25.0f, 105.0f));
+	textRenderables[6].scale(0.6f);
+	textRenderables[7].translate(Vec2(25.0f, 130.0f));
+	textRenderables[7].scale(0.6f);
+	textRenderables[8].translate(Vec2(25.0f, 155.0f));
+	textRenderables[8].scale(0.6f);
+	textRenderables[9].translate(Vec2(25.0f, 180.0f));
+	textRenderables[9].scale(0.6f);
+	textRenderables[10].translate(Vec2(25.0f, 205.0f));
+	textRenderables[10].scale(0.6f);
+
+	for (int i = 0; i < textRenderables.size(); i++) renderer.add(textRenderables[i]);
 
 	double camSpeed = 5.0;
 	double camSens = 30.0;
@@ -136,9 +174,6 @@ void Onyx::Demo()
 	input.setMouseButtonCooldown(Onyx::MouseButton::Left, 0.5f);
 
 	int fps = 0;
-
-	Projection ortho = Projection::Orthographic(0, 1280, 720, 0);
-	
 
 	while (window.isOpen())
 	{
@@ -167,29 +202,11 @@ void Onyx::Demo()
 
 		car.rotate(20.0f * window.getDeltaTime(), Vec3(0, 1, 0));
 
-		float sinTime = sin(Onyx::GetTime());
-		lighting.setColor(Vec3(std::max(sinTime * 2.0f, 0.2f), std::max(sinTime * 0.7f, 0.2f), std::max(sinTime * 1.3f, 0.2f)));
-		renderer.refreshLighting();
-
 		window.startRender();
 		renderer.render();
 
-		TextRenderer::StartRender();
-		textRenderer.setFont(robotoBold);
-		textRenderer.render("Onyx Demo", Vec2(23.0f, window.getBufferHeight() - 50.0f), Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.setFont(robotoReg);
-		textRenderer.render("FPS: " + std::to_string(fps), Vec2(25.0f, window.getBufferHeight() - 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("FRAME " + std::to_string(window.getFrame()), Vec2(25.0f, window.getBufferHeight() - 100.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-
-		textRenderer.render("Toggle Fullscreen: [F12]", Vec2(25.0f, 30.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Toggle Lighting: [3]", Vec2(25.0f, 55.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Toggle Car Visibility: [2]", Vec2(25.0f, 80.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Toggle Wireframe: [1]", Vec2(25.0f, 105.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Mouse to look around", Vec2(25.0f, 130.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Up/Down: [Space]/[C]", Vec2(25.0f, 155.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Forward/Left/Backward/Right: [W]/[A]/[S]/[D]", Vec2(25.0f, 180.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		textRenderer.render("Exit: [ESCAPE]", Vec2(25.0f, 205.0f), 0.6f, Vec3(1.0f, 1.0f, 1.0f));
-		TextRenderer::EndRender();
+		textRenderables[1].setText("FPS: " + std::to_string(fps));
+		textRenderables[2].setText("FRAME " + std::to_string(window.getFrame()));
 
 		window.endRender();
 	}

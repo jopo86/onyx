@@ -48,16 +48,20 @@ Onyx::Renderer::Renderer(Window& window, Camera& cam, Lighting& lighting)
 
 void Onyx::Renderer::render()
 {
-	if (cam == nullptr) for (Renderable* renderable : renderables) renderable->render();
-	else for (Renderable* renderable : renderables) renderable->render(cam->getViewMatrix(), cam->getProjectionMatrix());
+	if (cam == nullptr) for (Renderable* r : renderables) r->render();
+	else for (Renderable* r : renderables) r->render(cam->getViewMatrix(), cam->getProjectionMatrix());
 
 	glDisable(GL_DEPTH_TEST);
-	if (uiWireframeAllowed) for (UiRenderable* renderable : uiRenderables)renderable->render(ortho);
+	if (uiWireframeAllowed) {
+		for (UiRenderable* r : uiRenderables) r->render(ortho);
+		for (TextRenderable* r : textRenderables) r->render(ortho);
+	}
 	else
 	{
 		bool _wireframe = wireframe;
 		SetWireframe(false);
-		for (UiRenderable* renderable : uiRenderables) renderable->render(ortho);
+		for (UiRenderable* r : uiRenderables) r->render(ortho);
+		for (TextRenderable* r : textRenderables) r->render(ortho);
 		SetWireframe(_wireframe);
 	}
 	glEnable(GL_DEPTH_TEST);
@@ -80,15 +84,20 @@ void Onyx::Renderer::add(Renderable& renderable)
 
 void Onyx::Renderer::add(ModelRenderable& modelRenderable)
 {
-	for (std::pair<const std::string, Renderable>& renderable : modelRenderable.renderableMap)
+	for (std::pair<const std::string, Renderable>& r : modelRenderable.renderableMap)
 	{
-		add(renderable.second);
+		add(r.second);
 	}
 }
 
 void Onyx::Renderer::add(UiRenderable& uiRenderable)
 {
 	uiRenderables.push_back(&uiRenderable);
+}
+
+void Onyx::Renderer::add(TextRenderable& textRenderable)
+{
+    textRenderables.push_back(&textRenderable);
 }
 
 bool Onyx::Renderer::isLightingEnabled() const
@@ -104,9 +113,9 @@ void Onyx::Renderer::setLightingEnabled(bool enabled)
 		return;
 	}
 	lightingEnabled = enabled;
-	for (Renderable* renderable : renderables)
+	for (Renderable* r : renderables)
 	{
-		Shader* shader = renderable->getShader();
+		Shader* shader = r->getShader();
 		shader->use();
 		shader->setBool("u_lighting.enabled", enabled);
 	}
@@ -125,9 +134,9 @@ const Onyx::Lighting& Onyx::Renderer::getLighting() const
 void Onyx::Renderer::setLighting(Lighting& lighting)
 {
 	this->lighting = &lighting;
-	for (Renderable* renderable : renderables)
+	for (Renderable* r : renderables)
 	{
-		Shader* shader = renderable->getShader();
+		Shader* shader = r->getShader();
 		shader->use();
 		shader->setVec3("u_lighting.color", lighting.getColor());
 		shader->setFloat("u_lighting.ambientStrength", lighting.getAmbientStrength());
@@ -137,9 +146,9 @@ void Onyx::Renderer::setLighting(Lighting& lighting)
 
 void Onyx::Renderer::refreshLighting()
 {
-	for (Renderable* renderable : renderables)
+	for (Renderable* r : renderables)
 	{
-		Shader* shader = renderable->getShader();
+		Shader* shader = r->getShader();
 		shader->use();
 		shader->setBool("u_lighting.enabled", lightingEnabled);
 		if (lighting != nullptr)
@@ -197,8 +206,7 @@ float Onyx::Renderer::GetLineWidth()
 
 void Onyx::Renderer::dispose()
 {
-	for (int i = 0; i < renderables.size(); i++)
-	{
-		renderables[i]->dispose();
-	}
+	for (Renderable* r : renderables) r->dispose();
+	for (UiRenderable* r : uiRenderables) r->dispose();
+	for (TextRenderable* r : textRenderables) r->dispose();
 }

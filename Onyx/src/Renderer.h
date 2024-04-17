@@ -9,6 +9,7 @@
 #include "Renderable.h"
 #include "ModelRenderable.h"
 #include "UiRenderable.h"
+#include "TextRenderable.h"
 
 namespace Onyx
 {
@@ -78,6 +79,12 @@ namespace Onyx
 			Note that renderables cannot be removed once added, instead use hide().
 		 */
 		void add(UiRenderable& uiRenderable);
+
+		/*
+            @brief Adds a text renderable to the renderer.
+            Note that renderables cannot be removed once added, instead use hide().
+         */
+		void add(TextRenderable& textRenderable);
 
 		/*
 			@brief Gets whether lighting is enabled for the renderer.
@@ -176,6 +183,7 @@ namespace Onyx
 	private:
 		std::vector<Renderable*> renderables;
 		std::vector<UiRenderable*> uiRenderables;
+		std::vector<TextRenderable*> textRenderables;
 
 		Camera* cam;
 		Lighting* lighting;

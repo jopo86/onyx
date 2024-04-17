@@ -16,7 +16,6 @@ Onyx::Window::Window()
 	bufferWidth = bufferHeight = 0;
 	p_inputHandler = nullptr;
 	p_cam = nullptr;
-	p_textRenderer = nullptr;
 	p_renderer = nullptr;
 	fullscreen = false;
 	initialized = false;
@@ -33,7 +32,6 @@ Onyx::Window::Window(const char *title, int width, int height)
 	bufferWidth = bufferHeight = 0;
 	p_inputHandler = nullptr;
 	p_cam = nullptr;
-	p_textRenderer = nullptr;
 	p_renderer = nullptr;
 	fullscreen = false;
 	initialized = false;
@@ -220,7 +218,6 @@ void Onyx::Window::CB_framebufferSize(GLFWwindow* p_glfwWin, int width, int heig
 	p_win->bufferWidth = width;
 	p_win->bufferHeight = height;
 	Camera* p_cam = p_win->p_cam;
-	TextRenderer* p_textRenderer = p_win->p_textRenderer;
 	Renderer* p_renderer = p_win->p_renderer;
 
 	if (p_cam != nullptr)
@@ -228,12 +225,6 @@ void Onyx::Window::CB_framebufferSize(GLFWwindow* p_glfwWin, int width, int heig
 		if (p_cam->getProjection().getType() != Onyx::ProjectionType::Perspective) return;
 		Projection proj = p_cam->getProjection();
 		p_cam->setProjection(Projection::Perspective(proj.getFOV(), width, height, proj.getNearPlane(), proj.getFarPlane()));
-	}
-
-	if (p_textRenderer != nullptr)
-	{
-		p_textRenderer->shader.use();
-		p_textRenderer->shader.setMat4("u_projection", Projection::Orthographic(0.0f, width, height, 0.0f).getMatrix());
 	}
 
 	if (p_renderer != nullptr)

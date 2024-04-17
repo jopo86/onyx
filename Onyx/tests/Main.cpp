@@ -163,9 +163,10 @@ void lightingTest()
 	renderer.add(light);
 	renderer.add(ui);
 
-	Onyx::TextRenderer textRenderer(window);
 	Onyx::Font roboto = Onyx::Font::Load(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
-	textRenderer.setFont(roboto);
+
+	Onyx::TextRenderable fpsText("FPS: 0", roboto, Vec3(1.0f, 1.0f, 1.0f));
+	renderer.add(fpsText);
 
 	const float CAM_SPEED = 4.0f;
 	const float CAM_SENS = 30.0f;
@@ -219,9 +220,7 @@ void lightingTest()
 
 		window.startRender();
 		renderer.render();
-		Onyx::TextRenderer::StartRender();
-		textRenderer.render("FPS: " + std::to_string(fps), Vec2(20.0f, 20.0f), Vec3(1.0f, 1.0f, 1.0f));
-		Onyx::TextRenderer::EndRender();
+		fpsText.setText("FPS: " + std::to_string(fps));
 		window.endRender();
 	}
 

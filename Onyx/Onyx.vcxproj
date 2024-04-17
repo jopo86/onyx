@@ -27,26 +27,42 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+<<<<<<< HEAD
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+=======
+    <ConfigurationType>Application</ConfigurationType>
+>>>>>>> 8ad33d23aecbe08327f03ef85cb9ea5117e5e155
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+<<<<<<< HEAD
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+=======
+    <ConfigurationType>Application</ConfigurationType>
+>>>>>>> 8ad33d23aecbe08327f03ef85cb9ea5117e5e155
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+<<<<<<< HEAD
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+=======
+    <ConfigurationType>Application</ConfigurationType>
+>>>>>>> 8ad33d23aecbe08327f03ef85cb9ea5117e5e155
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+<<<<<<< HEAD
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+=======
+    <ConfigurationType>Application</ConfigurationType>
+>>>>>>> 8ad33d23aecbe08327f03ef85cb9ea5117e5e155
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>

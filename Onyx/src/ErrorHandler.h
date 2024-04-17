@@ -22,9 +22,9 @@ namespace Onyx
 			@brief Creates a new ErrorHandler object with the specified settings.
 			@param logWarnings Whether to log warnings.
 			@param logErrors Whether to log errors.
-			@param throwErrors Whether to throw errors.
+			@param crashOnError Whether to throw errors.
 		 */
-		ErrorHandler(bool logWarnings, bool logErrors, bool throwErrors);
+		ErrorHandler(bool logWarnings, bool logErrors, bool crashOnError);
 
 		/*
 			@brief Passes a warning to the handler.
@@ -56,7 +56,7 @@ namespace Onyx
 			@brief Gets whether the handler throws errors.
 			@return Whether the handler throws errors.
 		 */
-		bool throwsErrors() const;
+		bool crashesOnError() const;
 
 		/*
 			@brief Gets the list of warnings that have been passed to the handler.
@@ -80,19 +80,19 @@ namespace Onyx
 			@brief Sets whether the handler logs warnings.
 			@param logWarnings Whether the handler should log warnings.
 		 */
-		void setLogsWarnings(bool logWarnings);
+		void setLogWarnings(bool logWarnings);
 
 		/*
 			@brief Sets whether the handler logs errors.
 			@param logErrors Whether the handler should log errors.
 		 */
-		void setLogsErrors(bool logErrors);
+		void setLogErrors(bool logErrors);
 
 		/*
 			@brief Sets whether the handler throws errors.
-			@param throwErrors Whether the handler should throw errors.
+			@param crashOnError Whether the handler should throw errors.
 		 */
-		void setThrowsErrors(bool throwErrors);
+		void setCrashOnError(bool crashOnError);
 
 		/*
 			@brief Sets the callback function to call when an error is passed to the handler.
@@ -113,7 +113,7 @@ namespace Onyx
 
 		bool logWarnings;
 		bool logErrors;
-		bool throwErrors;
+		bool crashOnError;
 
 		void (*errorCallback)(std::string);
 		void (*warningCallback)(std::string);

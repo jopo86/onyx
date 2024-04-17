@@ -102,7 +102,7 @@ void Onyx::Demo()
 	};
 
 	float start = GetTime();
-	ModelRenderable car(Model::LoadOBJ(Onyx::Resources("models/Corvette C8.obj")));
+	ModelRenderable car(Model::LoadOBJ(Onyx::Resources("models/Corette C8.obj")));
 	float duration = round((GetTime() - start) * 100) / 100;
 	
 	std::cout << "Model loaded in " << duration << " sec\n";

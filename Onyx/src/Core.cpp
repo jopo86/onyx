@@ -6,21 +6,29 @@
 
 #include "Math.h"
 #include "Window.h"
-#include "RenderablePresets.h"
 #include "Projection.h"
 #include "Model.h"
-#include "ShaderPresets.h"
 #include "TextRenderable.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 bool initialized = false;
+bool glInitialized = false;
 Onyx::ErrorHandler* p_errorHandler = nullptr;
 std::string resourcePath;
 FT_Library ft;
 void* p_user;
-
 std::vector<std::pair<void*, bool>> mallocs;
+
+void setOpenGLInitialized(bool val)
+{
+	glInitialized = val;
+}
+
+FT_Library* getFT()
+{
+	return &ft;
+}
 
 void Onyx::Init()
 {
@@ -28,6 +36,8 @@ void Onyx::Init()
 	resourcePath = "resources/";
 
 	FT_Init_FreeType(&ft);
+
+	glfwInit();
 }
 
 void Onyx::Init(ErrorHandler& errorHandler)
@@ -38,7 +48,12 @@ void Onyx::Init(ErrorHandler& errorHandler)
 	initialized = true;
 	resourcePath = "resources/";
 
-	if (FT_Init_FreeType(&ft)) Err("failed to initialize FreeType library");
+	if (FT_Init_FreeType(&ft)) Err("failed to initialize FreeType.");
+
+	if (!glfwInit())
+	{
+		Err("failed to initialize GLFW.");
+	}
 }
 
 int Onyx::GetVersionMajor()
@@ -83,8 +98,9 @@ void Onyx::Terminate()
 
 void Onyx::Demo()
 {
+	Window::SetMSAA(4);
 	Window window("Onyx", 1280, 720);
-	window.init(8);
+	window.init();
 	window.setBackgroundColor(Vec3(0.0f, 0.7f, 1.0f));
 
 	InputHandler input(window);
@@ -102,13 +118,13 @@ void Onyx::Demo()
 	};
 
 	float start = GetTime();
-	ModelRenderable car(Model::LoadOBJ(Onyx::Resources("models/Corette C8.obj")));
+	ModelRenderable car(Model::LoadOBJ(Onyx::Resources("models/Corvette C8.obj")));
 	float duration = round((GetTime() - start) * 100) / 100;
 	
 	std::cout << "Model loaded in " << duration << " sec\n";
 
 	UiRenderable textBg(
-		Mesh(VertexArray(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V), IndexArray(bgIndices, sizeof(bgIndices))),
+		Mesh(VertexBuffer(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V), IndexBuffer(bgIndices, sizeof(bgIndices))),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
 	);
 
@@ -160,7 +176,7 @@ void Onyx::Demo()
 	textRenderables[10].translate(Vec2(25.0f, 205.0f));
 	textRenderables[10].scale(0.6f);
 
-	for (int i = 0; i < textRenderables.size(); i++) renderer.add(textRenderables[i]);
+	for (TextRenderable& tr : textRenderables) renderer.add(tr);
 
 	double camSpeed = 5.0;
 	double camSens = 30.0;
@@ -174,6 +190,11 @@ void Onyx::Demo()
 	input.setMouseButtonCooldown(Onyx::MouseButton::Left, 0.5f);
 
 	int fps = 0;
+
+	std::string vendor = (const char*)glGetString(GL_VENDOR);
+	std::string rendererStr = (const char*)glGetString(GL_RENDERER);
+
+	std::cout << vendor << "\n" << rendererStr << "\n";
 
 	while (window.isOpen())
 	{
@@ -232,6 +253,11 @@ bool Onyx::IsInitialized()
 	return initialized;
 }
 
+bool Onyx::IsOpenGLInitialized()
+{
+	return glInitialized;
+}
+
 void Onyx::SetErrorHandler(ErrorHandler& errorHandler)
 {
 	p_errorHandler = &errorHandler;
@@ -260,11 +286,6 @@ std::string Onyx::Resources(std::string path)
 	return resourcePath + path;
 }
 
-FT_Library* Onyx::GetFreeTypeLibrary()
-{
-	return &ft;
-}
-
 void* Onyx::GetUserPtr()
 {
 	return p_user;
@@ -273,6 +294,12 @@ void* Onyx::GetUserPtr()
 double Onyx::GetTime()
 {
 	return glfwGetTime();
+}
+
+std::string Onyx::GetGraphics()
+{
+	if (!glInitialized) Err("OpenGL must be initialized before calling GetGraphics(). Initialize a window.");
+	return (const char*)glGetString(GL_RENDERER);
 }
 
 void Onyx::AddMalloc(void* ptr, bool array)

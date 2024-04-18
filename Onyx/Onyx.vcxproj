@@ -27,42 +27,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-<<<<<<< HEAD
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-=======
     <ConfigurationType>Application</ConfigurationType>
->>>>>>> 8ad33d23aecbe08327f03ef85cb9ea5117e5e155
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-<<<<<<< HEAD
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-=======
     <ConfigurationType>Application</ConfigurationType>
->>>>>>> 8ad33d23aecbe08327f03ef85cb9ea5117e5e155
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-<<<<<<< HEAD
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-=======
     <ConfigurationType>Application</ConfigurationType>
->>>>>>> 8ad33d23aecbe08327f03ef85cb9ea5117e5e155
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-<<<<<<< HEAD
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-=======
     <ConfigurationType>Application</ConfigurationType>
->>>>>>> 8ad33d23aecbe08327f03ef85cb9ea5117e5e155
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -184,7 +168,7 @@
     <ClCompile Include="src\FileUtils.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\IndexArray.cpp" />
+    <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
     <ClCompile Include="src\Lighting.cpp" />
     <ClCompile Include="src\Model.cpp" />
@@ -192,15 +176,12 @@
     <ClCompile Include="tests\Main.cpp" />
     <ClCompile Include="src\Math.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
-    <ClCompile Include="src\MeshPresets.cpp" />
     <ClCompile Include="src\Projection.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
-    <ClCompile Include="src\RenderablePresets.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\ShaderPresets.cpp" />
     <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\VertexArray.cpp" />
+    <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="tests\PresetTests.cpp" />
     <ClCompile Include="tests\Result.cpp" />
@@ -214,25 +195,22 @@
     <ClInclude Include="src\ErrorHandler.h" />
     <ClInclude Include="src\FileUtils.h" />
     <ClInclude Include="src\Font.h" />
-    <ClInclude Include="src\IndexArray.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\InputHandler.h" />
     <ClInclude Include="src\Lighting.h" />
     <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Mesh.h" />
-    <ClInclude Include="src\MeshPresets.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ModelRenderable.h" />
     <ClInclude Include="src\ModelUnit.h" />
     <ClInclude Include="src\Projection.h" />
     <ClInclude Include="src\Renderable.h" />
-    <ClInclude Include="src\RenderablePresets.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\ShaderPresets.h" />
     <ClInclude Include="src\TextRenderable.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\UiRenderable.h" />
-    <ClInclude Include="src\VertexArray.h" />
+    <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="tests\PresetTests.h" />
     <ClInclude Include="tests\Result.h" />

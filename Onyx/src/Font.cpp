@@ -6,6 +6,8 @@
 #include <fstream>
 #include <glad/glad.h>
 
+FT_Library* getFT();
+
 Onyx::Font::Font()
 {
 	p_ft = nullptr;
@@ -24,7 +26,7 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 	file.close();
 
 	Font font;
-	font.p_ft = GetFreeTypeLibrary();
+	font.p_ft = getFT();
 	font.ttfFilePath = ttfFilePath;
 	font.size = size;
 	

@@ -4,7 +4,7 @@
 
 #include <OBJ_Loader.h>
 
-#include "ShaderPresets.h"
+#include "Shader.h"
 #include "Math.h"
 
 using Onyx::Math::Vec4;
@@ -56,16 +56,16 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 		unit.name = objlMesh.MeshName;
 
 		unit.mesh = Mesh(
-			VertexArray(vertices->data(), vertices->size() * sizeof(float), VertexFormat::VNT),
-			IndexArray(indices->data(), indices->size() * sizeof(uint))
+			VertexBuffer(vertices->data(), vertices->size() * sizeof(float), VertexFormat::VNT),
+			IndexBuffer(indices->data(), indices->size() * sizeof(uint))
 		);
 
 		if (hasTexture) {
 			unit.texture = Texture::Load(model->directory + "/" + objlMesh.MeshMaterial.map_Kd);
-			unit.shader = ShaderPresets::VNT();
+			unit.shader = Shader::VNT();
 		}
-		else if (hasMaterial) unit.shader = ShaderPresets::VN_Color(Vec4(objlMesh.MeshMaterial.Kd.X, objlMesh.MeshMaterial.Kd.Y, objlMesh.MeshMaterial.Kd.Z, 1.0f));
-		else unit.shader = ShaderPresets::VN_Color(Vec4(1.0f));
+		else if (hasMaterial) unit.shader = Shader::VN_Color(Vec4(objlMesh.MeshMaterial.Kd.X, objlMesh.MeshMaterial.Kd.Y, objlMesh.MeshMaterial.Kd.Z, 1.0f));
+		else unit.shader = Shader::VN_Color(Vec4(1.0f));
 
 		model->data.push_back(unit);
 

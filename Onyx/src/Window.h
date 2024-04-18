@@ -39,11 +39,9 @@ namespace Onyx
 
 		/*
 			@brief Initializes the window.
-			This initializes the backends, including GLFW and OpenGL.
-			This function needs to be called before anything related to OpenGL occurs.
-			@param nSamplesMSAA The number of samples used for Multi Sample Anti Aliasing. 0 by default.
+			This initializes OpenGL, so it must be called before any OpenGL functions.
 		 */
-		void init(int nSamplesMSAA = 0);
+		void init();
 
 		/*
 			@brief Prepares to render the current frame.
@@ -152,6 +150,13 @@ namespace Onyx
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
 		 */
 		void setBackgroundColor(Onyx::Math::Vec3 rgb);
+
+		/*
+			@brief Enables multi-sample anti-aliasing with the specified number of samples.
+			Must be called before the window is initialized to have an effect.
+			@param nSamples The number of samples. Usually 2, 4, 8, 16, etc.
+		 */
+		static void SetMSAA(uint nSamples);
 
 		/*
 			@brief Disposes of the window.

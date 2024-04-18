@@ -12,7 +12,7 @@
 
 #define ONYX_VERSION_MAJOR		0
 #define ONYX_VERSION_MINOR		7
-#define ONYX_VERSION_PATCH		5
+#define ONYX_VERSION_PATCH		6
 #define ONYX_BETA				true
 
 /*	 
@@ -75,20 +75,6 @@ namespace Onyx
 		VNT,
 		VNC,
 		VNCT
-	};
-
-	/*
-		@brief Definitions for the different mesh types.
-		Used for GetVertices() and GetIndices() in the MeshPresets namespace.
-	 */
-	enum class MeshType
-	{
-		Null,
-		Triangle,
-		Square,
-		Quad,
-		Cube,
-		RectPrism
 	};
 
 	/*
@@ -353,6 +339,13 @@ namespace Onyx
 	bool IsInitialized();
 
 	/*
+		@brief Gets whether OpenGL has been initialized.
+		If a successful call to Window::init() was made, this should return true.
+		@return Whether OpenGL has been initialized.
+	 */
+	bool IsOpenGLInitialized();
+
+	/*
 		@brief Sets the error handler to use for the library.
 		@param errorHandler The error handler to use.
 	 */
@@ -385,13 +378,6 @@ namespace Onyx
 	std::string Resources(std::string path);
 
 	/*
-		@brief Gets the FreeType library.
-		This function is used by the library when rendering text.
-		@return The FreeType library.
-	 */
-	FT_Library* GetFreeTypeLibrary();
-
-	/*
 		@brief Gets the user pointer for the library.
 		This is needs to be used for setting any callbacks that are member functions.
 	 */
@@ -402,6 +388,12 @@ namespace Onyx
 		Use for calculating delta time.
 	 */
 	double GetTime();
+
+	/*
+		@brief Returns the name of the Graphics Card / GPU.
+		@return The name of the GPU.
+	 */
+	std::string GetGraphics();
 
 	/*
 		@brief Adds a pointer to a dynamically allocated object.

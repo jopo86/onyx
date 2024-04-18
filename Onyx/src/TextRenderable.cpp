@@ -1,6 +1,6 @@
 #include "TextRenderable.h"
 
-#include "ShaderPresets.h"
+#include "Shader.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 
@@ -26,7 +26,7 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 c
 		advance += font[text[i]].advance >> 6;
 	}
 
-	shader = ShaderPresets::UI_Text();
+	shader = Shader::UI_Text();
 	shader.use();
 	shader.setVec4("u_color", this->color);
 }
@@ -46,7 +46,7 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 c
 		advance += font[text[i]].advance >> 6;
     }
 
-	shader = ShaderPresets::UI_Text();
+	shader = Shader::UI_Text();
 	shader.use();
 	shader.setVec4("u_color", color);
 }
@@ -114,6 +114,7 @@ void Onyx::TextRenderable::resetTransform()
 
 void Onyx::TextRenderable::setText(const std::string& text)
 {
+	for (CharRenderable& c : chars) c.dispose();
 	chars.clear();
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
@@ -126,6 +127,7 @@ void Onyx::TextRenderable::setText(const std::string& text)
 void Onyx::TextRenderable::setFont(Font& font)
 {
 	this->font = &font;
+	for (CharRenderable& c : chars) c.dispose();
 	chars.clear();
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)

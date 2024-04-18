@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#include "ShaderPresets.h"
+#include "Shader.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 
@@ -15,7 +15,7 @@ Onyx::UiRenderable::UiRenderable()
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb)
 {
 	this->mesh = mesh;
-	shader = ShaderPresets::UI_Color(Vec4(rgb, 1.0f));
+	shader = Shader::UI_Color(Vec4(rgb, 1.0f));
 	model = Mat4::Identity();
 	hidden = false;
 }
@@ -23,7 +23,7 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb)
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
 {
 	this->mesh = mesh;
-	shader = ShaderPresets::UI_Color(rgba);
+	shader = Shader::UI_Color(rgba);
 	model = Mat4::Identity();
 	hidden = false;
 }
@@ -32,7 +32,7 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture)
 {
 	this->mesh = mesh;
 	this->texture = texture;
-	shader = ShaderPresets::UI_Texture();
+	shader = Shader::UI_Texture();
 	model = Mat4::Identity();
 	hidden = false;
 }
@@ -44,7 +44,7 @@ void Onyx::UiRenderable::render()
 	texture.bind();
 	shader.setMat4("u_model", model);
 	glBindVertexArray(mesh.getVAO());
-	glDrawElements(GL_TRIANGLES, mesh.getIndexArray().getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
@@ -58,7 +58,7 @@ void Onyx::UiRenderable::render(Mat4 ortho)
 	shader.setMat4("u_model", model);
 	shader.setMat4("u_projection", ortho);
 	glBindVertexArray(mesh.getVAO());
-	glDrawElements(GL_TRIANGLES, mesh.getIndexArray().getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);

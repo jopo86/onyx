@@ -13,7 +13,7 @@ void lightingTest();
 
 int main()
 {
-	Onyx::ErrorHandler errorHandler(true, true, true);
+	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 	Onyx::Demo();
 	Onyx::Terminate();
@@ -128,12 +128,12 @@ void lightingTest()
 	};
 
 	Onyx::Mesh objMesh(
-		Onyx::VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VN),
-		Onyx::IndexArray(indices, sizeof(indices))
+		Onyx::VertexBuffer(vertices, sizeof(vertices), Onyx::VertexFormat::VN),
+		Onyx::IndexBuffer(indices, sizeof(indices))
 	);
 
 	Onyx::Renderable obj(objMesh, objShader);
-	Onyx::Renderable light(Onyx::MeshPresets::Cube(0.1f), lightShader);
+	Onyx::Renderable light(Onyx::Mesh::Cube(0.1f), lightShader);
 
 	Onyx::Camera cam(window, Onyx::Projection::Perspective(60.0f, 1280, 720));
 	cam.translate(Vec3(0.6f, 0.4f, -4.0f));
@@ -152,8 +152,8 @@ void lightingTest()
 
 	Onyx::UiRenderable ui(
 		Onyx::Mesh(
-			Onyx::VertexArray(uiVertices, sizeof(uiVertices), Onyx::VertexFormat::V),
-			Onyx::IndexArray(uiIndices, sizeof(uiIndices))
+			Onyx::VertexBuffer(uiVertices, sizeof(uiVertices), Onyx::VertexFormat::V),
+			Onyx::IndexBuffer(uiIndices, sizeof(uiIndices))
 		),
 		Vec4(1.0f, 1.0f, 1.0f, 0.2f)
 	);

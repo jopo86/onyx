@@ -8,7 +8,7 @@ Result UnitTests::ErrorHandlerConstructor1Test()
 
     result.verify("logsWarnings", errorHandler.logsWarnings(), false);
 	result.verify("logsErrors", errorHandler.logsErrors(), false);
-	result.verify("throwsErrors", errorHandler.throwsErrors(), false);
+	result.verify("crashesOnError", errorHandler.crashesOnError(), false);
 
 	return result;
 }
@@ -21,7 +21,7 @@ Result UnitTests::ErrorHandlerConstructor2Test()
 
 	result.verify("logsWarnings", errorHandler.logsWarnings(), true);
 	result.verify("logsErrors", errorHandler.logsErrors(), true);
-    result.verify("throwsErrors", errorHandler.throwsErrors(), true);
+    result.verify("crashesOnError", errorHandler.crashesOnError(), true);
 
 	return result;
 }
@@ -50,34 +50,6 @@ Result UnitTests::WindowConstructor2Test()
 	result.verify("height", win.getHeight(), 720);
 
 	return result;
-}
-
-Result UnitTests::VertexArrayConstructor1Test()
-{
-    Result result("VertexArrayConstructor1Test", true, "");
-
-    Onyx::VertexArray vertexArray;
-
-    result.verify("vertices", vertexArray.getVertices(), (float*)nullptr);
-    result.verify("size", vertexArray.getSize(), 0);
-
-    return result;
-}
-
-Result UnitTests::VertexArrayConstructor2Test()
-{
-    Result result("VertexArrayConstructor2Test", true, "");
-
-    float vertices[3] = { 1.0f, 2.0f, 3.0f };
-    ushort size = 3;
-    Onyx::VertexFormat format = Onyx::VertexFormat::Null;
-
-    Onyx::VertexArray vertexArray(vertices, size, format);
-
-    result.verify("vertices", vertexArray.getVertices(), vertices);
-    result.verify("size", vertexArray.getSize(), size);
-
-    return result;
 }
 
 Result UnitTests::ProjectionConstructor1Test()
@@ -154,32 +126,6 @@ Result UnitTests::ProjectionPerspectiveMethod3Test()
     return result;
 }
 
-Result UnitTests::IndexArrayConstructor1Test()
-{
-    Result result("IndexArrayConstructor1Test", true, "");
-
-    Onyx::IndexArray indexArray;
-
-    result.verify("indices", indexArray.getIndices(), (uint*)nullptr);
-    result.verify("size", indexArray.getSize(), 0);
-
-    return result;
-}
-
-Result UnitTests::IndexArrayConstructor2Test()
-{
-    Result result("IndexArrayConstructor2Test", true, "");
-
-    uint indices[3] = { 0, 1, 2 };
-
-    Onyx::IndexArray indexArray(indices, 3);
-
-    result.verify("indices", indexArray.getIndices(), indices);
-    result.verify("size", indexArray.getSize(), 3);
-
-    return result;
-}
-
 void UnitTests::RunAllConstructorTests()
 {
 	std::vector<Result> results;
@@ -188,15 +134,11 @@ void UnitTests::RunAllConstructorTests()
 	results.push_back(ErrorHandlerConstructor2Test());
 	results.push_back(WindowConstructor1Test());
 	results.push_back(WindowConstructor2Test());
-    results.push_back(VertexArrayConstructor1Test());
-    results.push_back(VertexArrayConstructor2Test());
     results.push_back(ProjectionConstructor1Test());
     results.push_back(ProjectionOrthographicMethodTest());
     results.push_back(ProjectionPerspectiveMethod1Test());
     results.push_back(ProjectionPerspectiveMethod2Test());
     results.push_back(ProjectionPerspectiveMethod3Test());
-    results.push_back(IndexArrayConstructor1Test());
-    results.push_back(IndexArrayConstructor2Test());
 
 	for (int i = 0; i < results.size(); i++)
 	{

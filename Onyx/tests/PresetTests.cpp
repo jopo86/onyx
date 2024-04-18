@@ -4,8 +4,8 @@
 
 using Onyx::ErrorHandler, Onyx::Window, Onyx::InputHandler,
 Onyx::Mesh, Onyx::Shader, Onyx::Renderable, Onyx::Camera,
-Onyx::Projection, Onyx::Renderer, Onyx::VertexArray,
-Onyx::IndexArray, Onyx::Texture,
+Onyx::Projection, Onyx::Renderer, Onyx::VertexBuffer,
+Onyx::IndexBuffer, Onyx::Texture,
 Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 void PresetTests::MeshTest__Triangle1()
@@ -19,7 +19,7 @@ void PresetTests::MeshTest__Triangle1()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::Triangle(1.0f), Onyx::ShaderPresets::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+	Renderable obj(Onyx::Mesh::Triangle(1.0f), Onyx::Shader::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
@@ -72,7 +72,7 @@ void PresetTests::MeshTest__Triangle2()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::Triangle(1.0f, 1.0f), Onyx::ShaderPresets::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+	Renderable obj(Onyx::Mesh::Triangle(1.0f, 1.0f), Onyx::Shader::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
@@ -125,7 +125,7 @@ void PresetTests::MeshTest__Triangle3()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::Triangle(Vec2(0.0f, 0.0f), Vec2(0.5f, 0.0f), Vec2(0.1f, 1.0f)), Onyx::ShaderPresets::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+	Renderable obj(Onyx::Mesh::Triangle(Vec2(0.0f, 0.0f), Vec2(0.5f, 0.0f), Vec2(0.1f, 1.0f)), Onyx::Shader::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
@@ -178,7 +178,7 @@ void PresetTests::MeshTest__Square()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::Square(1.0f), Onyx::ShaderPresets::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+	Renderable obj(Onyx::Mesh::Square(1.0f), Onyx::Shader::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
@@ -231,7 +231,7 @@ void PresetTests::MeshTest__Quad1()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::Quad(1.0f, 0.5f), Onyx::ShaderPresets::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+	Renderable obj(Onyx::Mesh::Quad(1.0f, 0.5f), Onyx::Shader::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
@@ -284,7 +284,7 @@ void PresetTests::MeshTest__Quad2()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::Quad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f)), Onyx::ShaderPresets::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+	Renderable obj(Onyx::Mesh::Quad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f)), Onyx::Shader::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
@@ -337,7 +337,7 @@ void PresetTests::MeshTest__Cube()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::Cube(1.0f), Onyx::ShaderPresets::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+	Renderable obj(Onyx::Mesh::Cube(1.0f), Onyx::Shader::V_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
@@ -390,7 +390,7 @@ void PresetTests::MeshAndShaderTest__RectPrism1__V_Color()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::RectPrism(1.0f, 0.5f, 2.0f), Onyx::ShaderPresets::V_Color(Vec4(0.0f, 0.3f, 1.0f, 1.0f)));
+	Renderable obj(Onyx::Mesh::RectPrism(1.0f, 0.5f, 2.0f), Onyx::Shader::V_Color(Vec4(0.0f, 0.3f, 1.0f, 1.0f)));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-2.0f);
@@ -443,10 +443,10 @@ void PresetTests::MeshAndShaderTest__RectPrism2__V_XYZtoRGB()
 
 	InputHandler input(window);
 
-	Renderable obj(Onyx::MeshPresets::RectPrism(Vec3(0.0f, 0.0f, 0.0f), Vec3(0.7f, 0.1f, 0.0f), 
+	Renderable obj(Onyx::Mesh::RectPrism(Vec3(0.0f, 0.0f, 0.0f), Vec3(0.7f, 0.1f, 0.0f), 
 		Vec3(0.8f, 0.6f, 0.0f), Vec3(0.2f, 0.8f, 0.0f), 
 		Vec3(0.0f, 0.2f, 2.0f), Vec3(0.6f, 0.2f, 1.7f), Vec3(0.85f, 0.6f, 1.6f), Vec3(0.2f, 0.85f, 2.1f)),
-		Onyx::ShaderPresets::V_XYZtoRGB());
+		Onyx::Shader::V_XYZtoRGB());
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -506,8 +506,8 @@ void PresetTests::ShaderTest__VC()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VC), Onyx::MeshPresets::GetIndices(Onyx::MeshType::Triangle)),
-		Onyx::ShaderPresets::VC()
+		Mesh(VertexBuffer(vertices, sizeof(vertices), Onyx::VertexFormat::VC), IndexBuffer::Triangle()),
+		Onyx::Shader::VC()
 	);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
@@ -569,8 +569,8 @@ void PresetTests::ShaderTest__VT()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VT), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
-		Onyx::ShaderPresets::VT(),
+		Mesh(VertexBuffer(vertices, sizeof(vertices), Onyx::VertexFormat::VT), IndexBuffer::Square()),
+		Onyx::Shader::VT(),
 		Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg")
 	);
 
@@ -633,8 +633,8 @@ void PresetTests::ShaderTest__VCT()
 	};
 
 	Renderable obj(
-		Mesh(VertexArray(vertices, sizeof(vertices), Onyx::VertexFormat::VCT), IndexArray(Onyx::MeshPresets::GetIndices(Onyx::MeshType::Square))),
-		Onyx::ShaderPresets::VCT(),
+		Mesh(VertexBuffer(vertices, sizeof(vertices), Onyx::VertexFormat::VCT), IndexBuffer::Square()),
+		Onyx::Shader::VCT(),
 		Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg")
 	);
 
@@ -689,7 +689,7 @@ void PresetTests::RenderableTest__ColoredTriangle1()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::ColoredTriangle(1.0f, Vec3(1.0f, 0.0f, 0.0f));
+	Renderable obj = Onyx::Renderable::ColoredTriangle(1.0f, Vec3(1.0f, 0.0f, 0.0f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -742,7 +742,7 @@ void PresetTests::RenderableTest__ColoredTriangle2()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::ColoredTriangle(2.0f, 1.0f, Vec3(0.0f, 1.0f, 0.0f));
+	Renderable obj = Onyx::Renderable::ColoredTriangle(2.0f, 1.0f, Vec3(0.0f, 1.0f, 0.0f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -795,7 +795,7 @@ void PresetTests::RenderableTest__ColoredTriangle3()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::ColoredTriangle(Vec2(-0.9f, -0.6f), Vec2(0.8f, -0.9f), Vec2(0.1f, 0.8f), Vec3(0.0f, 0.0f, 1.0f));
+	Renderable obj = Onyx::Renderable::ColoredTriangle(Vec2(-0.9f, -0.6f), Vec2(0.8f, -0.9f), Vec2(0.1f, 0.8f), Vec3(0.0f, 0.0f, 1.0f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -848,7 +848,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle1()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::VertexColoredTriangle(1.0f);
+	Renderable obj = Onyx::Renderable::VertexColoredTriangle(1.0f);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -901,7 +901,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle2()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::VertexColoredTriangle(2.0f, 1.0f);
+	Renderable obj = Onyx::Renderable::VertexColoredTriangle(2.0f, 1.0f);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -954,7 +954,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle3()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::VertexColoredTriangle(Vec2(-0.9f, -0.6f), Vec2(0.8f, -0.9f), Vec2(0.1f, 0.8f));
+	Renderable obj = Onyx::Renderable::VertexColoredTriangle(Vec2(-0.9f, -0.6f), Vec2(0.8f, -0.9f), Vec2(0.1f, 0.8f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1007,7 +1007,7 @@ void PresetTests::RenderableTest__TexturedTriangle1()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
+	Renderable obj = Onyx::Renderable::TexturedTriangle(1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1060,7 +1060,7 @@ void PresetTests::RenderableTest__TexturedTriangle2()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(2.0f, 1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
+	Renderable obj = Onyx::Renderable::TexturedTriangle(2.0f, 1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1113,7 +1113,7 @@ void PresetTests::RenderableTest__TexturedTriangle3()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedTriangle(Vec2(-0.9f, -0.6f), Vec2(0.8f, -0.9f), Vec2(0.1f, 0.8f), Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
+	Renderable obj = Onyx::Renderable::TexturedTriangle(Vec2(-0.9f, -0.6f), Vec2(0.8f, -0.9f), Vec2(0.1f, 0.8f), Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1166,7 +1166,7 @@ void PresetTests::RenderableTest__ColoredSquare()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::ColoredSquare(1.0f, Vec3(1.0f, 0.0f, 0.0f));
+	Renderable obj = Onyx::Renderable::ColoredSquare(1.0f, Vec3(1.0f, 0.0f, 0.0f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1219,7 +1219,7 @@ void PresetTests::RenderableTest__ColoredQuad1()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::ColoredQuad(2.0f, 1.0f, Vec3(0.0f, 1.0f, 0.0f));
+	Renderable obj = Onyx::Renderable::ColoredQuad(2.0f, 1.0f, Vec3(0.0f, 1.0f, 0.0f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1272,7 +1272,7 @@ void PresetTests::RenderableTest__ColoredQuad2()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::ColoredQuad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f), Vec3(0.0f, 0.0f, 1.0f));
+	Renderable obj = Onyx::Renderable::ColoredQuad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f), Vec3(0.0f, 0.0f, 1.0f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1325,7 +1325,7 @@ void PresetTests::RenderableTest__VertexColoredSquare()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::VertexColoredSquare(1.0f);
+	Renderable obj = Onyx::Renderable::VertexColoredSquare(1.0f);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1378,7 +1378,7 @@ void PresetTests::RenderableTest__VertexColoredQuad1()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::VertexColoredQuad(2.0f, 1.0f);
+	Renderable obj = Onyx::Renderable::VertexColoredQuad(2.0f, 1.0f);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1431,7 +1431,7 @@ void PresetTests::RenderableTest__VertexColoredQuad2()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::VertexColoredQuad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f));
+	Renderable obj = Onyx::Renderable::VertexColoredQuad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1484,7 +1484,7 @@ void PresetTests::RenderableTest__TexturedSquare()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedSquare(1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
+	Renderable obj = Onyx::Renderable::TexturedSquare(1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1537,7 +1537,7 @@ void PresetTests::RenderableTest__TexturedQuad1()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedQuad(2.0f, 1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
+	Renderable obj = Onyx::Renderable::TexturedQuad(2.0f, 1.0f, Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1590,7 +1590,7 @@ void PresetTests::RenderableTest__TexturedQuad2()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedQuad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f), Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
+	Renderable obj = Onyx::Renderable::TexturedQuad(Vec2(0.0f, 0.0f), Vec2(0.7f, 0.1f), Vec2(0.8f, 0.6f), Vec2(0.2f, 0.8f), Texture::Load(Onyx::GetResourcePath() + "textures/container.jpg"));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1643,7 +1643,7 @@ void PresetTests::RenderableTest__ColoredCube()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::ColoredCube(1.0f, Vec3(1.0f, 0.0f, 0.0f));
+	Renderable obj = Onyx::Renderable::ColoredCube(1.0f, Vec3(1.0f, 0.0f, 0.0f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);
@@ -1696,7 +1696,7 @@ void PresetTests::RenderableTest__TexturedCube()
 
 	InputHandler input(window);
 
-	Renderable obj = Onyx::RenderablePresets::TexturedCube(1.0f, Texture::Load(Onyx::Resources("textures/container.jpg")));
+	Renderable obj = Onyx::Renderable::TexturedCube(1.0f, Texture::Load(Onyx::Resources("textures/container.jpg")));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-4.0f);

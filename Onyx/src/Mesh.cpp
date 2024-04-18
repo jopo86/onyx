@@ -2,16 +2,19 @@
 
 #include <glad/glad.h>
 
+using Onyx::Math::Vec2, Onyx::Math::Vec3;
+
 Onyx::Mesh::Mesh()
 {
     vao = vbo = ibo = 0;
+    verticesSize = indicesSize = 0;
 }
 
-Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
+Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 {
     vao = vbo = ibo = 0;
-    this->vertexArray = vertexArray;
-    this->indexArray = indexArray;
+    verticesSize = vertexBuffer.size;
+    indicesSize = indexBuffer.size;
 
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
@@ -20,10 +23,10 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
     glBindVertexArray(vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertexArray.getSize(), vertexArray.getVertices(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size, vertexBuffer.vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexArray.getSize(), indexArray.getIndices(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size, indexBuffer.indices, GL_STATIC_DRAW);
 
     /*
         Layout locations:
@@ -33,7 +36,7 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
         3: Normal
      */
 
-    switch (vertexArray.getFormat())
+    switch (vertexBuffer.format)
     {
         case Onyx::VertexFormat::Null:
             Onyx::Err("Mesh creation failed: vertex format is null. (aborted)");
@@ -107,6 +110,9 @@ Onyx::Mesh::Mesh(VertexArray vertexArray, IndexArray indexArray)
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    if (vertexBuffer.heap) delete[] vertexBuffer.vertices;
+    if (indexBuffer.heap) delete[] indexBuffer.indices;
 }
 
 Onyx::Mesh::Mesh(const Mesh& other)
@@ -114,25 +120,25 @@ Onyx::Mesh::Mesh(const Mesh& other)
     vao = other.vao;
     vbo = other.vbo;
     ibo = other.ibo;
-    vertexArray = other.vertexArray;
-    indexArray = other.indexArray;
+    verticesSize = other.verticesSize;
+    indicesSize = other.indicesSize;
 }
 
 void Onyx::Mesh::render() const
 {
     glBindVertexArray(vao);
-    glDrawElements(GL_TRIANGLES, indexArray.getSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, indicesSize / sizeof(uint), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 
-Onyx::VertexArray Onyx::Mesh::getVertexArray() const
+uint Onyx::Mesh::getVerticesSize() const
 {
-    return vertexArray;
+    return verticesSize;
 }
 
-Onyx::IndexArray Onyx::Mesh::getIndexArray() const
+uint Onyx::Mesh::getIndicesSize() const
 {
-    return indexArray;
+    return indicesSize;
 }
 
 uint Onyx::Mesh::getVAO() const
@@ -156,4 +162,138 @@ void Onyx::Mesh::dispose()
     if (vbo) glDeleteBuffers(1, &vbo);
     if (ibo) glDeleteBuffers(1, &ibo);
     vao = vbo = ibo = 0;
+}
+
+Onyx::Mesh Onyx::Mesh::Triangle(float side)
+{
+    return Triangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)));
+}
+
+Onyx::Mesh Onyx::Mesh::Triangle(float base, float height)
+{
+    return Triangle(
+        Vec2(-base / 2.0f, -height / 2.0f),
+        Vec2(base / 2.0f, -height / 2.0f),
+        Vec2(0.0f, height / 2.0f)
+    );
+}
+
+Onyx::Mesh Onyx::Mesh::Triangle(Vec2 a, Vec2 b, Vec2 c)
+{
+    float* vertices = new float[9] {
+        a.getX(), a.getY(), 0.0f,
+            b.getX(), b.getY(), 0.0f,
+            c.getX(), c.getY(), 0.0f
+        };
+
+    uint* indices = new uint[3]{
+        0, 1, 2
+    };
+
+    return Mesh(
+        VertexBuffer(vertices, 9 * sizeof(float), Onyx::VertexFormat::V),
+        IndexBuffer(indices, 3 * sizeof(uint))
+    );
+
+    delete[] vertices;
+    delete[] indices;
+}
+
+Onyx::Mesh Onyx::Mesh::Square(float side)
+{
+    return Quad(side, side);
+}
+
+Onyx::Mesh Onyx::Mesh::Quad(float width, float height)
+{
+    return Quad(
+        Vec2(-width / 2.0f, -height / 2.0f),
+        Vec2(width / 2.0f, -height / 2.0f),
+        Vec2(width / 2.0f, height / 2.0f),
+        Vec2(-width / 2.0f, height / 2.0f)
+    );
+}
+
+Onyx::Mesh Onyx::Mesh::Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
+{
+    float* vertices = new float[12] {
+        a.getX(), a.getY(), 0.0f,
+            b.getX(), b.getY(), 0.0f,
+            c.getX(), c.getY(), 0.0f,
+            d.getX(), d.getY(), 0.0f
+        };
+
+    uint* indices = new uint[6]{
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    return Mesh(
+        VertexBuffer(vertices, 12 * sizeof(float), Onyx::VertexFormat::V),
+        IndexBuffer(indices, 6 * sizeof(uint))
+    );
+
+    delete[] vertices;
+    delete[] indices;
+}
+
+Onyx::Mesh Onyx::Mesh::Cube(float side)
+{
+    return RectPrism(side, side, side);
+}
+
+Onyx::Mesh Onyx::Mesh::RectPrism(float width, float height, float depth)
+{
+    return RectPrism(
+        Vec3(-width / 2.0f, -height / 2.0f, depth / 2.0f),
+        Vec3(width / 2.0f, -height / 2.0f, depth / 2.0f),
+        Vec3(width / 2.0f, height / 2.0f, depth / 2.0f),
+        Vec3(-width / 2.0f, height / 2.0f, depth / 2.0f),
+        Vec3(-width / 2.0f, -height / 2.0f, -depth / 2.0f),
+        Vec3(width / 2.0f, -height / 2.0f, -depth / 2.0f),
+        Vec3(width / 2.0f, height / 2.0f, -depth / 2.0f),
+        Vec3(-width / 2.0f, height / 2.0f, -depth / 2.0f)
+    );
+}
+
+Onyx::Mesh Onyx::Mesh::RectPrism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, Vec3 f, Vec3 g, Vec3 h)
+{
+    float* vertices = new float[24] {
+        a.getX(), a.getY(), a.getZ(),
+            b.getX(), b.getY(), b.getZ(),
+            c.getX(), c.getY(), c.getZ(),
+            d.getX(), d.getY(), d.getZ(),
+            e.getX(), e.getY(), e.getZ(),
+            f.getX(), f.getY(), f.getZ(),
+            g.getX(), g.getY(), g.getZ(),
+            h.getX(), h.getY(), h.getZ()
+        };
+
+    uint* indices = new uint[36]{
+        0, 1, 2,
+        2, 3, 0,
+
+        4, 5, 6,
+        6, 7, 4,
+
+        0, 1, 5,
+        5, 4, 0,
+
+        3, 2, 6,
+        6, 7, 3,
+
+        0, 4, 7,
+        7, 3, 0,
+
+        1, 5, 6,
+        6, 2, 1
+    };
+
+    return Mesh(
+        VertexBuffer(vertices, 24 * sizeof(float), Onyx::VertexFormat::V),
+        IndexBuffer(indices, 36 * sizeof(uint))
+    );
+
+    delete[] vertices;
+    delete[] indices;
 }

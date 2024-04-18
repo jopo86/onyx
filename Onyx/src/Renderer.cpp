@@ -10,7 +10,6 @@ float Onyx::Renderer::lineWidth = 1.0f;
 
 Onyx::Renderer::Renderer()
 {
-	renderables = {};
 	cam = nullptr;
 	lightingEnabled = false;
 	lighting = nullptr;
@@ -18,7 +17,6 @@ Onyx::Renderer::Renderer()
 
 Onyx::Renderer::Renderer(Window& window)
 {
-	renderables = {};
 	cam = nullptr;
 	window.p_renderer = this;
 	lighting = nullptr;
@@ -28,7 +26,6 @@ Onyx::Renderer::Renderer(Window& window)
 
 Onyx::Renderer::Renderer(Window& window, Camera& cam)
 {
-	renderables = {};
 	this->cam = &cam;
 	window.p_renderer = this;
 	lighting = nullptr;
@@ -38,7 +35,6 @@ Onyx::Renderer::Renderer(Window& window, Camera& cam)
 
 Onyx::Renderer::Renderer(Window& window, Camera& cam, Lighting& lighting)
 {
-	renderables = {};
 	this->cam = &cam;
 	setLighting(lighting);
 	window.p_renderer = this;

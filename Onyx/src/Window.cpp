@@ -7,6 +7,8 @@ using Onyx::Math::Vec3;
 GLFWmonitor* Onyx::Window::p_primaryMonitor = nullptr;
 GLFWvidmode* Onyx::Window::p_primaryMonitorInfo = nullptr;
 
+void setOpenGLInitialized(bool);
+
 Onyx::Window::Window()
 {
 	p_glfwWin = nullptr;
@@ -39,14 +41,8 @@ Onyx::Window::Window(const char *title, int width, int height)
 	lastFrameTime = deltaTime = 0;
 }
 
-void Onyx::Window::init(int nSamplesMSAA)
+void Onyx::Window::init()
 {
-	if (!glfwInit())
-	{
-		Err("failed to initialize GLFW.");
-		return;
-	}
-
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -82,6 +78,8 @@ void Onyx::Window::init(int nSamplesMSAA)
 		Err("failed to initialize OpenGL.");
 		return;
 	}
+
+	setOpenGLInitialized(true);
 
 	glViewport(0, 0, bufferWidth, bufferHeight);
 	glEnable(GL_DEPTH_TEST);
@@ -193,6 +191,11 @@ bool Onyx::Window::isOpen() const
 void Onyx::Window::setBackgroundColor(Vec3 rgb)
 {
 	background = rgb;
+}
+
+void Onyx::Window::SetMSAA(uint nSamples)
+{
+	glfwWindowHint(GLFW_SAMPLES, nSamples);
 }
 
 void Onyx::Window::dispose()

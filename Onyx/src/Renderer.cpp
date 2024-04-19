@@ -49,15 +49,15 @@ void Onyx::Renderer::render()
 
 	glDisable(GL_DEPTH_TEST);
 	if (uiWireframeAllowed) {
-		for (UiRenderable* r : uiRenderables) r->render(ortho);
-		for (TextRenderable* r : textRenderables) r->render(ortho);
+		for (UiRenderable* uir : uiRenderables) uir->render(ortho);
+		for (TextRenderable* tr : textRenderables) tr->render(ortho);
 	}
 	else
 	{
 		bool _wireframe = wireframe;
 		SetWireframe(false);
-		for (UiRenderable* r : uiRenderables) r->render(ortho);
-		for (TextRenderable* r : textRenderables) r->render(ortho);
+		for (UiRenderable* uir : uiRenderables) uir->render(ortho);
+		for (TextRenderable* tr : textRenderables) tr->render(ortho);
 		SetWireframe(_wireframe);
 	}
 	glEnable(GL_DEPTH_TEST);

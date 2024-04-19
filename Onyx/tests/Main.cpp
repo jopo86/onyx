@@ -4,7 +4,6 @@
 
 #include "../src/Core.h"
 
-#include "UnitTests.h"
 #include "PresetTests.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
@@ -18,8 +17,7 @@ int main()
 	Onyx::Demo();
 	Onyx::Terminate();
 
-	//UnitTests::RunAllTests();
-	//PresetTests::MeshTest__Triangle1();
+	//PresetTests::RunAllTests();
 
 	//lightingTest();
 	
@@ -31,7 +29,13 @@ void lightingTest()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Onyx::Window window("Lighting Test", 1280, 720);
+	Onyx::WindowProperties wp{
+		.title = "Lighting Test",
+		.width = 1280,
+		.height = 720,
+	};
+
+	Onyx::Window window(wp);
 	window.init();
 	window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
 

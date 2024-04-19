@@ -114,7 +114,9 @@ void Onyx::TextRenderable::resetTransform()
 
 void Onyx::TextRenderable::setText(const std::string& text)
 {
-	for (CharRenderable& c : chars) c.dispose();
+	this->text = text;
+	//for (CharRenderable& c : chars) c.dispose();
+	// ^ this line causes problems but is needed to prevent memory leaks, investigating
 	chars.clear();
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
@@ -127,7 +129,8 @@ void Onyx::TextRenderable::setText(const std::string& text)
 void Onyx::TextRenderable::setFont(Font& font)
 {
 	this->font = &font;
-	for (CharRenderable& c : chars) c.dispose();
+	//for (CharRenderable& c : chars) c.dispose();
+	// ^ this line causes problems but is needed to prevent memory leaks, investigating
 	chars.clear();
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)

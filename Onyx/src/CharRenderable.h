@@ -33,6 +33,12 @@ namespace Onyx
         void render();
 
         /*
+            @brief Gets the character.
+            @return The character.
+         */
+        char getChar() const;
+
+        /*
             @brief Gets the character mesh's VAO.
             @return The VAO.
          */
@@ -57,6 +63,7 @@ namespace Onyx
         void dispose() override;
 
     private:
+        char c;
         uint vao, vbo, tex;
     };
 }

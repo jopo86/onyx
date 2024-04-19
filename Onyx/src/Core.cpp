@@ -38,6 +38,12 @@ void Onyx::Init()
 	FT_Init_FreeType(&ft);
 
 	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef ONYX_OS_MAC
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+#endif
 }
 
 void Onyx::Init(ErrorHandler& errorHandler)
@@ -54,6 +60,12 @@ void Onyx::Init(ErrorHandler& errorHandler)
 	{
 		Err("failed to initialize GLFW.");
 	}
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef ONYX_OS_MAC
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+#endif
 }
 
 int Onyx::GetVersionMajor()
@@ -86,6 +98,7 @@ void Onyx::Terminate()
 	if (!initialized) return;
 
 	FT_Done_FreeType(ft);
+	glfwTerminate();
 
 	for (int i = mallocs.size() - 1; i >= 0; i--)
 	{
@@ -98,8 +111,14 @@ void Onyx::Terminate()
 
 void Onyx::Demo()
 {
-	Window::SetMSAA(4);
-	Window window("Onyx", 1280, 720);
+	Window window(
+		WindowProperties {
+			.title = "Onyx Demo",
+			.width = 1280,
+			.height = 720,
+			.nSamplesMSAA = 4
+		}
+	);
 	window.init();
 	window.setBackgroundColor(Vec3(0.0f, 0.7f, 1.0f));
 
@@ -176,6 +195,18 @@ void Onyx::Demo()
 	textRenderables[10].translate(Vec2(25.0f, 205.0f));
 	textRenderables[10].scale(0.6f);
 
+	// make members of TextRenderable public for this to work
+	/*for (CharRenderable& c : textRenderables[0].chars)
+	{
+		std::cout << c.getChar() << ": VAO " << c.getVAO() << ", VBO " << c.getVBO() << ", Tex " << c.getTextureID() << "\n";
+	}
+	textRenderables[0].setText("Demo Onyx");
+	std::cout << "\n";
+	for (CharRenderable& c : textRenderables[0].chars)
+    {
+        std::cout << c.getChar() << ": VAO " << c.getVAO() << ", VBO " << c.getVBO() << ", Tex " << c.getTextureID() << "\n";
+    }*/
+
 	for (TextRenderable& tr : textRenderables) renderer.add(tr);
 
 	double camSpeed = 5.0;
@@ -190,11 +221,6 @@ void Onyx::Demo()
 	input.setMouseButtonCooldown(Onyx::MouseButton::Left, 0.5f);
 
 	int fps = 0;
-
-	std::string vendor = (const char*)glGetString(GL_VENDOR);
-	std::string rendererStr = (const char*)glGetString(GL_RENDERER);
-
-	std::cout << vendor << "\n" << rendererStr << "\n";
 
 	while (window.isOpen())
 	{
@@ -223,12 +249,11 @@ void Onyx::Demo()
 
 		car.rotate(20.0f * window.getDeltaTime(), Vec3(0, 1, 0));
 
-		window.startRender();
-		renderer.render();
-
 		textRenderables[1].setText("FPS: " + std::to_string(fps));
 		textRenderables[2].setText("FRAME " + std::to_string(window.getFrame()));
 
+		window.startRender();
+		renderer.render();
 		window.endRender();
 	}
 

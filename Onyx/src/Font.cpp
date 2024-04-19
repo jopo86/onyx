@@ -12,6 +12,7 @@ Onyx::Font::Font()
 {
 	p_ft = nullptr;
 	ttfFilePath = "";
+	size = 0;
 }
 
 Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)

@@ -11,6 +11,88 @@
 
 namespace Onyx
 {
+	struct WindowProperties
+	{
+		/*
+			@brief The title of the window.
+			This can be changed later with `setTitle()`.
+			Default: "Onyx Window"
+		 */
+		std::string title = "Onyx Window";
+
+		/*
+			@brief The width of the window.
+			This can be changed later with `setSize()`.
+			Default: 800
+		 */
+		int width = 800;
+
+		/*
+            @brief The height of the window.
+			This can be changed later with `setSize()`.
+			Default: 600
+         */
+		int height = 600;
+
+		/*
+            @brief Whether the window is resizable.
+			This can be changed later with `setResizable()` and `toggleResizable()`.
+			Default: true
+         */
+		bool resizable = true;
+
+		/*
+            @brief Whether the window is visible.
+			This can be changed later with `hide()`, `show()`, and `toggleVisibility()`.
+			Default: true
+         */
+		bool visible = true;
+
+		/*
+            @brief Whether the window is focused.
+			This can be changed later with `focus()`, `unfocus()`, and `toggleFocus()`.
+			Default: true
+         */
+		bool focused = true;
+
+		/*
+            @brief Whether the window is fullscreen.
+            This can be changed later with `setFullscreen()` and `toggleFullscreen()`.
+            Default: false
+         */
+		bool fullscreen = false;
+
+		/*
+			@brief Whether the window is decorated (border, close widget, etc.)
+			This can be changed later with `setDecorated()` and `toggleDecorated()`.
+			Fullscreen borderless can be achieved with setDecorated(false) and maximize().
+			Default: true
+		 */
+		bool decorated = true;
+
+		/*
+            @brief Whether the window is topmost (AKA floating, always on top).
+			This can be changed later with `setTopmost()` and `toggleTopmost()`.
+			Default: false
+         */
+		bool topmost = false;
+
+		/*
+			@brief Whether to put input focus on the window when it is shown.
+			This can be changed later with `setFocusOnShow()` and `toggleFocusOnShow()`.
+			Default: true
+		 */
+		bool focusOnShow = true;
+
+		/*
+			@brief The number of samples for multi-sample anti-aliasing.
+			This cannot be changed later.
+			0 means no anti-aliasing.
+			Default: 0
+		 */
+		int nSamplesMSAA = 0;
+	};
+
 	/*
 		@brief A class to represent a window.
 		A window must be created and initialized for anything related to OpenGL to occur.
@@ -30,12 +112,10 @@ namespace Onyx
 		Window();
 
 		/*
-			@brief Creates an uninitialized window with the specified title and dimensions.
-			@param title The title of the window, usually shown on the left of the top border.
-			@param width The width of the window, in pixels.
-			@param height The height of the window, in pixels.
+			@brief Creates an uninitialized window from the specified window properties.
+			@param properties The window properties.
 		 */
-		Window(const char* title, int width, int height);
+		Window(WindowProperties properties);
 
 		/*
 			@brief Initializes the window.
@@ -67,7 +147,7 @@ namespace Onyx
 		void setFullscreen();
 
 		/*
-			@brief Sets the window to windowed mode.
+			@brief Sets the window to windowed mode with the specified width and height.
 		 */
 		void setWindowed();
 
@@ -77,17 +157,101 @@ namespace Onyx
 		void toggleFullscreen();
 
 		/*
-			@brief Gets the GLFW window pointer.
-			Access to the GLFW window is provided for the library, as well as for advanced users.
-			@return A pointer to the GLFW window.
+            @brief Hides the window.
+         */
+		void hide();
+
+		/*
+            @brief Shows the window.
+         */
+		void show();
+
+		/*
+			@brief Toggles visibility (hidden/shown) of the window.
 		 */
-		GLFWwindow* getGlfwWindowPtr() const;
+		void toggleVisibility();
+
+		/*
+			@brief Focuses the window.
+		 */
+		void focus();
+
+		/*
+			@brief Unfocuses the window.
+		 */
+		void unfocus();
+
+		/*
+			@brief Toggles focus of the window.
+		 */
+		void toggleFocus();
+
+		/*
+			@brief Sets whether the window is resizable.
+			@param resizable Whether the window should be resizable.
+		 */
+		void setResizable(bool resizable);
+
+		/*
+			@brief Toggles whether the window is resizable.
+		 */
+		void toggleResizable();
+
+		/*
+            @brief Sets decoration (border, close widget, etc.) of the window to be enabled/disabled.
+			Fullscreen borderless can be achieved with setDecorated(false) and maximize().
+			@param decorated Whether decoration should be enabled.
+         */
+		void setDecorated(bool decorated);
+
+		/*
+            @brief Toggles decoration (border, close widget, etc.) of the window.
+         */
+		void toggleDecorated();
+
+		/*
+			Sets whether the window is topmost (AKA floating, always on top).
+			@param topmost Whether the window should be topmost.
+		 */
+		void setTopmost(bool topmost);
+
+		/*
+            Toggles whether the window is topmost (AKA floating, always on top).
+         */
+		void toggleTopmost();
+
+		/*
+			@brief Sets whether the window automatically becomes input focused when shown.
+			@param focusOnShow Whether the window should be focused when shown.
+		 */
+		void setFocusOnShow(bool focusOnShow);
+
+		/*
+            @brief Toggles whether the window automatically becomes input focused when shown.
+         */
+		void toggleFocusOnShow();
+
+		/*
+			@brief Maximizes the window (different from fullscreen).
+			Fullscreen borderless can be achieved with setDecorated(false) and maximize().
+		 */
+		void maximize();
+
+		/*
+            @brief Minimizes the window (different from hidden).
+         */
+		void minimize();
+
+		/*
+			@brief Restores the window to its previous size and position after being minimized or maximized.
+		 */
+		void restore();
 
 		/*
 			@brief Gets the title of the window.
 			@return The title of the window.
 		 */
-		const char* getTitle() const;
+		const std::string& getTitle() const;
 
 		/*
 			@brief Gets the width of the window.
@@ -112,6 +276,85 @@ namespace Onyx
 			@return The buffer height of the window, explained above.
 		 */
 		int getBufferHeight() const;
+
+		/*
+			@brief Gets whether the window is resizable.
+			@return Whether the window is resizable.
+		 */
+		bool isResizable() const;
+
+		/*
+            @brief Gets whether the window is visible.
+            @return Whether the window is visible.
+         */
+		bool isVisible() const;
+
+		/*
+            @brief Gets whether the window is hidden.
+            @return Whether the window is hidden.
+         */
+		bool isHidden() const;
+
+		/*
+            @brief Gets whether the window is focused.
+            @return Whether the window is focused.
+         */
+		bool isFocused() const;
+
+		/*
+            @brief Gets whether the window is decorated (border, close widget, etc.)
+            @return Whether the window is decorated.
+         */
+		bool isDecorated() const;
+
+		/*
+            @brief Gets whether the window is topmost (AKA floating, always on top).
+            @return Whether the window is topmost.
+         */
+		bool isTopmost() const;
+
+		/*
+            @brief Gets whether the window automatically becomes input focused when shown.
+            @return Whether the window automatically becomes input focused when shown.
+         */
+		bool focusesOnShow() const;
+
+		/*
+            @brief Gets the number of samples for multi-sample anti-aliasing.
+            @return The number of samples for multi-sample anti-aliasing. 0 means no anti-aliasing.
+         */
+		int getNSamplesMSAA() const;
+
+		/*
+            @brief Gets whether the window is fullscreen.
+            @return Whether the window is fullscreen.
+         */
+		bool isFullscreen() const;
+
+		/*
+            @brief Gets whether the window is maximized.
+            @return Whether the window is maximized.
+         */
+		bool isMaximized() const;
+
+		/*
+            @brief Gets whether the window is minimized.
+            @return Whether the window is minimized.
+         */
+		bool isMinimized() const;
+
+		/*
+            @brief Sets the title of the window.
+            @param title The title of the window.
+         */
+		void setTitle(const std::string& title);
+
+		/*
+            @brief Sets the size of the window.
+            @param width The width of the window.
+            @param height The height of the window.
+         */
+		void setSize(int width, int height);
 
 		/*
 			@brief Gets the current frame number.
@@ -152,11 +395,11 @@ namespace Onyx
 		void setBackgroundColor(Onyx::Math::Vec3 rgb);
 
 		/*
-			@brief Enables multi-sample anti-aliasing with the specified number of samples.
-			Must be called before the window is initialized to have an effect.
-			@param nSamples The number of samples. Usually 2, 4, 8, 16, etc.
+			@brief Gets the GLFW window pointer.
+			Access to the GLFW window is provided for the library, as well as for advanced users.
+			@return A pointer to the GLFW window.
 		 */
-		static void SetMSAA(uint nSamples);
+		GLFWwindow* getGlfwWindowPtr() const;
 
 		/*
 			@brief Disposes of the window.
@@ -166,18 +409,18 @@ namespace Onyx
 		void dispose() override;
 
 	private:
+		WindowProperties properties;
+
 		GLFWwindow* p_glfwWin;
 		static GLFWmonitor* p_primaryMonitor;
 		static GLFWvidmode* p_primaryMonitorInfo;
-		const char* title;
-		int width, height, bufferWidth, bufferHeight;
+		int bufferWidth, bufferHeight;
 		Onyx::Math::Vec3 background;
 
 		InputHandler* p_inputHandler;
 		Camera* p_cam;
 		Renderer* p_renderer;
 
-		bool fullscreen;
 		bool initialized;
 
 		int frame;
@@ -186,6 +429,7 @@ namespace Onyx
 		double deltaTime;
 
 		static void CB_framebufferSize(GLFWwindow* p_window, int width, int height);
+		static void CB_windowSize(GLFWwindow* p_window, int width, int height);
 		static void CB_key(GLFWwindow* p_window, int key, int scancode, int action, int mods);
 		static void CB_mouseButton(GLFWwindow* p_window, int button, int action, int mods);
 		static void CB_cursorPos(GLFWwindow* p_window, double x, double y);

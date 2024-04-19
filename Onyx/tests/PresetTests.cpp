@@ -13,7 +13,13 @@ void PresetTests::MeshTest__Triangle1()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 	
-	Window window("MeshTest__Triangle1", 1280, 720);
+	Onyx::WindowProperties wp{
+		.title = "MeshTest__Triangle1",
+		.width = 1280,
+		.height = 720,
+	};
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -66,7 +72,13 @@ void PresetTests::MeshTest__Triangle2()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("MeshTest__Triangle2", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "MeshTest__Triangle2",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -119,7 +131,13 @@ void PresetTests::MeshTest__Triangle3()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("MeshTest__Triangle3", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "MeshTest__Triangle3",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -172,7 +190,14 @@ void PresetTests::MeshTest__Square()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("MeshTest__Square", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "MeshTest__Square",
+        .width = 1280,
+        .height = 720,
+    };
+
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -225,7 +250,13 @@ void PresetTests::MeshTest__Quad1()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("MeshTest__Quad1", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "MeshTest__Quad1",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -278,7 +309,13 @@ void PresetTests::MeshTest__Quad2()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("MeshTest__Quad2", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "MeshTest__Quad2",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -331,7 +368,13 @@ void PresetTests::MeshTest__Cube()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("MeshTest__Cube", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "MeshTest__Cube",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -384,7 +427,13 @@ void PresetTests::MeshAndShaderTest__RectPrism1__V_Color()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("MeshAndShaderTest__RectPrism1__V_Color", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "MeshAndShaderTest__RectPrism1__V_Color",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -437,7 +486,13 @@ void PresetTests::MeshAndShaderTest__RectPrism2__V_XYZtoRGB()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("MeshAndShaderTest__RectPrism2__V_XYZtoRGB", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "MeshAndShaderTest__RectPrism2__V_XYZtoRGB",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -493,7 +548,13 @@ void PresetTests::ShaderTest__VC()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("ShaderTest__VC", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "ShaderTest__VC",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -555,7 +616,13 @@ void PresetTests::ShaderTest__VT()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("ShaderTest__VT", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "ShaderTest__VT",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -619,7 +686,13 @@ void PresetTests::ShaderTest__VCT()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("ShaderTest__VCT", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "ShaderTest__VCT",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -683,7 +756,13 @@ void PresetTests::RenderableTest__ColoredTriangle1()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__ColoredTriangle1", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__ColoredTriangle1",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -736,7 +815,13 @@ void PresetTests::RenderableTest__ColoredTriangle2()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__ColoredTriangle2", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__ColoredTriangle2",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -789,7 +874,13 @@ void PresetTests::RenderableTest__ColoredTriangle3()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__ColoredTriangle3", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__ColoredTriangle3",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -842,7 +933,13 @@ void PresetTests::RenderableTest__VertexColoredTriangle1()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__VertexColoredTriangle1", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__VertexColoredTriangle1",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -895,7 +992,13 @@ void PresetTests::RenderableTest__VertexColoredTriangle2()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__VertexColoredTriangle2", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__VertexColoredTriangle2",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -948,7 +1051,13 @@ void PresetTests::RenderableTest__VertexColoredTriangle3()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__VertexColoredTriangle3", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__VertexColoredTriangle3",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1001,7 +1110,13 @@ void PresetTests::RenderableTest__TexturedTriangle1()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__TexturedTriangle1", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__TexturedTriangle1",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1054,7 +1169,13 @@ void PresetTests::RenderableTest__TexturedTriangle2()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__TexturedTriangle2", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__TexturedTriangle2",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1107,7 +1228,13 @@ void PresetTests::RenderableTest__TexturedTriangle3()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__TexturedTriangle3", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__TexturedTriangle3",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1160,7 +1287,13 @@ void PresetTests::RenderableTest__ColoredSquare()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__ColoredSquare", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__ColoredSquare",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1213,7 +1346,13 @@ void PresetTests::RenderableTest__ColoredQuad1()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__ColoredQuad1", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__ColoredQuad1",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1266,7 +1405,13 @@ void PresetTests::RenderableTest__ColoredQuad2()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__ColoredQuad2", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__ColoredQuad2",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1319,7 +1464,13 @@ void PresetTests::RenderableTest__VertexColoredSquare()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__VertexColoredSquare", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__VertexColoredSquare",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1372,7 +1523,13 @@ void PresetTests::RenderableTest__VertexColoredQuad1()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__VertexColoredQuad1", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__VertexColoredQuad1",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1425,7 +1582,13 @@ void PresetTests::RenderableTest__VertexColoredQuad2()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__VertexColoredQuad2", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__VertexColoredQuad2",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1478,7 +1641,13 @@ void PresetTests::RenderableTest__TexturedSquare()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__TexturedSquare", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__TexturedSquare",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1531,7 +1700,13 @@ void PresetTests::RenderableTest__TexturedQuad1()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__TexturedQuad1", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__TexturedQuad1",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1584,7 +1759,13 @@ void PresetTests::RenderableTest__TexturedQuad2()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__TexturedQuad2", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__TexturedQuad2",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1637,7 +1818,13 @@ void PresetTests::RenderableTest__ColoredCube()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__ColoredCube", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__ColoredCube",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
@@ -1690,7 +1877,13 @@ void PresetTests::RenderableTest__TexturedCube()
 	Onyx::ErrorHandler errorHandler(true, true, false);
 	Onyx::Init(errorHandler);
 
-	Window window("RenderableTest__TexturedCube", 1280, 720);
+	Onyx::WindowProperties wp{
+        .title = "RenderableTest__TexturedCube",
+        .width = 1280,
+        .height = 720,
+    };
+
+	Window window(wp);
 	window.init();
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 

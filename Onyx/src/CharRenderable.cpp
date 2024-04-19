@@ -6,17 +6,13 @@
 
 Onyx::CharRenderable::CharRenderable()
 {
+    c = 0;
     vao = vbo = tex = 0;
 }
 
 Onyx::CharRenderable::CharRenderable(char c, const Font& font, uint advance)
 {
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
-
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
+    this->c = c;
     Glyph glyph = font[c];
     tex = glyph.tex;
 
@@ -35,6 +31,12 @@ Onyx::CharRenderable::CharRenderable(char c, const Font& font, uint advance)
         { x + w, y + h,   1.0f, 0.0f }
     };
 
+    glGenVertexArrays(1, &vao);
+    glGenBuffers(1, &vbo);
+
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
@@ -50,6 +52,11 @@ void Onyx::CharRenderable::render()
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
+}
+
+char Onyx::CharRenderable::getChar() const
+{
+    return c;
 }
 
 uint Onyx::CharRenderable::getVAO() const

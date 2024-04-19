@@ -64,13 +64,13 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		Glyph info = {
+		Glyph glyph = {
 			tex, font.face->glyph->bitmap.width, font.face->glyph->bitmap.rows,
 			font.face->glyph->bitmap_left, font.face->glyph->bitmap_top,
 			static_cast<uint>(font.face->glyph->advance.x)
 		};
 
-		font.glyphs.insert(std::pair<char, Glyph>(c, info));
+		font.glyphs.insert(std::pair<char, Glyph>(c, glyph));
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -100,5 +100,13 @@ const Onyx::Glyph& Onyx::Font::operator[](char c) const
 
 void Onyx::Font::dispose()
 {
+	for (const std::pair<char, Glyph>& g : glyphs)
+	{
+        if (g.second.tex) glDeleteTextures(1, &g.second.tex);
+    }
+	glyphs.clear();
 	FT_Done_Face(face);
+	p_ft = nullptr;
+	ttfFilePath = "";
+	size = 0;
 }

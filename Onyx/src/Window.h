@@ -28,38 +28,46 @@ namespace Onyx
 		int width = 800;
 
 		/*
-            @brief The height of the window.
+			@brief The height of the window.
 			This can be changed later with `setSize()`.
 			Default: 600
-         */
+		 */
 		int height = 600;
 
 		/*
-            @brief Whether the window is resizable.
+			@brief The position of the top-left of the window.
+            (0, 0) is the top-left of the screen.
+			This can be changed later with `setPosition()`.
+			Default: (0, 0)
+		 */
+		Math::IVec2 position = Math::IVec2(0, 0);
+
+		/*
+			@brief Whether the window is resizable.
 			This can be changed later with `setResizable()` and `toggleResizable()`.
 			Default: true
-         */
+		 */
 		bool resizable = true;
 
 		/*
-            @brief Whether the window is visible.
+			@brief Whether the window is visible.
 			This can be changed later with `hide()`, `show()`, and `toggleVisibility()`.
 			Default: true
-         */
+		 */
 		bool visible = true;
 
 		/*
-            @brief Whether the window is focused.
+			@brief Whether the window is focused.
 			This can be changed later with `focus()`, `unfocus()`, and `toggleFocus()`.
 			Default: true
-         */
+		 */
 		bool focused = true;
 
 		/*
-            @brief Whether the window is fullscreen.
-            This can be changed later with `setFullscreen()` and `toggleFullscreen()`.
-            Default: false
-         */
+			@brief Whether the window is fullscreen.
+			This can be changed later with `setFullscreen()` and `toggleFullscreen()`.
+			Default: false
+		 */
 		bool fullscreen = false;
 
 		/*
@@ -71,10 +79,10 @@ namespace Onyx
 		bool decorated = true;
 
 		/*
-            @brief Whether the window is topmost (AKA floating, always on top).
+			@brief Whether the window is topmost (AKA floating, always on top).
 			This can be changed later with `setTopmost()` and `toggleTopmost()`.
 			Default: false
-         */
+		 */
 		bool topmost = false;
 
 		/*
@@ -144,26 +152,35 @@ namespace Onyx
 		/*
 			@brief Sets the window to fullscreen mode.
 		 */
-		void setFullscreen();
+		void fullscreen();
 
 		/*
-			@brief Sets the window to windowed mode with the specified width and height.
+			@brief Sets the window to windowed mode.
+			Does not change the width or height if the window was previously fullscreen.
 		 */
-		void setWindowed();
+		void windowed();
 
 		/*
-			@brief Toggles fullscreen mode.
+			@brief Sets the window to windowed mode with the specified width, height, and position.
+			@param width The width of the window.
+			@param height The height of the window.
+			@param position The position of the (top-left of the) window.
+		 */
+		void windowed(int width, int height, Math::IVec2 position = Math::IVec2(0, 0));
+
+		/*
+			@brief Toggles between fullscreen and windowed mode.
 		 */
 		void toggleFullscreen();
 
 		/*
-            @brief Hides the window.
-         */
+			@brief Hides the window.
+		 */
 		void hide();
 
 		/*
-            @brief Shows the window.
-         */
+			@brief Shows the window.
+		 */
 		void show();
 
 		/*
@@ -198,15 +215,15 @@ namespace Onyx
 		void toggleResizable();
 
 		/*
-            @brief Sets decoration (border, close widget, etc.) of the window to be enabled/disabled.
+			@brief Sets decoration (border, close widget, etc.) of the window to be enabled/disabled.
 			Fullscreen borderless can be achieved with setDecorated(false) and maximize().
 			@param decorated Whether decoration should be enabled.
-         */
+		 */
 		void setDecorated(bool decorated);
 
 		/*
-            @brief Toggles decoration (border, close widget, etc.) of the window.
-         */
+			@brief Toggles decoration (border, close widget, etc.) of the window.
+		 */
 		void toggleDecorated();
 
 		/*
@@ -216,8 +233,8 @@ namespace Onyx
 		void setTopmost(bool topmost);
 
 		/*
-            Toggles whether the window is topmost (AKA floating, always on top).
-         */
+			Toggles whether the window is topmost (AKA floating, always on top).
+		 */
 		void toggleTopmost();
 
 		/*
@@ -227,8 +244,8 @@ namespace Onyx
 		void setFocusOnShow(bool focusOnShow);
 
 		/*
-            @brief Toggles whether the window automatically becomes input focused when shown.
-         */
+			@brief Toggles whether the window automatically becomes input focused when shown.
+		 */
 		void toggleFocusOnShow();
 
 		/*
@@ -238,8 +255,8 @@ namespace Onyx
 		void maximize();
 
 		/*
-            @brief Minimizes the window (different from hidden).
-         */
+			@brief Minimizes the window (different from hidden).
+		 */
 		void minimize();
 
 		/*
@@ -284,77 +301,91 @@ namespace Onyx
 		bool isResizable() const;
 
 		/*
-            @brief Gets whether the window is visible.
-            @return Whether the window is visible.
-         */
+			@brief Gets whether the window is visible.
+			@return Whether the window is visible.
+		 */
 		bool isVisible() const;
 
 		/*
-            @brief Gets whether the window is hidden.
-            @return Whether the window is hidden.
-         */
+			@brief Gets whether the window is hidden.
+			@return Whether the window is hidden.
+		 */
 		bool isHidden() const;
 
 		/*
-            @brief Gets whether the window is focused.
-            @return Whether the window is focused.
-         */
+			@brief Gets whether the window is focused.
+			@return Whether the window is focused.
+		 */
 		bool isFocused() const;
 
 		/*
-            @brief Gets whether the window is decorated (border, close widget, etc.)
-            @return Whether the window is decorated.
-         */
+			@brief Gets whether the window is decorated (border, close widget, etc.)
+			@return Whether the window is decorated.
+		 */
 		bool isDecorated() const;
 
 		/*
-            @brief Gets whether the window is topmost (AKA floating, always on top).
-            @return Whether the window is topmost.
-         */
+			@brief Gets whether the window is topmost (AKA floating, always on top).
+			@return Whether the window is topmost.
+		 */
 		bool isTopmost() const;
 
 		/*
-            @brief Gets whether the window automatically becomes input focused when shown.
-            @return Whether the window automatically becomes input focused when shown.
-         */
+			@brief Gets whether the window automatically becomes input focused when shown.
+			@return Whether the window automatically becomes input focused when shown.
+		 */
 		bool focusesOnShow() const;
 
 		/*
-            @brief Gets the number of samples for multi-sample anti-aliasing.
-            @return The number of samples for multi-sample anti-aliasing. 0 means no anti-aliasing.
-         */
+			@brief Gets the number of samples for multi-sample anti-aliasing.
+			@return The number of samples for multi-sample anti-aliasing. 0 means no anti-aliasing.
+		 */
 		int getNSamplesMSAA() const;
 
 		/*
-            @brief Gets whether the window is fullscreen.
-            @return Whether the window is fullscreen.
-         */
+			@brief Gets whether the window is fullscreen.
+			@return Whether the window is fullscreen.
+		 */
 		bool isFullscreen() const;
 
 		/*
-            @brief Gets whether the window is maximized.
-            @return Whether the window is maximized.
-         */
+			@brief Gets whether the window is maximized.
+			@return Whether the window is maximized.
+		 */
 		bool isMaximized() const;
 
 		/*
-            @brief Gets whether the window is minimized.
-            @return Whether the window is minimized.
-         */
+			@brief Gets whether the window is minimized.
+			@return Whether the window is minimized.
+		 */
 		bool isMinimized() const;
 
 		/*
-            @brief Sets the title of the window.
-            @param title The title of the window.
-         */
+			@brief Gets the position of the top-left of the window.
+            (0, 0) is the top-left of the screen.
+			@return The position of the window.
+		 */
+		const Math::IVec2& getPosition() const;
+
+		/*
+			@brief Sets the title of the window.
+			@param title The title of the window.
+		 */
 		void setTitle(const std::string& title);
 
 		/*
-            @brief Sets the size of the window.
-            @param width The width of the window.
-            @param height The height of the window.
-         */
+			@brief Sets the size of the window.
+			@param width The width of the window.
+			@param height The height of the window.
+		 */
 		void setSize(int width, int height);
+
+		/*
+			@brief Sets the position of the top-left of the window.
+			(0, 0) is the top-left of the screen.
+			@param position The position of the window.
+		 */
+		void setPosition(const Math::IVec2& position);
 
 		/*
 			@brief Gets the current frame number.
@@ -428,10 +459,12 @@ namespace Onyx
 		double lastFrameTime;
 		double deltaTime;
 
-		static void CB_framebufferSize(GLFWwindow* p_window, int width, int height);
-		static void CB_windowSize(GLFWwindow* p_window, int width, int height);
-		static void CB_key(GLFWwindow* p_window, int key, int scancode, int action, int mods);
-		static void CB_mouseButton(GLFWwindow* p_window, int button, int action, int mods);
-		static void CB_cursorPos(GLFWwindow* p_window, double x, double y);
+		static void cb_framebufferSize(GLFWwindow* p_window, int width, int height);
+		static void cb_windowSize(GLFWwindow* p_window, int width, int height);
+		static void cb_windowPos(GLFWwindow* p_window, int x, int y);
+
+		static void cb_key(GLFWwindow* p_window, int key, int scancode, int action, int mods);
+		static void cb_mouseButton(GLFWwindow* p_window, int button, int action, int mods);
+		static void cb_cursorPos(GLFWwindow* p_window, double x, double y);
 	};
 }

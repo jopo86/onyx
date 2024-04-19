@@ -168,17 +168,17 @@ Onyx::Math::DVec2& Onyx::InputHandler::getMouseDeltas() const
 	return (Math::DVec2&)mouseDeltas;
 }
 
-void Onyx::InputHandler::RCB_key(int key, int scancode, int action, int mods) 
+void Onyx::InputHandler::rcb_key(int key, int scancode, int action, int mods) 
 {
 	keys[key] = (Onyx::KeyState)action;
 }
 
-void Onyx::InputHandler::RCB_mouseButton(int button, int action, int mods) 
+void Onyx::InputHandler::rcb_mouseButton(int button, int action, int mods) 
 {
 	buttons[button] = (Onyx::KeyState)action;
 }
 
-void Onyx::InputHandler::RCB_cursorPos(double x, double y) 
+void Onyx::InputHandler::rcb_cursorPos(double x, double y) 
 {
 	mousePos.setX(x);
 	mousePos.setY(y);

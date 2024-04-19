@@ -155,8 +155,8 @@ namespace Onyx
 
 		bool cursorLock;
 
-		void RCB_key(int key, int scancode, int action, int mods);
-		void RCB_mouseButton(int button, int action, int mods);
-		void RCB_cursorPos(double x, double y);
+		void rcb_key(int key, int scancode, int action, int mods);
+		void rcb_mouseButton(int button, int action, int mods);
+		void rcb_cursorPos(double x, double y);
 	};
 }

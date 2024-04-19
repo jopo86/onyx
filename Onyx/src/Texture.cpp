@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include <glad/glad.h>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
 
@@ -29,6 +30,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 	int width = 0, height = 0, nChannels = 0;
 
 	stbi_set_flip_vertically_on_load(true);
+
 	ubyte* data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
 	if (!data)
 	{
@@ -76,12 +78,21 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 
 	stbi_image_free(data);
 
+#if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
+
+
 	return texture;
 }
 
 void Onyx::Texture::bind() const
 {
 	glBindTexture(GL_TEXTURE_2D, tex);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 uint Onyx::Texture::getTextureID() const
@@ -93,4 +104,8 @@ void Onyx::Texture::dispose()
 {
 	if (tex) glDeleteTextures(1, &tex);
 	tex = 0;
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }

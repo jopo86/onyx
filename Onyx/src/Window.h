@@ -99,6 +99,27 @@ namespace Onyx
 			Default: 0
 		 */
 		int nSamplesMSAA = 0;
+
+		/*
+			@brief The opacity of the window (including its decorations).
+			This can be changed later with `setOpacity()`.
+			Default: 1.0
+		 */
+		float opacity = 1.0f;
+	};
+
+	class WindowIcon : public Disposable
+	{
+		friend class Window;
+	public:
+		WindowIcon();
+
+		static WindowIcon Load(const std::string& filepath);
+
+		void dispose() override;
+
+	private:
+		GLFWimage image;
 	};
 
 	/*
@@ -263,6 +284,36 @@ namespace Onyx
 			@brief Restores the window to its previous size and position after being minimized or maximized.
 		 */
 		void restore();
+
+		/*
+			@brief Requests attention from the user.
+			Use if you wish to notify the user of an event without interrupting.
+		 */
+		void requestAttention();
+
+		/*
+			@brief Sets the opacity of the window, including decorations.
+			@param opacity The opacity of the window, ranging from 0 to 1.
+		 */
+		void setOpacity(float opacity);
+
+		/*
+			@brief Gets the opacity of the window.
+			@return The opacity of the window.
+		 */
+		float getOpacity() const;
+
+		/*
+            @brief Sets the icon of the window.
+            @param icon The icon of the window.
+         */
+		void setIcon(const WindowIcon& icon);
+
+		/*
+			@brief Gets the icon of the window.
+			@return The icon of the window.
+		 */
+		const WindowIcon& getIcon() const;
 
 		/*
 			@brief Gets the title of the window.
@@ -441,6 +492,7 @@ namespace Onyx
 
 	private:
 		WindowProperties properties;
+		WindowIcon icon;
 
 		GLFWwindow* p_glfwWin;
 		static GLFWmonitor* p_primaryMonitor;

@@ -2,12 +2,46 @@
 
 #include "Window.h"
 
+#include <fstream>
+
+#include <stbi/stb_image.h>
+
 using Onyx::Math::Vec3;
 
 GLFWmonitor* Onyx::Window::p_primaryMonitor = nullptr;
 GLFWvidmode* Onyx::Window::p_primaryMonitorInfo = nullptr;
 
 void setOpenGLInitialized(bool);
+
+Onyx::WindowIcon::WindowIcon() 
+{
+	image.height = image.width = 0;
+	image.pixels = nullptr;
+}
+
+Onyx::WindowIcon Onyx::WindowIcon::Load(const std::string& filepath)
+{
+	std::ifstream file(filepath);
+	if (!file.is_open())
+	{
+		Err("failed to locate file: \"" + filepath + "\"");
+		return WindowIcon();
+	}
+	file.close();
+
+	WindowIcon icon;
+	icon.image.pixels = stbi_load(filepath.c_str(), &icon.image.width, &icon.image.height, nullptr, 4);
+	if (icon.image.pixels == nullptr)
+    {
+        Err("found file, but failed to load image data: " + filepath);
+    }
+	return icon;
+}
+
+void Onyx::WindowIcon::dispose()
+{
+	stbi_image_free(image.pixels);
+}
 
 Onyx::Window::Window()
 {
@@ -32,6 +66,7 @@ Onyx::Window::Window(WindowProperties properties)
 	initialized = false;
 	frame = fps = 0;
 	lastFrameTime = deltaTime = 0;
+
 }
 
 void Onyx::Window::init()
@@ -75,13 +110,19 @@ void Onyx::Window::init()
 
 	setOpenGLInitialized(true);
 
+	glfwSetWindowOpacity(p_glfwWin, properties.opacity);
+	if (properties.fullscreen) fullscreen();
+
 	glViewport(0, 0, bufferWidth, bufferHeight);
 	glEnable(GL_DEPTH_TEST);
 	if (properties.nSamplesMSAA) glEnable(GL_MULTISAMPLE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	if (properties.fullscreen) fullscreen();
+
+#if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MID) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 
 	initialized = true;
 }
@@ -96,6 +137,10 @@ void Onyx::Window::startRender()
 	glClearColor(background.getX(), background.getY(), background.getZ(), 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glfwPollEvents();
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Window::endRender()
@@ -232,6 +277,33 @@ void Onyx::Window::restore()
 	glfwRestoreWindow(p_glfwWin);
 }
 
+void Onyx::Window::requestAttention()
+{
+	glfwRequestWindowAttention(p_glfwWin);
+}
+
+void Onyx::Window::setOpacity(float opacity)
+{
+	properties.opacity = opacity;
+	glfwSetWindowOpacity(p_glfwWin, opacity);
+}
+
+float Onyx::Window::getOpacity() const
+{
+	return properties.opacity;
+}
+
+void Onyx::Window::setIcon(const WindowIcon& icon)
+{
+	this->icon = icon;
+	glfwSetWindowIcon(p_glfwWin, 1, &icon.image);
+}
+
+const Onyx::WindowIcon& Onyx::Window::getIcon() const
+{
+	return icon;
+}
+
 const std::string& Onyx::Window::getTitle() const
 {
 	return properties.title;
@@ -332,8 +404,8 @@ void Onyx::Window::setSize(int width, int height)
 
 void Onyx::Window::setPosition(const Onyx::Math::IVec2& position)
 {
-    properties.position = position;
-    glfwSetWindowPos(p_glfwWin, position.getX(), position.getY());
+	properties.position = position;
+	glfwSetWindowPos(p_glfwWin, position.getX(), position.getY());
 }
 
 int Onyx::Window::getFrame() const
@@ -404,6 +476,10 @@ void Onyx::Window::cb_framebufferSize(GLFWwindow* p_glfwWin, int width, int heig
 	{
 		p_renderer->ortho = Projection::Orthographic(0.0f, width, height, 0.0f).getMatrix();
 	}
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Window::cb_windowSize(GLFWwindow* p_glfwWin, int width, int height)

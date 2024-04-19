@@ -113,6 +113,10 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 
 	if (vertexBuffer.heap) delete[] vertexBuffer.vertices;
 	if (indexBuffer.heap) delete[] indexBuffer.indices;
+
+#if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 Onyx::Mesh::Mesh(const Mesh& other)
@@ -129,6 +133,10 @@ void Onyx::Mesh::render() const
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, indicesSize / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
+
+#if defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 uint Onyx::Mesh::getVerticesSize() const
@@ -162,6 +170,10 @@ void Onyx::Mesh::dispose()
 	if (vbo) glDeleteBuffers(1, &vbo);
 	if (ibo) glDeleteBuffers(1, &ibo);
 	vao = vbo = ibo = 0;
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 Onyx::Mesh Onyx::Mesh::Triangle(float side)

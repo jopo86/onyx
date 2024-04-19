@@ -51,6 +51,10 @@ void Onyx::Renderable::render()
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
+
+#if defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Renderable::render(const Mat4& view, const Mat4& proj)
@@ -67,6 +71,10 @@ void Onyx::Renderable::render(const Mat4& view, const Mat4& proj)
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
+
+#if defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Renderable::hide()
@@ -444,35 +452,35 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 {
 	float* vertices = new float[192] {
-		-side / 2.0f, -side / 2.0f, side / 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-			side / 2.0f, -side / 2.0f, side / 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-			side / 2.0f, side / 2.0f, side / 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-			-side / 2.0f, side / 2.0f, side / 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
 
-			-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-			side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-			side / 2.0f, side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-			-side / 2.0f, side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
 
-			-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-			side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-			side / 2.0f, -side / 2.0f, side / 2.0f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-			-side / 2.0f, -side / 2.0f, side / 2.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
 
-			-side / 2.0f, side / 2.0f, -side / 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-			side / 2.0f, side / 2.0f, -side / 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-			side / 2.0f, side / 2.0f, side / 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-			-side / 2.0f, side / 2.0f, side / 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 
-			-side / 2.0f, -side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-			-side / 2.0f, -side / 2.0f, side / 2.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-			-side / 2.0f, side / 2.0f, side / 2.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-			-side / 2.0f, side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 
-			side / 2.0f, -side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-			side / 2.0f, -side / 2.0f, side / 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-			side / 2.0f, side / 2.0f, side / 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-			side / 2.0f, side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 		};
 
 	uint* indices = new uint[36]{

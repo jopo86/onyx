@@ -45,6 +45,10 @@ Onyx::CharRenderable::CharRenderable(char c, const Font& font, uint advance)
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+#if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::CharRenderable::render()
@@ -53,6 +57,10 @@ void Onyx::CharRenderable::render()
 	glBindVertexArray(vao);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
+
+#if defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 char Onyx::CharRenderable::getChar() const
@@ -80,4 +88,8 @@ void Onyx::CharRenderable::dispose()
 	if (vao) glDeleteVertexArrays(1, &vao);
 	if (vbo) glDeleteBuffers(1, &vbo);
 	vao = vbo = tex = 0;
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }

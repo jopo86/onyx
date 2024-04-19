@@ -1,5 +1,6 @@
 #pragma warning(disable : 4244; disable: 4267)
 
+
 #include "Core.h"
 
 #include <string>
@@ -19,6 +20,30 @@ std::string resourcePath;
 FT_Library ft;
 void* p_user;
 std::vector<std::pair<void*, bool>> mallocs;
+
+const char* _glErrorToString(uint errorCode)
+{
+	switch (errorCode)
+	{
+		case GL_INVALID_ENUM:					return "INVALID_ENUM";
+		case GL_INVALID_VALUE:					return "INVALID_VALUE";
+		case GL_INVALID_OPERATION:				return "INVALID_OPERATION";
+		case GL_STACK_OVERFLOW:					return "STACK_OVERFLOW";
+		case GL_STACK_UNDERFLOW:				return "STACK_UNDERFLOW";
+		case GL_OUT_OF_MEMORY:					return "OUT_OF_MEMORY";
+		case GL_INVALID_FRAMEBUFFER_OPERATION:	return "INVALID_FRAMEBUFFER_OPERATION";
+	}
+}
+
+uint _glCheckError(const std::string& file, int line)
+{
+	uint errorCode;
+	while ((errorCode = glGetError()) != GL_NO_ERROR)
+	{
+		std::cout << "[OpenGL Error] " << glErrorToString(errorCode) << " | " << file.substr(file.find_last_of("\\") + 1) << " (" << line << ")\n";
+	}
+	return errorCode;
+}
 
 void setOpenGLInitialized(bool val)
 {
@@ -121,6 +146,9 @@ void Onyx::Demo()
 	);
 	window.init();
 	window.setBackgroundColor(Vec3(0.0f, 0.7f, 1.0f));
+
+	WindowIcon icon = WindowIcon::Load(Onyx::Resources("textures/icon.png"));
+	window.setIcon(icon);
 
 	InputHandler input(window);
 	
@@ -325,6 +353,10 @@ std::string Onyx::GetGraphics()
 {
 	if (!glInitialized) Err("OpenGL must be initialized before calling GetGraphics(). Initialize a window.");
 	return (const char*)glGetString(GL_RENDERER);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::AddMalloc(void* ptr, bool array)

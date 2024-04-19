@@ -48,6 +48,10 @@ void Onyx::UiRenderable::render()
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
+
+#if defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::UiRenderable::render(Mat4 ortho)
@@ -62,6 +66,10 @@ void Onyx::UiRenderable::render(Mat4 ortho)
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
+
+#if defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::UiRenderable::hide()

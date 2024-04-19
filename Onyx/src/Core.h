@@ -12,8 +12,12 @@
 
 #define ONYX_VERSION_MAJOR		0
 #define ONYX_VERSION_MINOR		8
-#define ONYX_VERSION_PATCH		1
+#define ONYX_VERSION_PATCH		2
 #define ONYX_BETA				true
+
+//#define ONYX_GL_DEBUG_LOW
+//#define ONYX_GL_DEBUG_MED
+//#define ONYX_GL_DEBUG_HIGH
 
 /*	 
 	Definitions for system info.
@@ -54,6 +58,12 @@ typedef unsigned short						ushort;
 typedef unsigned int						uint;
 typedef unsigned long						ulong;
 typedef unsigned long long					ulonglong;
+
+const char* _glErrorToString(uint errorCode);
+uint _glCheckError(const std::string& file, int line);
+
+#define glErrorToString(uint) _glErrorToString(uint)
+#define glCheckError() _glCheckError(__FILE__, __LINE__)
 
 /*
 	@brief A namespace for global Onyx functions/settings.

@@ -1,4 +1,4 @@
-#pragma warning(disable : 4244)
+#pragma warning(disable : 4244; disable: 33011)
 
 #include "InputHandler.h"
 

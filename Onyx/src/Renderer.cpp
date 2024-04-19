@@ -61,6 +61,10 @@ void Onyx::Renderer::render()
 		SetWireframe(_wireframe);
 	}
 	glEnable(GL_DEPTH_TEST);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Renderer::add(Renderable& renderable)
@@ -93,7 +97,7 @@ void Onyx::Renderer::add(UiRenderable& uiRenderable)
 
 void Onyx::Renderer::add(TextRenderable& textRenderable)
 {
-    textRenderables.push_back(&textRenderable);
+	textRenderables.push_back(&textRenderable);
 }
 
 bool Onyx::Renderer::isLightingEnabled() const
@@ -162,6 +166,10 @@ void Onyx::Renderer::SetWireframe(bool _wireframe)
 
 	wireframe = _wireframe;
 	glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Renderer::SetUiWireframeAllowed(bool allowed)
@@ -193,6 +201,10 @@ void Onyx::Renderer::SetLineWidth(float width)
 {
 	glLineWidth(width);
 	lineWidth = width;
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 float Onyx::Renderer::GetLineWidth()

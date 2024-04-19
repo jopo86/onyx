@@ -75,6 +75,10 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+#if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
+
 	return font;
 }
 
@@ -102,8 +106,13 @@ void Onyx::Font::dispose()
 {
 	for (const std::pair<char, Glyph>& g : glyphs)
 	{
-        if (g.second.tex) glDeleteTextures(1, &g.second.tex);
-    }
+		if (g.second.tex) glDeleteTextures(1, &g.second.tex);
+	}
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+		glCheckError();
+#endif
+
 	glyphs.clear();
 	FT_Done_Face(face);
 	p_ft = nullptr;

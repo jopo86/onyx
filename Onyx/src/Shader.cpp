@@ -85,6 +85,10 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSourc
 
 	glDeleteShader(vert);
 	glDeleteShader(frag);
+
+#if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 Onyx::Shader::Shader(const Shader& other)
@@ -105,6 +109,10 @@ Onyx::Shader Onyx::Shader::Load(const std::string& vertPath, const std::string& 
 void Onyx::Shader::use() const
 {
 	glUseProgram(prog);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 uint Onyx::Shader::getProgramID() const
@@ -125,146 +133,262 @@ const char* Onyx::Shader::getFragSource() const
 void Onyx::Shader::setBool(const char* varName, bool val)
 {
 	glUniform1i(glGetUniformLocation(prog, varName), val);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setInt(const char* varName, int val)
 {
 	glUniform1i(glGetUniformLocation(prog, varName), val);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setUint(const char* varName, uint val)
 {
 	glUniform1ui(glGetUniformLocation(prog, varName), val);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setFloat(const char* varName, float val)
 {
 	glUniform1f(glGetUniformLocation(prog, varName), val);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setDouble(const char* varName, double val)
 {
 	glUniform1d(glGetUniformLocation(prog, varName), val);
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setVec2(const char* varName, const Vec2& val)
 {
 	glUniform2fv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setVec3(const char* varName, const Vec3& val)
 {
 	glUniform3fv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setVec4(const char* varName, const Vec4& val)
 {
 	glUniform4fv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setDVec2(const char* varName, const DVec2& val)
 {
 	glUniform2dv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setDVec3(const char* varName, const DVec3& val)
 {
 	glUniform3dv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setDVec4(const char* varName, const DVec4& val)
 {
 	glUniform4dv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setIVec2(const char* varName, const IVec2& val)
 {
 	glUniform2iv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setIVec3(const char* varName, const IVec3& val)
 {
 	glUniform3iv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setIVec4(const char* varName, const IVec4& val)
 {
 	glUniform4iv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setUVec2(const char* varName, const UVec2& val)
 {
 	glUniform2uiv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setUVec3(const char* varName, const UVec3& val)
 {
 	glUniform3uiv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setUVec4(const char* varName, const UVec4& val)
 {
 	glUniform4uiv(glGetUniformLocation(prog, varName), 1, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat2x2(const char* varName, const Mat2x2& val, bool normalize)
 {
 	glUniformMatrix2fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat2(const char* varName, const Mat2x2& val, bool normalize)
 {
 	glUniformMatrix2fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat2x3(const char* varName, const Mat2x3& val, bool normalize)
 {
 	glUniformMatrix2x3fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat2x4(const char* varName, const Mat2x4& val, bool normalize)
 {
 	glUniformMatrix2x4fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat3x2(const char* varName, const Mat3x2& val, bool normalize)
 {
 	glUniformMatrix3x2fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat3x3(const char* varName, const Mat3x3& val, bool normalize)
 {
 	glUniformMatrix3fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat3(const char* varName, const Mat3x3& val, bool normalize)
 {
 	glUniformMatrix3fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat3x4(const char* varName, const Mat3x4& val, bool normalize)
 {
 	glUniformMatrix3x4fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat4x2(const char* varName, const Mat4x2& val, bool normalize)
 {
 	glUniformMatrix4x2fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat4x3(const char* varName, const Mat4x3& val, bool normalize)
 {
 	glUniformMatrix4x3fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat4x4(const char* varName, const Mat4x4& val, bool normalize)
 {
 	glUniformMatrix4fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 void Onyx::Shader::setMat4(const char* varName, const Mat4x4& val, bool normalize)
 {
 	glUniformMatrix4fv(glGetUniformLocation(prog, varName), 1, normalize, val.data());
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }
 
 Onyx::Shader Onyx::Shader::V_Color(Vec4 rgba)
@@ -395,4 +519,8 @@ void Onyx::Shader::dispose()
 	if (prog) glDeleteProgram(prog);
 	prog = 0;
 	vertSource = fragSource = "";
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
 }

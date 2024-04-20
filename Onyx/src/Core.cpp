@@ -50,6 +50,11 @@ void setOpenGLInitialized(bool val)
 	glInitialized = val;
 }
 
+bool isErrorHandlerNullptr()
+{
+	return p_errorHandler == nullptr;
+}
+
 FT_Library* getFT()
 {
 	return &ft;
@@ -147,8 +152,16 @@ void Onyx::Demo()
 	window.init();
 	window.setBackgroundColor(Vec3(0.0f, 0.7f, 1.0f));
 
-	WindowIcon icon = WindowIcon::Load(Onyx::Resources("textures/icon.png"));
+	WindowIcon icon = WindowIcon::Load({
+		Onyx::Resources("icons/icon-16x.png"),
+		Onyx::Resources("icons/icon-24x.png"),
+		Onyx::Resources("icons/icon-32x.png"),
+		Onyx::Resources("icons/icon-48x.png"),
+		Onyx::Resources("icons/icon-256x.png"),
+	});
+	
 	window.setIcon(icon);
+	//icon.dispose();
 
 	InputHandler input(window);
 	
@@ -231,9 +244,9 @@ void Onyx::Demo()
 	textRenderables[0].setText("Demo Onyx");
 	std::cout << "\n";
 	for (CharRenderable& c : textRenderables[0].chars)
-    {
-        std::cout << c.getChar() << ": VAO " << c.getVAO() << ", VBO " << c.getVBO() << ", Tex " << c.getTextureID() << "\n";
-    }*/
+	{
+		std::cout << c.getChar() << ": VAO " << c.getVAO() << ", VBO " << c.getVBO() << ", Tex " << c.getTextureID() << "\n";
+	}*/
 
 	for (TextRenderable& tr : textRenderables) renderer.add(tr);
 

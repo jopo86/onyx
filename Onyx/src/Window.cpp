@@ -1,4 +1,4 @@
-#pragma warning(disable: 4244)
+#pragma warning(disable: 4244; disable: 4267)
 
 #include "Window.h"
 
@@ -12,35 +12,49 @@ GLFWmonitor* Onyx::Window::p_primaryMonitor = nullptr;
 GLFWvidmode* Onyx::Window::p_primaryMonitorInfo = nullptr;
 
 void setOpenGLInitialized(bool);
+bool isErrorHandlerNullptr();
 
 Onyx::WindowIcon::WindowIcon() 
 {
-	image.height = image.width = 0;
-	image.pixels = nullptr;
+	images = nullptr;
+	nImages = 0;
 }
 
-Onyx::WindowIcon Onyx::WindowIcon::Load(const std::string& filepath)
+Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths)
 {
-	std::ifstream file(filepath);
-	if (!file.is_open())
-	{
-		Err("failed to locate file: \"" + filepath + "\"");
-		return WindowIcon();
-	}
-	file.close();
+	if (!isErrorHandlerNullptr()) for (const std::string& filepath : filepaths)
+    {
+        std::ifstream file(filepath);
+        if (!file.is_open())
+        {
+            Err("failed to locate file: \"" + filepath + "\"");
+            return WindowIcon();
+        }
+        file.close();
+    }
 
 	WindowIcon icon;
-	icon.image.pixels = stbi_load(filepath.c_str(), &icon.image.width, &icon.image.height, nullptr, 4);
-	if (icon.image.pixels == nullptr)
+
+	icon.nImages = filepaths.size();
+	icon.images = new GLFWimage[icon.nImages];
+
+	for (uint i = 0; i < icon.nImages; i++)
     {
-        Err("found file, but failed to load image data: " + filepath);
+        icon.images[i].pixels = stbi_load(filepaths.begin()[i].c_str(), &icon.images[i].width, &icon.images[i].height, nullptr, 4);
+		if (icon.images[i].pixels == nullptr)
+		{
+            Err("found file, but failed to load image data: " + filepaths.begin()[i]);
+            return WindowIcon();
+        }
     }
+
 	return icon;
 }
 
 void Onyx::WindowIcon::dispose()
 {
-	stbi_image_free(image.pixels);
+	for (uint i = 0; i < nImages; i++) stbi_image_free(images[i].pixels);
+	delete[] images;
 }
 
 Onyx::Window::Window()
@@ -296,7 +310,8 @@ float Onyx::Window::getOpacity() const
 void Onyx::Window::setIcon(const WindowIcon& icon)
 {
 	this->icon = icon;
-	glfwSetWindowIcon(p_glfwWin, 1, &icon.image);
+	std::cout << icon.nImages << "\n";
+	glfwSetWindowIcon(p_glfwWin, icon.nImages, icon.images);
 }
 
 const Onyx::WindowIcon& Onyx::Window::getIcon() const

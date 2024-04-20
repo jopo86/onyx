@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -114,12 +116,13 @@ namespace Onyx
 	public:
 		WindowIcon();
 
-		static WindowIcon Load(const std::string& filepath);
+		static WindowIcon Load(const std::initializer_list<std::string>& filepaths);
 
 		void dispose() override;
 
 	private:
-		GLFWimage image;
+		GLFWimage* images;
+		uint nImages;
 	};
 
 	/*

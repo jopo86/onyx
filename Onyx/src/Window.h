@@ -110,14 +110,32 @@ namespace Onyx
 		float opacity = 1.0f;
 	};
 
+	/*
+		@brief A class to represent a window icon.
+	 */
 	class WindowIcon : public Disposable
 	{
 		friend class Window;
 	public:
+		/*
+			@brief Creates an empty window icon.
+			Create a window icon with Load().
+		 */
 		WindowIcon();
 
+		/*
+			@brief Creates a window icon from the specified filepaths.
+			Multiple filepaths allow for different resolutions, because the automatic scaling sucks.
+			Ideally, provide a 16x16, 24x24, 32x32, 48x48, and 256x256 image.
+			@param filepaths The filepaths of the images to use as the icon.
+		 */
 		static WindowIcon Load(const std::initializer_list<std::string>& filepaths);
 
+		/*
+			@brief Disposes of the window icon.
+			This clears up any memory that the object was using.
+			This can be safely called after the icon has been used with Window::setIcon().
+		 */
 		void dispose() override;
 
 	private:
@@ -172,6 +190,220 @@ namespace Onyx
 			Once called, isOpen() will return false.
 		 */
 		void close();
+
+		/*
+			@brief Maximizes the window (different from fullscreen).
+			Fullscreen borderless can be achieved with setDecorated(false) and maximize().
+		 */
+		void maximize();
+
+		/*
+			@brief Minimizes the window (different from hidden).
+		 */
+		void minimize();
+
+		/*
+			@brief Restores the window to its previous size and position after being minimized or maximized.
+		 */
+		void restore();
+
+		/*
+			@brief Requests attention from the user.
+			Use if you wish to notify the user of an event without interrupting.
+		 */
+		void requestAttention();
+
+		/*
+			@brief Gets the open/closed status of the window.
+			@return Whether the window is open.
+		 */
+		bool isOpen() const;
+
+		/*
+			@brief Gets the title of the window.
+			@return The title of the window.
+		 */
+		const std::string& getTitle() const;
+
+		/*
+			@brief Gets the width of the window.
+			@return The width of the window.
+		 */
+		int getWidth() const;
+
+		/*
+			@brief Gets the height of the window.
+			@return The height of the window.
+		 */
+		int getHeight() const;
+
+		/*
+			@brief Gets the width of the rendering frame of the window, not including borders.
+			@return The buffer width of the window, explained above.
+		 */
+		int getBufferWidth() const;
+
+		/*
+			@brief Gets the height of the rendering frame of the window, not including borders.
+			@return The buffer height of the window, explained above.
+		 */
+		int getBufferHeight() const;
+
+		/*
+			@brief Gets the position of the top-left of the window.
+			(0, 0) is the top-left of the screen.
+			@return The position of the window.
+		 */
+		const Math::IVec2& getPosition() const;
+
+		/*
+			@brief Gets the current frame number.
+			The frame number is increased every time startRender() is called.
+			@return The current frame number.
+		 */
+		int getFrame() const;
+
+		/*
+			@brief Gets the current frames per second.
+			@return The current frames per second.
+		 */
+		int getFPS() const;
+
+		/*
+			@brief Gets the time since the last frame, in seconds.
+			@return The time since the last frame, in seconds.
+		 */
+		double getDeltaTime() const;
+
+		/*
+			@brief Gets the opacity of the window.
+			@return The opacity of the window.
+		 */
+		float getOpacity() const;
+
+		/*
+			@brief Gets the icon of the window.
+			@return The icon of the window.
+		 */
+		const WindowIcon& getIcon() const;
+
+		/*
+			@brief Gets the GLFW window pointer.
+			Access to the GLFW window is provided for the library, as well as for advanced users.
+			@return A pointer to the GLFW window.
+		 */
+		GLFWwindow* getGlfwWindowPtr() const;
+
+		/*
+			@brief Gets the initialization status of the window.
+			@return Whether the window has been initialized.
+		 */
+		bool isInitialized() const;
+
+		/*
+			@brief Gets whether the window is resizable.
+			@return Whether the window is resizable.
+		 */
+		bool isResizable() const;
+
+		/*
+			@brief Gets whether the window is visible.
+			@return Whether the window is visible.
+		 */
+		bool isVisible() const;
+
+		/*
+			@brief Gets whether the window is hidden.
+			@return Whether the window is hidden.
+		 */
+		bool isHidden() const;
+
+		/*
+			@brief Gets whether the window is focused.
+			@return Whether the window is focused.
+		 */
+		bool isFocused() const;
+
+		/*
+			@brief Gets whether the window is decorated (border, close widget, etc.)
+			@return Whether the window is decorated.
+		 */
+		bool isDecorated() const;
+
+		/*
+			@brief Gets whether the window is topmost (AKA floating, always on top).
+			@return Whether the window is topmost.
+		 */
+		bool isTopmost() const;
+
+		/*
+			@brief Gets whether the window automatically becomes input focused when shown.
+			@return Whether the window automatically becomes input focused when shown.
+		 */
+		bool focusesOnShow() const;
+
+		/*
+			@brief Gets the number of samples for multi-sample anti-aliasing.
+			@return The number of samples for multi-sample anti-aliasing. 0 means no anti-aliasing.
+		 */
+		int getNSamplesMSAA() const;
+
+		/*
+			@brief Gets whether the window is fullscreen.
+			@return Whether the window is fullscreen.
+		 */
+		bool isFullscreen() const;
+
+		/*
+			@brief Gets whether the window is maximized.
+			@return Whether the window is maximized.
+		 */
+		bool isMaximized() const;
+
+		/*
+			@brief Gets whether the window is minimized.
+			@return Whether the window is minimized.
+		 */
+		bool isMinimized() const;
+
+		/*
+			@brief Sets the title of the window.
+			@param title The title of the window.
+		 */
+		void setTitle(const std::string& title);
+
+		/*
+			@brief Sets the size of the window.
+			@param width The width of the window.
+			@param height The height of the window.
+		 */
+		void setSize(int width, int height);
+
+		/*
+			@brief Sets the position of the top-left of the window.
+			(0, 0) is the top-left of the screen.
+			@param position The position of the window.
+		 */
+		void setPosition(const Math::IVec2& position);
+
+		/*
+			@brief Sets the background color of the window.
+			This is what color the window clears to at the start of each frame.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+		 */
+		void setBackgroundColor(Onyx::Math::Vec3 rgb);
+
+		/*
+			@brief Sets the icon of the window.
+			@param icon The icon of the window.
+		 */
+		void setIcon(const WindowIcon& icon);
+
+		/*
+			@brief Sets the opacity of the window, including decorations.
+			@param opacity The opacity of the window, ranging from 0 to 1.
+		 */
+		void setOpacity(float opacity);
 
 		/*
 			@brief Sets the window to fullscreen mode.
@@ -271,220 +503,6 @@ namespace Onyx
 			@brief Toggles whether the window automatically becomes input focused when shown.
 		 */
 		void toggleFocusOnShow();
-
-		/*
-			@brief Maximizes the window (different from fullscreen).
-			Fullscreen borderless can be achieved with setDecorated(false) and maximize().
-		 */
-		void maximize();
-
-		/*
-			@brief Minimizes the window (different from hidden).
-		 */
-		void minimize();
-
-		/*
-			@brief Restores the window to its previous size and position after being minimized or maximized.
-		 */
-		void restore();
-
-		/*
-			@brief Requests attention from the user.
-			Use if you wish to notify the user of an event without interrupting.
-		 */
-		void requestAttention();
-
-		/*
-			@brief Sets the opacity of the window, including decorations.
-			@param opacity The opacity of the window, ranging from 0 to 1.
-		 */
-		void setOpacity(float opacity);
-
-		/*
-			@brief Gets the opacity of the window.
-			@return The opacity of the window.
-		 */
-		float getOpacity() const;
-
-		/*
-            @brief Sets the icon of the window.
-            @param icon The icon of the window.
-         */
-		void setIcon(const WindowIcon& icon);
-
-		/*
-			@brief Gets the icon of the window.
-			@return The icon of the window.
-		 */
-		const WindowIcon& getIcon() const;
-
-		/*
-			@brief Gets the title of the window.
-			@return The title of the window.
-		 */
-		const std::string& getTitle() const;
-
-		/*
-			@brief Gets the width of the window.
-			@return The width of the window.
-		 */
-		int getWidth() const;
-
-		/*
-			@brief Gets the height of the window.
-			@return The height of the window.
-		 */
-		int getHeight() const;
-
-		/*
-			@brief Gets the width of the rendering frame of the window, not including borders.
-			@return The buffer width of the window, explained above.
-		 */
-		int getBufferWidth() const;
-
-		/*
-			@brief Gets the height of the rendering frame of the window, not including borders.
-			@return The buffer height of the window, explained above.
-		 */
-		int getBufferHeight() const;
-
-		/*
-			@brief Gets whether the window is resizable.
-			@return Whether the window is resizable.
-		 */
-		bool isResizable() const;
-
-		/*
-			@brief Gets whether the window is visible.
-			@return Whether the window is visible.
-		 */
-		bool isVisible() const;
-
-		/*
-			@brief Gets whether the window is hidden.
-			@return Whether the window is hidden.
-		 */
-		bool isHidden() const;
-
-		/*
-			@brief Gets whether the window is focused.
-			@return Whether the window is focused.
-		 */
-		bool isFocused() const;
-
-		/*
-			@brief Gets whether the window is decorated (border, close widget, etc.)
-			@return Whether the window is decorated.
-		 */
-		bool isDecorated() const;
-
-		/*
-			@brief Gets whether the window is topmost (AKA floating, always on top).
-			@return Whether the window is topmost.
-		 */
-		bool isTopmost() const;
-
-		/*
-			@brief Gets whether the window automatically becomes input focused when shown.
-			@return Whether the window automatically becomes input focused when shown.
-		 */
-		bool focusesOnShow() const;
-
-		/*
-			@brief Gets the number of samples for multi-sample anti-aliasing.
-			@return The number of samples for multi-sample anti-aliasing. 0 means no anti-aliasing.
-		 */
-		int getNSamplesMSAA() const;
-
-		/*
-			@brief Gets whether the window is fullscreen.
-			@return Whether the window is fullscreen.
-		 */
-		bool isFullscreen() const;
-
-		/*
-			@brief Gets whether the window is maximized.
-			@return Whether the window is maximized.
-		 */
-		bool isMaximized() const;
-
-		/*
-			@brief Gets whether the window is minimized.
-			@return Whether the window is minimized.
-		 */
-		bool isMinimized() const;
-
-		/*
-			@brief Gets the position of the top-left of the window.
-            (0, 0) is the top-left of the screen.
-			@return The position of the window.
-		 */
-		const Math::IVec2& getPosition() const;
-
-		/*
-			@brief Sets the title of the window.
-			@param title The title of the window.
-		 */
-		void setTitle(const std::string& title);
-
-		/*
-			@brief Sets the size of the window.
-			@param width The width of the window.
-			@param height The height of the window.
-		 */
-		void setSize(int width, int height);
-
-		/*
-			@brief Sets the position of the top-left of the window.
-			(0, 0) is the top-left of the screen.
-			@param position The position of the window.
-		 */
-		void setPosition(const Math::IVec2& position);
-
-		/*
-			@brief Gets the current frame number.
-			The frame number is increased every time startRender() is called.
-			@return The current frame number.
-		 */
-		int getFrame() const;
-
-		/*
-			@brief Gets the initialization status of the window.
-			@return Whether the window has been initialized.
-		 */
-		bool isInitialized() const;
-
-		/*
-			@brief Gets the current frames per second.
-			@return The current frames per second.
-		 */
-		int getFPS() const;
-
-		/*
-			@brief Gets the time since the last frame, in seconds.
-			@return The time since the last frame, in seconds.
-		 */
-		double getDeltaTime() const;
-
-		/*
-			@brief Gets the open/closed status of the window.
-			@return Whether the window is open.
-		 */
-		bool isOpen() const;
-
-		/*
-			@brief Sets the background color of the window.
-			This is what color the window clears to at the start of each frame.
-			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-		 */
-		void setBackgroundColor(Onyx::Math::Vec3 rgb);
-
-		/*
-			@brief Gets the GLFW window pointer.
-			Access to the GLFW window is provided for the library, as well as for advanced users.
-			@return A pointer to the GLFW window.
-		 */
-		GLFWwindow* getGlfwWindowPtr() const;
 
 		/*
 			@brief Disposes of the window.

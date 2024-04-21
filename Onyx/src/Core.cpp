@@ -55,7 +55,7 @@ bool onyx_is_ehandler_nullptr()
 	return p_errorHandler == nullptr;
 }
 
-FT_Library* get_ft()
+FT_Library* onyx_get_ft()
 {
 	return &ft;
 }
@@ -161,7 +161,7 @@ void Onyx::Demo()
 	});
 	
 	window.setIcon(icon);
-	//icon.dispose();
+	icon.dispose();
 
 	InputHandler input(window);
 	

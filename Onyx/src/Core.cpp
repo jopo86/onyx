@@ -45,17 +45,17 @@ uint _glCheckError(const std::string& file, int line)
 	return errorCode;
 }
 
-void setOpenGLInitialized(bool val)
+void set_gl_init(bool val)
 {
 	glInitialized = val;
 }
 
-bool isErrorHandlerNullptr()
+bool is_ehandler_nullptr()
 {
 	return p_errorHandler == nullptr;
 }
 
-FT_Library* getFT()
+FT_Library* get_ft()
 {
 	return &ft;
 }

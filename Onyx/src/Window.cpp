@@ -331,7 +331,6 @@ void Onyx::Window::setBackgroundColor(Onyx::Math::Vec3 rgb)
 void Onyx::Window::setIcon(const WindowIcon& icon)
 {
     this->icon = icon;
-    std::cout << icon.nImages << "\n";
     glfwSetWindowIcon(p_glfwWin, icon.nImages, icon.images);
 }
 

@@ -11,8 +11,8 @@ using Onyx::Math::Vec3;
 GLFWmonitor* Onyx::Window::p_primaryMonitor = nullptr;
 GLFWvidmode* Onyx::Window::p_primaryMonitorInfo = nullptr;
 
-void set_gl_init(bool);
-bool is_ehandler_nullptr();
+void onyx_set_gl_init(bool);
+bool onyx_is_ehandler_nullptr();
 
 Onyx::WindowIcon::WindowIcon() 
 {
@@ -22,7 +22,7 @@ Onyx::WindowIcon::WindowIcon()
 
 Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths)
 {
-	if (!is_ehandler_nullptr()) for (const std::string& filepath : filepaths)
+	if (!onyx_is_ehandler_nullptr()) for (const std::string& filepath : filepaths)
     {
         std::ifstream file(filepath);
         if (!file.is_open())
@@ -121,7 +121,7 @@ void Onyx::Window::init()
         return;
     }
 
-    set_gl_init(true);
+    onyx_set_gl_init(true);
 
     glfwSetWindowOpacity(p_glfwWin, properties.opacity);
     if (properties.fullscreen) fullscreen();

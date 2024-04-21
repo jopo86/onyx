@@ -45,12 +45,12 @@ uint _glCheckError(const std::string& file, int line)
 	return errorCode;
 }
 
-void set_gl_init(bool val)
+void onyx_set_gl_init(bool val)
 {
 	glInitialized = val;
 }
 
-bool is_ehandler_nullptr()
+bool onyx_is_ehandler_nullptr()
 {
 	return p_errorHandler == nullptr;
 }

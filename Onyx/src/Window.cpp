@@ -341,6 +341,29 @@ void Onyx::Window::setOpacity(float opacity)
     glfwSetWindowOpacity(p_glfwWin, opacity);
 }
 
+void Onyx::Window::fullscreen()
+{
+    properties.fullscreen = true;
+    glfwSetWindowMonitor(p_glfwWin, glfwGetPrimaryMonitor(), 0, 0, p_primaryMonitorInfo->width, p_primaryMonitorInfo->height, p_primaryMonitorInfo->refreshRate);
+    glfwSwapInterval(1);
+}
+
+void Onyx::Window::windowed()
+{
+    properties.fullscreen = false;
+    glfwSetWindowMonitor(p_glfwWin, nullptr, properties.position.getX(), properties.position.getY(), properties.width, properties.height, 0);
+    if (properties.decorated) setDecorated(true);
+    glfwSwapInterval(1);
+}
+
+void Onyx::Window::windowed(int width, int height, Math::IVec2 position)
+{
+    properties.fullscreen = false;
+    glfwSetWindowMonitor(p_glfwWin, nullptr, position.getX(), position.getY(), width, height, 0);
+    if (properties.decorated) setDecorated(true);
+    glfwSwapInterval(1);
+}
+
 void Onyx::Window::setResizable(bool resizable)
 {
     properties.resizable = resizable;

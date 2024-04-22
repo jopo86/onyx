@@ -9,6 +9,8 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 Onyx::UiRenderable::UiRenderable() 
 {
 	model = Mat4::Identity();
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 	hidden = false;
 }
 
@@ -17,6 +19,8 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb)
 	this->mesh = mesh;
 	shader = Shader::UI_Color(Vec4(rgb, 1.0f));
 	model = Mat4::Identity();
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 	hidden = false;
 }
 
@@ -25,6 +29,8 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
 	this->mesh = mesh;
 	shader = Shader::UI_Color(rgba);
 	model = Mat4::Identity();
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 	hidden = false;
 }
 
@@ -34,6 +40,8 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture)
 	this->texture = texture;
 	shader = Shader::UI_Texture();
 	model = Mat4::Identity();
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 	hidden = false;
 }
 
@@ -87,33 +95,19 @@ void Onyx::UiRenderable::toggleVisibility()
 	hidden = !hidden;
 }
 
-void Onyx::UiRenderable::translate(Vec2 xy)
+const Onyx::Math::Vec2& Onyx::UiRenderable::getPosition() const
 {
-	if (xy.isZero()) return;
-	model.translate(Vec3(xy, 0.0f));
+    return m_position;
 }
 
-void Onyx::UiRenderable::rotate(float degrees)
+float Onyx::UiRenderable::getRotation() const
 {
-	if (degrees == 0.0f) return;
-	model.rotate(degrees, Vec3(0.0f, 0.0f, 1.0f));
+    return m_rotation;
 }
 
-void Onyx::UiRenderable::scale(float scalar)
+const Onyx::Math::Vec2& Onyx::UiRenderable::getScale() const
 {
-	if (scalar == 1.0f) return;
-	model.scale(Vec3(scalar, scalar, 1.0f));
-}
-
-void Onyx::UiRenderable::scale(Vec2 xyScalar)
-{
-	if (xyScalar.getX() == 1.0f && xyScalar.getY() == 1.0f) return;
-	model.scale(Vec3(xyScalar, 1.0f));
-}
-
-void Onyx::UiRenderable::resetTransform()
-{
-	model = Mat4::Identity();
+    return m_scale;
 }
 
 Onyx::Mesh Onyx::UiRenderable::getMesh() const
@@ -136,9 +130,73 @@ bool Onyx::UiRenderable::isHidden() const
 	return hidden;
 }
 
+void Onyx::UiRenderable::setPosition(const Vec2& position)
+{
+	m_position = position;
+	updateModel();
+}
+
+void Onyx::UiRenderable::setRotation(float rotation)
+{
+	m_rotation = rotation;
+	updateModel();
+}
+
+void Onyx::UiRenderable::setScale(const Vec2& scale)
+{
+	m_scale = scale;
+    updateModel();
+}
+
+void Onyx::UiRenderable::translate(const Vec2& translation)
+{
+	m_position += translation;
+	updateModel();
+}
+
+void Onyx::UiRenderable::translateLocal(const Vec2& translation)
+{
+	Mat4 modelCopy = model;
+	modelCopy.translate(Vec3(translation, 0.0f));
+	m_position = Vec2(modelCopy[0][3], modelCopy[1][3]);
+}
+
+void Onyx::UiRenderable::rotate(float rotation)
+{
+	m_rotation += rotation;
+    updateModel();
+}
+
+void Onyx::UiRenderable::scale(const Vec2& scalars)
+{
+	m_scale.setX(m_scale.getX() * scalars.getX());
+	m_scale.setY(m_scale.getY() * scalars.getY());
+    updateModel();
+}
+
+void Onyx::UiRenderable::scale(float scalar)
+{
+	m_scale.setX(m_scale.getX() * scalar);
+	m_scale.setY(m_scale.getY() * scalar);
+	updateModel();
+}
+
+void Onyx::UiRenderable::resetTransform()
+{
+	model = Mat4::Identity();
+}
+
 void Onyx::UiRenderable::dispose()
 {
 	mesh.dispose();
 	shader.dispose();
 	texture.dispose();
+}
+
+void Onyx::UiRenderable::updateModel()
+{
+    model = Mat4::Identity();
+    model.translate(Vec3(m_position, 0.0f));
+    model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
+    model.scale(Vec3(m_scale, 1.0f));
 }

@@ -17,7 +17,7 @@ Onyx::Texture::Texture(const Texture& other)
 	tex = other.tex;
 }
 
-Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap)
+Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)
 {
 	std::ifstream file(filepath);
 	if (!file.is_open())
@@ -26,6 +26,24 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 		return Texture();
 	}
 	file.close();
+
+	if (textureWrap == Onyx::TextureWrap::Null)
+    {
+        Err("texture wrap option cannot be null");
+        return Texture();
+    }
+
+	if (minFilter == Onyx::TextureFilter::Null)
+    {
+        Err("minification filter option cannot be null");
+        return Texture();
+    }
+
+	if (magFilter == Onyx::TextureFilter::Null)
+	{
+        Err("magnification filter option cannot be null");
+        return Texture();
+	}
 
 	int width = 0, height = 0, nChannels = 0;
 
@@ -68,8 +86,8 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 		break;
 	}
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter == Onyx::TextureFilter::Nearest ? GL_NEAREST : GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter == Onyx::TextureFilter::Nearest ? GL_NEAREST : GL_LINEAR);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, nChannels == 4 ? GL_RGBA : GL_RGB, width, height, 0, nChannels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);

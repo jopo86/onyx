@@ -75,27 +75,27 @@ void Onyx::Camera::update()
 void Onyx::Camera::translateLR(float dist)
 {
 	if (dist == 0) return;
-	pos = pos + (Vec3(Cross(front, up)).getNormalized() * dist);
+	pos += (Vec3(Cross(front, up)).getNormalized() * dist);
 }
 
 void Onyx::Camera::translateUD(float dist)
 {
 	if (dist == 0) return;
-	pos = pos + Vec3(0.0f, dist, 0.0f);
+	pos += Vec3(0.0f, dist, 0.0f);
 }
 
 void Onyx::Camera::translateFB(float dist)
 {
 	if (dist == 0) return;
-	pos = pos + (front * dist);
+	pos += (front * dist);
 }
 
 void Onyx::Camera::translate(Vec3 LR_UD_FB)
 {
 	if (LR_UD_FB.isZero()) return;
-	pos = pos + (Vec3(Cross(front, up)).getNormalized() * LR_UD_FB.getX());
-	pos = pos + Vec3(0.0f, LR_UD_FB.getY(), 0.0f);
-	pos = pos + (front * LR_UD_FB.getZ());
+	pos += (Vec3(Cross(front, up)).getNormalized() * LR_UD_FB.getX());
+	pos += Vec3(0.0f, LR_UD_FB.getY(), 0.0f);
+	pos += (front * LR_UD_FB.getZ());
 }
 
 void Onyx::Camera::rotate(float _yaw, float _pitch)

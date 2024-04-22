@@ -76,49 +76,22 @@ namespace Onyx
 		void toggleVisibility();
 
 		/*
-			@brief Changes the renderable's position by the specified 2D vector.
-			Note that this function inc/decrements the renderable's position, it does not set it.
-			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param xy The vector to move by.
+			@brief Gets the position of the renderable.
+			@return The position.
 		 */
-		void translate(Math::Vec2 xy);
+		const Math::Vec2& getPosition() const;
 
 		/*
-			@brief Rotates the renderable by the specified degree angle.
-			Note that this function inc/decrements the renderable's rotation, it does not set it.
-			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param degrees The degree angle to rotate.
+			@brief Gets the rotation of the renderable.
+			@return The rotation around each axis.
 		 */
-		void rotate(float degrees);
+		float getRotation() const;
 
 		/*
-			@brief Scales the renderable in all dimensions by the specified scalar.
-			Note that this function scales the renderable by whatever its current scale is, it does not set its scale.
-			This means that scale(1) will not reset the renderable's scale, it just wont change it at all.
-			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param scalar The scale multiplier.
-			If the scalar is 0, it will effectively hide the renderable.
+			@brief Gets the scale of the renderable.
+			@return The scale for each axis.
 		 */
-		void scale(float scalar);
-
-		/*
-			@brief Scales the renderable by the scalars for each dimension.
-			Note that this function scales the renderable by whatever its current scale is, it does not set its scale.
-			This means that scale(1) will not reset the renderable's scale, it just wont change it at all.
-			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param xyScalar The scalars for each dimension. Here are some examples:
-			(1, 1) will not change anything.
-			(1, 0.5) will half the renderable's size on the y axis.
-			(2, 0.5) will double the renderable's size on the x axis and half it on the y axis.
-			If any scalar is 0, it will effectively hide the renderable.
-		 */
-		void scale(Math::Vec2 xyScalar);
-
-		/*
-			@brief Resets the renderable's transforms.
-			This resets its position to its original vertex positions, its rotation to 0, and its scale to 1.
-		 */
-		void resetTransform();
+		const Math::Vec2& getScale() const;
 
 		/*
 			@brief Gets the mesh associated with the renderable.
@@ -146,6 +119,66 @@ namespace Onyx
 		bool isHidden() const;
 
 		/*
+			@brief Sets the position of the renderable.
+			@param position The new position.
+		 */
+		void setPosition(const Math::Vec2& position);
+
+		/*
+			@brief Sets the rotation of the renderable.
+			@param rotation The new rotation.
+		 */
+		void setRotation(float rotation);
+
+		/*
+			@brief Sets the scale of the renderable.
+			@param scales The new scale for each axis.
+		 */
+		void setScale(const Math::Vec2& scale);
+
+		/*
+			@brief Translates the renderable by the specified positional amount.
+			This function does not set the position, it adds to it.
+			The translation is in world space, not local space, so rotation will not affect the translation.
+			@param translation The positional amount to translate by.
+		 */
+		void translate(const Math::Vec2& translation);
+
+		/*
+			@brief Translate the renderable by the specified positional amount in local space.
+			This function does not set the position, it adds to it.
+			The translation is in local space, not world space, so rotation will affect the translation.
+			@param translation The positional amount to translate by.
+		 */
+		void translateLocal(const Math::Vec2& translation);
+
+		/*
+			@brief Rotates the renderable by the specified rotation amounts.
+			This function does not set the rotation, it adds to it.
+			@param rotations The rotation amounts around each axis.
+		 */
+		void rotate(float rotation);
+
+		/*
+			@brief Scales the renderable by the specified scalar amounts.
+			This function does not set the scale, it multiplies it.
+			@param scalars The scalar amounts for each axis.
+		 */
+		void scale(const Math::Vec2& scalars);
+
+		/*
+			@brief Scales the renderable on all axes by the specified scalar amount.
+			This function does not set the scale, it multiplies it.
+			@param scalar The scalar amount for all axes.
+		 */
+		void scale(float scalar);
+
+		/*
+			@brief Resets the renderable's transform.
+		 */
+		void resetTransform();
+
+		/*
 			@brief Disposes of the renderable, including the associated mesh, shader, and texture.
 			This clears up any memory that the object was using.
 			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
@@ -159,6 +192,12 @@ namespace Onyx
 
 		Math::Mat4 model;
 
+		Math::Vec2 m_position;
+		float m_rotation;
+		Math::Vec2 m_scale;
+
 		bool hidden;
+
+		void updateModel();
 	};
 }

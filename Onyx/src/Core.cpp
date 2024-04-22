@@ -5,6 +5,9 @@
 
 #include <string>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #include "Math.h"
 #include "Window.h"
 #include "Projection.h"
@@ -58,6 +61,11 @@ bool onyx_is_ehandler_nullptr()
 FT_Library* onyx_get_ft()
 {
 	return &ft;
+}
+
+void onyx_add_malloc(void* ptr, bool array)
+{
+	mallocs.push_back(std::pair<void*, bool>(ptr, array));
 }
 
 void Onyx::Init()
@@ -118,7 +126,7 @@ bool Onyx::IsBeta()
 	return ONYX_BETA;
 }
 
-std::string Onyx::GetVersionString()
+const std::string& Onyx::GetVersionString()
 {
 	return std::to_string(ONYX_VERSION_MAJOR) + "." + std::to_string(ONYX_VERSION_MINOR) + "." + std::to_string(ONYX_VERSION_PATCH) + (ONYX_BETA ? "-beta" : "");
 }
@@ -183,6 +191,8 @@ void Onyx::Demo()
 	
 	std::cout << "Model loaded in " << duration << " sec\n";
 
+	car.setRotation(Vec3(0.0f, 45.0f, 0.0f));
+
 	UiRenderable textBg(
 		Mesh(VertexBuffer(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V), IndexBuffer(bgIndices, sizeof(bgIndices))),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
@@ -214,27 +224,27 @@ void Onyx::Demo()
 	textRenderables.push_back(TextRenderable("Forward/Left/Backward/Right: [W]/[A]/[S]/[D]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
 	textRenderables.push_back(TextRenderable("Exit: [ESCAPE]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
 
-	textRenderables[0].translate(Vec2(23.0f, window.getBufferHeight() - 50.0f));
-	textRenderables[1].translate(Vec2(25.0f, window.getBufferHeight() - 80.0f));
-	textRenderables[1].scale(0.6f);
-	textRenderables[2].translate(Vec2(25.0f, window.getBufferHeight() - 100.0f));
-	textRenderables[2].scale(0.6f);
-	textRenderables[3].translate(Vec2(25.0f, 30.0f));
-	textRenderables[3].scale(0.6f);
-	textRenderables[4].translate(Vec2(25.0f, 55.0f));
-	textRenderables[4].scale(0.6f);
-	textRenderables[5].translate(Vec2(25.0f, 80.0f));
-	textRenderables[5].scale(0.6f);
-	textRenderables[6].translate(Vec2(25.0f, 105.0f));
-	textRenderables[6].scale(0.6f);
-	textRenderables[7].translate(Vec2(25.0f, 130.0f));
-	textRenderables[7].scale(0.6f);
-	textRenderables[8].translate(Vec2(25.0f, 155.0f));
-	textRenderables[8].scale(0.6f);
-	textRenderables[9].translate(Vec2(25.0f, 180.0f));
-	textRenderables[9].scale(0.6f);
-	textRenderables[10].translate(Vec2(25.0f, 205.0f));
-	textRenderables[10].scale(0.6f);
+	textRenderables[0].setPosition(Vec2(23.0f, window.getBufferHeight() - 50.0f));
+	textRenderables[1].setPosition(Vec2(25.0f, window.getBufferHeight() - 80.0f));
+	textRenderables[1].setScale(0.6f);
+	textRenderables[2].setPosition(Vec2(25.0f, window.getBufferHeight() - 100.0f));
+	textRenderables[2].setScale(0.6f);
+	textRenderables[3].setPosition(Vec2(25.0f, 30.0f));
+	textRenderables[3].setScale(0.6f);
+	textRenderables[4].setPosition(Vec2(25.0f, 55.0f));
+	textRenderables[4].setScale(0.6f);
+	textRenderables[5].setPosition(Vec2(25.0f, 80.0f));
+	textRenderables[5].setScale(0.6f);
+	textRenderables[6].setPosition(Vec2(25.0f, 105.0f));
+	textRenderables[6].setScale(0.6f);
+	textRenderables[7].setPosition(Vec2(25.0f, 130.0f));
+	textRenderables[7].setScale(0.6f);
+	textRenderables[8].setPosition(Vec2(25.0f, 155.0f));
+	textRenderables[8].setScale(0.6f);
+	textRenderables[9].setPosition(Vec2(25.0f, 180.0f));
+	textRenderables[9].setScale(0.6f);
+	textRenderables[10].setPosition(Vec2(25.0f, 205.0f));
+	textRenderables[10].setScale(0.6f);
 
 	// make members of TextRenderable public for this to work
 	/*for (CharRenderable& c : textRenderables[0].chars)
@@ -288,11 +298,14 @@ void Onyx::Demo()
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
 
-		car.rotate(20.0f * window.getDeltaTime(), Vec3(0, 1, 0));
+		//car.rotate(Vec3(0, 20.0f * window.getDeltaTime(), 0));
 
 		textRenderables[1].setText("FPS: " + std::to_string(fps));
 		textRenderables[2].setText("FRAME " + std::to_string(window.getFrame()));
 
+		car.translateLocal(Vec3(0.0f, 0.0f, -window.getDeltaTime()));
+		//car.scale(0.999f);
+		
 		window.startRender();
 		renderer.render();
 		window.endRender();
@@ -342,14 +355,15 @@ void Onyx::SetUserPtr(void* ptr)
 	p_user = ptr;
 }
 
-std::string Onyx::GetResourcePath()
+const std::string& Onyx::GetResourcePath()
 {
 	return resourcePath;
 }
 
-std::string Onyx::Resources(std::string path)
+std::string Onyx::Resources(const std::string& path)
 {
-	return resourcePath + path;
+	if (path.length() == 0) return resourcePath;
+	return resourcePath + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);
 }
 
 void* Onyx::GetUserPtr()
@@ -370,9 +384,4 @@ std::string Onyx::GetGraphics()
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
 #endif
-}
-
-void Onyx::AddMalloc(void* ptr, bool array)
-{
-	mallocs.push_back(std::pair<void*, bool>(ptr, array));
 }

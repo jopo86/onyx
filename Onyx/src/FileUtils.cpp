@@ -5,6 +5,8 @@
 
 #include "Core.h"
 
+void onyx_add_malloc(void*, bool);
+
 std::string Onyx::FileUtils::Read(const std::string& path)
 {
 	std::ifstream file(path);
@@ -26,7 +28,7 @@ const char* Onyx::FileUtils::ReadLiteral(const std::string& path)
 	if (!file.is_open()) Onyx::Err("File not found (or access denied): \"" + path + "\"");
 
 	std::string* contents = new std::string("");
-	AddMalloc(contents, false);
+	onyx_add_malloc(contents, false);
 	std::string line = "";
 
 	while (std::getline(file, line)) *contents += line + "\n";

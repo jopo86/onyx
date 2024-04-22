@@ -9,6 +9,7 @@ Onyx::Renderable::Renderable()
 {
 	model = Mat4(1.0f);
 	inverseModel = Math::Inverse(model);
+	m_scale = Vec3(1.0f);
 	hidden = false;
 }
 
@@ -17,6 +18,7 @@ Onyx::Renderable::Renderable(Mesh mesh)
 	this->mesh = mesh;
 	model = Mat4(1.0f);
 	inverseModel = Math::Inverse(model);
+	m_scale = Vec3(1.0f);
 	hidden = false;
 }
 
@@ -26,6 +28,7 @@ Onyx::Renderable::Renderable(Mesh mesh, Shader shader)
 	this->shader = shader;
 	model = Mat4(1.0f);
 	inverseModel = Math::Inverse(model);
+	m_scale = Vec3(1.0f);
 	hidden = false;
 }
 
@@ -36,6 +39,7 @@ Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)
 	this->texture = texture;
 	model = Mat4(1.0f);
 	inverseModel = Math::Inverse(model);
+	m_scale = Vec3(1.0f);
 	hidden = false;
 }
 
@@ -92,37 +96,19 @@ void Onyx::Renderable::toggleVisibility()
 	hidden = !hidden;
 }
 
-void Onyx::Renderable::translate(const Vec3& xyz)
+const Vec3& Onyx::Renderable::getPosition() const
 {
-	if (xyz.isZero()) return;
-	model.translate(xyz);
-	inverseModel = Math::Inverse(model);
+    return m_position;
 }
 
-void Onyx::Renderable::rotate(float degrees, const Vec3& mask)
+const Vec3& Onyx::Renderable::getRotation() const
 {
-	if (degrees == 0.0f || mask.isZero()) return;
-	model.rotate(degrees, mask);
-	inverseModel = Math::Inverse(model);
+    return m_rotation;
 }
 
-void Onyx::Renderable::scale(float scalar)
+const Vec3& Onyx::Renderable::getScale() const
 {
-	if (scalar == 1.0f) return;
-	model.scale(Vec3(scalar, scalar, scalar));
-	inverseModel = Math::Inverse(model);
-}
-
-void Onyx::Renderable::scale(const Vec3& xyzScalar)
-{
-	if (xyzScalar.getX() == 1.0f && xyzScalar.getY() == 1.0f && xyzScalar.getZ() == 1.0f) return;
-	model.scale(xyzScalar);
-	inverseModel = Math::Inverse(model);
-}
-
-void Onyx::Renderable::resetTransform()
-{
-	model = Mat4(1.0f);
+    return m_scale;
 }
 
 Onyx::Mesh* Onyx::Renderable::getMesh()
@@ -148,6 +134,85 @@ const Mat4& Onyx::Renderable::getModel() const
 bool Onyx::Renderable::isHidden() const
 {
 	return hidden;
+}
+
+void Onyx::Renderable::setPosition(const Vec3& position)
+{
+	m_position = position;
+	updateModel();
+}
+
+void Onyx::Renderable::setRotation(const Vec3& rotations)
+{
+	m_rotation = rotations;
+	updateModel();
+}
+
+void Onyx::Renderable::setScale(const Vec3& scales)
+{
+	m_scale = scales;
+	updateModel();
+}
+
+void Onyx::Renderable::translate(const Vec3& translation)
+{
+	m_position += translation;
+	updateModel();
+}
+
+void Onyx::Renderable::translateLocal(const Vec3& translation)
+{
+	Mat4 modelCopy = model;
+	modelCopy.translate(translation);
+	m_position = Vec3(modelCopy[0][3], modelCopy[1][3], modelCopy[2][3]);
+}
+
+void Onyx::Renderable::rotate(const Vec3& rotations)
+{
+	m_rotation += rotations;
+	updateModel();
+}
+
+void Onyx::Renderable::scale(const Vec3& scalars)
+{
+	m_scale.setX(m_scale.getX() * scalars.getX());
+	m_scale.setY(m_scale.getY() * scalars.getY());
+	m_scale.setZ(m_scale.getZ() * scalars.getZ());
+	updateModel();
+}
+
+void Onyx::Renderable::scale(float scalar)
+{
+	m_scale.setX(m_scale.getX() * scalar);
+	m_scale.setY(m_scale.getY() * scalar);
+	m_scale.setZ(m_scale.getZ() * scalar);
+	updateModel();
+}
+
+void Onyx::Renderable::resetTransform()
+{
+    m_position = Vec3(0.0f);
+    m_rotation = Vec3(0.0f);
+    m_scale = Vec3(1.0f);
+    updateModel();
+}
+
+void Onyx::Renderable::dispose()
+{
+	texture.dispose();
+	shader.dispose();
+	mesh.dispose();
+}
+
+void Onyx::Renderable::updateModel()
+{
+    model = Mat4::Identity();
+    model.translate(m_position);
+    model.rotate(m_rotation.getX(), Vec3(1.0f, 0.0f, 0.0f));
+    model.rotate(m_rotation.getY(), Vec3(0.0f, 1.0f, 0.0f));
+    model.rotate(m_rotation.getZ(), Vec3(0.0f, 0.0f, 1.0f));
+    model.scale(m_scale);
+    inverseModel = Math::Inverse(model);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(float side, Vec3 rgb)
@@ -351,10 +416,10 @@ Onyx::Renderable Onyx::Renderable::TexturedQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, 
 {
 	float* vertices = new float[20] {
 		a.getX(), a.getY(), 0.0f, 0.0f, 0.0f,
-			b.getX(), b.getY(), 0.0f, 1.0f, 0.0f,
-			c.getX(), c.getY(), 0.0f, 1.0f, 1.0f,
-			d.getX(), d.getY(), 0.0f, 0.0f, 1.0f
-		};
+		b.getX(), b.getY(), 0.0f, 1.0f, 0.0f,
+		c.getX(), c.getY(), 0.0f, 1.0f, 1.0f,
+		d.getX(), d.getY(), 0.0f, 0.0f, 1.0f
+	};
 
 	uint* indices = new uint[6]{
 		0, 1, 2,
@@ -383,37 +448,37 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec3 rgb)
 
 Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 {
-	float* vertices = new float[240] {
-		-side / 2.0f, -side / 2.0f, side / 2.0f, 0.0f, 0.0f, 1.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, -side / 2.0f, side / 2.0f, 0.0f, 0.0f, 1.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, side / 2.0f, side / 2.0f, 0.0f, 0.0f, 1.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			-side / 2.0f, side / 2.0f, side / 2.0f, 0.0f, 0.0f, 1.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-
-			-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			-side / 2.0f, side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-
-			-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, -side / 2.0f, side / 2.0f, 0.0f, -1.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			-side / 2.0f, -side / 2.0f, side / 2.0f, 0.0f, -1.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-
-			-side / 2.0f, side / 2.0f, -side / 2.0f, 0.0f, 1.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, side / 2.0f, -side / 2.0f, 0.0f, 1.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, side / 2.0f, side / 2.0f, 0.0f, 1.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			-side / 2.0f, side / 2.0f, side / 2.0f, 0.0f, 1.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-
-			-side / 2.0f, -side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			-side / 2.0f, -side / 2.0f, side / 2.0f, -1.0f, 0.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			-side / 2.0f, side / 2.0f, side / 2.0f, -1.0f, 0.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			-side / 2.0f, side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-
-			side / 2.0f, -side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, -side / 2.0f, side / 2.0f, 1.0f, 0.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, side / 2.0f, side / 2.0f, 1.0f, 0.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-			side / 2.0f, side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, rgba.getX(), rgba.getY(), rgba.getZ(), rgba.getW(),
-		};
+	float* vertices = new float[144] {
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
+														 	    
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
+														 
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f, -1.0f,  0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f, -1.0f,  0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f, -1.0f,  0.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f, -1.0f,  0.0f,
+														 			   
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  1.0f,  0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  1.0f,  0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  1.0f,  0.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  1.0f,  0.0f,
+																	   
+		-side / 2.0f, -side / 2.0f, -side / 2.0f,		-1.0f,  0.0f,  0.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f,		-1.0f,  0.0f,  0.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f,		-1.0f,  0.0f,  0.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f,		-1.0f,  0.0f,  0.0f,
+															    	   
+		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 1.0f,  0.0f,  0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 1.0f,  0.0f,  0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 1.0f,  0.0f,  0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f,		 1.0f,  0.0f,  0.0f,
+	};
 
 	uint* indices = new uint[36]{
 		0, 1, 2,
@@ -436,7 +501,7 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 	};
 
 	Mesh mesh(
-		VertexBuffer(vertices, 240 * sizeof(float), Onyx::VertexFormat::VNC),
+		VertexBuffer(vertices, 144 * sizeof(float), Onyx::VertexFormat::VN),
 		IndexBuffer(indices, 36 * sizeof(uint))
 	);
 
@@ -445,7 +510,7 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 
 	return Renderable(
 		mesh,
-		Shader::VNC()
+		Shader::VN_Color(rgba)
 	);
 }
 
@@ -481,7 +546,7 @@ Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 		 side / 2.0f, -side / 2.0f,  side / 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 		 side / 2.0f,  side / 2.0f,  side / 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 		 side / 2.0f,  side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		};
+	};
 
 	uint* indices = new uint[36]{
 		0, 1, 2,
@@ -516,11 +581,4 @@ Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 		Shader::VNT(),
 		texture
 	);
-}
-
-void Onyx::Renderable::dispose()
-{
-	texture.dispose();
-	shader.dispose();
-	mesh.dispose();
 }

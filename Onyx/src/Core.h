@@ -1,8 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <ft2build.h>
-#include FT_FREETYPE_H
 
 #include "ErrorHandler.h"
 
@@ -13,11 +11,15 @@
 #define ONYX_VERSION_MAJOR		0
 #define ONYX_VERSION_MINOR		8
 #define ONYX_VERSION_PATCH		3
+
+#define ONYX_ALPHA              false
 #define ONYX_BETA				true
+#define ONYX_RC					false
+#define ONYX_STABLE	            false
 
 //#define ONYX_GL_DEBUG_LOW
 //#define ONYX_GL_DEBUG_MED
-//#define ONYX_GL_DEBUG_HIGH
+#define ONYX_GL_DEBUG_HIGH
 
 /*	 
 	Definitions for system info.
@@ -109,6 +111,16 @@ namespace Onyx
 		MirroredRepeat,
 		ClampToEdge,
 		ClampToBorder
+	};
+
+	/*
+		@brief Definitions for the different texture filter options.
+	 */
+	enum class TextureFilter
+	{
+		Null,
+		Nearest,
+		Linear
 	};
 
 	/*
@@ -316,7 +328,7 @@ namespace Onyx
 		@brief Gets the version of the Onyx library as a string.
 		@return The version number in the format "x.y.z-preRelease(?)".
 	 */
-	std::string GetVersionString();
+	const std::string& GetVersionString();
 
 	/*
 		@brief Terminates the Onyx library.
@@ -379,13 +391,13 @@ namespace Onyx
 		This function is used by the library when reading files.
 		@return The path of the resources folder.
 	 */
-	std::string GetResourcePath();
+	const std::string& GetResourcePath();
 
 	/*
 		@brief Gets a file path relative to the resource path.
 		@param path The path relative to the resource path.
 	 */
-	std::string Resources(std::string path);
+	std::string Resources(const std::string& path);
 
 	/*
 		@brief Gets the user pointer for the library.
@@ -404,15 +416,6 @@ namespace Onyx
 		@return The name of the GPU.
 	 */
 	std::string GetGraphics();
-
-	/*
-		@brief Adds a pointer to a dynamically allocated object.
-		Onyx will free the memory when it is terminated.
-		This is mainly for the library, but can be used by the user.
-		@param ptr The pointer to the object.
-		@param arr Whether the object is an array.
-	 */
-	void AddMalloc(void* ptr, bool arr);
 
 	/*
 		@brief Parent class for disposable objects.

@@ -30,8 +30,10 @@ namespace Onyx
 			@brief Creates a new Texture object from the specified image filepath.
 			@param filepath The path of the image.
 			@param textureWrap The texture wrap option. Repeat by default.
+			@param minFilter The minification filter (applied when the texture is shrunk). Nearest by default.
+			@param magFilter The magnification filter (applied when the texture is enlarged). Linear by default.
 		 */
-		static Texture Load(const std::string& filepath, Onyx::TextureWrap textureWrap = Onyx::TextureWrap::Repeat);
+		static Texture Load(const std::string& filepath, Onyx::TextureWrap textureWrap = Onyx::TextureWrap::Repeat, Onyx::TextureFilter minFilter = Onyx::TextureFilter::Nearest, Onyx::TextureFilter magFilter = Onyx::TextureFilter::Linear);
 
 		/*
 			@brief Binds the texture.

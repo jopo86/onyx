@@ -9,6 +9,8 @@ Onyx::TextRenderable::TextRenderable()
 	font = nullptr;
 	hidden = false;
 	model = Mat4::Identity();
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 }
 
 Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)
@@ -18,6 +20,8 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 c
 	this->text = text;
 	this->color = Vec4(color, 1.0f);
 	model = Mat4::Identity();
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
@@ -38,6 +42,8 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 c
 	this->text = text;
 	this->color = color;
 	model = Mat4::Identity();
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
@@ -83,33 +89,39 @@ void Onyx::TextRenderable::toggleVisibility()
 	hidden = !hidden;
 }
 
-void Onyx::TextRenderable::translate(Vec2 xy)
+const Onyx::Math::Vec2& Onyx::TextRenderable::getPosition() const
 {
-	if (xy.isZero()) return;
-	model.translate(Vec3(xy, 0.0f));
+	return m_position;
 }
 
-void Onyx::TextRenderable::rotate(float degrees)
+float Onyx::TextRenderable::getRotation() const
 {
-	if (degrees == 0.0f) return;
-	model.rotate(degrees, Vec3(0.0f, 0.0f, 1.0f));
+	return m_rotation;
 }
 
-void Onyx::TextRenderable::scale(float scalar)
+const Onyx::Math::Vec2& Onyx::TextRenderable::getScale() const
 {
-	if (scalar == 1.0f) return;
-	model.scale(Vec3(scalar, scalar, 1.0f));
+	return m_scale;
 }
 
-void Onyx::TextRenderable::scale(Vec2 xyScalar)
+const std::string& Onyx::TextRenderable::getText() const
 {
-	if (xyScalar.getX() == 1.0f && xyScalar.getY() == 1.0f) return;
-	model.scale(Vec3(xyScalar, 1.0f));
+    return text;
 }
 
-void Onyx::TextRenderable::resetTransform()
+const Onyx::Font& Onyx::TextRenderable::getFont() const
 {
-	model = Mat4::Identity();
+    return *font;
+}
+
+const Vec4& Onyx::TextRenderable::getColor() const
+{
+    return color;
+}
+
+bool Onyx::TextRenderable::isHidden() const
+{
+    return hidden;
 }
 
 void Onyx::TextRenderable::setText(const std::string& text)
@@ -140,36 +152,72 @@ void Onyx::TextRenderable::setFont(Font& font)
 
 void Onyx::TextRenderable::setColor(Vec3 color)
 {
-    this->color = Vec4(color, 1.0f);
-    shader.use();
-    shader.setVec4("u_color", this->color);
+	this->color = Vec4(color, 1.0f);
+	shader.use();
+	shader.setVec4("u_color", this->color);
 }
 
 void Onyx::TextRenderable::setColor(Vec4 color)
 {
-    this->color = color;
-    shader.use();
-    shader.setVec4("u_color", color);
+	this->color = color;
+	shader.use();
+	shader.setVec4("u_color", color);
 }
 
-const std::string& Onyx::TextRenderable::getText() const
+void Onyx::TextRenderable::setPosition(const Vec2& position)
 {
-    return text;
+	m_position = position;
+	updateModel();
 }
 
-const Onyx::Font& Onyx::TextRenderable::getFont() const
+void Onyx::TextRenderable::setRotation(float rotation)
 {
-    return *font;
+	m_rotation = rotation;
+	updateModel();
 }
 
-const Vec4& Onyx::TextRenderable::getColor() const
+void Onyx::TextRenderable::setScale(const Vec2& scale)
 {
-    return color;
+	m_scale = scale;
+	updateModel();
 }
 
-bool Onyx::TextRenderable::isHidden() const
+void Onyx::TextRenderable::translate(const Vec2& translation)
 {
-    return hidden;
+	m_position += translation;
+	updateModel();
+}
+
+void Onyx::TextRenderable::translateLocal(const Vec2& translation)
+{
+	Mat4 modelCopy = model;
+	modelCopy.translate(Vec3(translation, 0.0f));
+	m_position = Vec2(modelCopy[0][3], modelCopy[1][3]);
+}
+
+void Onyx::TextRenderable::rotate(float rotation)
+{
+	m_rotation += rotation;
+	updateModel();
+}
+
+void Onyx::TextRenderable::scale(const Vec2& scalars)
+{
+	m_scale.setX(m_scale.getX() * scalars.getX());
+	m_scale.setY(m_scale.getY() * scalars.getY());
+	updateModel();
+}
+
+void Onyx::TextRenderable::scale(float scalar)
+{
+	m_scale.setX(m_scale.getX() * scalar);
+	m_scale.setY(m_scale.getY() * scalar);
+	updateModel();
+}
+
+void Onyx::TextRenderable::resetTransform()
+{
+	model = Mat4::Identity();
 }
 
 void Onyx::TextRenderable::dispose()
@@ -178,4 +226,12 @@ void Onyx::TextRenderable::dispose()
 	chars.clear();
 	shader.dispose();
 	font = nullptr;
+}
+
+void Onyx::TextRenderable::updateModel()
+{
+	model = Mat4::Identity();
+	model.translate(Vec3(m_position, 0.0f));
+	model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
+	model.scale(Vec3(m_scale, 1.0f));
 }

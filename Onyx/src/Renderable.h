@@ -75,55 +75,22 @@ namespace Onyx
 		void toggleVisibility();
 
 		/*
-			@brief Changes the renderable's position by the specified 3D vector.
-			Note that this function inc/decrements the renderable's position, it does not set it.
-			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param xyz The vector to move by.
+			@brief Gets the position of the renderable.
+			@return The position.
 		 */
-		void translate(const Onyx::Math::Vec3& xyz);
+		const Onyx::Math::Vec3& getPosition() const;
 
 		/*
-			@brief Rotates the renderable by the specified degree angle around the specified axes.
-			Note that this function inc/decrements the renderable's rotation, it does not set it.
-			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param degrees The degree angle to rotate.
-			@param mask Specifies the axes to rotate around. Here are some examples:
-			(1, 0, 0) will rotate the specified angle around the x axis only.
-			(0, 1, 0) will rotate the specified angle around the y axis only.
-			(0, 0, 1) will rotate the specified angle around the z axis only.
-			(1, 1, 1) will rotate the specified angle around all axes.
-			Numbers below 0 are treated as 0 and any other number is treated as 1.
+			@brief Gets the rotation of the renderable.
+			@return The rotation around each axis.
 		 */
-		void rotate(float degrees, const Onyx::Math::Vec3& mask);
+		const Onyx::Math::Vec3& getRotation() const;
 
 		/*
-			@brief Scales the renderable in all dimensions by the specified scalar.
-			Note that this function scales the renderable by whatever its current scale is, it does not set its scale.
-			This means that scale(1) will not reset the renderable's scale, it just wont change it at all.
-			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param scalar The scale multiplier.
-			If the scalar is 0, it will effectively hide the renderable.
+			@brief Gets the scale of the renderable.
+			@return The scale for each axis.
 		 */
-		void scale(float scalar);
-
-		/*
-			@brief Scales the renderable by the scalars for each dimension.
-			Note that this function scales the renderable by whatever its current scale is, it does not set its scale.
-			This means that scale(1) will not reset the renderable's scale, it just wont change it at all.
-			Directly setting a transform is not natively supported, that would be up to the user to program.
-			@param xyzScalar The scalars for each dimension. Here are some examples:
-			(1, 1, 1) will not change anything.
-			(1, 0.5, 1) will half the renderable's size on the y axis.
-			(0.5, 0.5, 2) will half the renderable's size on the x and y axes, and double it's size on the z axis.
-			If any scalar is 0, it will effectively hide the renderable.
-		 */
-		void scale(const Onyx::Math::Vec3& xyzScalar);
-
-		/*
-			@brief Resets the renderable's transforms.
-			This resets its position to its original vertex positions, its rotation to 0, and its scale to 1.
-		 */
-		void resetTransform();
+		const Onyx::Math::Vec3& getScale() const;
 
 		/*
 			@brief Gets the mesh associated with the renderable.
@@ -155,6 +122,91 @@ namespace Onyx
 			@return Whether the renderable is hidden.
 		 */
 		bool isHidden() const;
+
+		/*
+			@brief Sets the position of the renderable.
+			@param position The new position.
+		 */
+		void setPosition(const Onyx::Math::Vec3& position);
+
+		/*
+			@brief Sets the rotation of the renderable.
+			@param rotations The new rotation around each axis.
+		 */
+		void setRotation(const Onyx::Math::Vec3& rotations);
+
+		/*
+			@brief Sets the scale of the renderable.
+			@param scales The new scale for each axis.
+		 */
+		void setScale(const Onyx::Math::Vec3& scales);
+
+		/*
+			@brief Translates the renderable by the specified positional amount.
+			This function does not set the position, it adds to it.
+			The translation is in world space, not local space, so rotation will not affect the translation.
+			@param translation The positional amount to translate by.
+		 */
+		void translate(const Onyx::Math::Vec3& translation);
+
+		/*
+			@brief Translate the renderable by the specified positional amount in local space.
+			This function does not set the position, it adds to it.
+			The translation is in local space, not world space, so rotation will affect the translation.
+			@param translation The positional amount to translate by.
+		 */
+		void translateLocal(const Onyx::Math::Vec3& translation);
+
+		/*
+			@brief Rotates the renderable by the specified rotation amounts.
+			This function does not set the rotation, it adds to it.
+			@param rotations The rotation amounts around each axis.
+		 */
+		void rotate(const Onyx::Math::Vec3& rotations);
+
+		/*
+			@brief Scales the renderable by the specified scalar amounts.
+			This function does not set the scale, it multiplies it.
+			@param scalars The scalar amounts for each axis.
+		 */
+		void scale(const Onyx::Math::Vec3& scalars);
+
+		/*
+			@brief Scales the renderable on all axes by the specified scalar amount.
+			This function does not set the scale, it multiplies it.
+			@param scalar The scalar amount for all axes.
+		 */
+		void scale(float scalar);
+		
+		/*
+			@brief Resets the renderable's transform.
+		 */
+		void resetTransform();
+
+		/*
+			@brief Disposes of the renderable, including the associated mesh, shader, and texture.
+			This clears up any memory that the object was using.
+			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+		 */
+		void dispose() override;
+
+	private:
+		Mesh mesh;
+		Shader shader;
+		Texture texture;
+
+		Math::Mat4 model;
+		Math::Mat4 inverseModel;
+
+		Math::Vec3 m_position;
+		Math::Vec3 m_rotation;
+		Math::Vec3 m_scale;
+
+		bool hidden;
+
+		void updateModel();
+
+	public:
 
 		/*
 			@brief Creates an equilateral triangle renderable with the specified side length and color.
@@ -392,22 +444,5 @@ namespace Onyx
 			@return The resulting mesh.
 		 */
 		static Renderable TexturedCube(float side, Texture texture);
-
-		/*
-			@brief Disposes of the renderable, including the associated mesh, shader, and texture.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
-		 */
-		void dispose() override;
-
-	private:
-		Mesh mesh;
-		Shader shader;
-		Texture texture;
-
-		Onyx::Math::Mat4 model;
-		Onyx::Math::Mat4 inverseModel;
-
-		bool hidden;
 	};
 }

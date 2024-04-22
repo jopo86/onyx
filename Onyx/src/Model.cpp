@@ -9,12 +9,14 @@
 
 using Onyx::Math::Vec4;
 
+void onyx_add_malloc(void*, bool);
+
 Onyx::Model::Model() {}
 
 Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 {
 	Model* model = new Model;
-	AddMalloc(model, false);
+	onyx_add_malloc(model, false);
 	std::string slash = filepath.find("/") ? "/" : "\\";
 	model->directory = filepath.substr(0, filepath.find_last_of(slash));
 	

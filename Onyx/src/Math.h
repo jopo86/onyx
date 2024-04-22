@@ -25,11 +25,25 @@ namespace Onyx
 		float Radians(float degrees);
 
 		/*
+			@brief Converts a degree angle measure to radians.
+			@param degrees The degree angle measure.
+			@return The resulting radian angle measure.
+		 */
+		double Radians(double degrees);
+
+		/*
 			@brief Converts a radian angle measure to degrees.
 			@param radians The radian angle measure.
 			@return The resulting degree angle measure.
 		 */
 		float Degrees(float radians);
+
+		/*
+			@brief Converts a radian angle measure to degrees.
+			@param radians The radian angle measure.
+			@return The resulting degree angle measure.
+		 */
+		double Degrees(double radians);
 
 		/*
 			@brief A parent class for vectors.
@@ -219,6 +233,10 @@ namespace Onyx
 			glm::vec4 m_vec;
 		};
 
+		Vec2 Rotate(const Vec2& vec, float angle);
+		Vec3 Rotate(const Vec3& vec, float angle, const Vec3& mask);
+		Vec3 Rotate(const Vec3& vec, const Vec3& angles);
+
 		/*
 			@brief A parent class for double vectors.
 		 */
@@ -370,6 +388,10 @@ namespace Onyx
 		private:
 			glm::dvec4 m_vec;
 		};
+
+		DVec2 Rotate(const DVec2& vec, double angle);
+		DVec3 Rotate(const DVec3& vec, double angle, const DVec3& mask);
+		DVec3 Rotate(const DVec3& vec, const DVec3& angles);
 
 		/*
 			@brief A parent class for integer vectors.

@@ -162,41 +162,7 @@ void Onyx::Renderable::translate(const Vec3& translation)
 
 void Onyx::Renderable::translateLocal(const Vec3& translation)
 {
-	if (translation.isZero()) return;
-
-	Vec3 rotated = translation;
-
-	if (m_rotation.getX() != 0.0f)
-	{
-		float sin = sinf(Math::Radians(m_rotation.getX()));
-		float cos = cosf(Math::Radians(m_rotation.getX()));
-		float y = rotated.getY();
-		float z = rotated.getZ();
-		rotated.setY(y * cos - z * sin);
-		rotated.setZ(y * sin + z * cos);
-	}
-
-	if (m_rotation.getY() != 0.0f)
-	{
-		float sin = sinf(Math::Radians(m_rotation.getY()));
-		float cos = cosf(Math::Radians(m_rotation.getY()));
-		float x = rotated.getX();
-		float z = rotated.getZ();
-		rotated.setX(x * cos + z * sin);
-		rotated.setZ(-x * sin + z * cos);
-	}
-
-	if (m_rotation.getZ() != 0.0f)
-	{
-		float sin = sinf(Math::Radians(m_rotation.getZ()));
-		float cos = cosf(Math::Radians(m_rotation.getZ()));
-		float x = rotated.getX();
-		float y = rotated.getY();
-		rotated.setX(x * cos - y * sin);
-		rotated.setY(x * sin + y * cos);
-	}
-
-	translate(rotated);
+	translate(Math::Rotate(translation, m_rotation));
 }
 
 void Onyx::Renderable::rotate(const Vec3& rotations)
@@ -281,7 +247,7 @@ Onyx::Renderable Onyx::Renderable::ColoredTriangle(Vec2 a, Vec2 b, Vec2 c, Vec3 
 {
 	return Renderable(
 		Mesh::Triangle(a, b, c),
-		Shader::V_Color(Vec4(rgb, 1.0f))
+		Shader::P_Color(Vec4(rgb, 1.0f))
 	);
 }
 
@@ -289,7 +255,7 @@ Onyx::Renderable Onyx::Renderable::ColoredTriangle(Vec2 a, Vec2 b, Vec2 c, Vec4 
 {
 	return Renderable(
 		Mesh::Triangle(a, b, c),
-		Shader::V_Color(rgba)
+		Shader::P_Color(rgba)
 	);
 }
 
@@ -311,7 +277,7 @@ Onyx::Renderable Onyx::Renderable::VertexColoredTriangle(Vec2 a, Vec2 b, Vec2 c)
 {
 	return Renderable(
 		Mesh::Triangle(a, b, c),
-		Shader::V_XYZtoRGB()
+		Shader::P_XYZtoRGB()
 	);
 }
 
@@ -343,7 +309,7 @@ Onyx::Renderable Onyx::Renderable::TexturedTriangle(Vec2 a, Vec2 b, Vec2 c, Text
 	};
 
 	Mesh mesh(
-		VertexBuffer(vertices, 15 * sizeof(float), Onyx::VertexFormat::VT),
+		VertexBuffer(vertices, 15 * sizeof(float), Onyx::VertexFormat::PT),
 		IndexBuffer(indices, 3 * sizeof(uint))
 	);
 
@@ -352,7 +318,7 @@ Onyx::Renderable Onyx::Renderable::TexturedTriangle(Vec2 a, Vec2 b, Vec2 c, Text
 
 	return Renderable(
 		mesh,
-		Shader::VT(),
+		Shader::PT(),
 		texture
 	);
 }
@@ -393,7 +359,7 @@ Onyx::Renderable Onyx::Renderable::ColoredQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, V
 {
 	return Renderable(
 		Mesh::Quad(a, b, c, d),
-		Shader::V_Color(Vec4(rgb, 1.0f))
+		Shader::P_Color(Vec4(rgb, 1.0f))
 	);
 }
 
@@ -401,7 +367,7 @@ Onyx::Renderable Onyx::Renderable::ColoredQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, V
 {
 	return Renderable(
 		Mesh::Quad(a, b, c, d),
-		Shader::V_Color(rgba)
+		Shader::P_Color(rgba)
 	);
 }
 
@@ -424,7 +390,7 @@ Onyx::Renderable Onyx::Renderable::VertexColoredQuad(Vec2 a, Vec2 b, Vec2 c, Vec
 {
 	return Renderable(
 		Mesh::Quad(a, b, c, d),
-		Shader::V_XYZtoRGB()
+		Shader::P_XYZtoRGB()
 	);
 }
 
@@ -459,7 +425,7 @@ Onyx::Renderable Onyx::Renderable::TexturedQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, 
 	};
 
 	Mesh mesh(
-		VertexBuffer(vertices, 20 * sizeof(float), Onyx::VertexFormat::VT),
+		VertexBuffer(vertices, 20 * sizeof(float), Onyx::VertexFormat::PT),
 		IndexBuffer(indices, 6 * sizeof(uint))
 	);
 
@@ -468,7 +434,7 @@ Onyx::Renderable Onyx::Renderable::TexturedQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, 
 
 	return Renderable(
 		mesh,
-		Shader::VT(),
+		Shader::PT(),
 		texture
 	);
 }
@@ -533,7 +499,7 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 	};
 
 	Mesh mesh(
-		VertexBuffer(vertices, 144 * sizeof(float), Onyx::VertexFormat::VN),
+		VertexBuffer(vertices, 144 * sizeof(float), Onyx::VertexFormat::PN),
 		IndexBuffer(indices, 36 * sizeof(uint))
 	);
 
@@ -542,7 +508,7 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 
 	return Renderable(
 		mesh,
-		Shader::VN_Color(rgba)
+		Shader::PN_Color(rgba)
 	);
 }
 
@@ -601,7 +567,7 @@ Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 	};
 
 	Mesh mesh(
-		VertexBuffer(vertices, 192 * sizeof(float), Onyx::VertexFormat::VNT),
+		VertexBuffer(vertices, 192 * sizeof(float), Onyx::VertexFormat::PNT),
 		IndexBuffer(indices, 36 * sizeof(uint))
 	);
 
@@ -610,7 +576,7 @@ Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 
 	return Renderable(
 		mesh,
-		Shader::VNT(),
+		Shader::PNT(),
 		texture
 	);
 }

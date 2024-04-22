@@ -10,7 +10,7 @@
 
 #define ONYX_VERSION_MAJOR		0
 #define ONYX_VERSION_MINOR		9
-#define ONYX_VERSION_PATCH		0
+#define ONYX_VERSION_PATCH		1
 
 #define ONYX_ALPHA              false
 #define ONYX_BETA				true
@@ -79,14 +79,14 @@ namespace Onyx
 	enum class VertexFormat
 	{
 		Null,
-		V,
-		VN,
-		VC,
-		VT,
-		VCT,
-		VNT,
-		VNC,
-		VNCT
+		P,
+		PN,
+		PC,
+		PT,
+		PCT,
+		PNT,
+		PNC,
+		PNCT
 	};
 
 	/*
@@ -109,8 +109,7 @@ namespace Onyx
 		Null,
 		Repeat,
 		MirroredRepeat,
-		ClampToEdge,
-		ClampToBorder
+		ClampToEdge
 	};
 
 	/*

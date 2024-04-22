@@ -132,7 +132,7 @@ void lightingTest()
 	};
 
 	Onyx::Mesh objMesh(
-		Onyx::VertexBuffer(vertices, sizeof(vertices), Onyx::VertexFormat::VN),
+		Onyx::VertexBuffer(vertices, sizeof(vertices), Onyx::VertexFormat::PN),
 		Onyx::IndexBuffer(indices, sizeof(indices))
 	);
 
@@ -156,7 +156,7 @@ void lightingTest()
 
 	Onyx::UiRenderable ui(
 		Onyx::Mesh(
-			Onyx::VertexBuffer(uiVertices, sizeof(uiVertices), Onyx::VertexFormat::V),
+			Onyx::VertexBuffer(uiVertices, sizeof(uiVertices), Onyx::VertexFormat::P),
 			Onyx::IndexBuffer(uiIndices, sizeof(uiIndices))
 		),
 		Vec4(1.0f, 1.0f, 1.0f, 0.2f)

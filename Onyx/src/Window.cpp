@@ -140,7 +140,7 @@ void Onyx::Window::startRender()
     lastFrameTime = GetTime();
     frame++;
 
-    glClearColor(background.getX(), background.getY(), background.getZ(), 1.0f);
+    glClearColor(properties.backgroundColor.getX(), properties.backgroundColor.getY(), properties.backgroundColor.getZ(), 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glfwPollEvents();
 }
@@ -234,6 +234,11 @@ float Onyx::Window::getOpacity() const
     return properties.opacity;
 }
 
+const Vec3& Onyx::Window::getBackgroundColor() const
+{
+    return properties.backgroundColor;
+}
+
 const Onyx::WindowIcon& Onyx::Window::getIcon() const
 {
     return icon;
@@ -325,7 +330,7 @@ void Onyx::Window::setPosition(const Math::IVec2& position)
 
 void Onyx::Window::setBackgroundColor(Onyx::Math::Vec3 rgb)
 {
-    background = rgb;
+    properties.backgroundColor = rgb;
 }
 
 void Onyx::Window::setIcon(const WindowIcon& icon)
@@ -361,30 +366,6 @@ void Onyx::Window::windowed(int width, int height, Math::IVec2 position)
     glfwSetWindowMonitor(p_glfwWin, nullptr, position.getX(), position.getY(), width, height, 0);
     if (properties.decorated) setDecorated(true);
     glfwSwapInterval(1);
-}
-
-void Onyx::Window::setResizable(bool resizable)
-{
-    properties.resizable = resizable;
-    glfwSetWindowAttrib(p_glfwWin, GLFW_RESIZABLE, resizable);
-}
-
-void Onyx::Window::setDecorated(bool decorated)
-{
-    properties.decorated = decorated;
-    glfwSetWindowAttrib(p_glfwWin, GLFW_DECORATED, decorated);
-}
-
-void Onyx::Window::setTopmost(bool topmost)
-{
-    properties.topmost = topmost;
-    glfwSetWindowAttrib(p_glfwWin, GLFW_FLOATING, topmost);
-}
-
-void Onyx::Window::setFocusOnShow(bool focusOnShow)
-{
-    properties.focusOnShow = focusOnShow;
-    glfwSetWindowAttrib(p_glfwWin, GLFW_FOCUS_ON_SHOW, focusOnShow);
 }
 
 void Onyx::Window::toggleFullscreen()
@@ -435,9 +416,21 @@ void Onyx::Window::toggleFocus()
         focus();
 }
 
+void Onyx::Window::setResizable(bool resizable)
+{
+    properties.resizable = resizable;
+    glfwSetWindowAttrib(p_glfwWin, GLFW_RESIZABLE, resizable);
+}
+
 void Onyx::Window::toggleResizable()
 {
     setResizable(!properties.resizable);
+}
+
+void Onyx::Window::setDecorated(bool decorated)
+{
+    properties.decorated = decorated;
+    glfwSetWindowAttrib(p_glfwWin, GLFW_DECORATED, decorated);
 }
 
 void Onyx::Window::toggleDecorated()
@@ -445,9 +438,21 @@ void Onyx::Window::toggleDecorated()
     setDecorated(!properties.decorated);
 }
 
+void Onyx::Window::setTopmost(bool topmost)
+{
+    properties.topmost = topmost;
+    glfwSetWindowAttrib(p_glfwWin, GLFW_FLOATING, topmost);
+}
+
 void Onyx::Window::toggleTopmost()
 {
     setTopmost(!properties.topmost);
+}
+
+void Onyx::Window::setFocusOnShow(bool focusOnShow)
+{
+    properties.focusOnShow = focusOnShow;
+    glfwSetWindowAttrib(p_glfwWin, GLFW_FOCUS_ON_SHOW, focusOnShow);
 }
 
 void Onyx::Window::toggleFocusOnShow()

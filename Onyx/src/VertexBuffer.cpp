@@ -29,7 +29,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float base, float height)
 		 0.0f,         height / 2.0f
 	};
 
-	VertexBuffer vb = VertexBuffer(vertices, 6 * sizeof(float), VertexFormat::V);
+	VertexBuffer vb = VertexBuffer(vertices, 6 * sizeof(float), VertexFormat::P);
 	vb.heap = true;
 	return vb;
 }
@@ -43,7 +43,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Square(float side)
 		-side / 2.0f,  side / 2.0f
 	};
 
-	VertexBuffer vb = VertexBuffer(vertices, 8 * sizeof(float), VertexFormat::V);
+	VertexBuffer vb = VertexBuffer(vertices, 8 * sizeof(float), VertexFormat::P);
 	vb.heap = true;
 	return vb;
 }
@@ -57,7 +57,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Quad(float width, float height)
 		-width / 2.0f,  height / 2.0f
 	};
 
-	VertexBuffer vb = VertexBuffer(vertices, 8 * sizeof(float), VertexFormat::V);
+	VertexBuffer vb = VertexBuffer(vertices, 8 * sizeof(float), VertexFormat::P);
 	vb.heap = true;
 	return vb;
 }
@@ -75,7 +75,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Cube(float side)
 		-side / 2.0f,  side / 2.0f, -side / 2.0f
 	};
 
-	VertexBuffer vb = VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::V);
+	VertexBuffer vb = VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::P);
 	vb.heap = true;
 	return vb;
 }
@@ -93,7 +93,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::RectPrism(float width, float height, floa
 		-width / 2.0f,  height / 2.0f, -depth / 2.0f
 	};
 
-	VertexBuffer vb = VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::V);
+	VertexBuffer vb = VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::P);
 	vb.heap = true;
 	return vb;
 }

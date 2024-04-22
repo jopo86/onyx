@@ -108,6 +108,13 @@ namespace Onyx
 			Default: 1.0
 		 */
 		float opacity = 1.0f;
+
+		/*
+			@brief The background color of the window.
+			This can be changed later with `setBackgroundColor()`.
+			Default: Black
+		 */
+		Math::Vec3 backgroundColor = Math::Vec3::Black();
 	};
 
 	/*
@@ -280,6 +287,12 @@ namespace Onyx
 			@return The opacity of the window.
 		 */
 		float getOpacity() const;
+
+		/*
+			@brief Gets the background color of the window.
+			@return The background color of the window.
+		 */
+		const Math::Vec3& getBackgroundColor() const;
 
 		/*
 			@brief Gets the icon of the window.
@@ -519,7 +532,6 @@ namespace Onyx
 		static GLFWmonitor* p_primaryMonitor;
 		static GLFWvidmode* p_primaryMonitorInfo;
 		int bufferWidth, bufferHeight;
-		Onyx::Math::Vec3 background;
 
 		InputHandler* p_inputHandler;
 		Camera* p_cam;

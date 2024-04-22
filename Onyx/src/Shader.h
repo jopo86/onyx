@@ -298,43 +298,43 @@ namespace Onyx
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
 			@return The resulting shader.
 		 */
-		static Shader V_Color(Onyx::Math::Vec4 rgba);
+		static Shader P_Color(Onyx::Math::Vec4 rgba);
 
 		/*
 			@brief Returns a shader that uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
 			Compatible with vertex format V.
 			@return The resulting shader.
 		 */
-		static Shader V_XYZtoRGB();
+		static Shader P_XYZtoRGB();
 
 		/*
 			@brief Returns a shader that colors the mesh with the colors found in the vertex array.
 			Compatible with vertex format VC/CV.
 			@return The resulting shader.
 		 */
-		static Shader VC();
+		static Shader PC();
 
 		/*
 			@brief Returns a shader that textures the mesh with the texture coordinates found in the vertex array.
 			Compatible with vertex format VT/TV.
 			@return The resulting shader.
 		 */
-		static Shader VT();
+		static Shader PT();
 
 		/*
 			@brief Returns a shader that colors/textures the mesh with a blend of the colors and texture coordinates found in the vertex array.
 			Compatible with vertex format VCT/VTC/CVT/TVC/CTV/TCV.
 			@return The resulting shader.
 		 */
-		static Shader VCT();
+		static Shader PCT();
 
-		static Shader VN_Color(Onyx::Math::Vec4 rgba);
+		static Shader PN_Color(Onyx::Math::Vec4 rgba);
 
-		static Shader VNC();
+		static Shader PNC();
 
-		static Shader VNT();
+		static Shader PNT();
 
-		static Shader VNCT();
+		static Shader PNCT();
 
 		/*
 			@brief Returns a shader for UI elements that colors the mesh the specified color.

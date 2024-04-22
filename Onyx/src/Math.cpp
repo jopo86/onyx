@@ -5,12 +5,22 @@
 
 float Onyx::Math::Radians(float degrees)
 {
-	return glm::radians(degrees);
+	return glm::radians<float>(degrees);
+}
+
+double Onyx::Math::Radians(double degrees)
+{
+	return glm::radians<double>(degrees);
 }
 
 float Onyx::Math::Degrees(float radians)
 {
-	return glm::degrees(radians);
+	return glm::degrees<float>(radians);
+}
+
+double Onyx::Math::Degrees(double radians)
+{
+	return glm::degrees<double>(radians);
 }
 
 Onyx::Math::Vec2::Vec2()
@@ -604,6 +614,103 @@ Onyx::Math::Vec4 Onyx::Math::Vec4::Brown(float alpha)
     return Vec4(Vec3::Brown(), alpha);
 }
 
+Onyx::Math::Vec2 Onyx::Math::Rotate(const Vec2& vec, float angle)
+{
+	if (vec.isZero() || angle == 0.0f) return vec;
+
+	Vec2 rotated = vec;
+
+	float rad = Radians(angle);
+	float s = sinf(rad);
+	float c = cosf(rad);
+	float x = rotated.getX();
+	float y = rotated.getY();
+	rotated.setX(x * c - y * s);
+	rotated.setY(x * s + y * c);
+
+	return rotated;
+}
+
+Onyx::Math::Vec3 Onyx::Math::Rotate(const Vec3& vec, float angle, const Vec3& mask)
+{
+	if (vec.isZero() || angle == 0.0f) return vec;
+
+	Vec3 rotated = vec;
+
+	float rad = Radians(angle);
+	float s = sinf(rad);
+	float c = cosf(rad);
+
+	if (mask.getX() != 0.0f)
+	{
+		float y = rotated.getY();
+		float z = rotated.getZ();
+		rotated.setY(y * c - z * s);
+		rotated.setZ(y * s + z * c);
+	}
+
+	if (mask.getY() != 0.0f)
+	{
+		float x = rotated.getX();
+		float z = rotated.getZ();
+		rotated.setX(x * c + z * s);
+		rotated.setZ(-x * s + z * c);
+	}
+
+	if (mask.getZ() != 0.0f)
+	{
+		float x = rotated.getX();
+		float y = rotated.getY();
+		rotated.setX(x * c - y * s);
+		rotated.setY(x * s + y * c);
+	}
+
+	return rotated;
+}
+
+Onyx::Math::Vec3 Onyx::Math::Rotate(const Vec3& vec, const Vec3& angles)
+{
+	if (vec.isZero() || angles.isZero()) return vec;
+
+	Vec3 rotated = vec;
+
+	float radX = Radians(angles.getX());
+	float radY = Radians(angles.getY());
+	float radZ = Radians(angles.getZ());
+
+	if (radX != 0.0f)
+	{
+		float s = sinf(radX);
+		float c = cosf(radX);
+		float y = rotated.getY();
+		float z = rotated.getZ();
+		rotated.setY(y * c - z * s);
+		rotated.setZ(y * s + z * c);
+	}
+
+	if (radY != 0.0f)
+	{
+		float s = sinf(radY);
+		float c = cosf(radY);
+		float x = rotated.getX();
+		float z = rotated.getZ();
+		rotated.setX(x * c + z * s);
+		rotated.setZ(-x * s + z * c);
+	}
+
+	if (radZ != 0.0f)
+	{
+		float s = sinf(radZ);
+		float c = cosf(radZ);
+		float x = rotated.getX();
+		float y = rotated.getY();
+		rotated.setX(x * c - y * s);
+		rotated.setY(x * s + y * c);
+	}
+
+	return rotated;
+}
+
 Onyx::Math::DVec2::DVec2()
 {
 	m_vec = glm::dvec2(0.0, 0.0);
@@ -1023,6 +1130,103 @@ Onyx::Math::DVec4 Onyx::Math::DVec4::operator*(const double& scalar) const
 void Onyx::Math::DVec4::operator*=(const double& scalar)
 {
 	m_vec *= scalar;
+}
+
+Onyx::Math::DVec2 Onyx::Math::Rotate(const DVec2& vec, double angle)
+{
+	if (vec.isZero() || angle == 0.0f) return vec;
+
+	DVec2 rotated = vec;
+
+	double rad = Radians(angle);
+	double s = sin(rad);
+	double c = cos(rad);
+	double x = rotated.getX();
+	double y = rotated.getY();
+	rotated.setX(x * c - y * s);
+	rotated.setY(x * s + y * c);
+
+	return rotated;
+}
+
+Onyx::Math::DVec3 Onyx::Math::Rotate(const DVec3& vec, double angle, const DVec3& mask)
+{
+	if (vec.isZero() || angle == 0.0f) return vec;
+
+	DVec3 rotated = vec;
+
+	double rad = Radians(angle);
+	double s = sin(rad);
+	double c = cos(rad);
+
+	if (mask.getX() != 0.0f)
+	{
+		double y = rotated.getY();
+		double z = rotated.getZ();
+		rotated.setY(y * c - z * s);
+		rotated.setZ(y * s + z * c);
+	}
+
+	if (mask.getY() != 0.0f)
+	{
+		double x = rotated.getX();
+		double z = rotated.getZ();
+		rotated.setX(x * c + z * s);
+		rotated.setZ(-x * s + z * c);
+	}
+
+	if (mask.getZ() != 0.0f)
+	{
+		double x = rotated.getX();
+		double y = rotated.getY();
+		rotated.setX(x * c - y * s);
+		rotated.setY(x * s + y * c);
+	}
+
+	return rotated;
+}
+
+Onyx::Math::DVec3 Onyx::Math::Rotate(const DVec3& vec, const DVec3& angles)
+{
+	if (vec.isZero() || angles.isZero()) return vec;
+
+	DVec3 rotated = vec;
+
+	double radX = Radians(angles.getX());
+	double radY = Radians(angles.getY());
+	double radZ = Radians(angles.getZ());
+
+	if (radX != 0.0f)
+	{
+		double s = sin(radX);
+		double c = cos(radX);
+		double y = rotated.getY();
+		double z = rotated.getZ();
+		rotated.setY(y * c - z * s);
+		rotated.setZ(y * s + z * c);
+	}
+
+	if (radY != 0.0f)
+	{
+		double s = sin(radY);
+		double c = cos(radY);
+		double x = rotated.getX();
+		double z = rotated.getZ();
+		rotated.setX(x * c + z * s);
+		rotated.setZ(-x * s + z * c);
+	}
+
+	if (radZ != 0.0f)
+	{
+		double s = sin(radZ);
+		double c = cos(radZ);
+		double x = rotated.getX();
+		double y = rotated.getY();
+		rotated.setX(x * c - y * s);
+		rotated.setY(x * s + y * c);
+	}
+
+	return rotated;
 }
 
 Onyx::Math::IVec2::IVec2()

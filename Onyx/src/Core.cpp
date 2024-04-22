@@ -198,7 +198,7 @@ void Onyx::Demo()
 	std::cout << "Model loaded in " << duration << " sec\n";
 
 	UiRenderable textBg(
-		Mesh(VertexBuffer(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V), IndexBuffer(bgIndices, sizeof(bgIndices))),
+		Mesh(VertexBuffer(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::P), IndexBuffer(bgIndices, sizeof(bgIndices))),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
 	);
 

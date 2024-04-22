@@ -391,9 +391,9 @@ void Onyx::Shader::setMat4(const char* varName, const Mat4x4& val, bool normaliz
 #endif
 }
 
-Onyx::Shader Onyx::Shader::V_Color(Vec4 rgba)
+Onyx::Shader Onyx::Shader::P_Color(Vec4 rgba)
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/V_Color.vert"), Onyx::Resources("shaders/V_Color.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/P_Color.vert"), Onyx::Resources("shaders/P_Color.frag"));
 	shader.use();
 	shader.setVec4("u_color", rgba);
 	shader.setMat4("u_model", Mat4::Identity());
@@ -402,9 +402,9 @@ Onyx::Shader Onyx::Shader::V_Color(Vec4 rgba)
 	return shader;
 }
 
-Onyx::Shader Onyx::Shader::V_XYZtoRGB()
+Onyx::Shader Onyx::Shader::P_XYZtoRGB()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/V_XYZtoRGB.vert"), Onyx::Resources("shaders/V_XYZtoRGB.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/P_XYZtoRGB.vert"), Onyx::Resources("shaders/P_XYZtoRGB.frag"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -412,9 +412,9 @@ Onyx::Shader Onyx::Shader::V_XYZtoRGB()
 	return shader;
 }
 
-Onyx::Shader Onyx::Shader::VC()
+Onyx::Shader Onyx::Shader::PC()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/VC.vert"), Onyx::Resources("shaders/VC.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/PC.vert"), Onyx::Resources("shaders/PC.frag"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -422,9 +422,9 @@ Onyx::Shader Onyx::Shader::VC()
 	return shader;
 }
 
-Onyx::Shader Onyx::Shader::VT()
+Onyx::Shader Onyx::Shader::PT()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/VT.vert"), Onyx::Resources("shaders/VT.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/PT.vert"), Onyx::Resources("shaders/PT.frag"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -432,9 +432,9 @@ Onyx::Shader Onyx::Shader::VT()
 	return shader;
 }
 
-Onyx::Shader Onyx::Shader::VCT()
+Onyx::Shader Onyx::Shader::PCT()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/VCT.vert"), Onyx::Resources("shaders/VCT.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/PCT.vert"), Onyx::Resources("shaders/PCT.frag"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -442,9 +442,9 @@ Onyx::Shader Onyx::Shader::VCT()
 	return shader;
 }
 
-Onyx::Shader Onyx::Shader::VNC()
+Onyx::Shader Onyx::Shader::PNC()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/VNC.vert"), Onyx::Resources("shaders/VNC.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/PNC.vert"), Onyx::Resources("shaders/PNC.frag"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -452,9 +452,9 @@ Onyx::Shader Onyx::Shader::VNC()
 	return shader;
 }
 
-Onyx::Shader Onyx::Shader::VN_Color(Vec4 rgba)
+Onyx::Shader Onyx::Shader::PN_Color(Vec4 rgba)
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/VN_Color.vert"), Onyx::Resources("shaders/VN_Color.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/PN_Color.vert"), Onyx::Resources("shaders/PN_Color.frag"));
 	shader.use();
 	shader.setVec4("u_color", rgba);
 	shader.setMat4("u_model", Mat4::Identity());
@@ -463,9 +463,9 @@ Onyx::Shader Onyx::Shader::VN_Color(Vec4 rgba)
 	return shader;
 }
 
-Onyx::Shader Onyx::Shader::VNT()
+Onyx::Shader Onyx::Shader::PNT()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/VNT.vert"), Onyx::Resources("shaders/VNT.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/PNT.vert"), Onyx::Resources("shaders/PNT.frag"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -473,9 +473,9 @@ Onyx::Shader Onyx::Shader::VNT()
 	return shader;
 }
 
-Onyx::Shader Onyx::Shader::VNCT()
+Onyx::Shader Onyx::Shader::PNCT()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/VNCT.vert"), Onyx::Resources("shaders/VNCT.frag"));
+	Shader shader = Shader::Load(Onyx::Resources("shaders/PNCT.vert"), Onyx::Resources("shaders/PNCT.frag"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());

@@ -58,16 +58,16 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 		unit.name = objlMesh.MeshName;
 
 		unit.mesh = Mesh(
-			VertexBuffer(vertices->data(), vertices->size() * sizeof(float), VertexFormat::VNT),
+			VertexBuffer(vertices->data(), vertices->size() * sizeof(float), VertexFormat::PNT),
 			IndexBuffer(indices->data(), indices->size() * sizeof(uint))
 		);
 
 		if (hasTexture) {
 			unit.texture = Texture::Load(model->directory + "/" + objlMesh.MeshMaterial.map_Kd);
-			unit.shader = Shader::VNT();
+			unit.shader = Shader::PNT();
 		}
-		else if (hasMaterial) unit.shader = Shader::VN_Color(Vec4(objlMesh.MeshMaterial.Kd.X, objlMesh.MeshMaterial.Kd.Y, objlMesh.MeshMaterial.Kd.Z, 1.0f));
-		else unit.shader = Shader::VN_Color(Vec4(1.0f));
+		else if (hasMaterial) unit.shader = Shader::PN_Color(Vec4(objlMesh.MeshMaterial.Kd.X, objlMesh.MeshMaterial.Kd.Y, objlMesh.MeshMaterial.Kd.Z, 1.0f));
+		else unit.shader = Shader::PN_Color(Vec4(1.0f));
 
 		model->data.push_back(unit);
 

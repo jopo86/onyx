@@ -9,17 +9,17 @@
  */
 
 #define ONYX_VERSION_MAJOR		0
-#define ONYX_VERSION_MINOR		8
-#define ONYX_VERSION_PATCH		3
+#define ONYX_VERSION_MINOR		9
+#define ONYX_VERSION_PATCH		0
 
 #define ONYX_ALPHA              false
 #define ONYX_BETA				true
-#define ONYX_RC					false
+#define ONYX_RELEASE_CANDIDATE	false
 #define ONYX_STABLE	            false
 
 //#define ONYX_GL_DEBUG_LOW
 //#define ONYX_GL_DEBUG_MED
-#define ONYX_GL_DEBUG_HIGH
+//#define ONYX_GL_DEBUG_HIGH
 
 /*	 
 	Definitions for system info.
@@ -328,7 +328,7 @@ namespace Onyx
 		@brief Gets the version of the Onyx library as a string.
 		@return The version number in the format "x.y.z-preRelease(?)".
 	 */
-	const std::string& GetVersionString();
+	std::string GetVersionString();
 
 	/*
 		@brief Terminates the Onyx library.

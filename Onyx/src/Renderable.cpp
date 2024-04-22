@@ -1,4 +1,4 @@
-#include "Renderable.h"
+﻿#include "Renderable.h"
 
 #include <glad/glad.h>
 
@@ -162,9 +162,41 @@ void Onyx::Renderable::translate(const Vec3& translation)
 
 void Onyx::Renderable::translateLocal(const Vec3& translation)
 {
-	Mat4 modelCopy = model;
-	modelCopy.translate(translation);
-	m_position = Vec3(modelCopy[0][3], modelCopy[1][3], modelCopy[2][3]);
+	if (translation.isZero()) return;
+
+	Vec3 rotated = translation;
+
+	if (m_rotation.getX() != 0.0f)
+	{
+		float sin = sinf(Math::Radians(m_rotation.getX()));
+		float cos = cosf(Math::Radians(m_rotation.getX()));
+		float y = rotated.getY();
+		float z = rotated.getZ();
+		rotated.setY(y * cos - z * sin);
+		rotated.setZ(y * sin + z * cos);
+	}
+
+	if (m_rotation.getY() != 0.0f)
+	{
+		float sin = sinf(Math::Radians(m_rotation.getY()));
+		float cos = cosf(Math::Radians(m_rotation.getY()));
+		float x = rotated.getX();
+		float z = rotated.getZ();
+		rotated.setX(x * cos + z * sin);
+		rotated.setZ(-x * sin + z * cos);
+	}
+
+	if (m_rotation.getZ() != 0.0f)
+	{
+		float sin = sinf(Math::Radians(m_rotation.getZ()));
+		float cos = cosf(Math::Radians(m_rotation.getZ()));
+		float x = rotated.getX();
+		float y = rotated.getY();
+		rotated.setX(x * cos - y * sin);
+		rotated.setY(x * sin + y * cos);
+	}
+
+	translate(rotated);
 }
 
 void Onyx::Renderable::rotate(const Vec3& rotations)

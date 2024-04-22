@@ -36,6 +36,8 @@ const char* _glErrorToString(uint errorCode)
 		case GL_OUT_OF_MEMORY:					return "OUT_OF_MEMORY";
 		case GL_INVALID_FRAMEBUFFER_OPERATION:	return "INVALID_FRAMEBUFFER_OPERATION";
 	}
+
+	return "UNKNOWN";
 }
 
 uint _glCheckError(const std::string& file, int line)
@@ -126,9 +128,13 @@ bool Onyx::IsBeta()
 	return ONYX_BETA;
 }
 
-const std::string& Onyx::GetVersionString()
+std::string Onyx::GetVersionString()
 {
-	return std::to_string(ONYX_VERSION_MAJOR) + "." + std::to_string(ONYX_VERSION_MINOR) + "." + std::to_string(ONYX_VERSION_PATCH) + (ONYX_BETA ? "-beta" : "");
+	std::string ver = std::to_string(ONYX_VERSION_MAJOR) + "." + std::to_string(ONYX_VERSION_MINOR) + "." + std::to_string(ONYX_VERSION_PATCH);
+	if (ONYX_STABLE) return ver;
+	else if (ONYX_ALPHA) return ver + "-alpha";
+	else if (ONYX_BETA) return ver + "-beta";
+	else if (ONYX_RELEASE_CANDIDATE) return ver = "-rc";
 }
 
 void Onyx::Terminate()
@@ -190,8 +196,6 @@ void Onyx::Demo()
 	float duration = round((GetTime() - start) * 100) / 100;
 	
 	std::cout << "Model loaded in " << duration << " sec\n";
-
-	car.setRotation(Vec3(0.0f, 45.0f, 0.0f));
 
 	UiRenderable textBg(
 		Mesh(VertexBuffer(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::V), IndexBuffer(bgIndices, sizeof(bgIndices))),
@@ -298,13 +302,8 @@ void Onyx::Demo()
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
 
-		//car.rotate(Vec3(0, 20.0f * window.getDeltaTime(), 0));
-
 		textRenderables[1].setText("FPS: " + std::to_string(fps));
 		textRenderables[2].setText("FRAME " + std::to_string(window.getFrame()));
-
-		car.translateLocal(Vec3(0.0f, 0.0f, -window.getDeltaTime()));
-		//car.scale(0.999f);
 		
 		window.startRender();
 		renderer.render();

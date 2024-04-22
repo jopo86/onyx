@@ -190,9 +190,21 @@ void Onyx::TextRenderable::translate(const Vec2& translation)
 
 void Onyx::TextRenderable::translateLocal(const Vec2& translation)
 {
-	Mat4 modelCopy = model;
-	modelCopy.translate(Vec3(translation, 0.0f));
-	m_position = Vec2(modelCopy[0][3], modelCopy[1][3]);
+	if (translation.isZero()) return;
+
+	Vec2 rotated = translation;
+
+	if (m_rotation != 0.0f)
+	{
+		float sin = sinf(Math::Radians(m_rotation));
+		float cos = cosf(Math::Radians(m_rotation));
+		float x = rotated.getX();
+		float y = rotated.getY();
+		rotated.setX(x * cos - y * sin);
+		rotated.setY(x * sin + y * cos);
+	}
+
+	translate(rotated);
 }
 
 void Onyx::TextRenderable::rotate(float rotation)

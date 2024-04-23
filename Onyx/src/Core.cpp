@@ -90,15 +90,40 @@ void Onyx::Init(ErrorHandler& errorHandler)
 {
 	p_errorHandler = &errorHandler;
 
-	if (initialized) Err("Onyx already initialized");
+	if (initialized)
+	{
+		Warn(Warning{
+				.sourceFunction = "Onyx::Init(ErrorHandler& errorHandler)",
+				.message = "Attempted to initialize library when it is already initialize. Initialization aborted.",
+				.howToFix = "If reinitialization was intentional, terminate the library first.",
+				.severity = Warning::Severity::Low
+			}
+		);
+		return;
+	}
 	initialized = true;
 	resourcePath = "resources/";
 
-	if (FT_Init_FreeType(&ft)) Err("failed to initialize FreeType.");
+	if (FT_Init_FreeType(&ft))
+	{
+		Err(Error{
+			.sourceFunction = "Onyx::Init(ErrorHandler& errorHandler)",
+			.message = "Failed to initialize FreeType.",
+			.howToFix = "Ensure the FreeType library is downloaded for your specific platform. If you are not running Windows x64, you will need to download FreeType for yourself, you can't just use the one from the Onyx download.",
+			}
+		);
+		return;
+	}
 
 	if (!glfwInit())
 	{
-		Err("failed to initialize GLFW.");
+		Err(Error{
+			   .sourceFunction = "Onyx::Init(ErrorHandler& errorHandler)",
+			   .message = "Failed to initialize GLFW.",
+			   .howToFix = "Ensure the GLFW library is downloaded for your specific platform. If you are not running Windows x64, you will need to download GLFW for yourself, you can't just use the one from the Onyx download.",
+			}
+		);
+		return;
 	}
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -302,6 +327,8 @@ void Onyx::Demo()
 		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
 		cam.update();
 
+		car.rotate(Vec3(0.0f, 20.0f * window.getDeltaTime(), 0.0f));
+
 		textRenderables[1].setText("FPS: " + std::to_string(fps));
 		textRenderables[2].setText("FRAME " + std::to_string(window.getFrame()));
 		
@@ -316,14 +343,14 @@ void Onyx::Demo()
 	robotoBold.dispose();
 }
 
-void Onyx::Warn(const std::string& msg)
+void Onyx::Warn(const Warning& warning)
 {
-	if (p_errorHandler != nullptr) p_errorHandler->warn(msg);
+	if (p_errorHandler != nullptr) p_errorHandler->warn(warning);
 }
 
-void Onyx::Err(const std::string& msg)
+void Onyx::Err(const Error& error)
 {
-	if (p_errorHandler != nullptr) p_errorHandler->err(msg);
+	if (p_errorHandler != nullptr) p_errorHandler->err(error);
 }
 
 bool Onyx::IsInitialized()
@@ -375,9 +402,13 @@ double Onyx::GetTime()
 	return glfwGetTime();
 }
 
-std::string Onyx::GetGraphics()
+std::string Onyx::GetGraphicsName()
 {
-	if (!glInitialized) Err("OpenGL must be initialized before calling GetGraphics(). Initialize a window.");
+	if (!onyx_is_ehandler_nullptr()) if (!glInitialized) Err(Error{
+			.sourceFunction = "Onyx::GetGraphics()",
+			.message = "OpenGL is not initialized.",
+			.howToFix = "Ensure OpenGL is initialized before calling this function."
+		});
 	return (const char*)glGetString(GL_RENDERER);
 
 #if defined(ONYX_GL_DEBUG_HIGH)

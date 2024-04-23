@@ -7,6 +7,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
 
+bool onyx_is_ehandler_nullptr();
+
 Onyx::Texture::Texture()
 {
 	tex = 0;
@@ -20,28 +22,50 @@ Onyx::Texture::Texture(const Texture& other)
 Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)
 {
 	std::ifstream file(filepath);
-	if (!file.is_open())
+	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
 	{
-		Err("failed to locate file: \"" + filepath + "\"");
+		Err(Error{
+				.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+				.message = "File not found (or access denied): \"" + filepath + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		file.close();
 		return Texture();
 	}
 	file.close();
 
-	if (textureWrap == Onyx::TextureWrap::Null)
+	if (!onyx_is_ehandler_nullptr()) if (textureWrap == Onyx::TextureWrap::Null)
     {
-        Err("texture wrap option cannot be null");
+		Err(Error{
+				.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+                .message = "Texture wrap option cannot be null",
+                .howToFix = "Enter a valid texture wrap option."
+			}
+		);
         return Texture();
     }
 
-	if (minFilter == Onyx::TextureFilter::Null)
+	if (!onyx_is_ehandler_nullptr()) if (minFilter == Onyx::TextureFilter::Null)
     {
-        Err("minification filter option cannot be null");
+		Err(Error{
+			.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+            .message = "Minification filter option cannot be null",
+            .howToFix = "Enter a valid minification filter option."
+			}
+		);
+
         return Texture();
     }
 
-	if (magFilter == Onyx::TextureFilter::Null)
+	if (!onyx_is_ehandler_nullptr()) if (magFilter == Onyx::TextureFilter::Null)
 	{
-        Err("magnification filter option cannot be null");
+		Err(Error{
+			.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+			.message = "Magnification filter option cannot be null",
+			.howToFix = "Enter a valid magnification filter option."
+			}
+		);
         return Texture();
 	}
 
@@ -50,9 +74,14 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 	stbi_set_flip_vertically_on_load(true);
 
 	ubyte* data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
-	if (!data)
+	if (!onyx_is_ehandler_nullptr()) if (!data)
 	{
-		Err("found file, but failed to load image data: \"" + filepath + "\"");
+		Err(Error{
+                .sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+                .message = "Found file, but failed to load image data: \"" + filepath + "\"",
+                .howToFix = "Ensure the file is a valid image file. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
+            }
+        );
 		return Texture();
 	}
 

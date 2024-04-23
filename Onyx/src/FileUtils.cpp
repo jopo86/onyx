@@ -6,11 +6,22 @@
 #include "Core.h"
 
 void onyx_add_malloc(void*, bool);
+bool onyx_is_ehandler_nullptr();
 
 std::string Onyx::FileUtils::Read(const std::string& path)
 {
 	std::ifstream file(path);
-	if (!file.is_open()) Onyx::Err("File not found (or access denied): \"" + path + "\"");
+	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	{
+		Err(Error{
+				.sourceFunction = "Onyx::FileUtils::Read(const std::string& path)",
+				.message = "File not found (or access denied): \"" + path + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		file.close();
+		return "";
+	}
 
 	std::string contents = "";
 	std::string line = "";
@@ -25,7 +36,17 @@ std::string Onyx::FileUtils::Read(const std::string& path)
 const char* Onyx::FileUtils::ReadLiteral(const std::string& path)
 {
 	std::ifstream file(path);
-	if (!file.is_open()) Onyx::Err("File not found (or access denied): \"" + path + "\"");
+	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	{
+		Err(Error{
+			.sourceFunction = "Onyx::FileUtils::ReadLiteral(const std::string& path)",
+			.message = "File not found (or access denied): \"" + path + "\"",
+			.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		file.close();
+		return "";
+	}
 
 	std::string* contents = new std::string("");
 	onyx_add_malloc(contents, false);
@@ -41,7 +62,17 @@ const char* Onyx::FileUtils::ReadLiteral(const std::string& path)
 std::vector<std::string> Onyx::FileUtils::ReadLines(const std::string& path)
 {
 	std::ifstream file(path);
-	if (!file.is_open()) Onyx::Err("File not found (or access denied): \"" + path + "\"");
+	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	{
+		Err(Error{
+			   .sourceFunction = "Onyx::FileUtils::ReadLines(const std::string& path)",
+			   .message = "File not found (or access denied): \"" + path + "\"",
+			   .howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		file.close();
+		return {};
+	}
 
 	std::vector<std::string> lines;
 	std::string line = "";

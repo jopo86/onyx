@@ -7,6 +7,7 @@
 #include <glad/glad.h>
 
 FT_Library* onyx_get_ft();
+bool onyx_is_ehandler_nullptr();
 
 Onyx::Font::Font()
 {
@@ -18,9 +19,14 @@ Onyx::Font::Font()
 Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 {
 	std::ifstream file(ttfFilePath);
-	if (!file.is_open())
+	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
 	{
-		Err("Font file not found (or permission denied): \"" + ttfFilePath + "\"");
+		Err(Error{
+				.sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
+				.message = "File not found (or access denied): \"" + ttfFilePath + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
 		file.close();
 		return Font();
 	}
@@ -33,7 +39,12 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 	
 	if (FT_New_Face(*font.p_ft, ttfFilePath.c_str(), 0, &font.face))
 	{
-		Err("Font file found, but failed to load font: \"" + ttfFilePath + "\"");
+		if (!onyx_is_ehandler_nullptr()) Err(Error{
+				.sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
+                .message = "Found file, but failed to load font: \"" + ttfFilePath + "\"",
+                .howToFix = "Ensure the file is a valid TrueType font file."
+			}
+		);
 		return font;
 	}
 
@@ -44,7 +55,12 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 	{
 		if (FT_Load_Char(font.face, c, FT_LOAD_RENDER))
 		{
-			Err("Failed to load glyph for character '" + std::to_string(c) + "'");
+			if (!onyx_is_ehandler_nullptr()) Err(Error{
+				    .sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
+                    .message = "Failed to load glyph: '" + std::to_string(c) + "' from font: \"" + ttfFilePath + "\"",
+                    .howToFix = "Ensure the font file is a valid TrueType font file."
+                }
+            );
 			continue;
 		}
 

@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 
+bool onyx_is_ehandler_nullptr();
+
 using Onyx::Math::Vec2, Onyx::Math::Vec3;
 
 Onyx::Mesh::Mesh()
@@ -39,7 +41,12 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 	switch (vertexBuffer.format)
 	{
 		case Onyx::VertexFormat::Null:
-			Onyx::Err("Mesh creation failed: vertex format is null. (aborted)");
+			if (!onyx_is_ehandler_nullptr()) Onyx::Err(Error{
+					.sourceFunction = "Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)",
+					.message = "Vertex format cannot be null",
+					.howToFix = "Pass a valid vertex format to the VertexBuffer constructor"
+				}
+			);
 			return;
 
 		case Onyx::VertexFormat::P:

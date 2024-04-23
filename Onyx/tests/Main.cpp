@@ -12,7 +12,7 @@ void lightingTest();
 
 int main()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 	Onyx::Demo();
 	Onyx::Terminate();
@@ -26,7 +26,7 @@ int main()
 
 void lightingTest()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{

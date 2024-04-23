@@ -31,7 +31,7 @@ Onyx::Camera::Camera(Window& window)
 	update();
 }
 
-Onyx::Camera::Camera(Window& window, Projection proj)
+Onyx::Camera::Camera(Window& window, const Projection& proj)
 {
 	p_win = &window;
 	window.p_cam = this;
@@ -49,7 +49,7 @@ Onyx::Camera::Camera(Window& window, Projection proj)
 	update();
 }
 
-Onyx::Camera::Camera(Window& window, Projection proj, float pitchClamp)
+Onyx::Camera::Camera(Window& window, const Projection& proj, float pitchClamp)
 {
 	p_win = &window;
 	window.p_cam = this;
@@ -90,12 +90,17 @@ void Onyx::Camera::translateFB(float dist)
 	pos += (front * dist);
 }
 
-void Onyx::Camera::translate(Vec3 LR_UD_FB)
+void Onyx::Camera::translate(const Vec3& LR_UD_FB)
 {
 	if (LR_UD_FB.isZero()) return;
 	pos += (Vec3(Cross(front, up)).getNormalized() * LR_UD_FB.getX());
 	pos += Vec3(0.0f, LR_UD_FB.getY(), 0.0f);
 	pos += (front * LR_UD_FB.getZ());
+}
+
+void Onyx::Camera::translateGlobal(const Vec3& xyz)
+{
+	pos += xyz;
 }
 
 void Onyx::Camera::rotate(float _yaw, float _pitch)
@@ -142,7 +147,7 @@ void Onyx::Camera::setPitchLimit(float pitchClamp)
 	this->pitchClamp = pitchClamp;
 }
 
-void Onyx::Camera::setProjection(Projection proj)
+void Onyx::Camera::setProjection(const Projection& proj)
 {
 	this->proj = proj;
 }

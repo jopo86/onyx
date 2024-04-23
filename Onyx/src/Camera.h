@@ -39,7 +39,7 @@ namespace Onyx
 			@param window The window that the camera is used for.
 			@param proj The projection to use.
 		 */
-		Camera(Window& window, Projection proj);
+		Camera(Window& window, const Projection& proj);
 
 		/*
 			@brief Creates a camera with the specified projection and pitch limit.
@@ -48,7 +48,7 @@ namespace Onyx
 			@param proj The projection to use.
 			@param pitchLimit The pitch limit to use.
 		 */
-		Camera(Window& window, Projection proj, float pitchLimit);
+		Camera(Window& window, const Projection& proj, float pitchLimit);
 
 		/*
 			@brief Updates the view matrix of the camera.
@@ -81,12 +81,18 @@ namespace Onyx
 		/*
 			@brief Translates/moves the camera relative to its POV.
 			This IS NOT the same as moving along the xyz axis.
-			@param dist The distance to move left/right, up/down, and forward/backward for the 3 values respectively.
+			@param LR_UD_FB The distance to move left/right, up/down, and forward/backward for the 3 values respectively.
 			lr: (-) left, (+) right
 			ud: (+) up, (-) down
 			fb: (+) forward, (-) backward
 		 */
-		void translate(Onyx::Math::Vec3 LR_UD_FB);
+		void translate(const Math::Vec3& LR_UD_FB);
+
+		/*
+			@brief Translates/moves the camera absolutely, instead of relative to its POV.
+			@param xyz The translation.
+		 */
+		void translateGlobal(const Math::Vec3& xyz);
 
 		/*
 			@brief Rotates the camera the specified angles.
@@ -99,7 +105,7 @@ namespace Onyx
 			@brief Gets the position of camera.
 			@return The position of the camera.
 		 */
-		Onyx::Math::Vec3 getPosition() const;
+		Math::Vec3 getPosition() const;
 
 		/*
 			@brief Gets the projection of the camera.
@@ -112,14 +118,20 @@ namespace Onyx
 			Used by the renderer to render objects from the camera's POV.
 			@return The view matrix.
 		 */
-		Onyx::Math::Mat4 getViewMatrix() const;
+		Math::Mat4 getViewMatrix() const;
 
 		/*
 			@brief Gets the projection matrix of the camera.
 			Used by the renderer to render objects with perspective or orthographically.
 			@return The projection matrix.
 		 */
-		Onyx::Math::Mat4 getProjectionMatrix() const;
+		Math::Mat4 getProjectionMatrix() const;
+
+		/*
+            @brief Sets the position of the camera.
+            @param pos The desired position of the camera.
+         */
+		void setPosition(const Math::Vec3& pos);
 
 		/*
 			@brief Sets the pitch limit of the camera.
@@ -134,14 +146,14 @@ namespace Onyx
 			@brief Sets the projection of the camera.
 			@param proj The projection of the camera.
 		 */
-		void setProjection(Projection proj);
+		void setProjection(const Projection& proj);
 
 	private:
 		Window* p_win;
 
-		Onyx::Math::Vec3 pos;
-		Onyx::Math::Vec3 front;
-		Onyx::Math::Vec3 up;
+		Math::Vec3 pos;
+		Math::Vec3 front;
+		Math::Vec3 up;
 
 		float yaw;
 		float pitch;
@@ -150,7 +162,7 @@ namespace Onyx
 
 		Projection proj;
 
-		Onyx::Math::Mat4 view;
+		Math::Mat4 view;
 	};
 
 }

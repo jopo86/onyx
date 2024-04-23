@@ -10,7 +10,7 @@ Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 void PresetTests::MeshTest__Triangle1()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 	
 	Onyx::WindowProperties wp{
@@ -69,7 +69,7 @@ void PresetTests::MeshTest__Triangle1()
 
 void PresetTests::MeshTest__Triangle2()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -128,7 +128,7 @@ void PresetTests::MeshTest__Triangle2()
 
 void PresetTests::MeshTest__Triangle3()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -187,7 +187,7 @@ void PresetTests::MeshTest__Triangle3()
 
 void PresetTests::MeshTest__Square()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -247,7 +247,7 @@ void PresetTests::MeshTest__Square()
 
 void PresetTests::MeshTest__Quad1()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -306,7 +306,7 @@ void PresetTests::MeshTest__Quad1()
 
 void PresetTests::MeshTest__Quad2()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -365,7 +365,7 @@ void PresetTests::MeshTest__Quad2()
 
 void PresetTests::MeshTest__Cube()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -424,7 +424,7 @@ void PresetTests::MeshTest__Cube()
 
 void PresetTests::MeshAndShaderTest__RectPrism1__V_Color()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -483,7 +483,7 @@ void PresetTests::MeshAndShaderTest__RectPrism1__V_Color()
 
 void PresetTests::MeshAndShaderTest__RectPrism2__V_XYZtoRGB()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -545,7 +545,7 @@ void PresetTests::MeshAndShaderTest__RectPrism2__V_XYZtoRGB()
 
 void PresetTests::ShaderTest__VC()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -613,7 +613,7 @@ void PresetTests::ShaderTest__VC()
 
 void PresetTests::ShaderTest__VT()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -683,7 +683,7 @@ void PresetTests::ShaderTest__VT()
 
 void PresetTests::ShaderTest__VCT()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -753,7 +753,7 @@ void PresetTests::ShaderTest__VCT()
 
 void PresetTests::RenderableTest__ColoredTriangle1()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -812,7 +812,7 @@ void PresetTests::RenderableTest__ColoredTriangle1()
 
 void PresetTests::RenderableTest__ColoredTriangle2()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -871,7 +871,7 @@ void PresetTests::RenderableTest__ColoredTriangle2()
 
 void PresetTests::RenderableTest__ColoredTriangle3()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -930,7 +930,7 @@ void PresetTests::RenderableTest__ColoredTriangle3()
 
 void PresetTests::RenderableTest__VertexColoredTriangle1()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -989,7 +989,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle1()
 
 void PresetTests::RenderableTest__VertexColoredTriangle2()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1048,7 +1048,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle2()
 
 void PresetTests::RenderableTest__VertexColoredTriangle3()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1107,7 +1107,7 @@ void PresetTests::RenderableTest__VertexColoredTriangle3()
 
 void PresetTests::RenderableTest__TexturedTriangle1()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1166,7 +1166,7 @@ void PresetTests::RenderableTest__TexturedTriangle1()
 
 void PresetTests::RenderableTest__TexturedTriangle2()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1225,7 +1225,7 @@ void PresetTests::RenderableTest__TexturedTriangle2()
 
 void PresetTests::RenderableTest__TexturedTriangle3()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1284,7 +1284,7 @@ void PresetTests::RenderableTest__TexturedTriangle3()
 
 void PresetTests::RenderableTest__ColoredSquare()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1343,7 +1343,7 @@ void PresetTests::RenderableTest__ColoredSquare()
 
 void PresetTests::RenderableTest__ColoredQuad1()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1402,7 +1402,7 @@ void PresetTests::RenderableTest__ColoredQuad1()
 
 void PresetTests::RenderableTest__ColoredQuad2()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1461,7 +1461,7 @@ void PresetTests::RenderableTest__ColoredQuad2()
 
 void PresetTests::RenderableTest__VertexColoredSquare()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1520,7 +1520,7 @@ void PresetTests::RenderableTest__VertexColoredSquare()
 
 void PresetTests::RenderableTest__VertexColoredQuad1()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1579,7 +1579,7 @@ void PresetTests::RenderableTest__VertexColoredQuad1()
 
 void PresetTests::RenderableTest__VertexColoredQuad2()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1638,7 +1638,7 @@ void PresetTests::RenderableTest__VertexColoredQuad2()
 
 void PresetTests::RenderableTest__TexturedSquare()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1697,7 +1697,7 @@ void PresetTests::RenderableTest__TexturedSquare()
 
 void PresetTests::RenderableTest__TexturedQuad1()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1756,7 +1756,7 @@ void PresetTests::RenderableTest__TexturedQuad1()
 
 void PresetTests::RenderableTest__TexturedQuad2()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1815,7 +1815,7 @@ void PresetTests::RenderableTest__TexturedQuad2()
 
 void PresetTests::RenderableTest__ColoredCube()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{
@@ -1874,7 +1874,7 @@ void PresetTests::RenderableTest__ColoredCube()
 
 void PresetTests::RenderableTest__TexturedCube()
 {
-	Onyx::ErrorHandler errorHandler(true, true, false);
+	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 
 	Onyx::WindowProperties wp{

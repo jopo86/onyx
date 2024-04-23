@@ -10,7 +10,7 @@
 
 #define ONYX_VERSION_MAJOR		0
 #define ONYX_VERSION_MINOR		9
-#define ONYX_VERSION_PATCH		1
+#define ONYX_VERSION_PATCH		2
 
 #define ONYX_ALPHA              false
 #define ONYX_BETA				true
@@ -345,13 +345,13 @@ namespace Onyx
 		@brief Passes a warning to the error handler.
 		@param msg The warning message.
 	 */
-	void Warn(const std::string& msg);
+	void Warn(const Warning& msg);
 
 	/*
 		@brief Passes an error to the error handler.
 		This is just used by the library, it shouldn't really be used by the user.
 	 */
-	void Err(const std::string& msg);
+	void Err(const Error& msg);
 
 	/*
 		@brief Gets whether the library has been initialized.
@@ -414,7 +414,7 @@ namespace Onyx
 		@brief Returns the name of the Graphics Card / GPU.
 		@return The name of the GPU.
 	 */
-	std::string GetGraphics();
+	std::string GetGraphicsName();
 
 	/*
 		@brief Parent class for disposable objects.

@@ -13,6 +13,7 @@ GLFWvidmode* Onyx::Window::p_primaryMonitorInfo = nullptr;
 
 void onyx_set_gl_init(bool);
 bool onyx_is_ehandler_nullptr();
+void onyx_err(const Onyx::Error&);
 
 Onyx::WindowIcon::WindowIcon() 
 {
@@ -27,7 +28,7 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 		std::ifstream file(filepath);
 		if (!file.is_open())
 		{
-			Err(Error{
+			onyx_err(Error{
 					.sourceFunction = "Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths)",
 					.message = "File not found (or access denied): \"" + filepath + "\"",
 					.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
@@ -48,7 +49,7 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 		icon.images[i].pixels = stbi_load(filepaths.begin()[i].c_str(), &icon.images[i].width, &icon.images[i].height, nullptr, 4);
 		if (!onyx_is_ehandler_nullptr()) if (icon.images[i].pixels == nullptr)
 		{
-			Err(Error{
+			onyx_err(Error{
 					.sourceFunction = "Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths)",
 					.message = "All files found, but failed to load image data from one or more files",
 					.howToFix = "Ensure the files ares valid image files. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
@@ -108,7 +109,7 @@ void Onyx::Window::init()
 	p_glfwWin = glfwCreateWindow(properties.width, properties.height, properties.title.c_str(), nullptr, nullptr);
 	if (p_glfwWin == nullptr)
 	{
-		Err(Error{
+		onyx_err(Error{
 				.sourceFunction = "Onyx::Window::init()",
                 .message = "Failed to create GLFW window.",
                 .howToFix = "Ensure the window is not already initialized, and that the GLFW library is downloaded for your specific platform. If you are not running Windows x64, you will need to download GLFW for yourself, you can't just use the one from the Onyx download."
@@ -132,7 +133,7 @@ void Onyx::Window::init()
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		Err(Error{
+		onyx_err(Error{
                 .sourceFunction = "Onyx::Window::init()",
                 .message = "Failed to initialize OpenGL.",
                 .howToFix = "Ensure that the window is not already initialized, and that the glad library is downloaded for your specific platofrm. If you are not running Windows x64, you will need to download glad for yourself, you can't just use the one from the Onyx download."

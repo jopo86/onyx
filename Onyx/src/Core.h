@@ -10,7 +10,7 @@
 
 #define ONYX_VERSION_MAJOR		0
 #define ONYX_VERSION_MINOR		9
-#define ONYX_VERSION_PATCH		2
+#define ONYX_VERSION_PATCH		3
 
 #define ONYX_ALPHA              false
 #define ONYX_BETA				true
@@ -285,6 +285,15 @@ namespace Onyx
 		Repeat = 2
 	};
 
+	struct GLError
+	{
+		uint code = 0;
+		std::string file = "";
+		int line = 0;
+
+		std::string toString() const;
+	};
+
 	/*
 		@brief Initializes the Onyx library.
 		Defines some essential variables that may cause errors in the future if undefined.
@@ -340,18 +349,6 @@ namespace Onyx
 	 @brief Starts a little demo of the library.
 	 */
 	void Demo();
-
-	/*
-		@brief Passes a warning to the error handler.
-		@param msg The warning message.
-	 */
-	void Warn(const Warning& msg);
-
-	/*
-		@brief Passes an error to the error handler.
-		This is just used by the library, it shouldn't really be used by the user.
-	 */
-	void Err(const Error& msg);
 
 	/*
 		@brief Gets whether the library has been initialized.

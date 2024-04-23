@@ -5,6 +5,7 @@
 #include <map>
 
 bool onyx_is_ehandler_nullptr();
+void onyx_warn(const Onyx::Warning&);
 
 bool Onyx::Renderer::wireframe = false;
 bool Onyx::Renderer::uiWireframeAllowed = false;
@@ -111,7 +112,7 @@ void Onyx::Renderer::setLightingEnabled(bool enabled)
 {
 	if (!onyx_is_ehandler_nullptr()) if (lighting == nullptr)
 	{
-		Onyx::Warn(Warning{
+		onyx_warn(Warning{
 				.sourceFunction = "Onyx::Renderer::setLightingEnabled(bool enabled)",
 				.message = "Lighting is not set for the renderer, cannot enable/disable it.",
 				.howToFix = "Set lighting for the renderer using Onyx::Renderer::setLighting(Lighting& lighting) (or add it to the constructor) before enabling/disabling it.",

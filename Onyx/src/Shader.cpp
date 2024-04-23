@@ -5,6 +5,7 @@
 #include "FileUtils.h"
 
 bool onyx_is_ehandler_nullptr();
+void onyx_err(const Onyx::Error&);
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::DVec2,
 Onyx::Math::DVec3, Onyx::Math::DVec4, Onyx::Math::IVec2, Onyx::Math::IVec3,
@@ -37,7 +38,7 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSourc
 		{
 			char infoBuffer[ONYX_BUFFER_SIZE];
 			glGetShaderInfoLog(vert, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-			Err(Error{
+			onyx_err(Error{
 					.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
 					.message = "Failed to compile a vertex shader, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
 				}
@@ -57,7 +58,7 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSourc
 		{
 			char infoBuffer[ONYX_BUFFER_SIZE];
 			glGetShaderInfoLog(frag, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-			Err(Error{
+			onyx_err(Error{
 					.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
 					.message = "Failed to compile a fragment shader, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
 				}
@@ -81,7 +82,7 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSourc
 		{
 			char infoBuffer[ONYX_BUFFER_SIZE];
 			glGetProgramInfoLog(prog, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-			Err(Error{
+			onyx_err(Error{
 					.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
 					.message = "Failed to link a shader program, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
 				}
@@ -101,7 +102,7 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSourc
 		{
 			char infoBuffer[ONYX_BUFFER_SIZE];
 			glGetProgramInfoLog(prog, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-			Err(Error{
+			onyx_err(Error{
 					.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
 					.message = "Failed to validate a shader program, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
 				}

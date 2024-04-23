@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 bool onyx_is_ehandler_nullptr();
+void onyx_err(const Onyx::Error&);
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3;
 
@@ -40,8 +41,8 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 
 	switch (vertexBuffer.format)
 	{
-		case Onyx::VertexFormat::Null:
-			if (!onyx_is_ehandler_nullptr()) Onyx::Err(Error{
+		case VertexFormat::Null:
+			if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
 					.sourceFunction = "Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)",
 					.message = "Vertex format cannot be null",
 					.howToFix = "Pass a valid vertex format to the VertexBuffer constructor"
@@ -49,33 +50,33 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 			);
 			return;
 
-		case Onyx::VertexFormat::P:
+		case VertexFormat::P:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 			glEnableVertexAttribArray(0);
 			break;
 
-		case Onyx::VertexFormat::PN:
+		case VertexFormat::PN:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(3);
 			break;
 
-		case Onyx::VertexFormat::PC:
+		case VertexFormat::PC:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
 			break;
 
-		case Onyx::VertexFormat::PT:
+		case VertexFormat::PT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(2);
 			break;
 
-		case Onyx::VertexFormat::PCT:
+		case VertexFormat::PCT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
@@ -84,7 +85,7 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 			glEnableVertexAttribArray(2);
 			break;
 
-		case Onyx::VertexFormat::PNT:
+		case VertexFormat::PNT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -93,7 +94,7 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 			glEnableVertexAttribArray(3);
 			break;
 
-		case Onyx::VertexFormat::PNC:
+		case VertexFormat::PNC:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(6 * sizeof(float)));
 			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -102,7 +103,7 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 			glEnableVertexAttribArray(3);
 			break;
 
-		case Onyx::VertexFormat::PNCT:
+		case VertexFormat::PNCT:
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)0);
 			glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(6 * sizeof(float)));
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(10 * sizeof(float)));
@@ -210,7 +211,7 @@ Onyx::Mesh Onyx::Mesh::Triangle(Vec2 a, Vec2 b, Vec2 c)
 	};
 
 	return Mesh(
-		VertexBuffer(vertices, 9 * sizeof(float), Onyx::VertexFormat::P),
+		VertexBuffer(vertices, 9 * sizeof(float), VertexFormat::P),
 		IndexBuffer(indices, 3 * sizeof(uint))
 	);
 
@@ -248,7 +249,7 @@ Onyx::Mesh Onyx::Mesh::Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
 	};
 
 	return Mesh(
-		VertexBuffer(vertices, 12 * sizeof(float), Onyx::VertexFormat::P),
+		VertexBuffer(vertices, 12 * sizeof(float), VertexFormat::P),
 		IndexBuffer(indices, 6 * sizeof(uint))
 	);
 
@@ -309,7 +310,7 @@ Onyx::Mesh Onyx::Mesh::RectPrism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, Vec3 f,
 	};
 
 	return Mesh(
-		VertexBuffer(vertices, 24 * sizeof(float), Onyx::VertexFormat::P),
+		VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::P),
 		IndexBuffer(indices, 36 * sizeof(uint))
 	);
 

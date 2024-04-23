@@ -8,6 +8,7 @@
 #include <stbi/stb_image.h>
 
 bool onyx_is_ehandler_nullptr();
+void onyx_err(const Onyx::Error&);
 
 Onyx::Texture::Texture()
 {
@@ -24,7 +25,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 	std::ifstream file(filepath);
 	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
 	{
-		Err(Error{
+		onyx_err(Error{
 				.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
 				.message = "File not found (or access denied): \"" + filepath + "\"",
 				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
@@ -37,7 +38,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 
 	if (!onyx_is_ehandler_nullptr()) if (textureWrap == Onyx::TextureWrap::Null)
     {
-		Err(Error{
+		onyx_err(Error{
 				.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
                 .message = "Texture wrap option cannot be null",
                 .howToFix = "Enter a valid texture wrap option."
@@ -48,7 +49,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 
 	if (!onyx_is_ehandler_nullptr()) if (minFilter == Onyx::TextureFilter::Null)
     {
-		Err(Error{
+		onyx_err(Error{
 			.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
             .message = "Minification filter option cannot be null",
             .howToFix = "Enter a valid minification filter option."
@@ -60,7 +61,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 
 	if (!onyx_is_ehandler_nullptr()) if (magFilter == Onyx::TextureFilter::Null)
 	{
-		Err(Error{
+		onyx_err(Error{
 			.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
 			.message = "Magnification filter option cannot be null",
 			.howToFix = "Enter a valid magnification filter option."
@@ -76,7 +77,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 	ubyte* data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
 	if (!onyx_is_ehandler_nullptr()) if (!data)
 	{
-		Err(Error{
+		onyx_err(Error{
                 .sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
                 .message = "Found file, but failed to load image data: \"" + filepath + "\"",
                 .howToFix = "Ensure the file is a valid image file. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"

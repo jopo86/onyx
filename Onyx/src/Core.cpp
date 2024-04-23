@@ -24,6 +24,41 @@ FT_Library ft;
 void* p_user;
 std::vector<std::pair<void*, bool>> mallocs;
 
+void onyx_set_gl_init(bool val)
+{
+	glInitialized = val;
+}
+
+bool onyx_is_ehandler_nullptr()
+{
+	return p_errorHandler == nullptr;
+}
+
+FT_Library* onyx_get_ft()
+{
+	return &ft;
+}
+
+void onyx_add_malloc(void* ptr, bool array)
+{
+	mallocs.push_back(std::pair<void*, bool>(ptr, array));
+}
+
+void onyx_err(const Onyx::Error& error)
+{
+	if (p_errorHandler != nullptr) p_errorHandler->err(error);
+}
+
+void onyx_warn(const Onyx::Warning& warning)
+{
+	if (p_errorHandler != nullptr) p_errorHandler->warn(warning);
+}
+
+void onyx_glerr(const Onyx::GLError& error)
+{
+	std::cout << error.toString() << "\n\n";
+}
+
 const char* _glErrorToString(uint errorCode)
 {
 	switch (errorCode)
@@ -45,29 +80,15 @@ uint _glCheckError(const std::string& file, int line)
 	uint errorCode;
 	while ((errorCode = glGetError()) != GL_NO_ERROR)
 	{
-		std::cout << "[OpenGL Error] " << glErrorToString(errorCode) << " | " << file.substr(file.find_last_of("\\") + 1) << " (" << line << ")\n";
+		onyx_glerr(Onyx::GLError{
+			.code = errorCode,
+			.file = file.substr(file.find_last_of("\\") + 1),
+			.line = line
+			}
+		);
 	}
 	return errorCode;
-}
-
-void onyx_set_gl_init(bool val)
-{
-	glInitialized = val;
-}
-
-bool onyx_is_ehandler_nullptr()
-{
-	return p_errorHandler == nullptr;
-}
-
-FT_Library* onyx_get_ft()
-{
-	return &ft;
-}
-
-void onyx_add_malloc(void* ptr, bool array)
-{
-	mallocs.push_back(std::pair<void*, bool>(ptr, array));
+	
 }
 
 void Onyx::Init()
@@ -92,7 +113,7 @@ void Onyx::Init(ErrorHandler& errorHandler)
 
 	if (initialized)
 	{
-		Warn(Warning{
+		onyx_warn(Warning{
 				.sourceFunction = "Onyx::Init(ErrorHandler& errorHandler)",
 				.message = "Attempted to initialize library when it is already initialize. Initialization aborted.",
 				.howToFix = "If reinitialization was intentional, terminate the library first.",
@@ -106,7 +127,7 @@ void Onyx::Init(ErrorHandler& errorHandler)
 
 	if (FT_Init_FreeType(&ft))
 	{
-		Err(Error{
+		onyx_err(Error{
 			.sourceFunction = "Onyx::Init(ErrorHandler& errorHandler)",
 			.message = "Failed to initialize FreeType.",
 			.howToFix = "Ensure the FreeType library is downloaded for your specific platform. If you are not running Windows x64, you will need to download FreeType for yourself, you can't just use the one from the Onyx download.",
@@ -117,7 +138,7 @@ void Onyx::Init(ErrorHandler& errorHandler)
 
 	if (!glfwInit())
 	{
-		Err(Error{
+		onyx_err(Error{
 			   .sourceFunction = "Onyx::Init(ErrorHandler& errorHandler)",
 			   .message = "Failed to initialize GLFW.",
 			   .howToFix = "Ensure the GLFW library is downloaded for your specific platform. If you are not running Windows x64, you will need to download GLFW for yourself, you can't just use the one from the Onyx download.",
@@ -343,16 +364,6 @@ void Onyx::Demo()
 	robotoBold.dispose();
 }
 
-void Onyx::Warn(const Warning& warning)
-{
-	if (p_errorHandler != nullptr) p_errorHandler->warn(warning);
-}
-
-void Onyx::Err(const Error& error)
-{
-	if (p_errorHandler != nullptr) p_errorHandler->err(error);
-}
-
 bool Onyx::IsInitialized()
 {
 	return initialized;
@@ -404,7 +415,7 @@ double Onyx::GetTime()
 
 std::string Onyx::GetGraphicsName()
 {
-	if (!onyx_is_ehandler_nullptr()) if (!glInitialized) Err(Error{
+	if (!onyx_is_ehandler_nullptr()) if (!glInitialized) onyx_err(Error{
 			.sourceFunction = "Onyx::GetGraphics()",
 			.message = "OpenGL is not initialized.",
 			.howToFix = "Ensure OpenGL is initialized before calling this function."

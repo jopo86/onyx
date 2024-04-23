@@ -7,13 +7,14 @@
 
 void onyx_add_malloc(void*, bool);
 bool onyx_is_ehandler_nullptr();
+void onyx_err(const Onyx::Error&);
 
 std::string Onyx::FileUtils::Read(const std::string& path)
 {
 	std::ifstream file(path);
 	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
 	{
-		Err(Error{
+		onyx_err(Error{
 				.sourceFunction = "Onyx::FileUtils::Read(const std::string& path)",
 				.message = "File not found (or access denied): \"" + path + "\"",
 				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
@@ -38,7 +39,7 @@ const char* Onyx::FileUtils::ReadLiteral(const std::string& path)
 	std::ifstream file(path);
 	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
 	{
-		Err(Error{
+		onyx_err(Error{
 			.sourceFunction = "Onyx::FileUtils::ReadLiteral(const std::string& path)",
 			.message = "File not found (or access denied): \"" + path + "\"",
 			.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
@@ -64,7 +65,7 @@ std::vector<std::string> Onyx::FileUtils::ReadLines(const std::string& path)
 	std::ifstream file(path);
 	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
 	{
-		Err(Error{
+		onyx_err(Error{
 			   .sourceFunction = "Onyx::FileUtils::ReadLines(const std::string& path)",
 			   .message = "File not found (or access denied): \"" + path + "\"",
 			   .howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."

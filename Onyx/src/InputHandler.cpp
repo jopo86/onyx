@@ -36,6 +36,7 @@ Onyx::InputHandler::InputHandler(Window& window)
 
 	double mouseX, mouseY;
 	glfwGetCursorPos(p_win->p_glfwWin, &mouseX, &mouseY);
+	mouseY = p_win->properties.height - mouseY;
 	mousePos = DVec2(mouseX, mouseY);
 	lastMousePos = DVec2(mouseX, mouseY);
 

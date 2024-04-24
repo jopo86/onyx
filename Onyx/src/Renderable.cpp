@@ -171,6 +171,15 @@ void Onyx::Renderable::rotate(const Vec3& rotations)
 	updateModel();
 }
 
+void Onyx::Renderable::rotate(const Vec3& rotations, const Vec3& origin)
+{
+	Vec3 diff = m_position - origin;
+	translate(-diff);
+	rotate(rotations);
+	diff = Math::Rotate(diff, rotations);
+	translate(diff);
+}
+
 void Onyx::Renderable::scale(const Vec3& scalars)
 {
 	m_scale.setX(m_scale.getX() * scalars.getX());

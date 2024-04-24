@@ -96,10 +96,18 @@ namespace Onyx
 
 		/*
 			@brief Rotates the camera the specified angles.
-			@param yaw The angle along (not about) the x-axis, AKA yaw, in degrees.
-			@param pitch The angle along (not about) the y-axis, AKA pitch, in degrees.
+			@param yaw The horizontal angle, AKA yaw, in degrees.
+			@param pitch The vertical angle, AKA pitch, in degrees.
 		 */
 		void rotate(float yaw, float pitch);
+
+		/*
+			@brief Rotates the camera the specified angles around the specified origin.
+			@param yaw The horizontal angle, AKA yaw, in degrees.
+			@param pitch The vertical angle, AKA pitch, in degrees.
+			@param origin The origin.
+		*/
+		void rotate(float yaw, float pitch, const Math::Vec3& origin);
 
 		/*
 			@brief Gets the position of camera.
@@ -126,6 +134,10 @@ namespace Onyx
 			@return The projection matrix.
 		 */
 		Math::Mat4 getProjectionMatrix() const;
+
+		const Math::Vec3& getFront() const;
+
+		const Math::Vec3& getUp() const;
 
 		/*
             @brief Sets the position of the camera.

@@ -549,5 +549,5 @@ void Onyx::Window::cb_mouseButton(GLFWwindow *p_glfwWin, int button, int action,
 void Onyx::Window::cb_cursorPos(GLFWwindow *p_glfwWin, double x, double y)
 {
 	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
-	if (p_input != nullptr) p_input->rcb_cursorPos(x, y);
+	if (p_input != nullptr) p_input->rcb_cursorPos(x, ((Window*)glfwGetWindowUserPointer(p_glfwWin))->properties.height - y);
 }

@@ -239,8 +239,13 @@ void Onyx::Demo()
 
 	float start = GetTime();
 	ModelRenderable car(Model::LoadOBJ(Onyx::Resources("models/Corvette C8.obj")));
+	car.rotate(Vec3(0.0f, -180.0f, 0.0f));
 	float duration = round((GetTime() - start) * 100) / 100;
-	
+
+	Renderable road = Renderable::TexturedQuad(250.0f, 250.0f, Texture::Load(Resources("textures/road.png"), Onyx::TextureWrap::Repeat, Onyx::TextureFilter::Nearest, Onyx::TextureFilter::Nearest));
+	road.rotate(Vec3(90.0f, 0.0f, 0.0f));
+	road.translate(Vec3(0.0f, -0.6f, 0.0f));
+
 	std::cout << "Model loaded in " << duration << " sec\n";
 
 	UiRenderable textBg(
@@ -249,13 +254,15 @@ void Onyx::Demo()
 	);
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
-	cam.translateFB(-4.0f);
+	cam.translateFB(-6.0f);
+	cam.translateUD(2.0f);
 
 	Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
 	Renderer renderer(window, cam, lighting);
 	renderer.add(car);
 	renderer.add(textBg);
+	renderer.add(road);
 
 	Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
 	Font robotoBold = Font::Load(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
@@ -310,8 +317,8 @@ void Onyx::Demo()
 
 	for (TextRenderable& tr : textRenderables) renderer.add(tr);
 
-	double camSpeed = 5.0;
-	double camSens = 30.0;
+	const double CAM_SPEED = 5.0;
+	const double CAM_SENS = 30.0;
 
 	input.setCursorLock(true);
 
@@ -331,12 +338,20 @@ void Onyx::Demo()
 		if (window.getFrame() % 100 == 0 || window.getFrame() == 2) fps = window.getFPS();
 
 		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
-		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(camSpeed * deltaTime);
-		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-camSpeed * deltaTime);
-		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-camSpeed * deltaTime);
-		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(camSpeed * deltaTime);
-		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(camSpeed * deltaTime);
-		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-camSpeed * deltaTime);
+		if (input.isKeyDown(Onyx::Key::W))
+		{
+			cam.translateFB(CAM_SPEED * deltaTime);
+			car.translateLocal(Vec3(0.0f, 0.0f, 50.0f * deltaTime));
+		}
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-CAM_SPEED * deltaTime);
+		if (input.isKeyDown(Onyx::Key::S))
+		{
+			cam.translateFB(-CAM_SPEED * deltaTime);
+			car.translateLocal(Vec3(0.0f, 0.0f, -50.0f * deltaTime));
+		}
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(CAM_SPEED * deltaTime);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(CAM_SPEED * deltaTime);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-CAM_SPEED * deltaTime);
 		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen();
 		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
 		if (input.isKeyDown(Onyx::Key::Num2))
@@ -345,10 +360,16 @@ void Onyx::Demo()
 		}
 		if (input.isKeyDown(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
 
-		cam.rotate(camSens * input.getMouseDeltas().getX() * deltaTime, camSens * input.getMouseDeltas().getY() * deltaTime);
+		double deltaX = input.getMouseDeltas().getX();
+		double deltaY = input.getMouseDeltas().getY();
+
+		//car.rotate(-Vec3(0.0f, CAM_SENS * .005f * deltaX, 0.0f));
+		std::cout << cam.getPosition().magnitude() << " --> ";
+		cam.rotate(CAM_SENS * .005f * deltaX, CAM_SENS * .005f * deltaY, car.getPosition());
+		std::cout << cam.getPosition().magnitude() << "\n";
 		cam.update();
 
-		car.rotate(Vec3(0.0f, 20.0f * window.getDeltaTime(), 0.0f));
+		//car.rotate(Vec3(0.0f, 20.0f * window.getDeltaTime(), 0.0f));
 
 		textRenderables[1].setText("FPS: " + std::to_string(fps));
 		textRenderables[2].setText("FRAME " + std::to_string(window.getFrame()));

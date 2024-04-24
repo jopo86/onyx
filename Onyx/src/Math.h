@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 #include <glm/glm.hpp>
 
 typedef unsigned int uint;
@@ -65,6 +67,7 @@ namespace Onyx
 			void normalize();
 			float* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			float getX() const;
 			float getY() const;
@@ -111,6 +114,7 @@ namespace Onyx
 			void normalize();
 			float* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			float getX() const;
 			float getY() const;
@@ -182,6 +186,7 @@ namespace Onyx
 			void normalize();
 			float* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			float getX() const;
 			float getY() const;
@@ -257,6 +262,7 @@ namespace Onyx
 			void normalize();
 			double* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			double getX() const;
 			double getY() const;
@@ -303,6 +309,7 @@ namespace Onyx
 			void normalize();
 			double* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			double getX() const;
 			double getY() const;
@@ -356,6 +363,7 @@ namespace Onyx
 			void normalize();
 			double* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			double getX() const;
 			double getY() const;
@@ -411,6 +419,7 @@ namespace Onyx
 
 			int* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			int getX() const;
 			int getY() const;
@@ -452,6 +461,7 @@ namespace Onyx
 
 			int* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			int getX() const;
 			int getY() const;
@@ -499,6 +509,7 @@ namespace Onyx
 
 			int* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			int getX() const;
 			int getY() const;
@@ -541,6 +552,7 @@ namespace Onyx
 
 			uint* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			uint getX() const;
 			uint getY() const;
@@ -578,6 +590,7 @@ namespace Onyx
 
 			uint* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			uint getX() const;
 			uint getY() const;
@@ -621,6 +634,7 @@ namespace Onyx
 
 			uint* data() const;
 			bool isZero() const;
+			std::string toString() const;
 
 			uint getX() const;
 			uint getY() const;
@@ -753,6 +767,7 @@ namespace Onyx
 			glm::mat2x2 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec2 operator[](int index) const;
 
@@ -782,6 +797,7 @@ namespace Onyx
 			glm::mat2x3 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec3 operator[](int index) const;
 
@@ -811,6 +827,7 @@ namespace Onyx
 			glm::mat2x4 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec4 operator[](int index) const;
 
@@ -840,6 +857,7 @@ namespace Onyx
 			glm::mat3x2 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec2 operator[](int index) const;
 
@@ -869,6 +887,7 @@ namespace Onyx
 			glm::mat3x3 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec3 operator[](int index) const;
 
@@ -898,6 +917,7 @@ namespace Onyx
 			glm::mat3x4 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec4 operator[](int index) const;
 
@@ -927,6 +947,7 @@ namespace Onyx
 			glm::mat4x2 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec2 operator[](int index) const;
 
@@ -956,6 +977,7 @@ namespace Onyx
 			glm::mat4x3 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec3 operator[](int index) const;
 
@@ -989,6 +1011,7 @@ namespace Onyx
 			glm::mat4x4 getMMat() const;
 
 			float* data() const;
+			std::string toString() const;
 
 			Vec4 operator[](int index) const;
 

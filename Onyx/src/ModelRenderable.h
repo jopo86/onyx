@@ -29,7 +29,7 @@ namespace Onyx
 			@param view The view matrix to use, generally from an Camera.
 			@param proj The projection matrix to use, generally from an Camera.
 		 */
-		void render(const Onyx::Math::Mat4& view, const Onyx::Math::Mat4& proj);
+		void render(const Math::Mat4& view, const Math::Mat4& proj);
 
 		/*
 			@brief Hides the renderable.
@@ -65,37 +65,37 @@ namespace Onyx
 			@brief Gets the position of the renderable.
 			@return The position.
 		 */
-		const Onyx::Math::Vec3& getPosition() const;
+		const Math::Vec3& getPosition() const;
 
 		/*
 			@brief Gets the rotation of the renderable.
 			@return The rotation around each axis.
 		 */
-		const Onyx::Math::Vec3& getRotation() const;
+		const Math::Vec3& getRotation() const;
 
 		/*
 			@brief Gets the scale of the renderable.
 			@return The scale for each axis.
 		 */
-		const Onyx::Math::Vec3& getScale() const;
+		const Math::Vec3& getScale() const;
 
 		/*
 			@brief Sets the position of the renderable.
 			@param position The new position.
 		 */
-		void setPosition(const Onyx::Math::Vec3& position);
+		void setPosition(const Math::Vec3& position);
 
 		/*
 			@brief Sets the rotation of the renderable.
 			@param rotations The new rotation around each axis.
 		 */
-		void setRotation(const Onyx::Math::Vec3& rotations);
+		void setRotation(const Math::Vec3& rotations);
 
 		/*
 			@brief Sets the scale of the renderable.
 			@param scales The new scale for each axis.
 		 */
-		void setScale(const Onyx::Math::Vec3& scales);
+		void setScale(const Math::Vec3& scales);
 
 		/*
 			@brief Translates the renderable by the specified positional amount.
@@ -103,7 +103,7 @@ namespace Onyx
 			The translation is in world space, not local space, so rotation will not affect the translation.
 			@param translation The positional amount to translate by.
 		 */
-		void translate(const Onyx::Math::Vec3& translation);
+		void translate(const Math::Vec3& translation);
 
 		/*
 			@brief Translate the renderable by the specified positional amount in local space.
@@ -111,21 +111,29 @@ namespace Onyx
 			The translation is in local space, not world space, so rotation will affect the translation.
 			@param translation The positional amount to translate by.
 		 */
-		void translateLocal(const Onyx::Math::Vec3& translation);
+		void translateLocal(const Math::Vec3& translation);
 
 		/*
 			@brief Rotates the renderable by the specified rotation amounts.
 			This function does not set the rotation, it adds to it.
 			@param rotations The rotation amounts around each axis.
 		 */
-		void rotate(const Onyx::Math::Vec3& rotations);
+		void rotate(const Math::Vec3& rotations);
+
+		/*
+			@brief Rotates the renderable by the specified rotation amounts around the specified origin.
+			This function does not set the rotation, it adds to it.
+			@param rotations The rotation amounts around each axis.
+			@param origin The origin to rotate around.
+		 */
+		void rotate(const Math::Vec3& rotations, const Math::Vec3& origin);
 
 		/*
 			@brief Scales the renderable by the specified scalar amounts.
 			This function does not set the scale, it multiplies it.
 			@param scalars The scalar amounts for each axis.
 		 */
-		void scale(const Onyx::Math::Vec3& scalars);
+		void scale(const Math::Vec3& scalars);
 
 		/*
 			@brief Scales the renderable on all axes by the specified scalar amount.

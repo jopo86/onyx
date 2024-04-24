@@ -137,6 +137,14 @@ void Onyx::ModelRenderable::rotate(const Vec3& rotations)
 	}
 }
 
+void Onyx::ModelRenderable::rotate(const Vec3& rotations, const Vec3& origin)
+{
+	for (std::pair<const std::string, Renderable>& r : renderableMap)
+	{
+		r.second.rotate(rotations, origin);
+	}
+}
+
 void Onyx::ModelRenderable::scale(const Vec3& scalars)
 {
 	for (std::pair<const std::string, Renderable>& r : renderableMap)

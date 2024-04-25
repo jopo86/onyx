@@ -129,11 +129,10 @@ void Onyx::Camera::rotate(float _yaw, float _pitch, const Vec3& origin)
 	if (pitch + _pitch > pitchClamp || pitch + _pitch < -pitchClamp) _pitch = 0.0f;
 
 	Vec3 diff = pos - origin;
-	float mag = pos.magnitude();
 	translateGlobal(diff);
 
 	yaw += _yaw;
-	pitch -= _pitch;
+	pitch += _pitch;
 
 	float yawRad = Radians(yaw);
 	float pitchRad = Radians(pitch);
@@ -146,10 +145,9 @@ void Onyx::Camera::rotate(float _yaw, float _pitch, const Vec3& origin)
 	Vec3 left = Cross(front, up).getNormalized();
 
 	//std::cout << diff.magnitude() << " --> ";
-	diff = Math::Rotate(diff, Vec3(_pitch * left.getX(), _yaw, _pitch * left.getZ()));
+	diff = Math::Rotate(diff, Vec3(-_pitch * left.getX(), _yaw, -_pitch * left.getZ()));
 	//std::cout << diff.magnitude() << "\n";
 	translateGlobal(-diff);
-	pos.setMagnitude(mag);
 }
 
 void Onyx::Camera::lookAt(const Vec3& target)
@@ -157,22 +155,22 @@ void Onyx::Camera::lookAt(const Vec3& target)
     front = (target - pos).getNormalized();
 }
 
-Vec3 Onyx::Camera::getPosition() const
+const Vec3& Onyx::Camera::getPosition() const
 {
 	return pos;
 }
 
-Onyx::Projection Onyx::Camera::getProjection() const
+const Onyx::Projection& Onyx::Camera::getProjection() const
 {
 	return proj;
 }
 
-Mat4 Onyx::Camera::getViewMatrix() const
+const Mat4& Onyx::Camera::getViewMatrix() const
 {
 	return view;
 }
 
-Mat4 Onyx::Camera::getProjectionMatrix() const
+const Mat4& Onyx::Camera::getProjectionMatrix() const
 {
 	return proj.getMatrix();
 }
@@ -200,4 +198,14 @@ void Onyx::Camera::setPitchLimit(float pitchClamp)
 void Onyx::Camera::setProjection(const Projection& proj)
 {
 	this->proj = proj;
+}
+
+void Onyx::Camera::setFOV(float fov)
+{
+	proj.setFOV(fov);
+}
+
+void Onyx::Camera::setViewDistance(float dist)
+{
+	proj.setFarPlane(dist);
 }

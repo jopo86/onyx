@@ -128,6 +128,7 @@ void Onyx::Window::init()
 	glfwSetKeyCallback(p_glfwWin, cb_key);
 	glfwSetMouseButtonCallback(p_glfwWin, cb_mouseButton);
 	glfwSetCursorPosCallback(p_glfwWin, cb_cursorPos);
+	glfwSetScrollCallback(p_glfwWin, cb_scroll);
 
 	glfwSwapInterval(1);
 
@@ -550,4 +551,10 @@ void Onyx::Window::cb_cursorPos(GLFWwindow *p_glfwWin, double x, double y)
 {
 	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
 	if (p_input != nullptr) p_input->rcb_cursorPos(x, ((Window*)glfwGetWindowUserPointer(p_glfwWin))->properties.height - y);
+}
+
+void Onyx::Window::cb_scroll(GLFWwindow *p_glfwWin, double dx, double dy)
+{
+    InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
+    if (p_input != nullptr) p_input->rcb_scroll(dx, dy);
 }

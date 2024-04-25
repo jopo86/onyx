@@ -119,27 +119,27 @@ namespace Onyx
 			@brief Gets the position of camera.
 			@return The position of the camera.
 		 */
-		Math::Vec3 getPosition() const;
+		const Math::Vec3& getPosition() const;
 
 		/*
 			@brief Gets the projection of the camera.
 			@return The projection of the camera.
 		 */
-		Projection getProjection() const;
+		const Projection& getProjection() const;
 
 		/*
 			@brief Gets the view matrix of the camera.
 			Used by the renderer to render objects from the camera's POV.
 			@return The view matrix.
 		 */
-		Math::Mat4 getViewMatrix() const;
+		const Math::Mat4& getViewMatrix() const;
 
 		/*
 			@brief Gets the projection matrix of the camera.
 			Used by the renderer to render objects with perspective or orthographically.
 			@return The projection matrix.
 		 */
-		Math::Mat4 getProjectionMatrix() const;
+		const Math::Mat4& getProjectionMatrix() const;
 
 		/*
 			@brief Gets the front vector of the camera.
@@ -175,6 +175,22 @@ namespace Onyx
 			@param proj The projection of the camera.
 		 */
 		void setProjection(const Projection& proj);
+
+		/*
+			@brief Sets the FOV of the camera's projection.
+		 !  Only works if the camera's projection is perspective.
+			@param fov The desired FOV.
+		 */
+		void setFOV(float fov);
+
+		/*
+			@brief Sets the view distance of the camera.
+			If not set for the projection, the default is 100.
+			This sets the far plane of the projection.
+		 !	Only works if the camera's projection is perspective.
+			@param dist The desired view distance.
+		 */
+		void setViewDistance(float dist);
 
 	private:
 		Window* p_win;

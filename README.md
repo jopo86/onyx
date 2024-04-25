@@ -1,5 +1,5 @@
 # ![Onyx Logo](logo.png)
-Onyx is a high-level C++ library for rendering graphics to the screen using OpenGL 4.1.  
+Onyx is a high-level C++ library for rendering graphics to the screen using OpenGL 4.1 and GLFW 3.4.  
 
 The intuitive and well-structured codebase makes it simpler than ever to code games, apps, or any graphical interface using a language as complex as C++.  
 
@@ -7,7 +7,7 @@ The intuitive and well-structured codebase makes it simpler than ever to code ga
 Onyx can be downloaded as pre-compiled binaries for Windows Visual Studio x64, or the source files themselves.  
 Everything needed is included in the following links (from a release page, download the onyx-x.x.x.zip file under assets).
 
-[Latest Release (0.9.4-beta)](https://github.com/jopo86/onyx/releases/tag/v0.9.4-beta)  
+[Latest Release (0.9.5-beta)](https://github.com/jopo86/onyx/releases/tag/v0.9.5-beta)  
 [All Releases](https://github.com/jopo86/onyx/releases)  
 
 ## Get Started

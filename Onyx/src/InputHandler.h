@@ -127,13 +127,19 @@ namespace Onyx
 			This is independent of whether update() is called each frame.
 			@return The position of the mouse.
 		 */
-		Onyx::Math::DVec2& getMousePos() const;
+		const Onyx::Math::DVec2& getMousePos() const;
 
 		/*
 			@brief Gets the change in position of the mouse since the last update.
 			@return The change in position of the mouse since the last frame.
 		 */
-		Onyx::Math::DVec2& getMouseDeltas() const;
+		const Onyx::Math::DVec2& getMouseDeltas() const;
+
+		/*
+            @brief Gets the change in scroll of the mouse since the last update.
+            @return The change in scroll of the mouse since the last frame.
+         */
+		const Onyx::Math::DVec2& getScrollDeltas() const;
 
 	private:
 		Window* p_win;
@@ -152,11 +158,13 @@ namespace Onyx
 		Onyx::Math::DVec2 mousePos;
 		Onyx::Math::DVec2 lastMousePos;
 		Onyx::Math::DVec2 mouseDeltas;
+		Onyx::Math::DVec2 scrollDeltas;
 
 		bool cursorLock;
 
 		void rcb_key(int key, int scancode, int action, int mods);
 		void rcb_mouseButton(int button, int action, int mods);
 		void rcb_cursorPos(double x, double y);
+		void rcb_scroll(double dx, double dy);
 	};
 }

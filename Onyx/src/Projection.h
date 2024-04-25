@@ -119,7 +119,7 @@ namespace Onyx
 			The projection matrix is passed to the shader before rendering an object to project the object's 3D coordinates onto the 2D screen.
 			@return The projection matrix.
 		 */
-		Onyx::Math::Mat4 getMatrix() const;
+		const Onyx::Math::Mat4& getMatrix() const;
 
 		/*
 			@brief Sets the left of the screen.
@@ -182,5 +182,7 @@ namespace Onyx
 		float left, right, top, bottom, fov, aspectRatio, nearPlane, farPlane;
 
 		Onyx::Math::Mat4 mat;
+
+		void updateMatrix();
 	};
 }

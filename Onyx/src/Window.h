@@ -551,5 +551,6 @@ namespace Onyx
 		static void cb_key(GLFWwindow* p_window, int key, int scancode, int action, int mods);
 		static void cb_mouseButton(GLFWwindow* p_window, int button, int action, int mods);
 		static void cb_cursorPos(GLFWwindow* p_window, double x, double y);
+		static void cb_scroll(GLFWwindow* p_window, double dx, double dy);
 	};
 }

@@ -354,30 +354,32 @@ void Onyx::Demo()
 	while (window.isOpen())
 	{
 		input.update();
-		double deltaX = input.getMouseDeltas().getX();
-		double deltaY = input.getMouseDeltas().getY();
+		double dx = input.getMouseDeltas().getX();
+		double dy = input.getMouseDeltas().getY();
 
-		double deltaTime = window.getDeltaTime();
+		double dt = window.getDeltaTime();
 		if (window.getFrame() % 100 == 0 || window.getFrame() == 2) fps = window.getFPS();
 
 		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
-		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(CAM_SPEED * deltaTime);
-		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-CAM_SPEED * deltaTime);
-		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-CAM_SPEED * deltaTime);
-		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(CAM_SPEED * deltaTime);
-		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(CAM_SPEED * deltaTime);
-		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-CAM_SPEED * deltaTime);
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(CAM_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-CAM_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-CAM_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(CAM_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(CAM_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-CAM_SPEED * dt);
 		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen();
 		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
 		if (input.isKeyDown(Onyx::Key::Num2)) car.toggleVisibility();
 		if (input.isKeyDown(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
 
 
-		car.rotate(Vec3(0.0f, 20.0f * deltaTime, 0.0f));
+		car.rotate(Vec3(0.0f, 20.0f * dt, 0.0f));
 		//std::cout << cam.getPosition().magnitude() << " --> ";
-		cam.rotate(CAM_SENS * .005f * deltaX, CAM_SENS * .005f * deltaY);
+		cam.rotate(CAM_SENS * .005 * dx, CAM_SENS * .005 * dy/*, car.getPosition()*/);
 		//std::cout << cam.getPosition().magnitude() << "\n";
 		cam.update();
+
+		cam.setFOV(cam.getProjection().getFOV() - input.getScrollDeltas().getY());
 
 		//car.rotate(Vec3(0.0f, 20.0f * window.getDeltaTime(), 0.0f));
 

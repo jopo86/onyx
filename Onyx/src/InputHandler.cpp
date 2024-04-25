@@ -159,14 +159,19 @@ void Onyx::InputHandler::toggleCursorLock()
 	setCursorLock(!cursorLock);
 }
 
-Onyx::Math::DVec2& Onyx::InputHandler::getMousePos() const
+const Onyx::Math::DVec2& Onyx::InputHandler::getMousePos() const
 {
-	return (Math::DVec2&)mousePos;
+	return mousePos;
 }
 
-Onyx::Math::DVec2& Onyx::InputHandler::getMouseDeltas() const
+const Onyx::Math::DVec2& Onyx::InputHandler::getMouseDeltas() const
 {
-	return (Math::DVec2&)mouseDeltas;
+	return mouseDeltas;
+}
+
+const Onyx::Math::DVec2& Onyx::InputHandler::getScrollDeltas() const
+{
+    return scrollDeltas;
 }
 
 void Onyx::InputHandler::rcb_key(int key, int scancode, int action, int mods) 
@@ -181,6 +186,10 @@ void Onyx::InputHandler::rcb_mouseButton(int button, int action, int mods)
 
 void Onyx::InputHandler::rcb_cursorPos(double x, double y) 
 {
-	mousePos.setX(x);
-	mousePos.setY(y);
+	mousePos.set(x, y);
+}
+
+void Onyx::InputHandler::rcb_scroll(double dx, double dy)
+{
+	scrollDeltas.set(dx, dy);
 }

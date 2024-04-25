@@ -392,9 +392,9 @@ void Onyx::Window::windowed(int width, int height, Math::IVec2 position)
 void Onyx::Window::toggleFullscreen()
 {
 	if (properties.fullscreen)
-		fullscreen();
-	else
 		windowed();
+	else
+		fullscreen();
 }
 
 void Onyx::Window::hide()

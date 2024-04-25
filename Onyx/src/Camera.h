@@ -110,6 +110,12 @@ namespace Onyx
 		void rotate(float yaw, float pitch, const Math::Vec3& origin);
 
 		/*
+			@brief Faces the camera towards the target.
+			@param target The target to look at.
+		 */
+		void lookAt(const Math::Vec3& target);
+
+		/*
 			@brief Gets the position of camera.
 			@return The position of the camera.
 		 */
@@ -135,8 +141,18 @@ namespace Onyx
 		 */
 		Math::Mat4 getProjectionMatrix() const;
 
+		/*
+			@brief Gets the front vector of the camera.
+			The left vector can be created using the cross product of the front and up vectors.
+			@return The front vector of the camera.
+		 */
 		const Math::Vec3& getFront() const;
 
+		/*
+			@brief Gets the up vector of the camera.
+			The left vector can be created using the cross product of the front and up vectors.
+			@return The up vector of the camera.
+		 */
 		const Math::Vec3& getUp() const;
 
 		/*

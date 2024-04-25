@@ -16,6 +16,21 @@ Onyx::VertexBuffer::VertexBuffer(float *vertices, uint size, VertexFormat format
 	heap = false;
 }
 
+bool Onyx::VertexBuffer::HasNormals(Onyx::VertexFormat format)
+{
+	return format == VertexFormat::PN || format == VertexFormat::PNT || format == VertexFormat::PNC || format == VertexFormat::PNCT;
+}
+
+bool Onyx::VertexBuffer::HasTextureCoords(Onyx::VertexFormat format)
+{
+    return format == VertexFormat::PT || format == VertexFormat::PCT || format == VertexFormat::PNT || format == VertexFormat::PNCT;
+}
+
+bool Onyx::VertexBuffer::HasColors(Onyx::VertexFormat format)
+{
+    return format == VertexFormat::PC || format == VertexFormat::PCT || format == VertexFormat::PNC || format == VertexFormat::PNCT;
+}
+
 Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float side)
 {
 	return Triangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)));

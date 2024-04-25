@@ -98,6 +98,18 @@ void Onyx::Math::Vec2::setY(float y)
 	m_vec.y = y;
 }
 
+void Onyx::Math::Vec2::set(float x, float y)
+{
+	m_vec.x = x;
+	m_vec.y = y;
+}
+
+void Onyx::Math::Vec2::setMagnitude(float magnitude)
+{
+	normalize();
+	m_vec *= magnitude;
+}
+
 float Onyx::Math::Vec2::operator[](int index) const
 {
 	return m_vec[index];
@@ -196,7 +208,7 @@ bool Onyx::Math::Vec3::isZero() const
 
 std::string Onyx::Math::Vec3::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
 }
 
 float Onyx::Math::Vec3::getX() const
@@ -237,6 +249,19 @@ void Onyx::Math::Vec3::setY(float y)
 void Onyx::Math::Vec3::setZ(float z)
 {
 	m_vec.z = z;
+}
+
+void Onyx::Math::Vec3::set(float x, float y, float z)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+    m_vec.z = z;
+}
+
+void Onyx::Math::Vec3::setMagnitude(float magnitude)
+{
+    normalize();
+    m_vec *= magnitude;
 }
 
 float Onyx::Math::Vec3::operator[](int index) const
@@ -443,7 +468,7 @@ bool Onyx::Math::Vec4::isZero() const
 
 std::string Onyx::Math::Vec4::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
 }
 
 float Onyx::Math::Vec4::getX() const
@@ -494,6 +519,20 @@ void Onyx::Math::Vec4::setZ(float z)
 void Onyx::Math::Vec4::setW(float w)
 {
 	m_vec.w = w;
+}
+
+void Onyx::Math::Vec4::set(float x, float y, float z, float w)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+    m_vec.z = z;
+    m_vec.w = w;
+}
+
+void Onyx::Math::Vec4::setMagnitude(float magnitude)
+{
+    normalize();
+    m_vec *= magnitude;
 }
 
 float Onyx::Math::Vec4::operator[](int index) const
@@ -551,82 +590,82 @@ Onyx::Math::Vec4 Onyx::Math::Vec4::Red(float alpha)
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Orange(float alpha)
 {
-    return Vec4(Vec3::Orange(), alpha);
+	return Vec4(Vec3::Orange(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Yellow(float alpha)
 {
-    return Vec4(Vec3::Yellow(), alpha);
+	return Vec4(Vec3::Yellow(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Green(float alpha)
 {
-    return Vec4(Vec3::Green(), alpha);
+	return Vec4(Vec3::Green(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::DarkGreen(float alpha)
 {
-    return Vec4(Vec3::DarkGreen(), alpha);
+	return Vec4(Vec3::DarkGreen(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Cyan(float alpha)
 {
-    return Vec4(Vec3::Cyan(), alpha);
+	return Vec4(Vec3::Cyan(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::LightBlue(float alpha)
 {
-    return Vec4(Vec3::LightBlue(), alpha);
+	return Vec4(Vec3::LightBlue(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Blue(float alpha)
 {
-    return Vec4(Vec3::Blue(), alpha);
+	return Vec4(Vec3::Blue(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::NavyBlue(float alpha)
 {
-    return Vec4(Vec3::NavyBlue(), alpha);
+	return Vec4(Vec3::NavyBlue(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Purple(float alpha)
 {
-    return Vec4(Vec3::Purple(), alpha);
+	return Vec4(Vec3::Purple(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Pink(float alpha)
 {
-    return Vec4(Vec3::Pink(), alpha);
+	return Vec4(Vec3::Pink(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Magenta(float alpha)
 {
-    return Vec4(Vec3::Magenta(), alpha);
+	return Vec4(Vec3::Magenta(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::White(float alpha)
 {
-    return Vec4(Vec3::White(), alpha);
+	return Vec4(Vec3::White(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::LightGray(float alpha)
 {
-    return Vec4(Vec3::LightGray(), alpha);
+	return Vec4(Vec3::LightGray(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::DarkGray(float alpha)
 {
-    return Vec4(Vec3::DarkGray(), alpha);
+	return Vec4(Vec3::DarkGray(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Black(float alpha)
 {
-    return Vec4(Vec3::Black(), alpha);
+	return Vec4(Vec3::Black(), alpha);
 }
 
 Onyx::Math::Vec4 Onyx::Math::Vec4::Brown(float alpha)
 {
-    return Vec4(Vec3::Brown(), alpha);
+	return Vec4(Vec3::Brown(), alpha);
 }
 
 Onyx::Math::Vec2 Onyx::Math::Rotate(const Vec2& vec, float angle)
@@ -768,7 +807,7 @@ bool Onyx::Math::DVec2::isZero() const
 
 std::string Onyx::Math::DVec2::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ")";
 }
 
 double Onyx::Math::DVec2::getX() const
@@ -799,6 +838,18 @@ void Onyx::Math::DVec2::setX(double x)
 void Onyx::Math::DVec2::setY(double y)
 {
 	m_vec.y = y;
+}
+
+void Onyx::Math::DVec2::set(double x, double y)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+}
+
+void Onyx::Math::DVec2::setMagnitude(double magnitude)
+{
+    normalize();
+    m_vec *= magnitude;
 }
 
 double Onyx::Math::DVec2::operator[](int index) const
@@ -899,7 +950,7 @@ bool Onyx::Math::DVec3::isZero() const
 
 std::string Onyx::Math::DVec3::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
 }
 
 double Onyx::Math::DVec3::getX() const
@@ -940,6 +991,19 @@ void Onyx::Math::DVec3::setY(double y)
 void Onyx::Math::DVec3::setZ(double z)
 {
 	m_vec.z = z;
+}
+
+void Onyx::Math::DVec3::set(double x, double y, double z)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+    m_vec.z = z;
+}
+
+void Onyx::Math::DVec3::setMagnitude(double magnitude)
+{
+    normalize();
+    m_vec *= magnitude;
 }
 
 double Onyx::Math::DVec3::operator[](int index) const
@@ -1061,7 +1125,7 @@ bool Onyx::Math::DVec4::isZero() const
 
 std::string Onyx::Math::DVec4::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
 }
 
 double Onyx::Math::DVec4::getX() const
@@ -1112,6 +1176,20 @@ void Onyx::Math::DVec4::setZ(double z)
 void Onyx::Math::DVec4::setW(double w)
 {
 	m_vec.w = w;
+}
+
+void Onyx::Math::DVec4::set(double x, double y, double z, double w)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+    m_vec.z = z;
+    m_vec.w = w;
+}
+
+void Onyx::Math::DVec4::setMagnitude(double magnitude)
+{
+    normalize();
+    m_vec *= magnitude;
 }
 
 double Onyx::Math::DVec4::operator[](int index) const
@@ -1291,7 +1369,7 @@ bool Onyx::Math::IVec2::isZero() const
 
 std::string Onyx::Math::IVec2::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ")";
 }
 
 int Onyx::Math::IVec2::getX() const
@@ -1317,6 +1395,12 @@ void Onyx::Math::IVec2::setX(int x)
 void Onyx::Math::IVec2::setY(int y)
 {
 	m_vec.y = y;
+}
+
+void Onyx::Math::IVec2::set(int x, int y)
+{
+    m_vec.x = x;
+    m_vec.y = y;
 }
 
 int Onyx::Math::IVec2::operator[](int index) const
@@ -1407,7 +1491,7 @@ bool Onyx::Math::IVec3::isZero() const
 
 std::string Onyx::Math::IVec3::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
 }
 
 int Onyx::Math::IVec3::getX() const
@@ -1443,6 +1527,13 @@ void Onyx::Math::IVec3::setY(int y)
 void Onyx::Math::IVec3::setZ(int z)
 {
 	m_vec.z = z;
+}
+
+void Onyx::Math::IVec3::set(int x, int y, int z)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+    m_vec.z = z;
 }
 
 int Onyx::Math::IVec3::operator[](int index) const
@@ -1554,7 +1645,7 @@ bool Onyx::Math::IVec4::isZero() const
 
 std::string Onyx::Math::IVec4::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
 }
 
 int Onyx::Math::IVec4::getX() const
@@ -1600,6 +1691,14 @@ void Onyx::Math::IVec4::setZ(int z)
 void Onyx::Math::IVec4::setW(int w)
 {
 	m_vec.w = w;
+}
+
+void Onyx::Math::IVec4::set(int x, int y, int z, int w)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+    m_vec.z = z;
+    m_vec.w = w;
 }
 
 int Onyx::Math::IVec4::operator[](int index) const
@@ -1682,7 +1781,7 @@ bool Onyx::Math::UVec2::isZero() const
 
 std::string Onyx::Math::UVec2::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ")";
 }
 
 uint Onyx::Math::UVec2::getX() const
@@ -1708,6 +1807,12 @@ void Onyx::Math::UVec2::setX(uint x)
 void Onyx::Math::UVec2::setY(uint y)
 {
 	m_vec.y = y;
+}
+
+void Onyx::Math::UVec2::set(uint x, uint y)
+{
+    m_vec.x = x;
+    m_vec.y = y;
 }
 
 uint Onyx::Math::UVec2::operator[](int index) const
@@ -1793,7 +1898,7 @@ bool Onyx::Math::UVec3::isZero() const
 
 std::string Onyx::Math::UVec3::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ")";
 }
 
 uint Onyx::Math::UVec3::getX() const
@@ -1829,6 +1934,13 @@ void Onyx::Math::UVec3::setY(uint y)
 void Onyx::Math::UVec3::setZ(uint z)
 {
 	m_vec.z = z;
+}
+
+void Onyx::Math::UVec3::set(uint x, uint y, uint z)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+    m_vec.z = z;
 }
 
 uint Onyx::Math::UVec3::operator[](int index) const
@@ -1935,7 +2047,7 @@ bool Onyx::Math::UVec4::isZero() const
 
 std::string Onyx::Math::UVec4::toString() const
 {
-    return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
+	return "(" + std::to_string(getX()) + ", " + std::to_string(getY()) + ", " + std::to_string(getZ()) + ", " + std::to_string(getW()) + ")";
 }
 
 uint Onyx::Math::UVec4::getX() const
@@ -1981,6 +2093,14 @@ void Onyx::Math::UVec4::setZ(uint z)
 void Onyx::Math::UVec4::setW(uint w)
 {
 	m_vec.w = w;
+}
+
+void Onyx::Math::UVec4::set(uint x, uint y, uint z, uint w)
+{
+    m_vec.x = x;
+    m_vec.y = y;
+    m_vec.z = z;
+    m_vec.w = w;
 }
 
 uint Onyx::Math::UVec4::operator[](int index) const

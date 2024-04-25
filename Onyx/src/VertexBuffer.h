@@ -22,6 +22,12 @@ namespace Onyx
 		 */
 		VertexBuffer(float* vertices, uint size, Onyx::VertexFormat format);
 
+		static bool HasNormals(Onyx::VertexFormat format);
+
+		static bool HasTextureCoords(Onyx::VertexFormat format);
+
+		static bool HasColors(Onyx::VertexFormat format);
+
 		static VertexBuffer Triangle(float side);
 
 		static VertexBuffer Triangle(float base, float height);

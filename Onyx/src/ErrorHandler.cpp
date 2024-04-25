@@ -49,7 +49,7 @@ std::string Onyx::Warning::toString() const
 {
 	int maxLen = 0;
 	std::vector<std::string> lines;
-	lines.push_back("Onyx Error");
+	lines.push_back("Onyx Warning");
 	lines.push_back("Source Function: " + sourceFunction + "");
 	lines.push_back("Message:         " + message + "");
 	std::string sev;

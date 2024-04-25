@@ -67,9 +67,23 @@ namespace Onyx
 		 */
 		uint getIBO() const;
 
+		/*
+			@brief Gets the size of the vertex array.
+			@return The size of the vertex array, in bytes.
+		 */
 		uint getVerticesSize() const;
 
+		/*
+			@brief Gets the size of the index array.
+			@return The size of the index array, in bytes.
+		 */
 		uint getIndicesSize() const;
+
+		/*
+			@brief Gets the format of the vertex array.
+			@return The vertex format.
+		 */
+		VertexFormat getVertexFormat() const;
 
 		/*
 			@brief Creates an equilateral triangle mesh with the specified side length.
@@ -161,5 +175,6 @@ namespace Onyx
 		uint vao, vbo, ibo;
 
 		uint verticesSize, indicesSize;
+		VertexFormat vertexFormat;
 	};
 }

@@ -226,16 +226,28 @@ void Onyx::Demo()
 	InputHandler input(window);
 	
 	float bgVertices[] = {
-		10.0f,  710.0f, 0.0f,
-		200.0f, 710.0f, 0.0f,
-		200.0f, 600.0f, 0.0f,
-		10.0f,  600.0f, 0.0f
+		0.0f,   110.0f, 0.0f,
+		200.0f, 110.0f, 0.0f,
+		200.0f, 0.0f,   0.0f,
+		0.0f,   0.0f,   0.0f
 	};
 
 	uint bgIndices[] = {
 		0, 1, 2,
 		2, 3, 0
 	};
+
+	float logoVertices[] = {
+		0.0f,   0.0f,   0.0f,	0.0f, 0.0f,
+		75.0f,  0.0f,   0.0f,	1.0f, 0.0f,
+		75.0f,  75.0f,  0.0f,	1.0f, 1.0f,
+		0.0f,   75.0f,  0.0f,	0.0f, 1.0f
+	};
+
+	uint logoIndices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
 
 	float start = GetTime();
 	ModelRenderable car(Model::LoadOBJ(Onyx::Resources("models/Corvette C8.obj")));
@@ -252,6 +264,13 @@ void Onyx::Demo()
 		Mesh(VertexBuffer(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::P), IndexBuffer(bgIndices, sizeof(bgIndices))),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
 	);
+	textBg.setPosition(Vec2(10.0f, window.getBufferHeight() - 120.0f));
+
+	UiRenderable logo(
+        Mesh(VertexBuffer(logoVertices, sizeof(logoVertices), Onyx::VertexFormat::PT), IndexBuffer(logoIndices, sizeof(logoIndices))),
+        Texture::Load(Onyx::Resources("textures/onyx.png"))
+    );
+	logo.setPosition(Vec2(window.getBufferWidth() - 90.0f, window.getBufferHeight() - 90.0f));
 
 	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
 	cam.translateFB(-6.0f);
@@ -262,7 +281,8 @@ void Onyx::Demo()
 	Renderer renderer(window, cam, lighting);
 	renderer.add(car);
 	renderer.add(textBg);
-	renderer.add(road);
+	renderer.add(logo);
+	//renderer.add(road);
 
 	Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
 	Font robotoBold = Font::Load(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
@@ -317,7 +337,7 @@ void Onyx::Demo()
 
 	for (TextRenderable& tr : textRenderables) renderer.add(tr);
 
-	const double CAM_SPEED = 5.0;
+	const double CAM_SPEED = 6.0;
 	const double CAM_SENS = 30.0;
 
 	input.setCursorLock(true);
@@ -330,49 +350,45 @@ void Onyx::Demo()
 
 	int fps = 0;
 
+	bool lookAtOrigin = false;
 	while (window.isOpen())
 	{
 		input.update();
+		double deltaX = input.getMouseDeltas().getX();
+		double deltaY = input.getMouseDeltas().getY();
 
 		double deltaTime = window.getDeltaTime();
 		if (window.getFrame() % 100 == 0 || window.getFrame() == 2) fps = window.getFPS();
 
 		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
-		if (input.isKeyDown(Onyx::Key::W))
-		{
-			cam.translateFB(CAM_SPEED * deltaTime);
-			car.translateLocal(Vec3(0.0f, 0.0f, 50.0f * deltaTime));
-		}
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(CAM_SPEED * deltaTime);
 		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-CAM_SPEED * deltaTime);
-		if (input.isKeyDown(Onyx::Key::S))
-		{
-			cam.translateFB(-CAM_SPEED * deltaTime);
-			car.translateLocal(Vec3(0.0f, 0.0f, -50.0f * deltaTime));
-		}
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-CAM_SPEED * deltaTime);
 		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(CAM_SPEED * deltaTime);
 		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(CAM_SPEED * deltaTime);
 		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-CAM_SPEED * deltaTime);
 		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen();
 		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(Onyx::Key::Num2))
-		{
-			car.toggleVisibility();
-		}
+		if (input.isKeyDown(Onyx::Key::Num2)) car.toggleVisibility();
 		if (input.isKeyDown(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
 
-		double deltaX = input.getMouseDeltas().getX();
-		double deltaY = input.getMouseDeltas().getY();
 
-		//car.rotate(-Vec3(0.0f, CAM_SENS * .005f * deltaX, 0.0f));
-		std::cout << cam.getPosition().magnitude() << " --> ";
-		cam.rotate(CAM_SENS * .005f * deltaX, CAM_SENS * .005f * deltaY, car.getPosition());
-		std::cout << cam.getPosition().magnitude() << "\n";
+		car.rotate(Vec3(0.0f, 20.0f * deltaTime, 0.0f));
+		//std::cout << cam.getPosition().magnitude() << " --> ";
+		cam.rotate(CAM_SENS * .005f * deltaX, CAM_SENS * .005f * deltaY);
+		//std::cout << cam.getPosition().magnitude() << "\n";
 		cam.update();
 
 		//car.rotate(Vec3(0.0f, 20.0f * window.getDeltaTime(), 0.0f));
 
 		textRenderables[1].setText("FPS: " + std::to_string(fps));
 		textRenderables[2].setText("FRAME " + std::to_string(window.getFrame()));
+
+		textRenderables[0].setPosition(Vec2(23.0f, window.getBufferHeight() - 50.0f));
+		textRenderables[1].setPosition(Vec2(25.0f, window.getBufferHeight() - 80.0f));
+		textRenderables[2].setPosition(Vec2(25.0f, window.getBufferHeight() - 100.0f));
+		textBg.setPosition(Vec2(10.0f, window.getBufferHeight() - 120.0f));
+		logo.setPosition(Vec2(window.getBufferWidth() - 90.0f, window.getBufferHeight() - 90.0f));
 		
 		window.startRender();
 		renderer.render();

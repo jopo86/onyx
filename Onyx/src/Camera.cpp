@@ -129,11 +129,11 @@ void Onyx::Camera::rotate(float _yaw, float _pitch, const Vec3& origin)
 	if (pitch + _pitch > pitchClamp || pitch + _pitch < -pitchClamp) _pitch = 0.0f;
 
 	Vec3 diff = pos - origin;
-	//std::cout << diff.magnitude() << " --> ";
+	float mag = pos.magnitude();
 	translateGlobal(diff);
 
 	yaw += _yaw;
-	pitch += _pitch;
+	pitch -= _pitch;
 
 	float yawRad = Radians(yaw);
 	float pitchRad = Radians(pitch);
@@ -145,9 +145,16 @@ void Onyx::Camera::rotate(float _yaw, float _pitch, const Vec3& origin)
 	
 	Vec3 left = Cross(front, up).getNormalized();
 
-	diff = Math::Rotate(diff, Vec3(-_pitch * left.getX(), _yaw, -_pitch * left.getZ()));
-	std::cout << diff.magnitude() << "\n";
+	//std::cout << diff.magnitude() << " --> ";
+	diff = Math::Rotate(diff, Vec3(_pitch * left.getX(), _yaw, _pitch * left.getZ()));
+	//std::cout << diff.magnitude() << "\n";
 	translateGlobal(-diff);
+	pos.setMagnitude(mag);
+}
+
+void Onyx::Camera::lookAt(const Vec3& target)
+{
+    front = (target - pos).getNormalized();
 }
 
 Vec3 Onyx::Camera::getPosition() const

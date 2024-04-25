@@ -76,6 +76,8 @@ namespace Onyx
 
 			void setX(float x);
 			void setY(float y);
+			void set(float x, float y);
+			void setMagnitude(float magnitude);
 
 			friend float Dot(const Vec2& vec1, const Vec2& vec2);
 
@@ -125,6 +127,8 @@ namespace Onyx
 			void setX(float x);
 			void setY(float y);
 			void setZ(float z);
+			void set(float x, float y, float z);
+			void setMagnitude(float magnitude);
 
 			friend Vec3 Cross(const Vec3& vec1, const Vec3& vec2);
 			friend float Dot(const Vec3& vec1, const Vec3& vec2);
@@ -199,6 +203,8 @@ namespace Onyx
 			void setY(float y);
 			void setZ(float z);
 			void setW(float w);
+			void set(float x, float y, float z, float w);
+			void setMagnitude(float magnitude);
 
 			friend float Dot(const Vec4& vec1, const Vec4& vec2);
 
@@ -271,6 +277,8 @@ namespace Onyx
 
 			void setX(double x);
 			void setY(double y);
+			void set(double x, double y);
+			void setMagnitude(double magnitude);
 
 			friend double Dot(const DVec2& vec1, const DVec2& vec2);
 
@@ -320,6 +328,8 @@ namespace Onyx
 			void setX(double x);
 			void setY(double y);
 			void setZ(double z);
+			void set(double x, double y, double z);
+			void setMagnitude(double magnitude);
 
 			friend DVec3 Cross(const DVec3& vec1, const DVec3& vec2);
 			friend double Dot(const DVec3& vec1, const DVec3& vec2);
@@ -371,6 +381,8 @@ namespace Onyx
 			double getW() const;
 			glm::dvec4 getMVec() const;
 			DVec4 getNormalized() const;
+			void set(double x, double y, double z, double w);
+			void setMagnitude(double magnitude);
 
 			void setX(double x);
 			void setY(double y);
@@ -427,6 +439,7 @@ namespace Onyx
 
 			void setX(int x);
 			void setY(int y);
+			void set(int x, int y);
 
 			friend bool operator==(const IVec2& vec1, const IVec2& vec2);
 			friend bool operator!=(const IVec2& vec1, const IVec2& vec2);
@@ -471,6 +484,7 @@ namespace Onyx
 			void setX(int x);
 			void setY(int y);
 			void setZ(int z);
+			void set(int x, int y, int z);
 
 			friend bool operator==(const IVec3& vec1, const IVec3& vec2);
 			friend bool operator!=(const IVec3& vec1, const IVec3& vec2);
@@ -521,6 +535,7 @@ namespace Onyx
 			void setY(int y);
 			void setZ(int z);
 			void setW(int w);
+			void set(int x, int y, int z, int w);
 
 			friend bool operator==(const IVec4& vec1, const IVec4& vec2);
 			friend bool operator!=(const IVec4& vec1, const IVec4& vec2);
@@ -560,6 +575,7 @@ namespace Onyx
 
 			void setX(uint x);
 			void setY(uint y);
+			void set(uint x, uint y);
 
 			friend bool operator==(const UVec2& vec1, const UVec2& vec2);
 			friend bool operator!=(const UVec2& vec1, const UVec2& vec2);
@@ -600,6 +616,7 @@ namespace Onyx
 			void setX(uint x);
 			void setY(uint y);
 			void setZ(uint z);
+			void set(uint x, uint y, uint z);
 
 			friend bool operator==(const UVec3& vec1, const UVec3& vec2);
 			friend bool operator!=(const UVec3& vec1, const UVec3& vec2);
@@ -646,6 +663,7 @@ namespace Onyx
 			void setY(uint y);
 			void setZ(uint z);
 			void setW(uint w);
+			void set(uint x, uint y, uint z, uint w);
 
 			friend bool operator==(const UVec4& vec1, const UVec4& vec2);
 			friend bool operator!=(const UVec4& vec1, const UVec4& vec2);

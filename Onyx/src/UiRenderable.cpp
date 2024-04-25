@@ -4,6 +4,9 @@
 
 #include "Shader.h"
 
+bool onyx_is_ehandler_nullptr();
+void onyx_err(const Onyx::Error&);
+
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 
 Onyx::UiRenderable::UiRenderable() 
@@ -36,6 +39,15 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
 
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture) 
 {
+	if (!VertexBuffer::HasTextureCoords(mesh.getVertexFormat()))
+	{
+		if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
+				.sourceFunction = "Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture)",
+				.message = "The mesh contains a vertex buffer that is not of a format with texture coordinates. It will most likely have problems rendering.",
+				.howToFix = "Use a vertex format with texture coords: PT, PCT, PNT, or PNCT"
+			}
+		);
+	}
 	this->mesh = mesh;
 	this->texture = texture;
 	shader = Shader::UI_Texture();
@@ -97,17 +109,17 @@ void Onyx::UiRenderable::toggleVisibility()
 
 const Onyx::Math::Vec2& Onyx::UiRenderable::getPosition() const
 {
-    return m_position;
+	return m_position;
 }
 
 float Onyx::UiRenderable::getRotation() const
 {
-    return m_rotation;
+	return m_rotation;
 }
 
 const Onyx::Math::Vec2& Onyx::UiRenderable::getScale() const
 {
-    return m_scale;
+	return m_scale;
 }
 
 Onyx::Mesh Onyx::UiRenderable::getMesh() const
@@ -145,7 +157,7 @@ void Onyx::UiRenderable::setRotation(float rotation)
 void Onyx::UiRenderable::setScale(const Vec2& scale)
 {
 	m_scale = scale;
-    updateModel();
+	updateModel();
 }
 
 void Onyx::UiRenderable::translate(const Vec2& translation)
@@ -162,14 +174,14 @@ void Onyx::UiRenderable::translateLocal(const Vec2& translation)
 void Onyx::UiRenderable::rotate(float rotation)
 {
 	m_rotation += rotation;
-    updateModel();
+	updateModel();
 }
 
 void Onyx::UiRenderable::scale(const Vec2& scalars)
 {
 	m_scale.setX(m_scale.getX() * scalars.getX());
 	m_scale.setY(m_scale.getY() * scalars.getY());
-    updateModel();
+	updateModel();
 }
 
 void Onyx::UiRenderable::scale(float scalar)
@@ -193,8 +205,8 @@ void Onyx::UiRenderable::dispose()
 
 void Onyx::UiRenderable::updateModel()
 {
-    model = Mat4::Identity();
-    model.translate(Vec3(m_position, 0.0f));
-    model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
-    model.scale(Vec3(m_scale, 1.0f));
+	model = Mat4::Identity();
+	model.translate(Vec3(m_position, 0.0f));
+	model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
+	model.scale(Vec3(m_scale, 1.0f));
 }

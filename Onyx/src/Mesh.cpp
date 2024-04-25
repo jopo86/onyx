@@ -11,6 +11,7 @@ Onyx::Mesh::Mesh()
 {
 	vao = vbo = ibo = 0;
 	verticesSize = indicesSize = 0;
+	vertexFormat = VertexFormat::Null;
 }
 
 Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
@@ -18,6 +19,7 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 	vao = vbo = ibo = 0;
 	verticesSize = vertexBuffer.size;
 	indicesSize = indexBuffer.size;
+	vertexFormat = vertexBuffer.format;
 
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
@@ -35,7 +37,7 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 		Layout locations:
 		0: Position
 		1: Color
-		2: Texture coordinates
+		2: Texture coords
 		3: Normal
 	 */
 
@@ -134,6 +136,7 @@ Onyx::Mesh::Mesh(const Mesh& other)
 	ibo = other.ibo;
 	verticesSize = other.verticesSize;
 	indicesSize = other.indicesSize;
+	vertexFormat = other.vertexFormat;
 }
 
 void Onyx::Mesh::render() const
@@ -155,6 +158,11 @@ uint Onyx::Mesh::getVerticesSize() const
 uint Onyx::Mesh::getIndicesSize() const
 {
 	return indicesSize;
+}
+
+Onyx::VertexFormat Onyx::Mesh::getVertexFormat() const
+{
+    return vertexFormat;
 }
 
 uint Onyx::Mesh::getVAO() const

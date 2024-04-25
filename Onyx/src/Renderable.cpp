@@ -2,6 +2,9 @@
 
 #include <glad/glad.h>
 
+bool onyx_is_ehandler_nullptr();
+void onyx_warn(const Onyx::Warning&);
+
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, 
 Onyx::Math::Mat4;
 
@@ -16,6 +19,7 @@ Onyx::Renderable::Renderable()
 Onyx::Renderable::Renderable(Mesh mesh)
 {
 	this->mesh = mesh;
+	shader = Shader::P_Color(Vec4::White());
 	model = Mat4(1.0f);
 	inverseModel = Math::Inverse(model);
 	m_scale = Vec3(1.0f);
@@ -34,6 +38,16 @@ Onyx::Renderable::Renderable(Mesh mesh, Shader shader)
 
 Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)
 {
+	if (!VertexBuffer::HasTextureCoords(mesh.getVertexFormat()))
+	{
+		if (!onyx_is_ehandler_nullptr()) onyx_warn(Warning{
+                .sourceFunction = "Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)",
+                .message = "The mesh contains a vertex buffer that is not of a format with texture coordinates. It will most likely have problems rendering.",
+                .howToFix = "Use a vertex format with texture coords: PT, PCT, PNT, or PNCT",
+				.severity = Warning::Severity::High
+            }
+		);
+    }
 	this->mesh = mesh;
 	this->shader = shader;
 	this->texture = texture;

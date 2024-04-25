@@ -2,6 +2,10 @@
 
 #include "Shader.h"
 
+bool onyx_is_ehandler_nullptr();
+void onyx_err(const Onyx::Error&);
+void onyx_warn(const Onyx::Warning&);
+
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 
 Onyx::TextRenderable::TextRenderable()
@@ -22,6 +26,30 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 c
 	model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
+
+	if (!onyx_is_ehandler_nullptr())
+	{
+		if (font.getGlyphs().size() == 0)
+		{
+			onyx_err(Error{
+					.sourceFunction = "Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+					.message = "Font has no glyphs loaded.",
+					.howToFix = "Load a font from a TTF file before creating a TextRenderable with it."
+				}
+			);
+			return;
+		}
+		if (text == "")
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+					.message = "Text is empty.",
+					.howToFix = "Provide a non-empty string to render.",
+					.severity = Warning::Severity::Low
+				}
+			);
+		}
+	}
 
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
@@ -45,12 +73,46 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 c
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 
+	if (!onyx_is_ehandler_nullptr())
+	{
+		if (font.getGlyphs().size() == 0)
+		{
+			onyx_err(Error{
+					.sourceFunction = "Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+					.message = "Font has no glyphs loaded.",
+					.howToFix = "Load a font from a TTF file before creating a TextRenderable with it."
+				}
+			);
+			return;
+		}
+		if (text == "")
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+					.message = "Text is empty.",
+					.howToFix = "Provide a non-empty string to render.",
+					.severity = Warning::Severity::Low
+				}
+			);
+		}
+		if (color.getW() == 0.0f)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 color)",
+					.message = "Alpha value of text color is 0, text will not be visible.",
+					.howToFix = "Change the alpha value to be between 0 and 1, reflecting the text's opacity.",
+					.severity = Warning::Severity::Low
+				}
+			);
+		}
+	}
+
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
-    {
-        chars.push_back(CharRenderable(text[i], font, advance));
+	{
+		chars.push_back(CharRenderable(text[i], font, advance));
 		advance += font[text[i]].advance >> 6;
-    }
+	}
 
 	shader = Shader::UI_Text();
 	shader.use();
@@ -106,22 +168,22 @@ const Onyx::Math::Vec2& Onyx::TextRenderable::getScale() const
 
 const std::string& Onyx::TextRenderable::getText() const
 {
-    return text;
+	return text;
 }
 
 const Onyx::Font& Onyx::TextRenderable::getFont() const
 {
-    return *font;
+	return *font;
 }
 
 const Vec4& Onyx::TextRenderable::getColor() const
 {
-    return color;
+	return color;
 }
 
 bool Onyx::TextRenderable::isHidden() const
 {
-    return hidden;
+	return hidden;
 }
 
 void Onyx::TextRenderable::setText(const std::string& text)

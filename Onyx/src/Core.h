@@ -10,7 +10,7 @@
 
 #define ONYX_VERSION_MAJOR		0
 #define ONYX_VERSION_MINOR		9
-#define ONYX_VERSION_PATCH		4
+#define ONYX_VERSION_PATCH		5
 
 #define ONYX_ALPHA              false
 #define ONYX_BETA				true

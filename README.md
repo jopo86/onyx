@@ -17,11 +17,11 @@ Full documentation will come with the full release (1.0.0).
 ## Features (Natively Supported)
 - Creating/Customizing Windows
 - Input Handling (Gamepad coming 1.1)
-- Renderer
-  - 2D and 3D user-defined shapes
+- Can Render:
+  - Hardcoded meshes
   - Loaded models (OBJ format)
   - Lighting (Ambient & Directional)
-  - Text, User Interface
+  - GUI and Text
   - Colors and/or Textures
 - Camera (movement in 2D or 3D world)
 - Transforms (position, rotation, scale) for Renderables and the Camera

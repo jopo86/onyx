@@ -16,9 +16,7 @@ Full documentation will come with the full release (1.0.0).
 
 ## Features (Natively Supported)
 - Creating/Customizing Windows
-- Input Handling
-  - Keyboard, Mouse (Buttons and Scrollwheel)
-  - Gamepad support coming in 1.1
+- Input Handling (Gamepad coming 1.1)
 - Renderer
   - 2D and 3D user-defined shapes
   - Loaded models (OBJ format)

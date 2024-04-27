@@ -96,18 +96,27 @@ namespace Onyx
 
 		/*
 			@brief Rotates the camera the specified angles.
-			@param yaw The horizontal angle, AKA yaw, in degrees.
-			@param pitch The vertical angle, AKA pitch, in degrees.
+			@param yaw The angle around the local Y axis (horizontal angle), AKA yaw, in degrees.
+			@param pitch The angle around the local X axis (vertical angle), AKA pitch, in degrees.
 		 */
 		void rotate(float yaw, float pitch);
 
 		/*
 			@brief Rotates the camera the specified angles around the specified origin.
-			@param yaw The horizontal angle, AKA yaw, in degrees.
-			@param pitch The vertical angle, AKA pitch, in degrees.
+		 !	Currently bugged - camera seems to slowly stray further from origin
+			@param yaw The angle around the local Y axis (horizontal angle), AKA yaw, in degrees.
+			@param pitch The angle around the local X axis (vertical angle), AKA pitch, in degrees.
 			@param origin The origin.
 		*/
 		void rotate(float yaw, float pitch, const Math::Vec3& origin);
+
+		void pitch(float degrees);
+
+		void pitch(float degrees, const Math::Vec3& origin);
+
+		void yaw(float degrees);
+
+		void yaw(float degrees, const Math::Vec3& origin);
 
 		/*
 			@brief Faces the camera towards the target.
@@ -155,6 +164,10 @@ namespace Onyx
 		 */
 		const Math::Vec3& getUp() const;
 
+		float getYaw() const;
+
+		float getPitch() const;
+
 		/*
             @brief Sets the position of the camera.
             @param pos The desired position of the camera.
@@ -162,19 +175,23 @@ namespace Onyx
 		void setPosition(const Math::Vec3& pos);
 
 		/*
-			@brief Sets the pitch limit of the camera.
-			The pitch limit is the maximum angle the camera can look up/down.
+			@brief Sets the pitch clamp of the camera.
+			The pitch clamp is the maximum angle the camera can look up/down.
 			90 degrees will allow the camera to look no further than straight up/down.
 			The default is 89 degrees.
-			@param pitchLimit The desired pitch limit, in degrees.
+			@param pitchClamp The desired pitch clamp, in degrees.
 		 */
-		void setPitchLimit(float pitchLimit);
+		void setPitchClamp(float pitchClamp);
 
 		/*
 			@brief Sets the projection of the camera.
 			@param proj The projection of the camera.
 		 */
 		void setProjection(const Projection& proj);
+
+		void setPitch(float pitch);
+
+		void setYaw(float yaw);
 
 		/*
 			@brief Sets the FOV of the camera's projection.
@@ -193,20 +210,22 @@ namespace Onyx
 		void setViewDistance(float dist);
 
 	private:
-		Window* p_win;
+		Window* m_pWin;
 
-		Math::Vec3 pos;
-		Math::Vec3 front;
-		Math::Vec3 up;
+		Math::Vec3 m_pos;
+		Math::Vec3 m_front;
+		Math::Vec3 m_up;
 
-		float yaw;
-		float pitch;
+		float m_yaw;
+		float m_pitch;
 
-		float pitchClamp;
+		float m_pitchClamp;
 
-		Projection proj;
+		Projection m_proj;
 
-		Math::Mat4 view;
+		Math::Mat4 m_view;
+
+		void updateFront();
 	};
 
 }

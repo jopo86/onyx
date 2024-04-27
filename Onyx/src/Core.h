@@ -123,6 +123,17 @@ namespace Onyx
 	};
 
 	/*
+		@brief Definitions for the three axes.
+	 */
+	enum class Axis
+	{
+		Null,
+		X,
+		Y,
+		Z
+	};
+
+	/*
 		@brief Definitions for keys on a keyboard.
 		Used for polling input from an InputHandler object.
 	 */

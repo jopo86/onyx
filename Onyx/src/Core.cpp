@@ -375,7 +375,7 @@ void Onyx::Demo()
 
 		car.rotate(Vec3(0.0f, 20.0f * dt, 0.0f));
 		//std::cout << cam.getPosition().magnitude() << " --> ";
-		cam.rotate(CAM_SENS * .005 * dx, CAM_SENS * .005 * dy/*, car.getPosition()*/);
+		cam.rotate(CAM_SENS * .005 * dx, CAM_SENS * .005 * dy);
 		//std::cout << cam.getPosition().magnitude() << "\n";
 		cam.update();
 

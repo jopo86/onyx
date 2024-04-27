@@ -8,41 +8,41 @@ using Onyx::Math::Radians;
 
 Onyx::Camera::Camera()
 {
-	p_win = nullptr;
+	m_pWin = nullptr;
 
-	yaw = pitch = pitchClamp = 0.0f;
+	m_yaw = m_pitch = m_pitchClamp = 0.0f;
 
 	update();
 }
 
 Onyx::Camera::Camera(Window& window)
 {
-	p_win = &window;
+	m_pWin = &window;
 	window.p_cam = this;
 
-	pos = Vec3(0.0f, 0.0f, 0.0f);
-	front = Vec3(0.0f, 0.0f, -1.0f);
-	up = Vec3(0.0f, 1.0f, 0.0f);
+	m_pos = Vec3(0.0f, 0.0f, 0.0f);
+	m_front = Vec3(0.0f, 0.0f, -1.0f);
+	m_up = Vec3(0.0f, 1.0f, 0.0f);
 
-	yaw = pitch = 0.0f;
-	proj = Projection::Orthographic(-1.0f, 1.0f, 1.0f, -1.0f);
-	pitchClamp = 88.0f;
+	m_yaw = m_pitch = 0.0f;
+	m_proj = Projection::Orthographic(-1.0f, 1.0f, 1.0f, -1.0f);
+	m_pitchClamp = 88.0f;
 
 	update();
 }
 
 Onyx::Camera::Camera(Window& window, const Projection& proj)
 {
-	p_win = &window;
+	m_pWin = &window;
 	window.p_cam = this;
 
-	pos = Vec3(0.0f, 0.0f, 0.0f);
-	front = Vec3(0.0f, 0.0f, -1.0f);
-	up = Vec3(0.0f, 1.0f, 0.0f);
+	m_pos = Vec3(0.0f, 0.0f, 0.0f);
+	m_front = Vec3(0.0f, 0.0f, -1.0f);
+	m_up = Vec3(0.0f, 1.0f, 0.0f);
 
-	yaw = pitch = 0.0f;
-	this->proj = proj;
-	pitchClamp = 88.0f;
+	m_yaw = m_pitch = 0.0f;
+	m_proj = proj;
+	m_pitchClamp = 88.0f;
 
 	if (proj.getType() == Onyx::ProjectionType::Perspective) rotate(-90.0f, 0.0f);
 
@@ -51,16 +51,16 @@ Onyx::Camera::Camera(Window& window, const Projection& proj)
 
 Onyx::Camera::Camera(Window& window, const Projection& proj, float pitchClamp)
 {
-	p_win = &window;
+	m_pWin = &window;
 	window.p_cam = this;
 
-	pos = Vec3(0.0f, 0.0f, 0.0f);
-	front = Vec3(0.0f, 0.0f, -1.0f);
-	up = Vec3(0.0f, 1.0f, 0.0f);
+	m_pos = Vec3(0.0f, 0.0f, 0.0f);
+	m_front = Vec3(0.0f, 0.0f, -1.0f);
+	m_up = Vec3(0.0f, 1.0f, 0.0f);
 
-	yaw = pitch = 0.0f;
-	this->proj = proj;
-	this->pitchClamp = pitchClamp;
+	m_yaw = m_pitch = 0.0f;
+	m_proj = proj;
+	m_pitchClamp = pitchClamp;
 
 	if (proj.getType() == Onyx::ProjectionType::Perspective) rotate(-90.0f, 0.0f);
 
@@ -69,143 +69,199 @@ Onyx::Camera::Camera(Window& window, const Projection& proj, float pitchClamp)
 
 void Onyx::Camera::update()
 {
-	view = LookAt(pos, pos + front, up);
+	m_view = LookAt(m_pos, m_pos + m_front, m_up);
 }
 
 void Onyx::Camera::translateLR(float dist)
 {
 	if (dist == 0) return;
-	pos += (Vec3(Cross(front, up)).getNormalized() * dist);
+	m_pos += (Vec3(Cross(m_front, m_up)).getNormalized() * dist);
 }
 
 void Onyx::Camera::translateUD(float dist)
 {
 	if (dist == 0) return;
-	pos += Vec3(0.0f, dist, 0.0f);
+	m_pos += Vec3(0.0f, dist, 0.0f);
 }
 
 void Onyx::Camera::translateFB(float dist)
 {
 	if (dist == 0) return;
-	pos += (front * dist);
+	m_pos += (m_front * dist);
 }
 
 void Onyx::Camera::translate(const Vec3& LR_UD_FB)
 {
 	if (LR_UD_FB.isZero()) return;
-	pos += (Vec3(Cross(front, up)).getNormalized() * LR_UD_FB.getX());
-	pos += Vec3(0.0f, LR_UD_FB.getY(), 0.0f);
-	pos += (front * LR_UD_FB.getZ());
+	m_pos += (Vec3(Cross(m_front, m_up)).getNormalized() * LR_UD_FB.getX());
+	m_pos += Vec3(0.0f, LR_UD_FB.getY(), 0.0f);
+	m_pos += (m_front * LR_UD_FB.getZ());
 }
 
 void Onyx::Camera::translateGlobal(const Vec3& xyz)
 {
-	pos += xyz;
+	m_pos += xyz;
 }
 
-void Onyx::Camera::rotate(float _yaw, float _pitch)
+void Onyx::Camera::rotate(float yaw, float pitch)
 {
-	if (p_win->frame > 0 && p_win->frame < 5 || _yaw == 0 && _pitch == 0) return;
+	if (m_pWin->frame > 0 && m_pWin->frame < 5 || yaw == 0 && pitch == 0) return;
 
-	yaw += _yaw;
-	pitch += _pitch;
-	if (pitch > pitchClamp) pitch = pitchClamp;
-	if (pitch < -pitchClamp) pitch = -pitchClamp;
+	if (m_pitch + pitch > m_pitchClamp || m_pitch + pitch < -m_pitchClamp) pitch = 0.0f;
 
-	float yawRad = Radians(yaw);
-	float pitchRad = Radians(pitch);
-
-	front.setX(cosf(yawRad) * cosf(pitchRad));
-	front.setY(sinf(pitchRad));
-	front.setZ(sinf(yawRad) * cosf(pitchRad));
-
-	front.normalize();
+	m_yaw += yaw;
+	m_pitch += pitch;
+	updateFront();
 }
 
-void Onyx::Camera::rotate(float _yaw, float _pitch, const Vec3& origin)
+void Onyx::Camera::rotate(float yaw, float pitch, const Vec3& origin)
 {
-	if (p_win->frame > 0 && p_win->frame < 5 || _yaw == 0 && _pitch == 0) return;
+	if (m_pWin->frame > 0 && m_pWin->frame < 5 || yaw == 0 && pitch == 0) return;
 
-	if (pitch + _pitch > pitchClamp || pitch + _pitch < -pitchClamp) _pitch = 0.0f;
+	if (m_pitch + pitch > m_pitchClamp || m_pitch + pitch < -m_pitchClamp) pitch = 0.0f;
 
-	Vec3 diff = pos - origin;
-	translateGlobal(diff);
+	m_yaw += yaw;
+	m_pitch += pitch;
+	updateFront();
 
-	yaw += _yaw;
-	pitch += _pitch;
+	Vec3 diff = m_pos - origin;
+	m_pos += diff;
+	Vec3 left = Cross(m_front, m_up).getNormalized();
+	diff = Math::Rotate(diff, Vec3(-pitch * left.getX(), yaw, -pitch * left.getZ()));
+	m_pos -= diff;
+}
 
-	float yawRad = Radians(yaw);
-	float pitchRad = Radians(pitch);
+void Onyx::Camera::pitch(float degrees)
+{
+	if (m_pWin->frame > 0 && m_pWin->frame < 5 || degrees == 0) return;
+	if (m_pitch + degrees > m_pitchClamp || m_pitch + degrees < -m_pitchClamp) return;
+	m_pitch += degrees;
+	updateFront();
+}
 
-	front.setX(cosf(yawRad) * cosf(pitchRad));
-	front.setY(sinf(pitchRad));
-	front.setZ(sinf(yawRad) * cosf(pitchRad));
-	front.normalize();
-	
-	Vec3 left = Cross(front, up).getNormalized();
+void Onyx::Camera::pitch(float degrees, const Math::Vec3& origin)
+{
+	if (m_pWin->frame > 0 && m_pWin->frame < 5 || degrees == 0) return;
+	if (m_pitch + degrees > m_pitchClamp || m_pitch + degrees < -m_pitchClamp) return;
+	m_pitch += degrees;
+	updateFront();
+	Vec3 diff = m_pos - origin;
+	m_pos += diff;
+	Vec3 left = Cross(m_front, m_up).getNormalized();
+	diff = Math::Rotate(diff, Vec3(-degrees * left.getX(), 0.0f, -degrees * left.getZ()));
+	m_pos -= diff;
+}
 
-	//std::cout << diff.magnitude() << " --> ";
-	diff = Math::Rotate(diff, Vec3(-_pitch * left.getX(), _yaw, -_pitch * left.getZ()));
-	//std::cout << diff.magnitude() << "\n";
-	translateGlobal(-diff);
+void Onyx::Camera::yaw(float degrees)
+{
+	if (m_pWin->frame > 0 && m_pWin->frame < 5 || degrees == 0) return;
+	m_yaw += degrees;
+	updateFront();
+}
+
+void Onyx::Camera::yaw(float degrees, const Math::Vec3 & origin)
+{
+	if (m_pWin->frame > 0 && m_pWin->frame < 5 || degrees == 0) return;
+	m_yaw += degrees;
+	updateFront();
+	Vec3 diff = m_pos - origin;
+	m_pos += diff;
+	Vec3 left = Cross(m_front, m_up).getNormalized();
+	diff = Math::Rotate(diff, Vec3(0.0f, degrees, 0.0f));
+	m_pos -= diff;
 }
 
 void Onyx::Camera::lookAt(const Vec3& target)
 {
-    front = (target - pos).getNormalized();
+    m_front = (target - m_pos).getNormalized();
 }
 
 const Vec3& Onyx::Camera::getPosition() const
 {
-	return pos;
+	return m_pos;
 }
 
 const Onyx::Projection& Onyx::Camera::getProjection() const
 {
-	return proj;
+	return m_proj;
 }
 
 const Mat4& Onyx::Camera::getViewMatrix() const
 {
-	return view;
+	return m_view;
 }
 
 const Mat4& Onyx::Camera::getProjectionMatrix() const
 {
-	return proj.getMatrix();
+	return m_proj.getMatrix();
 }
 
 const Vec3& Onyx::Camera::getFront() const
 {
-	return front;
+	return m_front;
 }
 
 const Vec3& Onyx::Camera::getUp() const
 {
-	return up;
+	return m_up;
+}
+
+float Onyx::Camera::getYaw() const
+{
+	return m_yaw;
+}
+
+float Onyx::Camera::getPitch() const
+{
+	return m_pitch;
 }
 
 void Onyx::Camera::setPosition(const Math::Vec3& pos)
 {
-	this->pos = pos;
+	m_pos = pos;
 }
 
-void Onyx::Camera::setPitchLimit(float pitchClamp)
+void Onyx::Camera::setPitchClamp(float pitchClamp)
 {
-	this->pitchClamp = pitchClamp;
+	m_pitchClamp = pitchClamp;
 }
 
 void Onyx::Camera::setProjection(const Projection& proj)
 {
-	this->proj = proj;
+	m_proj = proj;
+}
+
+void Onyx::Camera::setPitch(float pitch)
+{
+	if (m_pitch + pitch > m_pitchClamp) m_pitch = m_pitchClamp;
+	else if (m_pitch + pitch < -m_pitchClamp) m_pitch = -m_pitchClamp;
+	else m_pitch = pitch;
+	updateFront();
+}
+
+void Onyx::Camera::setYaw(float yaw)
+{
+	m_yaw = yaw;
+	updateFront();
 }
 
 void Onyx::Camera::setFOV(float fov)
 {
-	proj.setFOV(fov);
+	m_proj.setFOV(fov);
 }
 
 void Onyx::Camera::setViewDistance(float dist)
 {
-	proj.setFarPlane(dist);
+	m_proj.setFarPlane(dist);
+}
+
+void Onyx::Camera::updateFront()
+{
+	float yawRad = Radians(m_yaw);
+	float pitchRad = Radians(m_pitch);
+
+	m_front.setX(cosf(yawRad) * cosf(pitchRad));
+	m_front.setY(sinf(pitchRad));
+	m_front.setZ(sinf(yawRad) * cosf(pitchRad));
+	m_front.normalize();
 }

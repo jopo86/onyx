@@ -9,7 +9,7 @@
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
-void compileShaders();
+void recompShaders();
 void lightingTest();
 
 int main()
@@ -21,13 +21,13 @@ int main()
 
 	//PresetTests::RunAllTests();
 
-	//compileShaders();
+	//recompShaders();
 	//lightingTest();
 	
 	return 0;
 }
 
-void compileShaders()
+void recompShaders()
 {
 	Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
@@ -47,19 +47,6 @@ void compileShaders()
 	Onyx::Shader uicol = Onyx::Shader::UI_Color(Vec4::Black());
 	Onyx::Shader uitex = Onyx::Shader::UI_Texture();
 	Onyx::Shader uitext = Onyx::Shader::UI_Text();
-
-	pcol.saveBinary(Onyx::Resources("shaders/bin"), "P_Color");
-	pxr.saveBinary(Onyx::Resources("shaders/bin"), "P_XYZtoRGB");
-	pc.saveBinary(Onyx::Resources("shaders/bin"), "PC");
-	pt.saveBinary(Onyx::Resources("shaders/bin"), "PT");
-	pct.saveBinary(Onyx::Resources("shaders/bin"), "PCT");
-	pncol.saveBinary(Onyx::Resources("shaders/bin"), "PN_Color");
-	pnc.saveBinary(Onyx::Resources("shaders/bin"), "PNC");
-	pnt.saveBinary(Onyx::Resources("shaders/bin"), "PNT");
-	pnct.saveBinary(Onyx::Resources("shaders/bin"), "PNCT");
-	uicol.saveBinary(Onyx::Resources("shaders/bin"), "UI_Color");
-	uitex.saveBinary(Onyx::Resources("shaders/bin"), "UI_Texture");
-	uitext.saveBinary(Onyx::Resources("shaders/bin"), "UI_Text");
 
 	window.dispose();
 	pcol.dispose();

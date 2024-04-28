@@ -95,3 +95,11 @@ void Onyx::FileUtils::Write(const std::string& path, const std::string& text, bo
 
 	file.close();
 }
+
+bool Onyx::FileUtils::FileExists(const std::string& path)
+{
+	std::ifstream file(path);
+	if (!file.is_open()) return false;
+	file.close();
+	return true;
+}

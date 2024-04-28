@@ -35,5 +35,7 @@ namespace Onyx
 			@param append Whether to append the text to the file, or overwrite all its contents.
 		 */
 		void Write(const std::string& path, const std::string& text, bool append);
+
+		bool FileExists(const std::string& path);
 	}
 }

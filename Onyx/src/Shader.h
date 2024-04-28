@@ -293,6 +293,18 @@ namespace Onyx
 		void setMat4(const char* varName, const Math::Mat4& val, bool normalize = false);
 
 		/*
+			@brief Disposes of the shader.
+			This clears up any memory that the object was using.
+			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+		 */
+		void dispose() override;
+
+	private:
+		uint m_prog;
+		const char* m_vertSource, * m_fragSource;
+
+	public:
+		/*
 			@brief Returns a shader that colors the mesh the specified color.
 			Compatible with vertex format V.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
@@ -357,16 +369,5 @@ namespace Onyx
 			@return The resulting shader.
 		 */
 		static Shader UI_Text();
-
-		/*
-			@brief Disposes of the shader.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
-		 */
-		void dispose() override;
-
-	private:
-		uint prog;
-		const char* vertSource,	* fragSource;
 	};
 }

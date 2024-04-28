@@ -94,12 +94,12 @@ namespace Onyx
 		void dispose() override;
 
 	private:
-		FT_Library* p_ft;
-		FT_Face face;
+		FT_Library* m_pFreeType;
+		FT_Face m_face;
 
-		std::string ttfFilePath;
-		uint size;
+		std::string m_ttfFilePath;
+		uint m_size;
 
-		std::map<char, Glyph> glyphs;
+		std::map<char, Glyph> m_glyphs;
 	};
 }

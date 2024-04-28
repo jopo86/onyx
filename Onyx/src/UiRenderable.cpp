@@ -11,30 +11,30 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 
 Onyx::UiRenderable::UiRenderable() 
 {
-	model = Mat4::Identity();
+	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
-	hidden = false;
+	m_hidden = false;
 }
 
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb)
 {
-	this->mesh = mesh;
-	shader = Shader::UI_Color(Vec4(rgb, 1.0f));
-	model = Mat4::Identity();
+	m_mesh = mesh;
+	m_shader = Shader::UI_Color(Vec4(rgb, 1.0f));
+	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
-	hidden = false;
+	m_hidden = false;
 }
 
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
 {
-	this->mesh = mesh;
-	shader = Shader::UI_Color(rgba);
-	model = Mat4::Identity();
+	m_mesh = mesh;
+	m_shader = Shader::UI_Color(rgba);
+	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
-	hidden = false;
+	m_hidden = false;
 }
 
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture) 
@@ -48,23 +48,23 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture)
 			}
 		);
 	}
-	this->mesh = mesh;
-	this->texture = texture;
-	shader = Shader::UI_Texture();
-	model = Mat4::Identity();
+	m_mesh = mesh;
+	m_texture = texture;
+	m_shader = Shader::UI_Texture();
+	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
-	hidden = false;
+	m_hidden = false;
 }
 
 void Onyx::UiRenderable::render()
 {
-	if (hidden) return;
-	shader.use();
-	texture.bind();
-	shader.setMat4("u_model", model);
-	glBindVertexArray(mesh.getVAO());
-	glDrawElements(GL_TRIANGLES, mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	if (m_hidden) return;
+	m_shader.use();
+	m_texture.bind();
+	m_shader.setMat4("u_model", m_model);
+	glBindVertexArray(m_mesh.getVAO());
+	glDrawElements(GL_TRIANGLES, m_mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
@@ -76,13 +76,13 @@ void Onyx::UiRenderable::render()
 
 void Onyx::UiRenderable::render(Mat4 ortho)
 {
-	if (hidden) return;
-	shader.use();
-	texture.bind();
-	shader.setMat4("u_model", model);
-	shader.setMat4("u_projection", ortho);
-	glBindVertexArray(mesh.getVAO());
-	glDrawElements(GL_TRIANGLES, mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	if (m_hidden) return;
+	m_shader.use();
+	m_texture.bind();
+	m_shader.setMat4("u_model", m_model);
+	m_shader.setMat4("u_projection", ortho);
+	glBindVertexArray(m_mesh.getVAO());
+	glDrawElements(GL_TRIANGLES, m_mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
@@ -94,17 +94,17 @@ void Onyx::UiRenderable::render(Mat4 ortho)
 
 void Onyx::UiRenderable::hide()
 {
-	hidden = true;
+	m_hidden = true;
 }
 
 void Onyx::UiRenderable::show()
 {
-	hidden = false;
+	m_hidden = false;
 }
 
 void Onyx::UiRenderable::toggleVisibility()
 {
-	hidden = !hidden;
+	m_hidden = !m_hidden;
 }
 
 const Onyx::Math::Vec2& Onyx::UiRenderable::getPosition() const
@@ -124,22 +124,22 @@ const Onyx::Math::Vec2& Onyx::UiRenderable::getScale() const
 
 Onyx::Mesh Onyx::UiRenderable::getMesh() const
 {
-	return mesh;
+	return m_mesh;
 }
 
 Onyx::Shader Onyx::UiRenderable::getShader() const
 {
-	return shader;
+	return m_shader;
 }
 
 Onyx::Texture Onyx::UiRenderable::getTexture() const
 {
-	return texture;
+	return m_texture;
 }
 
 bool Onyx::UiRenderable::isHidden() const
 {
-	return hidden;
+	return m_hidden;
 }
 
 void Onyx::UiRenderable::setPosition(const Vec2& position)
@@ -193,20 +193,20 @@ void Onyx::UiRenderable::scale(float scalar)
 
 void Onyx::UiRenderable::resetTransform()
 {
-	model = Mat4::Identity();
+	m_model = Mat4::Identity();
 }
 
 void Onyx::UiRenderable::dispose()
 {
-	mesh.dispose();
-	shader.dispose();
-	texture.dispose();
+	m_mesh.dispose();
+	m_shader.dispose();
+	m_texture.dispose();
 }
 
 void Onyx::UiRenderable::updateModel()
 {
-	model = Mat4::Identity();
-	model.translate(Vec3(m_position, 0.0f));
-	model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
-	model.scale(Vec3(m_scale, 1.0f));
+	m_model = Mat4::Identity();
+	m_model.translate(Vec3(m_position, 0.0f));
+	m_model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
+	m_model.scale(Vec3(m_scale, 1.0f));
 }

@@ -153,8 +153,8 @@ namespace Onyx
 		void dispose() override;
         
     private:
-		std::map<std::string, Renderable> renderableMap;
+		std::map<std::string, Renderable> m_renderableMap;
 
-        bool hidden;
+        bool m_hidden;
     };
 }

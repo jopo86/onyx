@@ -86,6 +86,20 @@ namespace Onyx
 		VertexFormat getVertexFormat() const;
 
 		/*
+			@brief Disposes of the mesh.
+			This clears up any memory that the object was using.
+			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+		 */
+		void dispose() override;
+
+	private:
+		uint m_vao, m_vbo, m_ibo;
+
+		uint m_verticesSize, m_indicesSize;
+		VertexFormat m_vertexFormat;
+
+	public:
+		/*
 			@brief Creates an equilateral triangle mesh with the specified side length.
 			@param side The side length.
 			@return The resulting mesh.
@@ -163,18 +177,5 @@ namespace Onyx
 			@return The resulting mesh.
 		 */
 		static Mesh RectPrism(Math::Vec3 a, Math::Vec3 b, Math::Vec3 c, Math::Vec3 d, Math::Vec3 e, Math::Vec3 f, Math::Vec3 g, Math::Vec3 h);
-
-		/*
-			@brief Disposes of the mesh.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
-		 */
-		void dispose() override;
-
-	private:
-		uint vao, vbo, ibo;
-
-		uint verticesSize, indicesSize;
-		VertexFormat vertexFormat;
 	};
 }

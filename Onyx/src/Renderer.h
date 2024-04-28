@@ -181,17 +181,17 @@ namespace Onyx
 		void dispose() override;
 
 	private:
-		std::vector<Renderable*> renderables;
-		std::vector<UiRenderable*> uiRenderables;
-		std::vector<TextRenderable*> textRenderables;
+		std::vector<Renderable*> m_renderables;
+		std::vector<UiRenderable*> m_uiRenderables;
+		std::vector<TextRenderable*> m_textRenderables;
 
-		Camera* cam;
-		Lighting* lighting;
-		Math::Mat4 ortho;
+		Camera* m_pCam;
+		Lighting* m_pLighting;
+		Math::Mat4 m_ortho;
 		
-		bool lightingEnabled;
-		static bool wireframe;
-		static bool uiWireframeAllowed;
-		static float lineWidth;
+		bool m_lightingEnabled;
+		static bool sm_wireframe;
+		static bool sm_uiWireframeAllowed;
+		static float sm_lineWidth;
 	};
 }

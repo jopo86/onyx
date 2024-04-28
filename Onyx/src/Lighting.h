@@ -61,8 +61,8 @@ namespace Onyx
 		void setDirection(const Math::Vec3& direction);
 
 	private:
-		Math::Vec3 color;
-		float ambientStrength;
-		Math::Vec3 direction;
+		Math::Vec3 m_color;
+		float m_ambientStrength;
+		Math::Vec3 m_direction;
 	};
 }

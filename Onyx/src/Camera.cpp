@@ -18,7 +18,7 @@ Onyx::Camera::Camera()
 Onyx::Camera::Camera(Window& window)
 {
 	m_pWin = &window;
-	window.p_cam = this;
+	window.m_pCam = this;
 
 	m_pos = Vec3(0.0f, 0.0f, 0.0f);
 	m_front = Vec3(0.0f, 0.0f, -1.0f);
@@ -34,7 +34,7 @@ Onyx::Camera::Camera(Window& window)
 Onyx::Camera::Camera(Window& window, const Projection& proj)
 {
 	m_pWin = &window;
-	window.p_cam = this;
+	window.m_pCam = this;
 
 	m_pos = Vec3(0.0f, 0.0f, 0.0f);
 	m_front = Vec3(0.0f, 0.0f, -1.0f);
@@ -52,7 +52,7 @@ Onyx::Camera::Camera(Window& window, const Projection& proj)
 Onyx::Camera::Camera(Window& window, const Projection& proj, float pitchClamp)
 {
 	m_pWin = &window;
-	window.p_cam = this;
+	window.m_pCam = this;
 
 	m_pos = Vec3(0.0f, 0.0f, 0.0f);
 	m_front = Vec3(0.0f, 0.0f, -1.0f);
@@ -105,7 +105,7 @@ void Onyx::Camera::translateGlobal(const Vec3& xyz)
 
 void Onyx::Camera::rotate(float yaw, float pitch)
 {
-	if (m_pWin->frame > 0 && m_pWin->frame < 5 || yaw == 0 && pitch == 0) return;
+	if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || yaw == 0 && pitch == 0) return;
 
 	if (m_pitch + pitch > m_pitchClamp || m_pitch + pitch < -m_pitchClamp) pitch = 0.0f;
 
@@ -116,7 +116,7 @@ void Onyx::Camera::rotate(float yaw, float pitch)
 
 void Onyx::Camera::rotate(float yaw, float pitch, const Vec3& origin)
 {
-	if (m_pWin->frame > 0 && m_pWin->frame < 5 || yaw == 0 && pitch == 0) return;
+	if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || yaw == 0 && pitch == 0) return;
 
 	if (m_pitch + pitch > m_pitchClamp || m_pitch + pitch < -m_pitchClamp) pitch = 0.0f;
 
@@ -133,7 +133,7 @@ void Onyx::Camera::rotate(float yaw, float pitch, const Vec3& origin)
 
 void Onyx::Camera::pitch(float degrees)
 {
-	if (m_pWin->frame > 0 && m_pWin->frame < 5 || degrees == 0) return;
+	if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
 	if (m_pitch + degrees > m_pitchClamp || m_pitch + degrees < -m_pitchClamp) return;
 	m_pitch += degrees;
 	updateFront();
@@ -141,7 +141,7 @@ void Onyx::Camera::pitch(float degrees)
 
 void Onyx::Camera::pitch(float degrees, const Math::Vec3& origin)
 {
-	if (m_pWin->frame > 0 && m_pWin->frame < 5 || degrees == 0) return;
+	if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
 	if (m_pitch + degrees > m_pitchClamp || m_pitch + degrees < -m_pitchClamp) return;
 	m_pitch += degrees;
 	updateFront();
@@ -154,14 +154,14 @@ void Onyx::Camera::pitch(float degrees, const Math::Vec3& origin)
 
 void Onyx::Camera::yaw(float degrees)
 {
-	if (m_pWin->frame > 0 && m_pWin->frame < 5 || degrees == 0) return;
+	if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
 	m_yaw += degrees;
 	updateFront();
 }
 
 void Onyx::Camera::yaw(float degrees, const Math::Vec3 & origin)
 {
-	if (m_pWin->frame > 0 && m_pWin->frame < 5 || degrees == 0) return;
+	if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
 	m_yaw += degrees;
 	updateFront();
 	Vec3 diff = m_pos - origin;

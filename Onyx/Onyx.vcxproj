@@ -162,7 +162,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\CharRenderable.cpp" />
-    <ClCompile Include="src\ModelUnit.cpp" />
     <ClCompile Include="src\ModelRenderable.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Core.cpp" />
@@ -203,7 +202,6 @@
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\ModelRenderable.h" />
-    <ClInclude Include="src\ModelUnit.h" />
     <ClInclude Include="src\Projection.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Renderer.h" />

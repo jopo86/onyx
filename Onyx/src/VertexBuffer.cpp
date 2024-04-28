@@ -2,18 +2,18 @@
 
 Onyx::VertexBuffer::VertexBuffer()
 {
-	vertices = nullptr;
-	size = 0;
-	format = Onyx::VertexFormat::Null;
-	heap = false;
+	m_vertices = nullptr;
+	m_size = 0;
+	m_format = Onyx::VertexFormat::Null;
+	m_heap = false;
 }
 
 Onyx::VertexBuffer::VertexBuffer(float *vertices, uint size, VertexFormat format)
 {
-	this->vertices = vertices;
-	this->size = size;
-	this->format = format;
-	heap = false;
+	m_vertices = vertices;
+	m_size = size;
+	m_format = format;
+	m_heap = false;
 }
 
 bool Onyx::VertexBuffer::HasNormals(Onyx::VertexFormat format)
@@ -45,7 +45,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float base, float height)
 	};
 
 	VertexBuffer vb = VertexBuffer(vertices, 6 * sizeof(float), VertexFormat::P);
-	vb.heap = true;
+	vb.m_heap = true;
 	return vb;
 }
 
@@ -59,7 +59,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Square(float side)
 	};
 
 	VertexBuffer vb = VertexBuffer(vertices, 8 * sizeof(float), VertexFormat::P);
-	vb.heap = true;
+	vb.m_heap = true;
 	return vb;
 }
 
@@ -73,7 +73,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Quad(float width, float height)
 	};
 
 	VertexBuffer vb = VertexBuffer(vertices, 8 * sizeof(float), VertexFormat::P);
-	vb.heap = true;
+	vb.m_heap = true;
 	return vb;
 }
 
@@ -91,7 +91,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Cube(float side)
 	};
 
 	VertexBuffer vb = VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::P);
-	vb.heap = true;
+	vb.m_heap = true;
 	return vb;
 }
 
@@ -109,6 +109,6 @@ Onyx::VertexBuffer Onyx::VertexBuffer::RectPrism(float width, float height, floa
 	};
 
 	VertexBuffer vb = VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::P);
-	vb.heap = true;
+	vb.m_heap = true;
 	return vb;
 }

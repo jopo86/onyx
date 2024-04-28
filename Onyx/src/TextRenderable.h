@@ -205,20 +205,20 @@ namespace Onyx
 		void dispose() override;
 
     private:
-        std::vector<CharRenderable> chars;
-		std::string text;
-		Math::Vec4 color;
+        std::vector<CharRenderable> m_chars;
+		std::string m_text;
+		Math::Vec4 m_color;
 
-        Shader shader;
-        Math::Mat4 model;
+        Shader m_shader;
+        Math::Mat4 m_model;
 
 		Math::Vec2 m_position;
 		float m_rotation;
 		Math::Vec2 m_scale;
 
-        Font* font;
+        Font* m_pFont;
 
-		bool hidden;
+		bool m_hidden;
 
 		void updateModel();
     };

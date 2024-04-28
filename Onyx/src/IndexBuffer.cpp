@@ -2,16 +2,16 @@
 
 Onyx::IndexBuffer::IndexBuffer()
 {
-	indices = nullptr;
-	size = 0;
-	heap = false;
+	m_indices = nullptr;
+	m_size = 0;
+	m_heap = false;
 }
 
 Onyx::IndexBuffer::IndexBuffer(uint* indices, uint size)
 {
-	this->indices = indices;
-	this->size = size;
-	heap = false;
+	m_indices = indices;
+	m_size = size;
+	m_heap = false;
 }
 
 Onyx::IndexBuffer Onyx::IndexBuffer::Triangle()
@@ -21,7 +21,7 @@ Onyx::IndexBuffer Onyx::IndexBuffer::Triangle()
 	};
 
 	IndexBuffer ib(indices, sizeof(indices));
-	ib.heap = true;
+	ib.m_heap = true;
 	return ib;
 }
 
@@ -38,7 +38,7 @@ Onyx::IndexBuffer Onyx::IndexBuffer::Quad()
 	};
 
 	IndexBuffer ib(indices, sizeof(indices));
-	ib.heap = true;
+	ib.m_heap = true;
 	return ib;
 }
 
@@ -70,6 +70,6 @@ Onyx::IndexBuffer Onyx::IndexBuffer::RectPrism()
 	};
 
 	IndexBuffer ib(indices, sizeof(indices));
-	ib.heap = true;
+	ib.m_heap = true;
 	return ib;
 }

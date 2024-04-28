@@ -12,12 +12,12 @@ void onyx_err(const Onyx::Error&);
 
 Onyx::Texture::Texture()
 {
-	tex = 0;
+	m_tex = 0;
 }
 
 Onyx::Texture::Texture(const Texture& other)
 {
-	tex = other.tex;
+	m_tex = other.m_tex;
 }
 
 Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)
@@ -88,10 +88,10 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 
 	Texture texture;
 
-	texture.tex = 0;
+	texture.m_tex = 0;
 
-	glGenTextures(1, &texture.tex);
-	glBindTexture(GL_TEXTURE_2D, texture.tex);
+	glGenTextures(1, &texture.m_tex);
+	glBindTexture(GL_TEXTURE_2D, texture.m_tex);
 
 	switch (textureWrap)
 	{
@@ -131,7 +131,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 
 void Onyx::Texture::bind() const
 {
-	glBindTexture(GL_TEXTURE_2D, tex);
+	glBindTexture(GL_TEXTURE_2D, m_tex);
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
@@ -140,13 +140,13 @@ void Onyx::Texture::bind() const
 
 uint Onyx::Texture::getTextureID() const
 {
-	return tex;
+	return m_tex;
 }
 
 void Onyx::Texture::dispose()
 {
-	if (tex) glDeleteTextures(1, &tex);
-	tex = 0;
+	if (m_tex) glDeleteTextures(1, &m_tex);
+	m_tex = 0;
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();

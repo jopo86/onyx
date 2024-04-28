@@ -48,68 +48,54 @@ namespace Onyx
 		static Projection Perspective(float fov, int screenWidth, int screenHeight, float nearPlane, float farPlane);
 
 		/*
-			Updates the projection matrix based on the type of projection from its member variables.
-		 */
-		void update();
-
-		/*
 			@brief Gets the type of projection.
-			@return The type of projection - either MG_PROJECTION_TYPE_ORTHOGRAPHIC or MG_PROJECTION_TYPE_PERSPECTIVE.
 		 */
 		Onyx::ProjectionType getType() const;
 
 		/*
 			@brief Gets the left of the screen.
-			FOR ORTHOGRAPHIC PROJECTIONS, will return -999 for perspective (if it hasn't been changed by a setter).
 			@return The left of the screen.
 		 */
 		float getLeft() const;
 
 		/*
 			@brief Gets the right of the screen.
-			FOR ORTHOGRAPHIC PROJECTIONS, will return -999 for perspective (if it hasn't been changed by a setter).
 			@return The right of the screen.
 		 */
 		float getRight() const;
 
 		/*
 			@brief Gets the top of the screen.
-			FOR ORTHOGRAPHIC PROJECTIONS, will return -999 for perspective (if it hasn't been changed by a setter).
 			@return The top of the screen.
 		 */
 		float getTop() const;
 
 		/*
 			@brief Gets the bottom of the screen.
-			FOR ORTHOGRAPHIC PROJECTIONS, will return -999 for perspective (if it hasn't been changed by a setter).
 			@return The bottom of the screen.
 		 */
 		float getBottom() const;
 
 		/*
 			@brief Gets the FOV.
-			FOR PERSPECTIVE PROJECTIONS, will return -999 for orthograhpic (if it hasn't been changed by a setter).
 			@return The field of view.
 		 */
 		float getFOV() const;
 
 		/*
 			@brief Gets the aspect ratio.
-			FOR PERSPECTIVE PROJECTIONS, will return -999 for orthograhpic (if it hasn't been changed by a setter).
 			@return The aspect ratio (screen width/height).
 		 */
 		float getAspectRatio() const;
 
 		/*
 			@brief Gets the near plane value.
-			FOR PERSPECTIVE PROJECTIONS, will return -999 for orthograhpic (if it hasn't been changed by a setter).
 			@return The distance to the near plane.
 		 */
 		float getNearPlane() const;
 
 		/*
 			@brief Gets the far plane value.
-			FOR PERSPECTIVE PROJECTIONS, will return -999 for orthograhpic (if it hasn't been changed by a setter).
 			@return The distance to the far plane.
 		 */
 		float getFarPlane() const;
@@ -123,65 +109,57 @@ namespace Onyx
 
 		/*
 			@brief Sets the left of the screen.
-			MATRIX MUST BE UPDATED TO APPLY CHANGES (updateMatrixOrtho() / updateMatrixPersp()).
 			@param val The left of the screen.
 		 */
 		void setLeft(float val);
 
 		/*
 			@brief Sets the right of the screen.
-			MATRIX MUST BE UPDATED TO APPLY CHANGES (updateMatrixOrtho() / updateMatrixPersp()).
 			@param val The right of the screen.
 		 */
 		void setRight(float val);
 
 		/*
 			@brief Sets the top of the screen.
-			MATRIX MUST BE UPDATED TO APPLY CHANGES (updateMatrixOrtho() / updateMatrixPersp()).
 			@param val The top of the screen.
 		 */
 		void setTop(float val);
 
 		/*
 			@brief Sets the bottom of the screen.
-			MATRIX MUST BE UPDATED TO APPLY CHANGES (updateMatrixOrtho() / updateMatrixPersp()).
 			@param val The bottom of the screen.
 		 */
 		void setBottom(float val);
 
 		/*
 			@brief Sets the FOV.
-			MATRIX MUST BE UPDATED TO APPLY CHANGES (updateMatrixOrtho() / updateMatrixPersp()).
 			@param val The field of view.
 		 */
 		void setFOV(float val);
 
 		/*
 			@brief Sets the aspect ratio.
-			MATRIX MUST BE UPDATED TO APPLY CHANGES (updateMatrixOrtho() / updateMatrixPersp()).
 			@param val The aspect ratio.
 		 */
 		void setAspectRatio(float val);
 
 		/*
 			@brief Sets the near plane value.
-			MATRIX MUST BE UPDATED TO APPLY CHANGES (updateMatrixOrtho() / updateMatrixPersp()).
 			@param val The distance to the near plane.
 		 */
 		void setNearPlane(float val);
 
 		/*
 			@brief Sets the far plane value.
-			MATRIX MUST BE UPDATED TO APPLY CHANGES (updateMatrixOrtho() / updateMatrixPersp()).
 			@param val The distance to the far plane.
 		 */
 		void setFarPlane(float val);
 
 	private:
-		Onyx::ProjectionType type;
-		float left, right, top, bottom, fov, aspectRatio, nearPlane, farPlane;
+		Onyx::ProjectionType m_type;
+		float m_left, m_right, m_top, m_bottom, m_fov, m_aspectRatio, m_nearPlane, m_farPlane;
 
-		Onyx::Math::Mat4 mat;
+		Onyx::Math::Mat4 m_mat;
 
 		void updateMatrix();
 	};

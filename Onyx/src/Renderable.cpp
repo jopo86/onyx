@@ -10,30 +10,30 @@ Onyx::Math::Mat4;
 
 Onyx::Renderable::Renderable() 
 {
-	model = Mat4(1.0f);
-	inverseModel = Math::Inverse(model);
+	m_model = Mat4(1.0f);
+	m_inverseModel = Math::Inverse(m_model);
 	m_scale = Vec3(1.0f);
-	hidden = false;
+	m_hidden = false;
 }
 
 Onyx::Renderable::Renderable(Mesh mesh)
 {
-	this->mesh = mesh;
-	shader = Shader::P_Color(Vec4::White());
-	model = Mat4(1.0f);
-	inverseModel = Math::Inverse(model);
+	m_mesh = mesh;
+	m_shader = Shader::P_Color(Vec4::White());
+	m_model = Mat4(1.0f);
+	m_inverseModel = Math::Inverse(m_model);
 	m_scale = Vec3(1.0f);
-	hidden = false;
+	m_hidden = false;
 }
 
 Onyx::Renderable::Renderable(Mesh mesh, Shader shader)
 {
-	this->mesh = mesh;
-	this->shader = shader;
-	model = Mat4(1.0f);
-	inverseModel = Math::Inverse(model);
+	m_mesh = mesh;
+	m_shader = shader;
+	m_model = Mat4(1.0f);
+	m_inverseModel = Math::Inverse(m_model);
 	m_scale = Vec3(1.0f);
-	hidden = false;
+	m_hidden = false;
 }
 
 Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)
@@ -48,24 +48,24 @@ Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)
             }
 		);
     }
-	this->mesh = mesh;
-	this->shader = shader;
-	this->texture = texture;
-	model = Mat4(1.0f);
-	inverseModel = Math::Inverse(model);
+	m_mesh = mesh;
+	m_shader = shader;
+	m_texture = texture;
+	m_model = Mat4(1.0f);
+	m_inverseModel = Math::Inverse(m_model);
 	m_scale = Vec3(1.0f);
-	hidden = false;
+	m_hidden = false;
 }
 
 void Onyx::Renderable::render()
 {
-	if (hidden) return;
-	shader.use();
-	texture.bind();
-	shader.setMat4("u_model", model);
-	shader.setMat4("u_inverseModel", inverseModel);
-	glBindVertexArray(mesh.getVAO());
-	glDrawElements(GL_TRIANGLES, mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	if (m_hidden) return;
+	m_shader.use();
+	m_texture.bind();
+	m_shader.setMat4("u_model", m_model);
+	m_shader.setMat4("u_inverseModel", m_inverseModel);
+	glBindVertexArray(m_mesh.getVAO());
+	glDrawElements(GL_TRIANGLES, m_mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
@@ -77,15 +77,15 @@ void Onyx::Renderable::render()
 
 void Onyx::Renderable::render(const Mat4& view, const Mat4& proj)
 {
-	if (hidden) return;
-	shader.use();
-	texture.bind();
-	shader.setMat4("u_model", model);
-	shader.setMat4("u_inverseModel", inverseModel);
-	shader.setMat4("u_view", view);
-	shader.setMat4("u_projection", proj);
-	glBindVertexArray(mesh.getVAO());
-	glDrawElements(GL_TRIANGLES, mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	if (m_hidden) return;
+	m_shader.use();
+	m_texture.bind();
+	m_shader.setMat4("u_model", m_model);
+	m_shader.setMat4("u_inverseModel", m_inverseModel);
+	m_shader.setMat4("u_view", view);
+	m_shader.setMat4("u_projection", proj);
+	glBindVertexArray(m_mesh.getVAO());
+	glDrawElements(GL_TRIANGLES, m_mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
@@ -97,17 +97,17 @@ void Onyx::Renderable::render(const Mat4& view, const Mat4& proj)
 
 void Onyx::Renderable::hide()
 {
-	hidden = true;
+	m_hidden = true;
 }
 
 void Onyx::Renderable::show()
 {
-	hidden = false;
+	m_hidden = false;
 }
 
 void Onyx::Renderable::toggleVisibility()
 {
-	hidden = !hidden;
+	m_hidden = !m_hidden;
 }
 
 const Vec3& Onyx::Renderable::getPosition() const
@@ -127,27 +127,27 @@ const Vec3& Onyx::Renderable::getScale() const
 
 Onyx::Mesh* Onyx::Renderable::getMesh()
 {
-	return &mesh;
+	return &m_mesh;
 }
 
 Onyx::Shader* Onyx::Renderable::getShader()
 {
-	return &shader;
+	return &m_shader;
 }
 
 Onyx::Texture* Onyx::Renderable::getTexture()
 {
-	return &texture;
+	return &m_texture;
 }
 
 const Mat4& Onyx::Renderable::getModel() const
 {
-	return model;
+	return m_model;
 }
 
 bool Onyx::Renderable::isHidden() const
 {
-	return hidden;
+	return m_hidden;
 }
 
 void Onyx::Renderable::setPosition(const Vec3& position)
@@ -220,20 +220,20 @@ void Onyx::Renderable::resetTransform()
 
 void Onyx::Renderable::dispose()
 {
-	texture.dispose();
-	shader.dispose();
-	mesh.dispose();
+	m_texture.dispose();
+	m_shader.dispose();
+	m_mesh.dispose();
 }
 
 void Onyx::Renderable::updateModel()
 {
-    model = Mat4::Identity();
-    model.translate(m_position);
-    model.rotate(m_rotation.getX(), Vec3(1.0f, 0.0f, 0.0f));
-    model.rotate(m_rotation.getY(), Vec3(0.0f, 1.0f, 0.0f));
-    model.rotate(m_rotation.getZ(), Vec3(0.0f, 0.0f, 1.0f));
-    model.scale(m_scale);
-    inverseModel = Math::Inverse(model);
+    m_model = Mat4::Identity();
+    m_model.translate(m_position);
+    m_model.rotate(m_rotation.getX(), Vec3(1.0f, 0.0f, 0.0f));
+    m_model.rotate(m_rotation.getY(), Vec3(0.0f, 1.0f, 0.0f));
+    m_model.rotate(m_rotation.getZ(), Vec3(0.0f, 0.0f, 1.0f));
+    m_model.scale(m_scale);
+    m_inverseModel = Math::Inverse(m_model);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(float side, Vec3 rgb)

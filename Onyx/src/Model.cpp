@@ -20,7 +20,7 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 	Model* model = new Model;
 	onyx_add_malloc(model, false);
 	std::string slash = filepath.find("/") ? "/" : "\\";
-	model->directory = filepath.substr(0, filepath.find_last_of(slash));
+	model->m_directory = filepath.substr(0, filepath.find_last_of(slash));
 	
 	objl::Loader loader;
 	if (!loader.LoadFile(filepath))
@@ -70,13 +70,13 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 		);
 
 		if (hasTexture) {
-			unit.texture = Texture::Load(model->directory + "/" + objlMesh.MeshMaterial.map_Kd);
+			unit.texture = Texture::Load(model->m_directory + "/" + objlMesh.MeshMaterial.map_Kd);
 			unit.shader = Shader::PNT();
 		}
 		else if (hasMaterial) unit.shader = Shader::PN_Color(Vec4(objlMesh.MeshMaterial.Kd.X, objlMesh.MeshMaterial.Kd.Y, objlMesh.MeshMaterial.Kd.Z, 1.0f));
 		else unit.shader = Shader::PN_Color(Vec4(1.0f));
 
-		model->data.push_back(unit);
+		model->m_data.push_back(unit);
 
 		delete vertices;
 		delete indices;

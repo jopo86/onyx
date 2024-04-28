@@ -28,6 +28,15 @@ namespace Onyx
 
 		static bool HasColors(Onyx::VertexFormat format);
 
+	private:
+		float* m_vertices;
+		uint m_size;
+		Onyx::VertexFormat m_format;
+
+		bool m_heap;
+
+	public:
+
 		static VertexBuffer Triangle(float side);
 
 		static VertexBuffer Triangle(float base, float height);
@@ -39,12 +48,5 @@ namespace Onyx
 		static VertexBuffer Cube(float side);
 
 		static VertexBuffer RectPrism(float width, float height, float depth);
-
-	private:
-		float* vertices;
-		uint size;
-		Onyx::VertexFormat format;
-
-		bool heap;
 	};
 }

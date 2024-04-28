@@ -8,8 +8,8 @@
 
 using Onyx::Math::Vec3;
 
-GLFWmonitor* Onyx::Window::p_primaryMonitor = nullptr;
-GLFWvidmode* Onyx::Window::p_primaryMonitorInfo = nullptr;
+GLFWmonitor* Onyx::Window::m_pPrimaryMonitor = nullptr;
+GLFWvidmode* Onyx::Window::m_pPrimaryMonitorInfo = nullptr;
 
 void onyx_set_gl_init(bool);
 bool onyx_is_ehandler_nullptr();
@@ -70,44 +70,44 @@ void Onyx::WindowIcon::dispose()
 
 Onyx::Window::Window()
 {
-	p_glfwWin = nullptr;
-	bufferWidth = bufferHeight = 0;
-	p_inputHandler = nullptr;
-	p_cam = nullptr;
-	p_renderer = nullptr;
-	initialized = false;
-	frame = fps = 0;
-	lastFrameTime = deltaTime = 0;
+	m_pGlfwWin = nullptr;
+	m_bufferWidth = m_bufferHeight = 0;
+	m_pInputHandler = nullptr;
+	m_pCam = nullptr;
+	m_pRenderer = nullptr;
+	m_initialized = false;
+	m_frame = m_fps = 0;
+	m_lastFrameTime = m_deltaTime = 0;
 }
 
 Onyx::Window::Window(WindowProperties properties)
 {
-	p_glfwWin = nullptr;
-	this->properties = properties;
-	bufferWidth = bufferHeight = 0;
-	p_inputHandler = nullptr;
-	p_cam = nullptr;
-	p_renderer = nullptr;
-	initialized = false;
-	frame = fps = 0;
-	lastFrameTime = deltaTime = 0;
+	m_pGlfwWin = nullptr;
+	m_properties = properties;
+	m_bufferWidth = m_bufferHeight = 0;
+	m_pInputHandler = nullptr;
+	m_pCam = nullptr;
+	m_pRenderer = nullptr;
+	m_initialized = false;
+	m_frame = m_fps = 0;
+	m_lastFrameTime = m_deltaTime = 0;
 }
 
 void Onyx::Window::init()
 {
-	glfwWindowHint(GLFW_RESIZABLE, properties.resizable);
-	glfwWindowHint(GLFW_VISIBLE, properties.visible);
-	glfwWindowHint(GLFW_FOCUSED, properties.focused);
-	glfwWindowHint(GLFW_DECORATED, properties.decorated);
-	glfwWindowHint(GLFW_FLOATING, properties.topmost);
-	glfwWindowHint(GLFW_FOCUS_ON_SHOW, properties.focusOnShow);
-	glfwWindowHint(GLFW_SAMPLES, properties.nSamplesMSAA);
+	glfwWindowHint(GLFW_RESIZABLE, m_properties.resizable);
+	glfwWindowHint(GLFW_VISIBLE, m_properties.visible);
+	glfwWindowHint(GLFW_FOCUSED, m_properties.focused);
+	glfwWindowHint(GLFW_DECORATED, m_properties.decorated);
+	glfwWindowHint(GLFW_FLOATING, m_properties.topmost);
+	glfwWindowHint(GLFW_FOCUS_ON_SHOW, m_properties.focusOnShow);
+	glfwWindowHint(GLFW_SAMPLES, m_properties.nSamplesMSAA);
 
-	if (p_primaryMonitor == nullptr) p_primaryMonitor = glfwGetPrimaryMonitor();
-	if (p_primaryMonitorInfo == nullptr) p_primaryMonitorInfo = (GLFWvidmode*)glfwGetVideoMode(p_primaryMonitor);
+	if (m_pPrimaryMonitor == nullptr) m_pPrimaryMonitor = glfwGetPrimaryMonitor();
+	if (m_pPrimaryMonitorInfo == nullptr) m_pPrimaryMonitorInfo = (GLFWvidmode*)glfwGetVideoMode(m_pPrimaryMonitor);
 
-	p_glfwWin = glfwCreateWindow(properties.width, properties.height, properties.title.c_str(), nullptr, nullptr);
-	if (p_glfwWin == nullptr)
+	m_pGlfwWin = glfwCreateWindow(m_properties.width, m_properties.height, m_properties.title.c_str(), nullptr, nullptr);
+	if (m_pGlfwWin == nullptr)
 	{
 		onyx_err(Error{
 				.sourceFunction = "Onyx::Window::init()",
@@ -118,17 +118,17 @@ void Onyx::Window::init()
 		return;
 	}
 
-	glfwMakeContextCurrent(p_glfwWin);
-	glfwGetFramebufferSize(p_glfwWin, &bufferWidth, &bufferHeight);
-	glfwSetWindowUserPointer(p_glfwWin, this);
+	glfwMakeContextCurrent(m_pGlfwWin);
+	glfwGetFramebufferSize(m_pGlfwWin, &m_bufferWidth, &m_bufferHeight);
+	glfwSetWindowUserPointer(m_pGlfwWin, this);
 
-	glfwSetFramebufferSizeCallback(p_glfwWin, cb_framebufferSize);
-	glfwSetWindowSizeCallback(p_glfwWin, cb_windowSize);
-	glfwSetWindowPosCallback(p_glfwWin, cb_windowPos);
-	glfwSetKeyCallback(p_glfwWin, cb_key);
-	glfwSetMouseButtonCallback(p_glfwWin, cb_mouseButton);
-	glfwSetCursorPosCallback(p_glfwWin, cb_cursorPos);
-	glfwSetScrollCallback(p_glfwWin, cb_scroll);
+	glfwSetFramebufferSizeCallback(m_pGlfwWin, framebufferSizeCallback);
+	glfwSetWindowSizeCallback(m_pGlfwWin, windowSizeCallback);
+	glfwSetWindowPosCallback(m_pGlfwWin, windowPosCallback);
+	glfwSetKeyCallback(m_pGlfwWin, keyCallback);
+	glfwSetMouseButtonCallback(m_pGlfwWin, mouseButtonCallback);
+	glfwSetCursorPosCallback(m_pGlfwWin, cursorPosCallback);
+	glfwSetScrollCallback(m_pGlfwWin, scrollCallback);
 
 	glfwSwapInterval(1);
 
@@ -145,254 +145,254 @@ void Onyx::Window::init()
 
 	onyx_set_gl_init(true);
 
-	glfwSetWindowOpacity(p_glfwWin, properties.opacity);
-	if (properties.fullscreen) fullscreen();
+	glfwSetWindowOpacity(m_pGlfwWin, m_properties.opacity);
+	if (m_properties.fullscreen) fullscreen();
 
-	glViewport(0, 0, bufferWidth, bufferHeight);
+	glViewport(0, 0, m_bufferWidth, m_bufferHeight);
 	glEnable(GL_DEPTH_TEST);
-	if (properties.nSamplesMSAA) glEnable(GL_MULTISAMPLE);
+	if (m_properties.nSamplesMSAA) glEnable(GL_MULTISAMPLE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Onyx::Window::startRender()
 {
-	deltaTime = GetTime() - lastFrameTime;
-	fps = (int)(1.0 / deltaTime);
-	lastFrameTime = GetTime();
-	frame++;
+	m_deltaTime = GetTime() - m_lastFrameTime;
+	m_fps = (int)(1.0 / m_deltaTime);
+	m_lastFrameTime = GetTime();
+	m_frame++;
 
-	glClearColor(properties.backgroundColor.getX(), properties.backgroundColor.getY(), properties.backgroundColor.getZ(), 1.0f);
+	glClearColor(m_properties.backgroundColor.getX(), m_properties.backgroundColor.getY(), m_properties.backgroundColor.getZ(), 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glfwPollEvents();
 }
 
 void Onyx::Window::endRender()
 {
-	glfwSwapBuffers(p_glfwWin);
+	glfwSwapBuffers(m_pGlfwWin);
 }
 
 void Onyx::Window::close()
 {
-	glfwSetWindowShouldClose(p_glfwWin, GLFW_TRUE);
-	initialized = false;
+	glfwSetWindowShouldClose(m_pGlfwWin, GLFW_TRUE);
+	m_initialized = false;
 }
 
 void Onyx::Window::maximize()
 {
-	properties.fullscreen = true;
-	glfwSetWindowMonitor(p_glfwWin, glfwGetPrimaryMonitor(), 0, 0, p_primaryMonitorInfo->width, p_primaryMonitorInfo->height, p_primaryMonitorInfo->refreshRate);
+	m_properties.fullscreen = true;
+	glfwSetWindowMonitor(m_pGlfwWin, glfwGetPrimaryMonitor(), 0, 0, m_pPrimaryMonitorInfo->width, m_pPrimaryMonitorInfo->height, m_pPrimaryMonitorInfo->refreshRate);
 	glfwSwapInterval(1);
 }
 
 void Onyx::Window::minimize()
 {
-	properties.fullscreen = false;
-	glfwIconifyWindow(p_glfwWin);
+	m_properties.fullscreen = false;
+	glfwIconifyWindow(m_pGlfwWin);
 }
 
 void Onyx::Window::restore()
 {
-	glfwRestoreWindow(p_glfwWin);
+	glfwRestoreWindow(m_pGlfwWin);
 }
 
 void Onyx::Window::requestAttention()
 {
-	glfwRequestWindowAttention(p_glfwWin);
+	glfwRequestWindowAttention(m_pGlfwWin);
 }
 
 bool Onyx::Window::isOpen() const
 {
-	return !glfwWindowShouldClose(p_glfwWin);
+	return !glfwWindowShouldClose(m_pGlfwWin);
 }
 
 const std::string& Onyx::Window::getTitle() const
 {
-	return properties.title;
+	return m_properties.title;
 }
 
 int Onyx::Window::getWidth() const
 {
-	return properties.width;
+	return m_properties.width;
 }
 
 int Onyx::Window::getHeight() const
 {
-	return properties.height;
+	return m_properties.height;
 }
 
 int Onyx::Window::getBufferWidth() const
 {
-	return bufferWidth;
+	return m_bufferWidth;
 }
 
 int Onyx::Window::getBufferHeight() const
 {
-	return bufferHeight;
+	return m_bufferHeight;
 }
 
 const Onyx::Math::IVec2& Onyx::Window::getPosition() const
 {
-	return properties.position;
+	return m_properties.position;
 }
 
 int Onyx::Window::getFrame() const
 {
-	return frame;
+	return m_frame;
 }
 
 int Onyx::Window::getFPS() const
 {
-	return fps;
+	return m_fps;
 }
 
 double Onyx::Window::getDeltaTime() const
 {
-	return deltaTime;
+	return m_deltaTime;
 }
 
 float Onyx::Window::getOpacity() const
 {
-	return properties.opacity;
+	return m_properties.opacity;
 }
 
 const Vec3& Onyx::Window::getBackgroundColor() const
 {
-	return properties.backgroundColor;
+	return m_properties.backgroundColor;
 }
 
 const Onyx::WindowIcon& Onyx::Window::getIcon() const
 {
-	return icon;
+	return m_icon;
 }
 
 GLFWwindow* Onyx::Window::getGlfwWindowPtr() const
 {
-	return p_glfwWin;
+	return m_pGlfwWin;
 }
 
 bool Onyx::Window::isInitialized() const
 {
-	return initialized;
+	return m_initialized;
 }
 
 bool Onyx::Window::isResizable() const
 {
-	return properties.resizable;
+	return m_properties.resizable;
 }
 
 bool Onyx::Window::isVisible() const
 {
-	return properties.visible;
+	return m_properties.visible;
 }
 
 bool Onyx::Window::isHidden() const
 {
-	return !properties.visible;
+	return !m_properties.visible;
 }
 
 bool Onyx::Window::isFocused() const
 {
-	return properties.focused;
+	return m_properties.focused;
 }
 
 bool Onyx::Window::isDecorated() const
 {
-	return properties.decorated;
+	return m_properties.decorated;
 }
 
 bool Onyx::Window::isTopmost() const
 {
-	return properties.topmost;
+	return m_properties.topmost;
 }
 
 bool Onyx::Window::focusesOnShow() const
 {
-	return properties.focusOnShow;
+	return m_properties.focusOnShow;
 }
 
 int Onyx::Window::getNSamplesMSAA() const
 {
-	return properties.nSamplesMSAA;
+	return m_properties.nSamplesMSAA;
 }
 
 bool Onyx::Window::isFullscreen() const
 {
-	return properties.fullscreen;
+	return m_properties.fullscreen;
 }
 
 bool Onyx::Window::isMaximized() const
 {
-	return glfwGetWindowAttrib(p_glfwWin, GLFW_MAXIMIZED);
+	return glfwGetWindowAttrib(m_pGlfwWin, GLFW_MAXIMIZED);
 }
 
 bool Onyx::Window::isMinimized() const
 {
-	return glfwGetWindowAttrib(p_glfwWin, GLFW_ICONIFIED);
+	return glfwGetWindowAttrib(m_pGlfwWin, GLFW_ICONIFIED);
 }
 
 void Onyx::Window::setTitle(const std::string& title)
 {
-	properties.title = title;
-	glfwSetWindowTitle(p_glfwWin, title.c_str());
+	m_properties.title = title;
+	glfwSetWindowTitle(m_pGlfwWin, title.c_str());
 }
 
 void Onyx::Window::setSize(int width, int height)
 {
-	properties.width = width;
-	properties.height = height;
-	glfwSetWindowSize(p_glfwWin, width, height);
+	m_properties.width = width;
+	m_properties.height = height;
+	glfwSetWindowSize(m_pGlfwWin, width, height);
 }
 
 void Onyx::Window::setPosition(const Math::IVec2& position)
 {
-	properties.position = position;
-	glfwSetWindowPos(p_glfwWin, position.getX(), position.getY());
+	m_properties.position = position;
+	glfwSetWindowPos(m_pGlfwWin, position.getX(), position.getY());
 }
 
 void Onyx::Window::setBackgroundColor(Onyx::Math::Vec3 rgb)
 {
-	properties.backgroundColor = rgb;
+	m_properties.backgroundColor = rgb;
 }
 
 void Onyx::Window::setIcon(const WindowIcon& icon)
 {
-	this->icon = icon;
-	glfwSetWindowIcon(p_glfwWin, icon.nImages, icon.images);
+	m_icon = icon;
+	glfwSetWindowIcon(m_pGlfwWin, icon.nImages, icon.images);
 }
 
 void Onyx::Window::setOpacity(float opacity)
 {
-	properties.opacity = opacity;
-	glfwSetWindowOpacity(p_glfwWin, opacity);
+	m_properties.opacity = opacity;
+	glfwSetWindowOpacity(m_pGlfwWin, opacity);
 }
 
 void Onyx::Window::fullscreen()
 {
-	properties.fullscreen = true;
-	glfwSetWindowMonitor(p_glfwWin, glfwGetPrimaryMonitor(), 0, 0, p_primaryMonitorInfo->width, p_primaryMonitorInfo->height, p_primaryMonitorInfo->refreshRate);
+	m_properties.fullscreen = true;
+	glfwSetWindowMonitor(m_pGlfwWin, glfwGetPrimaryMonitor(), 0, 0, m_pPrimaryMonitorInfo->width, m_pPrimaryMonitorInfo->height, m_pPrimaryMonitorInfo->refreshRate);
 	glfwSwapInterval(1);
 }
 
 void Onyx::Window::windowed()
 {
-	properties.fullscreen = false;
-	glfwSetWindowMonitor(p_glfwWin, nullptr, properties.position.getX(), properties.position.getY(), properties.width, properties.height, 0);
-	if (properties.decorated) setDecorated(true);
+	m_properties.fullscreen = false;
+	glfwSetWindowMonitor(m_pGlfwWin, nullptr, m_properties.position.getX(), m_properties.position.getY(), m_properties.width, m_properties.height, 0);
+	if (m_properties.decorated) setDecorated(true);
 	glfwSwapInterval(1);
 }
 
 void Onyx::Window::windowed(int width, int height, Math::IVec2 position)
 {
-	properties.fullscreen = false;
-	glfwSetWindowMonitor(p_glfwWin, nullptr, position.getX(), position.getY(), width, height, 0);
-	if (properties.decorated) setDecorated(true);
+	m_properties.fullscreen = false;
+	glfwSetWindowMonitor(m_pGlfwWin, nullptr, position.getX(), position.getY(), width, height, 0);
+	if (m_properties.decorated) setDecorated(true);
 	glfwSwapInterval(1);
 }
 
 void Onyx::Window::toggleFullscreen()
 {
-	if (properties.fullscreen)
+	if (m_properties.fullscreen)
 		windowed();
 	else
 		fullscreen();
@@ -400,19 +400,19 @@ void Onyx::Window::toggleFullscreen()
 
 void Onyx::Window::hide()
 {
-	properties.visible = false;
-	glfwHideWindow(p_glfwWin);
+	m_properties.visible = false;
+	glfwHideWindow(m_pGlfwWin);
 }
 
 void Onyx::Window::show()
 {
-	properties.visible = true;
-	glfwShowWindow(p_glfwWin);
+	m_properties.visible = true;
+	glfwShowWindow(m_pGlfwWin);
 }
 
 void Onyx::Window::toggleVisibility()
 {
-	if (properties.visible)
+	if (m_properties.visible)
 		hide();
 	else
 		show();
@@ -420,19 +420,19 @@ void Onyx::Window::toggleVisibility()
 
 void Onyx::Window::focus()
 {
-	properties.focused = true;
-	glfwFocusWindow(p_glfwWin);
+	m_properties.focused = true;
+	glfwFocusWindow(m_pGlfwWin);
 }
 
 void Onyx::Window::unfocus()
 {
-	properties.focused = false;
+	m_properties.focused = false;
 	glfwFocusWindow(nullptr);
 }
 
 void Onyx::Window::toggleFocus()
 {
-	if (properties.focused)
+	if (m_properties.focused)
 		unfocus();
 	else
 		focus();
@@ -440,81 +440,81 @@ void Onyx::Window::toggleFocus()
 
 void Onyx::Window::setResizable(bool resizable)
 {
-	properties.resizable = resizable;
-	glfwSetWindowAttrib(p_glfwWin, GLFW_RESIZABLE, resizable);
+	m_properties.resizable = resizable;
+	glfwSetWindowAttrib(m_pGlfwWin, GLFW_RESIZABLE, resizable);
 }
 
 void Onyx::Window::toggleResizable()
 {
-	setResizable(!properties.resizable);
+	setResizable(!m_properties.resizable);
 }
 
 void Onyx::Window::setDecorated(bool decorated)
 {
-	properties.decorated = decorated;
-	glfwSetWindowAttrib(p_glfwWin, GLFW_DECORATED, decorated);
+	m_properties.decorated = decorated;
+	glfwSetWindowAttrib(m_pGlfwWin, GLFW_DECORATED, decorated);
 }
 
 void Onyx::Window::toggleDecorated()
 {
-	setDecorated(!properties.decorated);
+	setDecorated(!m_properties.decorated);
 }
 
 void Onyx::Window::setTopmost(bool topmost)
 {
-	properties.topmost = topmost;
-	glfwSetWindowAttrib(p_glfwWin, GLFW_FLOATING, topmost);
+	m_properties.topmost = topmost;
+	glfwSetWindowAttrib(m_pGlfwWin, GLFW_FLOATING, topmost);
 }
 
 void Onyx::Window::toggleTopmost()
 {
-	setTopmost(!properties.topmost);
+	setTopmost(!m_properties.topmost);
 }
 
 void Onyx::Window::setFocusOnShow(bool focusOnShow)
 {
-	properties.focusOnShow = focusOnShow;
-	glfwSetWindowAttrib(p_glfwWin, GLFW_FOCUS_ON_SHOW, focusOnShow);
+	m_properties.focusOnShow = focusOnShow;
+	glfwSetWindowAttrib(m_pGlfwWin, GLFW_FOCUS_ON_SHOW, focusOnShow);
 }
 
 void Onyx::Window::toggleFocusOnShow()
 {
-	setFocusOnShow(!properties.focusOnShow);
+	setFocusOnShow(!m_properties.focusOnShow);
 }
 
 void Onyx::Window::dispose()
 {
-	if (initialized)
+	if (m_initialized)
 	{
-		glfwDestroyWindow(p_glfwWin);
+		glfwDestroyWindow(m_pGlfwWin);
 	}
 
-	p_glfwWin = nullptr;
-	bufferWidth = bufferHeight = 0;
-	initialized = false;
+	m_pGlfwWin = nullptr;
+	m_bufferWidth = m_bufferHeight = 0;
+	m_initialized = false;
 }
 
 
-void Onyx::Window::cb_framebufferSize(GLFWwindow* p_glfwWin, int width, int height)
+void Onyx::Window::framebufferSizeCallback(GLFWwindow* p_glfwWin, int width, int height)
 {
 	glViewport(0, 0, width, height);
 
 	Window* p_win = (Window*)glfwGetWindowUserPointer(p_glfwWin);
-	p_win->bufferWidth = width;
-	p_win->bufferHeight = height;
-	Camera* p_cam = p_win->p_cam;
-	Renderer* p_renderer = p_win->p_renderer;
+	p_win->m_bufferWidth = width;
+	p_win->m_bufferHeight = height;
+	Camera* m_pCam = p_win->m_pCam;
+	Renderer* m_pRenderer = p_win->m_pRenderer;
 
-	if (p_cam != nullptr)
+	if (m_pCam != nullptr)
 	{
-		if (p_cam->getProjection().getType() != Onyx::ProjectionType::Perspective) return;
-		Projection proj = p_cam->getProjection();
-		p_cam->setProjection(Projection::Perspective(proj.getFOV(), width, height, proj.getNearPlane(), proj.getFarPlane()));
+		if (m_pCam->getProjection().getType() != Onyx::ProjectionType::Perspective) return;
+		Projection proj = m_pCam->getProjection();
+		m_pCam->setProjection(Projection::Perspective(proj.getFOV(), width, height, proj.getNearPlane(), proj.getFarPlane()));
 	}
 
-	if (p_renderer != nullptr)
+	if (m_pRenderer != nullptr)
 	{
-		p_renderer->ortho = Projection::Orthographic(0.0f, width, height, 0.0f).getMatrix();
+		m_pRenderer->m_ortho = Projection::Orthographic(0.0f, width, height, 0.0f).getMatrix();
 	}
 
 #if defined(ONYX_GL_DEBUG_HIGH)
@@ -522,39 +522,39 @@ void Onyx::Window::cb_framebufferSize(GLFWwindow* p_glfwWin, int width, int heig
 #endif
 }
 
-void Onyx::Window::cb_windowSize(GLFWwindow* p_glfwWin, int width, int height)
+void Onyx::Window::windowSizeCallback(GLFWwindow* p_glfwWin, int width, int height)
 {
 	Window* p_win = (Window*)glfwGetWindowUserPointer(p_glfwWin);
-	p_win->properties.width = width;
-	p_win->properties.height = height;
+	p_win->m_properties.width = width;
+	p_win->m_properties.height = height;
 }
 
-void Onyx::Window::cb_windowPos(GLFWwindow* p_glfwWin, int x, int y)
+void Onyx::Window::windowPosCallback(GLFWwindow* p_glfwWin, int x, int y)
 {
 	Window* p_win = (Window*)glfwGetWindowUserPointer(p_glfwWin);
-	p_win->properties.position = Math::IVec2(x, y);
+	p_win->m_properties.position = Math::IVec2(x, y);
 }
 
-void Onyx::Window::cb_key(GLFWwindow *p_glfwWin, int key, int scancode, int action, int mods)
+void Onyx::Window::keyCallback(GLFWwindow *p_glfwWin, int key, int scancode, int action, int mods)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
-	if (p_input != nullptr) p_input->rcb_key(key, scancode, action, mods);
+	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_pInputHandler;
+	if (p_input != nullptr) p_input->keyCallback(key, scancode, action, mods);
 }
 
-void Onyx::Window::cb_mouseButton(GLFWwindow *p_glfwWin, int button, int action, int mods)
+void Onyx::Window::mouseButtonCallback(GLFWwindow *p_glfwWin, int button, int action, int mods)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
-	if (p_input != nullptr) p_input->rcb_mouseButton(button, action, mods);
+	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_pInputHandler;
+	if (p_input != nullptr) p_input->mouseButtonCallback(button, action, mods);
 }
 
-void Onyx::Window::cb_cursorPos(GLFWwindow *p_glfwWin, double x, double y)
+void Onyx::Window::cursorPosCallback(GLFWwindow *p_glfwWin, double x, double y)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
-	if (p_input != nullptr) p_input->rcb_cursorPos(x, ((Window*)glfwGetWindowUserPointer(p_glfwWin))->properties.height - y);
+	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_pInputHandler;
+	if (p_input != nullptr) p_input->cursorPosCallback(x, ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_properties.height - y);
 }
 
-void Onyx::Window::cb_scroll(GLFWwindow *p_glfwWin, double dx, double dy)
+void Onyx::Window::scrollCallback(GLFWwindow *p_glfwWin, double dx, double dy)
 {
-    InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->p_inputHandler;
-    if (p_input != nullptr) p_input->rcb_scroll(dx, dy);
+    InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_pInputHandler;
+    if (p_input != nullptr) p_input->scrollCallback(dx, dy);
 }

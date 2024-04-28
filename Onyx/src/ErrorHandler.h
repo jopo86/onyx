@@ -124,14 +124,14 @@ namespace Onyx
 		void setWarningCallback(void (*callback)(const Warning&));
 
 	private:
-		std::vector<Warning> warningList;
-		std::vector<Error> errorList;
+		std::vector<Warning> m_warningList;
+		std::vector<Error> m_errorList;
 
-		bool logWarnings;
-		bool logErrors;
-		Warning::Severity minSeverity;
+		bool m_logWarnings;
+		bool m_logErrors;
+		Warning::Severity m_minSeverity;
 
-		void (*errorCallback)(const Error&);
-		void (*warningCallback)(const Warning&);
+		void (*m_errorCallback)(const Error&);
+		void (*m_warningCallback)(const Warning&);
 	};
 }

@@ -76,80 +76,80 @@ std::string Onyx::Warning::toString() const
 
 Onyx::ErrorHandler::ErrorHandler()
 {
-	logWarnings = logErrors = false;
-	minSeverity = Warning::Severity::Null;
-	errorCallback = nullptr;
-	warningCallback = nullptr;
+	m_logWarnings = m_logErrors = false;
+	m_minSeverity = Warning::Severity::Null;
+	m_errorCallback = nullptr;
+	m_warningCallback = nullptr;
 }
 
 Onyx::ErrorHandler::ErrorHandler(bool logWarnings, bool logErrors)
 {
-	this->logWarnings = logWarnings;
-	this->logErrors = logErrors;
-	minSeverity = Warning::Severity::Null;
-	errorCallback = nullptr;
-	warningCallback = nullptr;
+	m_logWarnings = logWarnings;
+	m_logErrors = logErrors;
+	m_minSeverity = Warning::Severity::Null;
+	m_errorCallback = nullptr;
+	m_warningCallback = nullptr;
 }
 
 Onyx::ErrorHandler::ErrorHandler(bool logWarnings, bool logErrors, Warning::Severity minWarningSeverity)
 {
-	this->logWarnings = logWarnings;
-	this->logErrors = logErrors;
-	minSeverity = minWarningSeverity;
-	errorCallback = nullptr;
-	warningCallback = nullptr;
+	m_logWarnings = logWarnings;
+	m_logErrors = logErrors;
+	m_minSeverity = minWarningSeverity;
+	m_errorCallback = nullptr;
+	m_warningCallback = nullptr;
 }
 
 void Onyx::ErrorHandler::warn(const Warning& warning)
 {
-	if (logWarnings && warning.severity >= minSeverity) std::cout << warning.toString() << "\n\n";
-	warningList.push_back(warning);
-	if (warningCallback != nullptr) warningCallback(warning);
+	if (m_logWarnings&& warning.severity >= m_minSeverity) std::cout << warning.toString() << "\n\n";
+	m_warningList.push_back(warning);
+	if (m_warningCallback != nullptr) m_warningCallback(warning);
 }
 
 void Onyx::ErrorHandler::err(const Error& error)
 {
-	if (logErrors) std::cout << error.toString() << "\n\n";
-	errorList.push_back(error);
-	if (errorCallback != nullptr) errorCallback(error);
+	if (m_logErrors) std::cout << error.toString() << "\n\n";
+	m_errorList.push_back(error);
+	if (m_errorCallback != nullptr) m_errorCallback(error);
 }
 
 bool Onyx::ErrorHandler::logsWarnings() const
 {
-	return logWarnings;
+	return m_logWarnings;
 }
 
 bool Onyx::ErrorHandler::logsErrors() const
 {
-	return logErrors;
+	return m_logErrors;
 }
 
 const std::vector<Onyx::Warning>& Onyx::ErrorHandler::getWarningList() const
 {
-	return warningList;
+	return m_warningList;
 }
 
 const std::vector<Onyx::Error>& Onyx::ErrorHandler::getErrorList() const
 {
-	return errorList;
+	return m_errorList;
 }
 
 void Onyx::ErrorHandler::setLogWarnings(bool logWarnings)
 {
-	this->logWarnings = logWarnings;
+	m_logWarnings = logWarnings;
 }
 
 void Onyx::ErrorHandler::setLogErrors(bool logErrors)
 {
-	this->logErrors = logErrors;
+	m_logErrors = logErrors;
 }
 
 void Onyx::ErrorHandler::setWarningCallback(void (*callback)(const Warning&))
 {
-	warningCallback = callback;
+	m_warningCallback = callback;
 }
 
 void Onyx::ErrorHandler::setErrorCallback(void (*callback)(const Error&))
 {
-	errorCallback = callback;
+	m_errorCallback = callback;
 }

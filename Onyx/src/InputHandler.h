@@ -142,29 +142,29 @@ namespace Onyx
 		const Onyx::Math::DVec2& getScrollDeltas() const;
 
 	private:
-		Window* p_win;
+		Window* m_pWin;
 
-		Onyx::KeyState keys[Onyx::Key::MaxKey];
-		float keyCooldowns[Onyx::Key::MaxKey];
-		float setKeyCooldowns[Onyx::Key::MaxKey];
+		Onyx::KeyState m_keys[Onyx::Key::MaxKey];
+		float m_keyCooldowns[Onyx::Key::MaxKey];
+		float m_setKeyCooldowns[Onyx::Key::MaxKey];
 
-		Onyx::KeyState buttons[Onyx::MouseButton::MaxButton];
-		float buttonCooldowns[Onyx::MouseButton::MaxButton];
-		float setButtonCooldowns[Onyx::MouseButton::MaxButton];
+		Onyx::KeyState m_buttons[Onyx::MouseButton::MaxButton];
+		float m_buttonCooldowns[Onyx::MouseButton::MaxButton];
+		float m_setButtonCooldowns[Onyx::MouseButton::MaxButton];
 
-		std::vector<Onyx::Key> activeKeyCooldowns;
-		std::vector<Onyx::MouseButton> activeButtonCooldowns;
+		std::vector<Onyx::Key> m_activeKeyCooldowns;
+		std::vector<Onyx::MouseButton> m_activeButtonCooldowns;
 
-		Onyx::Math::DVec2 mousePos;
-		Onyx::Math::DVec2 lastMousePos;
-		Onyx::Math::DVec2 mouseDeltas;
-		Onyx::Math::DVec2 scrollDeltas;
+		Onyx::Math::DVec2 m_mousePos;
+		Onyx::Math::DVec2 m_lastMousePos;
+		Onyx::Math::DVec2 m_mouseDeltas;
+		Onyx::Math::DVec2 m_scrollDeltas;
 
-		bool cursorLock;
+		bool m_cursorLock;
 
-		void rcb_key(int key, int scancode, int action, int mods);
-		void rcb_mouseButton(int button, int action, int mods);
-		void rcb_cursorPos(double x, double y);
-		void rcb_scroll(double dx, double dy);
+		void keyCallback(int key, int scancode, int action, int mods);
+		void mouseButtonCallback(int button, int action, int mods);
+		void cursorPosCallback(double x, double y);
+		void scrollCallback(double dx, double dy);
 	};
 }

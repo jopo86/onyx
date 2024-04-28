@@ -10,20 +10,20 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
 
 Onyx::TextRenderable::TextRenderable()
 {
-	font = nullptr;
-	hidden = false;
-	model = Mat4::Identity();
+	m_pFont = nullptr;
+	m_hidden = false;
+	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 }
 
 Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)
 {
-	this->font = &font;
-	hidden = false;
-	this->text = text;
-	this->color = Vec4(color, 1.0f);
-	model = Mat4::Identity();
+	m_pFont = &font;
+	m_hidden = false;
+	m_text = text;
+	m_color = Vec4(color, 1.0f);
+	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 
@@ -54,22 +54,22 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 c
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
 	{
-		chars.push_back(CharRenderable(text[i], font, advance));
+		m_chars.push_back(CharRenderable(text[i], font, advance));
 		advance += font[text[i]].advance >> 6;
 	}
 
-	shader = Shader::UI_Text();
-	shader.use();
-	shader.setVec4("u_color", this->color);
+	m_shader = Shader::UI_Text();
+	m_shader.use();
+	m_shader.setVec4("u_color", m_color);
 }
 
 Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 color)
 {
-	this->font = &font;
-	hidden = false;
-	this->text = text;
-	this->color = color;
-	model = Mat4::Identity();
+	m_pFont = &font;
+	m_hidden = false;
+	m_text = text;
+	m_color = color;
+	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 
@@ -110,45 +110,45 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 c
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
 	{
-		chars.push_back(CharRenderable(text[i], font, advance));
+		m_chars.push_back(CharRenderable(text[i], font, advance));
 		advance += font[text[i]].advance >> 6;
 	}
 
-	shader = Shader::UI_Text();
-	shader.use();
-	shader.setVec4("u_color", color);
+	m_shader = Shader::UI_Text();
+	m_shader.use();
+	m_shader.setVec4("u_color", color);
 }
 
 void Onyx::TextRenderable::render()
 {
-	if (hidden) return;
-	shader.use();
-	shader.setMat4("u_model", model);
-	for (CharRenderable& c : chars) c.render();
+	if (m_hidden) return;
+	m_shader.use();
+	m_shader.setMat4("u_model", m_model);
+	for (CharRenderable& c : m_chars) c.render();
 }
 
 void Onyx::TextRenderable::render(Mat4 ortho)
 {
-	if (hidden) return;
-	shader.use();
-	shader.setMat4("u_model", model);
-	shader.setMat4("u_projection", ortho);
-	for (CharRenderable& c : chars) c.render();
+	if (m_hidden) return;
+	m_shader.use();
+	m_shader.setMat4("u_model", m_model);
+	m_shader.setMat4("u_projection", ortho);
+	for (CharRenderable& c : m_chars) c.render();
 }
 
 void Onyx::TextRenderable::hide()
 {
-	hidden = true;
+	m_hidden = true;
 }
 
 void Onyx::TextRenderable::show()
 {
-	hidden = false;
+	m_hidden = false;
 }
 
 void Onyx::TextRenderable::toggleVisibility()
 {
-	hidden = !hidden;
+	m_hidden = !m_hidden;
 }
 
 const Onyx::Math::Vec2& Onyx::TextRenderable::getPosition() const
@@ -168,62 +168,62 @@ const Onyx::Math::Vec2& Onyx::TextRenderable::getScale() const
 
 const std::string& Onyx::TextRenderable::getText() const
 {
-	return text;
+	return m_text;
 }
 
 const Onyx::Font& Onyx::TextRenderable::getFont() const
 {
-	return *font;
+	return *m_pFont;
 }
 
 const Vec4& Onyx::TextRenderable::getColor() const
 {
-	return color;
+	return m_color;
 }
 
 bool Onyx::TextRenderable::isHidden() const
 {
-	return hidden;
+	return m_hidden;
 }
 
 void Onyx::TextRenderable::setText(const std::string& text)
 {
-	this->text = text;
-	for (CharRenderable& c : chars) c.dispose();
-	chars.clear();
+	m_text = text;
+	for (CharRenderable& c : m_chars) c.dispose();
+	m_chars.clear();
 	uint advance = 0;
 	for (int i = 0; i < text.size(); i++)
 	{
-		chars.push_back(CharRenderable(text[i], *font, advance));
-		advance += (*font)[text[i]].advance >> 6;
+		m_chars.push_back(CharRenderable(text[i], *m_pFont, advance));
+		advance += (*m_pFont)[text[i]].advance >> 6;
 	}
 }
 
 void Onyx::TextRenderable::setFont(Font& font)
 {
-	this->font = &font;
-	for (CharRenderable& c : chars) c.dispose();
-	chars.clear();
+	m_pFont = &font;
+	for (CharRenderable& c : m_chars) c.dispose();
+	m_chars.clear();
 	uint advance = 0;
-	for (int i = 0; i < text.size(); i++)
+	for (int i = 0; i < m_text.size(); i++)
 	{
-		chars.push_back(CharRenderable(text[i], font, advance));
-		advance += font[text[i]].advance >> 6;
+		m_chars.push_back(CharRenderable(m_text[i], font, advance));
+		advance += font[m_text[i]].advance >> 6;
 	}
 }
 
 void Onyx::TextRenderable::setColor(Vec3 color)
 {
-	this->color = Vec4(color, 1.0f);
-	shader.use();
-	shader.setVec4("u_color", this->color);
+	m_color = Vec4(color, 1.0f);
+	m_shader.use();
+	m_shader.setVec4("u_color", m_color);
 }
 
 void Onyx::TextRenderable::setColor(Vec4 color)
 {
-	this->color = color;
-	shader.use();
-	shader.setVec4("u_color", color);
+	m_color = color;
+	m_shader.use();
+	m_shader.setVec4("u_color", m_color);
 }
 
 void Onyx::TextRenderable::setPosition(const Vec2& position)
@@ -277,21 +277,21 @@ void Onyx::TextRenderable::scale(float scalar)
 
 void Onyx::TextRenderable::resetTransform()
 {
-	model = Mat4::Identity();
+	m_model = Mat4::Identity();
 }
 
 void Onyx::TextRenderable::dispose()
 {
-	for (CharRenderable& c : chars) c.dispose();
-	chars.clear();
-	shader.dispose();
-	font = nullptr;
+	for (CharRenderable& c : m_chars) c.dispose();
+	m_chars.clear();
+	m_shader.dispose();
+	m_pFont = nullptr;
 }
 
 void Onyx::TextRenderable::updateModel()
 {
-	model = Mat4::Identity();
-	model.translate(Vec3(m_position, 0.0f));
-	model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
-	model.scale(Vec3(m_scale, 1.0f));
+	m_model = Mat4::Identity();
+	m_model.translate(Vec3(m_position, 0.0f));
+	m_model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
+	m_model.scale(Vec3(m_scale, 1.0f));
 }

@@ -6,16 +6,16 @@
 
 Onyx::CharRenderable::CharRenderable()
 {
-	c = 0;
-	vao = vbo = tex = 0;
+	m_char = 0;
+	m_vao = m_vbo = m_tex = 0;
 }
 
 Onyx::CharRenderable::CharRenderable(char c, const Font& font, uint advance)
 {
-	this->c = c;
-	vao = vbo = tex = 0;
+	m_char = c;
+	m_vao = m_vbo = m_tex = 0;
 	Glyph glyph = font[c];
-	tex = glyph.tex;
+	m_tex = glyph.tex;
 
 	float x = glyph.bearingX + advance;
 	float y = glyph.bearingY - glyph.height;
@@ -32,11 +32,11 @@ Onyx::CharRenderable::CharRenderable(char c, const Font& font, uint advance)
 		{ x + w, y + h,   1.0f, 0.0f }
 	};
 
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
+	glGenVertexArrays(1, &m_vao);
+	glGenBuffers(1, &m_vbo);
 
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindVertexArray(m_vao);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -53,8 +53,8 @@ Onyx::CharRenderable::CharRenderable(char c, const Font& font, uint advance)
 
 void Onyx::CharRenderable::render()
 {
-	glBindTexture(GL_TEXTURE_2D, tex);
-	glBindVertexArray(vao);
+	glBindTexture(GL_TEXTURE_2D, m_tex);
+	glBindVertexArray(m_vao);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 
@@ -65,29 +65,29 @@ void Onyx::CharRenderable::render()
 
 char Onyx::CharRenderable::getChar() const
 {
-	return c;
+	return m_char;
 }
 
 uint Onyx::CharRenderable::getVAO() const
 {
-	return vao;
+	return m_vao;
 }
 
 uint Onyx::CharRenderable::getVBO() const
 {
-	return vbo;
+	return m_vbo;
 }
 
 uint Onyx::CharRenderable::getTextureID() const
 {
-	return tex;
+	return m_tex;
 }
 
 void Onyx::CharRenderable::dispose()
 {
-	if (vao) glDeleteVertexArrays(1, &vao);
-	if (vbo) glDeleteBuffers(1, &vbo);
-	vao = vbo = tex = 0;
+	if (m_vao) glDeleteVertexArrays(1, &m_vao);
+	if (m_vbo) glDeleteBuffers(1, &m_vbo);
+	m_vao = m_vbo = m_tex = 0;
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();

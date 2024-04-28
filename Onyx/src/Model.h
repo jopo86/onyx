@@ -3,10 +3,17 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "ModelUnit.h"
 
 namespace Onyx
 {
+
+	struct ModelUnit
+	{
+		std::string name;
+		Mesh mesh;
+		Texture texture;
+		Shader shader;
+	};
 
 	class Model
 	{
@@ -32,7 +39,7 @@ namespace Onyx
 
 	private:
 
-		std::string directory;
-		std::vector<ModelUnit> data;
+		std::string m_directory;
+		std::vector<ModelUnit> m_data;
 	};
 }

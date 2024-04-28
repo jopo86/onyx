@@ -56,6 +56,6 @@ namespace Onyx
 		void dispose() override;
 
 	private:
-		uint tex;
+		uint m_tex;
 	};
 }

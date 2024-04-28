@@ -9,29 +9,29 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3;
 
 Onyx::Mesh::Mesh()
 {
-	vao = vbo = ibo = 0;
-	verticesSize = indicesSize = 0;
-	vertexFormat = VertexFormat::Null;
+	m_vao = m_vbo = m_ibo = 0;
+	m_verticesSize = m_indicesSize = 0;
+	m_vertexFormat = VertexFormat::Null;
 }
 
 Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 {
-	vao = vbo = ibo = 0;
-	verticesSize = vertexBuffer.size;
-	indicesSize = indexBuffer.size;
-	vertexFormat = vertexBuffer.format;
+	m_vao = m_vbo = m_ibo = 0;
+	m_verticesSize = vertexBuffer.m_size;
+	m_indicesSize = indexBuffer.m_size;
+	m_vertexFormat = vertexBuffer.m_format;
 
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ibo);
+	glGenVertexArrays(1, &m_vao);
+	glGenBuffers(1, &m_vbo);
+	glGenBuffers(1, &m_ibo);
 
-	glBindVertexArray(vao);
+	glBindVertexArray(m_vao);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size, vertexBuffer.vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glBufferData(GL_ARRAY_BUFFER, vertexBuffer.m_size, vertexBuffer.m_vertices, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size, indexBuffer.indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.m_size, indexBuffer.m_indices, GL_STATIC_DRAW);
 
 	/*
 		Layout locations:
@@ -41,7 +41,7 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 		3: Normal
 	 */
 
-	switch (vertexBuffer.format)
+	switch (vertexBuffer.m_format)
 	{
 		case VertexFormat::Null:
 			if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
@@ -121,8 +121,8 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	if (vertexBuffer.heap) delete[] vertexBuffer.vertices;
-	if (indexBuffer.heap) delete[] indexBuffer.indices;
+	if (vertexBuffer.m_heap) delete[] vertexBuffer.m_vertices;
+	if (indexBuffer.m_heap) delete[] indexBuffer.m_indices;
 
 #if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
@@ -131,18 +131,18 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 
 Onyx::Mesh::Mesh(const Mesh& other)
 {
-	vao = other.vao;
-	vbo = other.vbo;
-	ibo = other.ibo;
-	verticesSize = other.verticesSize;
-	indicesSize = other.indicesSize;
-	vertexFormat = other.vertexFormat;
+	m_vao = other.m_vao;
+	m_vbo = other.m_vbo;
+	m_ibo = other.m_ibo;
+	m_verticesSize = other.m_verticesSize;
+	m_indicesSize = other.m_indicesSize;
+	m_vertexFormat = other.m_vertexFormat;
 }
 
 void Onyx::Mesh::render() const
 {
-	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, indicesSize / sizeof(uint), GL_UNSIGNED_INT, nullptr);
+	glBindVertexArray(m_vao);
+	glDrawElements(GL_TRIANGLES, m_indicesSize / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 
 #if defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
@@ -152,40 +152,40 @@ void Onyx::Mesh::render() const
 
 uint Onyx::Mesh::getVerticesSize() const
 {
-	return verticesSize;
+	return m_verticesSize;
 }
 
 uint Onyx::Mesh::getIndicesSize() const
 {
-	return indicesSize;
+	return m_indicesSize;
 }
 
 Onyx::VertexFormat Onyx::Mesh::getVertexFormat() const
 {
-    return vertexFormat;
+    return m_vertexFormat;
 }
 
 uint Onyx::Mesh::getVAO() const
 {
-	return vao;
+	return m_vao;
 }
 
 uint Onyx::Mesh::getVBO() const
 {
-	return vbo;
+	return m_vbo;
 }
 
 uint Onyx::Mesh::getIBO() const
 {
-	return ibo;
+	return m_ibo;
 }
 
 void Onyx::Mesh::dispose()
 {
-	if (vao) glDeleteVertexArrays(1, &vao);
-	if (vbo) glDeleteBuffers(1, &vbo);
-	if (ibo) glDeleteBuffers(1, &ibo);
-	vao = vbo = ibo = 0;
+	if (m_vao) glDeleteVertexArrays(1, &m_vao);
+	if (m_vbo) glDeleteBuffers(1, &m_vbo);
+	if (m_ibo) glDeleteBuffers(1, &m_ibo);
+	m_vao = m_vbo = m_ibo = 0;
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();

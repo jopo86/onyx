@@ -525,32 +525,32 @@ namespace Onyx
 		void dispose() override;
 
 	private:
-		WindowProperties properties;
-		WindowIcon icon;
+		WindowProperties m_properties;
+		WindowIcon m_icon;
 
-		GLFWwindow* p_glfwWin;
-		static GLFWmonitor* p_primaryMonitor;
-		static GLFWvidmode* p_primaryMonitorInfo;
-		int bufferWidth, bufferHeight;
+		GLFWwindow* m_pGlfwWin;
+		static GLFWmonitor* m_pPrimaryMonitor;
+		static GLFWvidmode* m_pPrimaryMonitorInfo;
+		int m_bufferWidth, m_bufferHeight;
 
-		InputHandler* p_inputHandler;
-		Camera* p_cam;
-		Renderer* p_renderer;
+		InputHandler* m_pInputHandler;
+		Camera* m_pCam;
+		Renderer* m_pRenderer;
 
-		bool initialized;
+		bool m_initialized;
 
-		int frame;
-		int fps;
-		double lastFrameTime;
-		double deltaTime;
+		int m_frame;
+		int m_fps;
+		double m_lastFrameTime;
+		double m_deltaTime;
 
-		static void cb_framebufferSize(GLFWwindow* p_window, int width, int height);
-		static void cb_windowSize(GLFWwindow* p_window, int width, int height);
-		static void cb_windowPos(GLFWwindow* p_window, int x, int y);
+		static void framebufferSizeCallback(GLFWwindow* p_window, int width, int height);
+		static void windowSizeCallback(GLFWwindow* p_window, int width, int height);
+		static void windowPosCallback(GLFWwindow* p_window, int x, int y);
 
-		static void cb_key(GLFWwindow* p_window, int key, int scancode, int action, int mods);
-		static void cb_mouseButton(GLFWwindow* p_window, int button, int action, int mods);
-		static void cb_cursorPos(GLFWwindow* p_window, double x, double y);
-		static void cb_scroll(GLFWwindow* p_window, double dx, double dy);
+		static void keyCallback(GLFWwindow* p_window, int key, int scancode, int action, int mods);
+		static void mouseButtonCallback(GLFWwindow* p_window, int button, int action, int mods);
+		static void cursorPosCallback(GLFWwindow* p_window, double x, double y);
+		static void scrollCallback(GLFWwindow* p_window, double dx, double dy);
 	};
 }

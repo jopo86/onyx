@@ -12,9 +12,9 @@ void onyx_err(const Onyx::Error&);
 
 Onyx::Font::Font()
 {
-	p_ft = nullptr;
-	ttfFilePath = "";
-	size = 0;
+	m_pFreeType = nullptr;
+	m_ttfFilePath = "";
+	m_size = 0;
 }
 
 Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
@@ -34,11 +34,11 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 	file.close();
 
 	Font font;
-	font.p_ft = onyx_get_ft();
-	font.ttfFilePath = ttfFilePath;
-	font.size = size;
+	font.m_pFreeType = onyx_get_ft();
+	font.m_ttfFilePath = ttfFilePath;
+	font.m_size = size;
 	
-	if (FT_New_Face(*font.p_ft, ttfFilePath.c_str(), 0, &font.face))
+	if (FT_New_Face(*font.m_pFreeType, ttfFilePath.c_str(), 0, &font.m_face))
 	{
 		if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
 				.sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
@@ -49,12 +49,12 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 		return font;
 	}
 
-	FT_Set_Pixel_Sizes(font.face, 0, size);
+	FT_Set_Pixel_Sizes(font.m_face, 0, size);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	for (ubyte c = 0; c < 128; c++)
 	{
-		if (FT_Load_Char(font.face, c, FT_LOAD_RENDER))
+		if (FT_Load_Char(font.m_face, c, FT_LOAD_RENDER))
 		{
 			if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
 				    .sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
@@ -70,10 +70,10 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glTexImage2D(
 			GL_TEXTURE_2D, 0, GL_RED,
-			font.face->glyph->bitmap.width,
-			font.face->glyph->bitmap.rows,
+			font.m_face->glyph->bitmap.width,
+			font.m_face->glyph->bitmap.rows,
 			0, GL_RED, GL_UNSIGNED_BYTE,
-			font.face->glyph->bitmap.buffer
+			font.m_face->glyph->bitmap.buffer
 		);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -82,12 +82,12 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		Glyph glyph = {
-			tex, font.face->glyph->bitmap.width, font.face->glyph->bitmap.rows,
-			font.face->glyph->bitmap_left, font.face->glyph->bitmap_top,
-			static_cast<uint>(font.face->glyph->advance.x)
+			tex, font.m_face->glyph->bitmap.width, font.m_face->glyph->bitmap.rows,
+			font.m_face->glyph->bitmap_left, font.m_face->glyph->bitmap_top,
+			static_cast<uint>(font.m_face->glyph->advance.x)
 		};
 
-		font.glyphs.insert(std::pair<char, Glyph>(c, glyph));
+		font.m_glyphs.insert(std::pair<char, Glyph>(c, glyph));
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -101,27 +101,27 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 
 std::string Onyx::Font::getTtfFilePath() const
 {
-	return ttfFilePath;
+	return m_ttfFilePath;
 }
 
 uint Onyx::Font::getSize() const
 {
-	return size;
+	return m_size;
 }
 
 std::map<char, Onyx::Glyph> Onyx::Font::getGlyphs() const
 {
-	return glyphs;
+	return m_glyphs;
 }
 
 const Onyx::Glyph& Onyx::Font::operator[](char c) const
 {
-	return glyphs.at(c);
+	return m_glyphs.at(c);
 }
 
 void Onyx::Font::dispose()
 {
-	for (const std::pair<char, Glyph>& g : glyphs)
+	for (const std::pair<char, Glyph>& g : m_glyphs)
 	{
 		if (g.second.tex) glDeleteTextures(1, &g.second.tex);
 	}
@@ -130,9 +130,9 @@ void Onyx::Font::dispose()
 		glCheckError();
 #endif
 
-	glyphs.clear();
-	FT_Done_Face(face);
-	p_ft = nullptr;
-	ttfFilePath = "";
-	size = 0;
+	m_glyphs.clear();
+	FT_Done_Face(m_face);
+	m_pFreeType = nullptr;
+	m_ttfFilePath = "";
+	m_size = 0;
 }

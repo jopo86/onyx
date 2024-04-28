@@ -35,9 +35,9 @@ namespace Onyx
 		static IndexBuffer RectPrism();
 
 	private:
-		uint* indices;
-		uint size;
+		uint* m_indices;
+		uint m_size;
 
-		bool heap;
+		bool m_heap;
 	};
 }

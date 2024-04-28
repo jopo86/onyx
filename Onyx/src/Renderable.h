@@ -199,18 +199,18 @@ namespace Onyx
 		void dispose() override;
 
 	private:
-		Mesh mesh;
-		Shader shader;
-		Texture texture;
+		Mesh m_mesh;
+		Shader m_shader;
+		Texture m_texture;
 
-		Math::Mat4 model;
-		Math::Mat4 inverseModel;
+		Math::Mat4 m_model;
+		Math::Mat4 m_inverseModel;
 
 		Math::Vec3 m_position;
 		Math::Vec3 m_rotation;
 		Math::Vec3 m_scale;
 
-		bool hidden;
+		bool m_hidden;
 
 		void updateModel();
 

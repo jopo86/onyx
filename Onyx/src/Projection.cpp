@@ -9,67 +9,55 @@ using Onyx::Math::PerspectiveProjection;
 
 Onyx::Projection::Projection()
 {
-	mat = Mat4();
-	type = ProjectionType::Null;
-	left = right = top = bottom = fov = aspectRatio = nearPlane = farPlane = 0.0f;
+	m_mat = Mat4();
+	m_type = ProjectionType::Null;
+	m_left = m_right = m_top = m_bottom = m_fov = m_aspectRatio = m_nearPlane = m_farPlane = 0.0f;
 }
 
 Onyx::Projection Onyx::Projection::Orthographic(float left, float right, float top, float bottom)
 {
 	Projection proj;
-	proj.type = ProjectionType::Orthographic;
-	proj.left = left;
-	proj.right = right;
-	proj.top = top;
-	proj.bottom = bottom;
-	proj.update();
+	proj.m_type = ProjectionType::Orthographic;
+	proj.m_left = left;
+	proj.m_right = right;
+	proj.m_top = top;
+	proj.m_bottom = bottom;
+	proj.updateMatrix();
 	return proj;
 }
 
 Onyx::Projection Onyx::Projection::Perspective(float fov, int screenWidth, int screenHeight)
 {
 	Projection proj;
-	proj.type = ProjectionType::Perspective;
-	proj.fov = fov;
-	proj.aspectRatio = (float)screenWidth / (float)screenHeight;
-	proj.nearPlane = 0.1f;
-	proj.farPlane = 100.0f;
-	proj.update();
+	proj.m_type = ProjectionType::Perspective;
+	proj.m_fov = fov;
+	proj.m_aspectRatio = (float)screenWidth / (float)screenHeight;
+	proj.m_nearPlane = 0.1f;
+	proj.m_farPlane = 100.0f;
+	proj.updateMatrix();
 	return proj;
 }
 
 Onyx::Projection Onyx::Projection::Perspective(float fov, int screenWidth, int screenHeight, float nearPlane, float farPlane)
 {
 	Projection proj;
-	proj.type = ProjectionType::Perspective;
-	proj.fov = fov;
-	proj.aspectRatio = (float)screenWidth / (float)screenHeight;
-	proj.nearPlane = nearPlane;
-	proj.farPlane = farPlane;
-	proj.update();
+	proj.m_type = ProjectionType::Perspective;
+	proj.m_fov = fov;
+	proj.m_aspectRatio = (float)screenWidth / (float)screenHeight;
+	proj.m_nearPlane = nearPlane;
+	proj.m_farPlane = farPlane;
+	proj.updateMatrix();
 	return proj;
-}
-
-void Onyx::Projection::update()
-{
-	if (type == ProjectionType::Orthographic)
-	{
-		mat = OrthographicProjection(left, right, top, bottom);
-	}
-	else if (type == ProjectionType::Perspective)
-	{
-		mat = PerspectiveProjection(fov, aspectRatio, nearPlane, farPlane);
-	}
 }
 
 Onyx::ProjectionType Onyx::Projection::getType() const
 {
-	return type;
+	return m_type;
 }
 
 float Onyx::Projection::getLeft() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Orthographic)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
 	{
 		onyx_warn(Warning{
 				.sourceFunction = "Onyx::Projection::getLeft()",
@@ -78,12 +66,12 @@ float Onyx::Projection::getLeft() const
 			}
 		);
 	}
-	return left;
+	return m_left;
 }
 
 float Onyx::Projection::getRight() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Orthographic)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getRight()",
@@ -92,12 +80,12 @@ float Onyx::Projection::getRight() const
             }
         );
     }
-	return right;
+	return m_right;
 }
 
 float Onyx::Projection::getTop() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Orthographic)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getTop()",
@@ -106,12 +94,12 @@ float Onyx::Projection::getTop() const
             }
         );
     }
-	return top;
+	return m_top;
 }
 
 float Onyx::Projection::getBottom() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Orthographic)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getBottom()",
@@ -120,12 +108,12 @@ float Onyx::Projection::getBottom() const
             }
         );
     }
-	return bottom;
+	return m_bottom;
 }
 
 float Onyx::Projection::getFOV() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Perspective)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getFOV()",
@@ -134,12 +122,12 @@ float Onyx::Projection::getFOV() const
             }
         );
     }
-	return fov;
+	return m_fov;
 }
 
 float Onyx::Projection::getAspectRatio() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Perspective)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getAspectRatio()",
@@ -148,12 +136,12 @@ float Onyx::Projection::getAspectRatio() const
             }
         );
     }
-	return aspectRatio;
+	return m_aspectRatio;
 }
 
 float Onyx::Projection::getNearPlane() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Perspective)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getNearPlane()",
@@ -162,12 +150,12 @@ float Onyx::Projection::getNearPlane() const
             }
         );
     }
-	return nearPlane;
+	return m_nearPlane;
 }
 
 float Onyx::Projection::getFarPlane() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Perspective)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getFarPlane()",
@@ -176,17 +164,17 @@ float Onyx::Projection::getFarPlane() const
             }
         );
     }
-	return farPlane;
+	return m_farPlane;
 }
 
 const Mat4& Onyx::Projection::getMatrix() const
 {
-	return mat;
+	return m_mat;
 }
 
 void Onyx::Projection::setLeft(float val)
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Orthographic)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setLeft(float)",
@@ -195,13 +183,13 @@ void Onyx::Projection::setLeft(float val)
             }
         );
     }
-	left = val;
+	m_left = val;
     updateMatrix();
 }
 
 void Onyx::Projection::setRight(float val)
 {
-	if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Orthographic)
+	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setRight(float)",
@@ -210,13 +198,13 @@ void Onyx::Projection::setRight(float val)
             }
         );
     }
-	right = val;
+	m_right = val;
     updateMatrix();
 }
 
 void Onyx::Projection::setTop(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Orthographic)
+    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setTop(float)",
@@ -225,13 +213,13 @@ void Onyx::Projection::setTop(float val)
             }
         );
     }
-	top = val;
+	m_top = val;
     updateMatrix();
 }
 
 void Onyx::Projection::setBottom(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Orthographic)
+    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setBottom(float)",
@@ -240,13 +228,13 @@ void Onyx::Projection::setBottom(float val)
             }
         );
     }
-	bottom = val;
+	m_bottom = val;
     updateMatrix();
 }
 
 void Onyx::Projection::setFOV(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Perspective)
+    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setFOV(float)",
@@ -255,13 +243,13 @@ void Onyx::Projection::setFOV(float val)
             }
         );
     }
-	fov = val;
+	m_fov = val;
     updateMatrix();
 }
 
 void Onyx::Projection::setAspectRatio(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Perspective)
+    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setAspectRatio(float)",
@@ -270,13 +258,13 @@ void Onyx::Projection::setAspectRatio(float val)
             }
         );
     }
-	aspectRatio = val;
+	m_aspectRatio = val;
     updateMatrix();
 }
 
 void Onyx::Projection::setNearPlane(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Perspective)
+    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setNearPlane(float)",
@@ -285,13 +273,13 @@ void Onyx::Projection::setNearPlane(float val)
             }
         );
     }
-	nearPlane = val;
+	m_nearPlane = val;
     updateMatrix();
 }
 
 void Onyx::Projection::setFarPlane(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (type != ProjectionType::Perspective)
+    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setFarPlane(float)",
@@ -300,18 +288,18 @@ void Onyx::Projection::setFarPlane(float val)
             }
         );
     }
-	farPlane = val;
+	m_farPlane = val;
     updateMatrix();
 }
 
 void Onyx::Projection::updateMatrix()
 {
-    if (type == ProjectionType::Orthographic)
+    if (m_type == ProjectionType::Orthographic)
     {
-        mat = OrthographicProjection(left, right, top, bottom);
+        m_mat = OrthographicProjection(m_left, m_right, m_top, m_bottom);
     }
-    else if (type == ProjectionType::Perspective)
+    else if (m_type == ProjectionType::Perspective)
     {
-        mat = PerspectiveProjection(fov, aspectRatio, nearPlane, farPlane);
+        m_mat = PerspectiveProjection(m_fov, m_aspectRatio, m_nearPlane, m_farPlane);
     }
 }

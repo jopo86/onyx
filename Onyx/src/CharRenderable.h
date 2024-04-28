@@ -63,7 +63,7 @@ namespace Onyx
         void dispose() override;
 
     private:
-        char c;
-        uint vao, vbo, tex;
+        char m_char;
+        uint m_vao, m_vbo, m_tex;
     };
 }

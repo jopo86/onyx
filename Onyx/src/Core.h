@@ -337,11 +337,17 @@ namespace Onyx
 	 */
 	int GetVersionPatch();
 
+	bool IsAlpha();
+
 	/*
 		@brief Gets whether this version of the Onyx library is in beta.
 		@return Whether the library is in beta.
 	 */
 	bool IsBeta();
+
+	bool IsReleaseCandidate();
+
+	bool IsStable();
 
 	/*
 		@brief Gets the version of the Onyx library as a string.

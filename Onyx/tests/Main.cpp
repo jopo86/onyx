@@ -1,6 +1,7 @@
 #pragma warning(disable: 4244)
 
 #include <iostream>
+#include <vector>
 
 #include "../src/Core.h"
 
@@ -8,6 +9,7 @@
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
+void compileShaders();
 void lightingTest();
 
 int main()
@@ -19,9 +21,61 @@ int main()
 
 	//PresetTests::RunAllTests();
 
+	//compileShaders();
 	//lightingTest();
 	
 	return 0;
+}
+
+void compileShaders()
+{
+	Onyx::ErrorHandler errorHandler(true, true);
+	Onyx::Init(errorHandler);
+
+	Onyx::Window window(Onyx::WindowProperties{ .visible = false });
+	window.init();
+
+	Onyx::Shader pcol = Onyx::Shader::P_Color(Vec4::Black());
+	Onyx::Shader pxr = Onyx::Shader::P_XYZtoRGB();
+	Onyx::Shader pc = Onyx::Shader::PC();
+	Onyx::Shader pt = Onyx::Shader::PT();
+	Onyx::Shader pct = Onyx::Shader::PCT();
+	Onyx::Shader pncol = Onyx::Shader::PN_Color(Vec4::Black());
+	Onyx::Shader pnc = Onyx::Shader::PNC();
+	Onyx::Shader pnt = Onyx::Shader::PNT();
+	Onyx::Shader pnct = Onyx::Shader::PNCT();
+	Onyx::Shader uicol = Onyx::Shader::UI_Color(Vec4::Black());
+	Onyx::Shader uitex = Onyx::Shader::UI_Texture();
+	Onyx::Shader uitext = Onyx::Shader::UI_Text();
+
+	pcol.saveBinary(Onyx::Resources("shaders/bin"), "P_Color");
+	pxr.saveBinary(Onyx::Resources("shaders/bin"), "P_XYZtoRGB");
+	pc.saveBinary(Onyx::Resources("shaders/bin"), "PC");
+	pt.saveBinary(Onyx::Resources("shaders/bin"), "PT");
+	pct.saveBinary(Onyx::Resources("shaders/bin"), "PCT");
+	pncol.saveBinary(Onyx::Resources("shaders/bin"), "PN_Color");
+	pnc.saveBinary(Onyx::Resources("shaders/bin"), "PNC");
+	pnt.saveBinary(Onyx::Resources("shaders/bin"), "PNT");
+	pnct.saveBinary(Onyx::Resources("shaders/bin"), "PNCT");
+	uicol.saveBinary(Onyx::Resources("shaders/bin"), "UI_Color");
+	uitex.saveBinary(Onyx::Resources("shaders/bin"), "UI_Texture");
+	uitext.saveBinary(Onyx::Resources("shaders/bin"), "UI_Text");
+
+	window.dispose();
+	pcol.dispose();
+	pxr.dispose();
+	pc.dispose();
+	pt.dispose();
+	pct.dispose();
+	pncol.dispose();
+	pnc.dispose();
+	pnt.dispose();
+	pnct.dispose();
+	uicol.dispose();
+	uitex.dispose();
+	uitext.dispose();
+	
+	Onyx::Terminate();
 }
 
 void lightingTest()
@@ -41,8 +95,8 @@ void lightingTest()
 
 	Onyx::InputHandler input(window);
 
-	Onyx::Shader objShader = Onyx::Shader::Load(Onyx::Resources("../tests/shaders/obj.vert"), Onyx::Resources("../tests/shaders/obj.frag"));
-	Onyx::Shader lightShader = Onyx::Shader::Load(Onyx::Resources("../tests/shaders/light.vert"), Onyx::Resources("../tests/shaders/light.frag"));
+	Onyx::Shader objShader = Onyx::Shader::LoadSource(Onyx::Resources("../tests/shaders/obj.vert"), Onyx::Resources("../tests/shaders/obj.frag"));
+	Onyx::Shader lightShader = Onyx::Shader::LoadSource(Onyx::Resources("../tests/shaders/light.vert"), Onyx::Resources("../tests/shaders/light.frag"));
 
 	lightShader.use();
 	lightShader.setVec3("u_color", Vec3(1.0f, 1.0f, 1.0f));

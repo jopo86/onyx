@@ -1,5 +1,6 @@
 #include "Shader.h"
 
+#include <fstream>
 #include <glad/glad.h>
 
 #include "FileUtils.h"
@@ -15,12 +16,12 @@ Onyx::Math::Mat3x3, Onyx::Math::Mat3x4, Onyx::Math::Mat4x2,
 Onyx::Math::Mat4x3, Onyx::Math::Mat4x4, Onyx::Math::Mat4;
 
 
-Onyx::Shader::Shader() : m_vertSource(""), m_fragSource("")
+Onyx::Shader::Shader()
 {
 	m_prog = 0;
 }
 
-Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : m_vertSource(vertSource), m_fragSource(fragSource)
+Onyx::Shader::Shader(const char* vertSource, const char* fragSource)
 {
 	uint vert = glCreateShader(GL_VERTEX_SHADER);
 	uint frag = glCreateShader(GL_FRAGMENT_SHADER);
@@ -125,16 +126,70 @@ Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : m_vertSou
 Onyx::Shader::Shader(const Shader& other)
 {
 	m_prog = other.m_prog;
-	m_vertSource = other.m_vertSource;
-	m_fragSource = other.m_fragSource;
 }
 
-Onyx::Shader Onyx::Shader::Load(const std::string& vertPath, const std::string& fragPath)
+Onyx::Shader Onyx::Shader::LoadSource(const std::string& vertPath, const std::string& fragPath)
 {
 	return Shader(
 		FileUtils::ReadLiteral(vertPath),
 		FileUtils::ReadLiteral(fragPath)
 	);
+}
+
+Onyx::Shader Onyx::Shader::LoadBinary(const std::string& binPath)
+{
+	Shader shader;
+	shader.m_prog = glCreateProgram();
+
+	std::ifstream file(binPath, std::ios::binary);
+
+	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	{
+		onyx_err(Error{
+			   .sourceFunction = "Onyx::Shader::LoadBinary(const std::string& binPath)",
+			   .message = "File not found (or access denied): \"" + binPath + "\"",
+			   .howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		file.close();
+		shader.dispose();
+		return shader;
+	}
+
+	std::istreambuf_iterator<char> startIt(file), endIt;
+	std::vector<char> buffer(startIt, endIt);
+	file.close();
+
+	/*std::string formatStr;
+	char cur = 0;
+	for (int i = 7; cur != '\n'; i++)
+	{
+		cur = buffer[i];
+		if (cur == '\n') continue;
+		formatStr += cur;
+	}*/
+
+	uint format = 36385;
+
+	char* data = buffer.data();
+
+	glProgramBinary(shader.m_prog, format, data, buffer.size());
+
+	if (!onyx_is_ehandler_nullptr())
+	{
+		int result;
+		glGetProgramiv(shader.m_prog, GL_LINK_STATUS, &result);
+		if (!result)
+		{
+			onyx_err(Error{
+					.sourceFunction = "Onyx::Shader::LoadBinary(const std::string& binPath)",
+					.message = "Failed to link loaded shader program.",
+				}
+			);
+		}
+	}
+
+	return shader;
 }
 
 void Onyx::Shader::use() const
@@ -146,19 +201,46 @@ void Onyx::Shader::use() const
 #endif
 }
 
+void Onyx::Shader::saveBinary(const std::string& dir, const std::string& filename) const
+{
+	if (!onyx_is_ehandler_nullptr())
+	{
+		int nFormats = 0;
+		glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS, &nFormats);
+
+		if (nFormats < 1)
+		{
+			onyx_err(Error{
+					.sourceFunction = "Onyx::Shader::saveBinary(const std::string& dir, const std::string& filename)",
+					.message = "Graphics driver does not support any shader binary formats.",
+					.howToFix = "Ensure your graphics drivers are up to date."
+				}
+			);
+		}
+	}
+
+	int len = 0;
+	glGetProgramiv(m_prog, GL_PROGRAM_BINARY_LENGTH, &len);
+
+	ubyte* buffer = new ubyte[len];
+	uint format = 0;
+	glGetProgramBinary(m_prog, len, nullptr, &format, buffer);
+
+	std::string path = dir.substr(0, dir[dir.length() - 1] == '/' || dir[dir.length() - 1] == '\\' ? dir.length() - 1 : dir.length()) + "/" + filename.substr(0, filename.find_last_of(".") != -1 ? filename.find_last_of(".") : filename.length()) + ".bin";
+
+	std::string line1 = "format:" + std::to_string(format) + "\n";
+
+	std::ofstream file(path, std::ios::binary);
+	//file.write(line1.c_str(), line1.length());
+	file.write(reinterpret_cast<char*>(buffer), len);
+	file.close();
+
+	delete[] buffer;
+}
+
 uint Onyx::Shader::getProgramID() const
 {
 	return m_prog;
-}
-
-const char* Onyx::Shader::getVertSource() const
-{
-	return m_vertSource;
-}
-
-const char* Onyx::Shader::getFragSource() const
-{
-	return m_fragSource;
 }
 
 void Onyx::Shader::setBool(const char* varName, bool val)
@@ -424,7 +506,7 @@ void Onyx::Shader::setMat4(const char* varName, const Mat4x4& val, bool normaliz
 
 Onyx::Shader Onyx::Shader::P_Color(Vec4 rgba)
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/P_Color.vert"), Onyx::Resources("shaders/P_Color.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/P_Color.bin"));
 	shader.use();
 	shader.setVec4("u_color", rgba);
 	shader.setMat4("u_model", Mat4::Identity());
@@ -435,7 +517,7 @@ Onyx::Shader Onyx::Shader::P_Color(Vec4 rgba)
 
 Onyx::Shader Onyx::Shader::P_XYZtoRGB()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/P_XYZtoRGB.vert"), Onyx::Resources("shaders/P_XYZtoRGB.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/P_XYZtoRGB.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -445,7 +527,7 @@ Onyx::Shader Onyx::Shader::P_XYZtoRGB()
 
 Onyx::Shader Onyx::Shader::PC()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/PC.vert"), Onyx::Resources("shaders/PC.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/PC.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -455,7 +537,7 @@ Onyx::Shader Onyx::Shader::PC()
 
 Onyx::Shader Onyx::Shader::PT()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/PT.vert"), Onyx::Resources("shaders/PT.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/PT.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -465,7 +547,7 @@ Onyx::Shader Onyx::Shader::PT()
 
 Onyx::Shader Onyx::Shader::PCT()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/PCT.vert"), Onyx::Resources("shaders/PCT.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/PCT.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -475,7 +557,7 @@ Onyx::Shader Onyx::Shader::PCT()
 
 Onyx::Shader Onyx::Shader::PNC()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/PNC.vert"), Onyx::Resources("shaders/PNC.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/PNC.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -485,7 +567,7 @@ Onyx::Shader Onyx::Shader::PNC()
 
 Onyx::Shader Onyx::Shader::PN_Color(Vec4 rgba)
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/PN_Color.vert"), Onyx::Resources("shaders/PN_Color.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/PN_Color.bin"));
 	shader.use();
 	shader.setVec4("u_color", rgba);
 	shader.setMat4("u_model", Mat4::Identity());
@@ -496,7 +578,7 @@ Onyx::Shader Onyx::Shader::PN_Color(Vec4 rgba)
 
 Onyx::Shader Onyx::Shader::PNT()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/PNT.vert"), Onyx::Resources("shaders/PNT.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/PNT.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -506,7 +588,7 @@ Onyx::Shader Onyx::Shader::PNT()
 
 Onyx::Shader Onyx::Shader::PNCT()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/PNCT.vert"), Onyx::Resources("shaders/PNCT.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/PNCT.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -516,7 +598,7 @@ Onyx::Shader Onyx::Shader::PNCT()
 
 Onyx::Shader Onyx::Shader::UI_Color(Onyx::Math::Vec4 rgba)
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/UI_Color.vert"), Onyx::Resources("shaders/UI_Color.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/UI_Color.bin"));
 	shader.use();
 	shader.setVec4("u_color", rgba);
 	shader.setMat4("u_model", Mat4::Identity());
@@ -527,7 +609,7 @@ Onyx::Shader Onyx::Shader::UI_Color(Onyx::Math::Vec4 rgba)
 
 Onyx::Shader Onyx::Shader::UI_Texture()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/UI_Texture.vert"), Onyx::Resources("shaders/UI_Texture.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/UI_Texture.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -537,7 +619,7 @@ Onyx::Shader Onyx::Shader::UI_Texture()
 
 Onyx::Shader Onyx::Shader::UI_Text()
 {
-	Shader shader = Shader::Load(Onyx::Resources("shaders/UI_Text.vert"), Onyx::Resources("shaders/UI_Text.frag"));
+	Shader shader = Shader::LoadBinary(Onyx::Resources("shaders/bin/UI_Text.bin"));
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -549,7 +631,6 @@ void Onyx::Shader::dispose()
 {
 	if (m_prog) glDeleteProgram(m_prog);
 	m_prog = 0;
-	m_vertSource = m_fragSource = "";
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();

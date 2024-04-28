@@ -40,11 +40,18 @@ namespace Onyx
 		Shader(const Shader& other);
 
 		/*
-			@brief Loads a new Shader object from the specified vertex and fragment shader file paths.
+			@brief Loads a new Shader object from the specified vertex and fragment shader source code file paths.
 			@param vertSource The vertex shader file path.
 			@param fragSource The fragment shader file path.
 		 */
-		static Shader Load(const std::string& vertPath, const std::string& fragPath);
+		static Shader LoadSource(const std::string& vertPath, const std::string& fragPath);
+
+		/*
+			@brief Loads a new Shader object from the specified shader program binary (already compiled).
+			Please note that a binary file that was not saved by Onyx will likely not be successfully loaded with Onyx.
+			@param filename The filename, including the path. Extension must be .bin
+		 */
+		static Shader LoadBinary(const std::string& filename);
 
 		/*
 			@brief Uses the shader.
@@ -53,23 +60,18 @@ namespace Onyx
 		void use() const;
 
 		/*
+			@brief Saves the compiled shader program binary to a file.
+			@param dir The directory to save the file to. A slash at the end will be ignored.
+			@param filename The name of the file. An extension at the end will be replaced with .bin
+		 */
+		void saveBinary(const std::string& dir, const std::string& filename) const;
+
+		/*
 			@brief Gets the ID of the OpenGL shader program.
 			Access to the program ID is provided for the library, as well as for advanced users.
 			@return The ID of the OpenGL shader program.
 		 */
 		uint getProgramID() const;
-
-		/*
-			@brief Gets the vertex shader source code.
-			@return The vertex shader source code.
-		 */
-		const char* getVertSource() const;
-
-		/*
-			@brief Gets the fragment shader source code.
-			@return The fragment shader source code.
-		 */
-		const char* getFragSource() const;
 
 		/*
 			@brief Sets a boolean uniform variable in the shader.
@@ -301,7 +303,6 @@ namespace Onyx
 
 	private:
 		uint m_prog;
-		const char* m_vertSource, * m_fragSource;
 
 	public:
 		/*

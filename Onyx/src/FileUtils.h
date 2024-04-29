@@ -39,6 +39,11 @@ namespace Onyx
 		 */
 		void Write(const std::string& path, const std::string& text, bool append);
 
+		/*
+			@brief Determines whether a file exists.
+			@param path The path of the file.
+			@return True if the file exists, and false otherwise.
+		 */
 		bool FileExists(const std::string& path);
 	}
 }

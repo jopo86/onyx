@@ -12,8 +12,8 @@ namespace Onyx
 	{
 	public:
 		/*
-			@brief Creates an empty Texture object.
-			Trying to use a texture constructed like this will most likely cause errors.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		Texture();
 
@@ -50,9 +50,8 @@ namespace Onyx
 		uint getTextureID() const;
 
 		/*
-			@brief Clears memory in use by the object.
+			@brief Destroys the object, freeing any used memory.
 			Do not use the object after this is called.
-			Should be called before program ends to avoid memory leaks.
 		 */
 		void dispose() override;
 

@@ -12,7 +12,9 @@ namespace Onyx
 	{
 	public:
 		/*
-			@brief Creates an empty projection.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
+			Use the static Orthographic or Perspective functions to create a valid projection.
 		 */
 		Projection();
 

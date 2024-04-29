@@ -9,16 +9,13 @@ namespace Onyx
 {
 	/*
 		@brief A class to represent a shader.
-		This class takes GLSL shader source code and compiles it into a usable shader object.
-		Most shader needs are covered by the ShaderPresets namespace.
-		This class is disposable.
 	 */
 	class Shader : public Disposable
 	{
 	public:
 		/*
-			@brief Creates an empty Shader object.
-			Trying to use a shader constructed like this will most likely result in errors.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		Shader();
 
@@ -299,9 +296,8 @@ namespace Onyx
 		void setMat4(const char* varName, const Math::Mat4& val, bool normalize = false);
 
 		/*
-			@brief Clears memory in use by the object.
-			Do not use the object after this is called.
-			Should be called before program ends to avoid memory leaks.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		void dispose() override;
 
@@ -311,7 +307,7 @@ namespace Onyx
 	public:
 		/*
 			@brief Returns a shader that colors the mesh the specified color.
-			Compatible with vertex format V.
+			Meant for vertex format P, compatible with all formats.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
 			@return The resulting shader.
 		 */
@@ -319,58 +315,79 @@ namespace Onyx
 
 		/*
 			@brief Returns a shader that uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
-			Compatible with vertex format V.
+			Meant for vertex format P, compatible with all formats.
 			@return The resulting shader.
 		 */
 		static Shader P_XYZtoRGB();
 
 		/*
 			@brief Returns a shader that colors the mesh with the colors found in the vertex array.
-			Compatible with vertex format VC/CV.
+			Meant for vertex format PC, compatible with any vertex format that provides positions and colors.
 			@return The resulting shader.
 		 */
 		static Shader PC();
 
 		/*
 			@brief Returns a shader that textures the mesh with the texture coordinates found in the vertex array.
-			Compatible with vertex format VT/TV.
+			Meant for vertex format PT, compatible with any vertex format that provides positions and texture coordinates.
 			@return The resulting shader.
 		 */
 		static Shader PT();
 
 		/*
 			@brief Returns a shader that colors/textures the mesh with a blend of the colors and texture coordinates found in the vertex array.
-			Compatible with vertex format VCT/VTC/CVT/TVC/CTV/TCV.
+			Meant for vertex format PCT, compatible with any vertex format that provides positions, colors, and texture coordinates.
 			@return The resulting shader.
 		 */
 		static Shader PCT();
 
+		/*
+            @brief Returns a shader that colors the mesh the specified color.
+            Meant for vertex format PN, compatible with any vertex format that provides positions and normals.
+            @param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+            @return The resulting shader.
+         */
 		static Shader PN_Color(Onyx::Math::Vec4 rgba);
 
+		/*
+            @brief Returns a shader that colors the mesh with the normals found in the vertex array.
+            Meant for vertex format PNC, compatible with any vertex format that provides positions, normals, and colors.
+            @return The resulting shader.
+         */
 		static Shader PNC();
 
+		/*
+            @brief Returns a shader that textures the mesh with the texture coordinates found in the vertex array.
+            Meant for vertex format PNT, compatible with any vertex format that provides positions, normals, and texture coordinates.
+            @return The resulting shader.
+         */
 		static Shader PNT();
 
+		/*
+            @brief Returns a shader that colors/textures the mesh with a blend of the colors, normals, and texture coordinates found in the vertex array.
+            Compatible only with vertex format PNCT.
+            @return The resulting shader.
+         */
 		static Shader PNCT();
 
 		/*
 			@brief Returns a shader for UI elements that colors the mesh the specified color.
-			Compatible with vertex format V.
+			Meant for vertex format P, compatible with all formats.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1
 			@return The resulting shader.
 		 */
-		static Shader UI_Color(Onyx::Math::Vec4 rgba);
+		static Shader P_UI_Color(Onyx::Math::Vec4 rgba);
 
 		/*
 			@brief Returns a shader for UI elements that textures the mesh with the texture coordinates found in the vertex array.
-			Compatible with vertex format VT/TV.
+			Meant for vertex format PT, compatible with any vertex format that provides positions and texture coordinates.
 			@return The resulting shader.
 		 */
-		static Shader UI_Texture();
+		static Shader PT_UI();
 
 		/*
 			@brief Returns a shader for UI text elements.
-			Incompatible with any vertex format, only used by TextRenderer.
+			Incompatible with any vertex format, only used by TextRenderables.
 			@return The resulting shader.
 		 */
 		static Shader UI_Text();

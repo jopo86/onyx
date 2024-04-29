@@ -9,15 +9,13 @@ namespace Onyx
 {
 	/*
 		@brief A class that represents a renderable object.
-		A renderable can be rendered directly, or through the Renderer class.
-		This class is disposable.
 	 */
 	class Renderable : public Disposable
 	{
 	public:
 		/*
-			@brief Creates an empty Renderable object.
-			Trying to use a renderable constructed like this will most likely cause errors.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		Renderable();
 
@@ -192,9 +190,8 @@ namespace Onyx
 		void resetTransform();
 
 		/*
-			@brief Disposes of the renderable, including the associated mesh, shader, and texture.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+			@brief Destroys the object, freeing any used memory.
+			Do not use the object after this is called.
 		 */
 		void dispose() override;
 

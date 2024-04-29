@@ -54,9 +54,9 @@ namespace Onyx
 	{
 	public:
 		/*
-			@brief Creates an empty font.
-			Using a font constructued like this will result in undefined behavior.
-			Use the static Load() function to load a font from a TrueType font file.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
+			Use the static `Load` function to create a valid font.
 		 */
 		Font();
 
@@ -90,7 +90,8 @@ namespace Onyx
 		const Glyph& operator[](char c) const;
 
 		/*
-			@brief Disposes of the font.
+			@brief Destroys the object, freeing any used memory.
+			Do not use the object after this is called.
 		 */
 		void dispose() override;
 

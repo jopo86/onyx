@@ -12,8 +12,8 @@ namespace Onyx
 		friend class Mesh;
 	public:
 		/*
-			@brief Creates an empty index array.
-			Trying to use an index array constructed like this will result in undefined behavior.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		IndexBuffer();
 
@@ -24,20 +24,43 @@ namespace Onyx
 		 */
 		IndexBuffer(uint* indices, uint size);
 
-		static IndexBuffer Triangle();
-
-		static IndexBuffer Square();
-
-		static IndexBuffer Quad();
-
-		static IndexBuffer Cube();
-
-		static IndexBuffer RectPrism();
 
 	private:
 		uint* m_indices;
 		uint m_size;
 
 		bool m_heap;
+
+	public:
+
+		/*
+			@brief Generates an index buffer for a triangle.
+			@return The generated index buffer.
+		 */
+		static IndexBuffer Triangle();
+
+		/*
+            @brief Generates an index buffer for a square. (Same as quad)
+            @return The generated index buffer.
+         */
+		static IndexBuffer Square();
+
+		/*
+            @brief Generates an index buffer for a quad. (Same as square)
+            @return The generated index buffer.
+         */
+		static IndexBuffer Quad();
+
+		/*
+            @brief Generates an index buffer for a cube. (Same as rect prism)
+            @return The generated index buffer.
+         */
+		static IndexBuffer Cube();
+
+		/*
+            @brief Generates an index buffer for a rect prism. (Same as cube)
+            @return The generated index buffer.
+         */
+		static IndexBuffer RectPrism();
 	};
 }

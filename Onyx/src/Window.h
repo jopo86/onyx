@@ -125,8 +125,8 @@ namespace Onyx
 		friend class Window;
 	public:
 		/*
-			@brief Creates an empty window icon.
-			Create a window icon with Load().
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		WindowIcon();
 
@@ -165,7 +165,8 @@ namespace Onyx
 
 	public:
 		/*
-			@brief Initializes member variables. Do not attempt to use.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		Window();
 
@@ -521,9 +522,8 @@ namespace Onyx
 		void toggleFocusOnShow();
 
 		/*
-			@brief Clears memory in use by the object.
+			@brief Destroys the object, freeing any used memory.
 			Do not use the object after this is called.
-			Should be called before program ends to avoid memory leaks.
 		 */
 		void dispose() override;
 

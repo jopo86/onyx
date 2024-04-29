@@ -10,15 +10,15 @@ namespace Onyx
 {
 	/*
 		@brief A class that represents a renderable UI object.
-		A renderable can be rendered directly, or through the MgRenderer class.
+		A renderable can be rendered directly, or through the Renderer class.
 		This class is disposable.
 	 */
 	class UiRenderable : public Disposable
 	{
 	public:
 		/*
-			@brief Creates an empty UiRenderable object.
-			Trying to use a renderable constructed like this will most likely cause errors.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		UiRenderable();
 
@@ -180,9 +180,8 @@ namespace Onyx
 		void resetTransform();
 
 		/*
-			@brief Clears memory in use by the object.
+			@brief Destroys the object, freeing any used memory.
 			Do not use the object after this is called.
-			Should be called before program ends to avoid memory leaks.
 		 */
 		void dispose() override;
 

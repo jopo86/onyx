@@ -19,8 +19,8 @@ namespace Onyx
 
 	public:
 		/*
-			@brief Creates an empty camera.
-			Trying to use a camera constructed like this will result in undefined behavior.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		Camera();
 
@@ -110,12 +110,34 @@ namespace Onyx
 		*/
 		void rotate(float yaw, float pitch, const Math::Vec3& origin);
 
+		/*
+            @brief Pitches the camera the specified degrees.
+		 !	Currently bugged - camera seems to slowly stray further from origin
+			@param degrees The degrees to pitch the camera (around the local X axis).
+        */
 		void pitch(float degrees);
 
+		/*
+			@brief Pitches the camera the specified degrees around the specified origin.
+		 !	Currently bugged - camera seems to slowly stray further from origin
+			@param degrees The degrees to pitch the camera (around the local X axis).
+			@param origin The origin.
+		 */
 		void pitch(float degrees, const Math::Vec3& origin);
 
+		/*
+            @brief Yaws the camera the specified degrees.
+		 !	Currently bugged - camera seems to slowly stray further from origin
+            @param degrees The degrees to yaw the camera (around the local Y axis).
+         */
 		void yaw(float degrees);
 
+		/*
+            @brief Yaws the camera the specified degrees around the specified origin.
+		 !	Currently bugged - camera seems to slowly stray further from origin
+            @param degrees The degrees to yaw the camera (around the local Y axis).
+            @param origin The origin.
+         */
 		void yaw(float degrees, const Math::Vec3& origin);
 
 		/*
@@ -164,8 +186,16 @@ namespace Onyx
 		 */
 		const Math::Vec3& getUp() const;
 
+		/*
+			@brief Gets the yaw of the camera.
+			@return The yaw of the camera.
+		 */
 		float getYaw() const;
 
+		/*
+            @brief Gets the pitch of the camera.
+            @return The pitch of the camera.
+         */
 		float getPitch() const;
 
 		/*
@@ -189,8 +219,16 @@ namespace Onyx
 		 */
 		void setProjection(const Projection& proj);
 
+		/*
+            @brief Sets the pitch of the camera.
+            @param pitch The desired pitch.
+         */
 		void setPitch(float pitch);
 
+		/*
+            @brief Sets the yaw of the camera.
+            @param yaw The desired yaw.
+         */
 		void setYaw(float yaw);
 
 		/*

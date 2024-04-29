@@ -19,6 +19,11 @@ namespace Onyx
 	{
 		friend class ModelRenderable;
 	public:
+
+		/*
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
+		 */
 		Model();
 
 		/*

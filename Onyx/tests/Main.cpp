@@ -44,8 +44,8 @@ void recompShaders()
 	Onyx::Shader pnc = Onyx::Shader::PNC();
 	Onyx::Shader pnt = Onyx::Shader::PNT();
 	Onyx::Shader pnct = Onyx::Shader::PNCT();
-	Onyx::Shader uicol = Onyx::Shader::UI_Color(Vec4::Black());
-	Onyx::Shader uitex = Onyx::Shader::UI_Texture();
+	Onyx::Shader uicol = Onyx::Shader::P_UI_Color(Vec4::Black());
+	Onyx::Shader uitex = Onyx::Shader::PT_UI();
 	Onyx::Shader uitext = Onyx::Shader::UI_Text();
 
 	window.dispose();

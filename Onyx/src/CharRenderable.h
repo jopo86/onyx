@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include "Core.h"
 #include "Font.h"
 
@@ -15,7 +13,8 @@ namespace Onyx
     {
     public:
         /*
-            @brief Creates an empty CharRenderable.
+            @brief Default constructor, initializes member variables.
+            Using an object created with this constructor will result in undefined behavior.
          */
         CharRenderable();
 
@@ -34,7 +33,7 @@ namespace Onyx
 
         /*
             @brief Gets the character.
-            @return The character.
+            @return The character that the renderable represents.
          */
         char getChar() const;
 
@@ -57,8 +56,8 @@ namespace Onyx
         uint getTextureID() const;
 
         /*
-            @brief Disposes of the character.
-            Cleans up memory occupied by its mesh and texture.
+            @brief Destroys the object, freeing any used memory.
+            Do not use the object after this is called.
          */
         void dispose() override;
 

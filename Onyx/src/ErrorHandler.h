@@ -6,17 +6,41 @@
 namespace Onyx
 {
 
+	/*
+		@brief A struct to represent an error.
+	 */
 	struct Error
 	{
+		/*
+			@brief The name of the function the error came from.
+		 */
 		std::string sourceFunction = "";
+
+		/*
+            @brief The error message.
+         */
 		std::string message = "";
+
+		/*
+            @brief How to fix the error.
+         */
 		std::string howToFix = "";
 
+		/*
+            @brief Converts the error to a string.
+            @return A string representation of the error.
+         */
 		std::string toString() const;
 	};
 
+	/*
+        @brief A struct to represent a warning.
+     */
 	struct Warning
 	{
+		/*
+            @brief An enum class to represent the severity of a warning.
+         */
 		enum class Severity
 		{
 			Null,
@@ -25,17 +49,35 @@ namespace Onyx
 			High
 		};
 
+		/*
+            @brief The name of the function the warning came from.
+         */
 		std::string sourceFunction = "";
+
+		/*
+            @brief The warning message.
+         */
 		std::string message = "";
+
+		/*
+            @brief How to fix the warning.
+         */
 		std::string howToFix = "";
+
+		/*
+            @brief The severity of the warning.
+         */
 		Severity severity = Severity::Null;
 
+		/*
+            @brief Converts the warning to a string.
+            @return A string representation of the warning.
+         */
 		std::string toString() const;
 	};
 
 	/*
 		@brief A class for handling errors that occur internally in the library.
-		The handler decides what to do with the errors based on the logging/throwing settings set by the user.
 	 */
 	class ErrorHandler
 	{

@@ -11,8 +11,8 @@ namespace Onyx
 	{
 	public:
 		/*
-			@brief Creates a new Lighting object.
-			All settings are set to 0, so don't actually use this.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		Lighting();
 

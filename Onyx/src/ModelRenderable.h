@@ -13,8 +13,16 @@ namespace Onyx
 		friend class Renderer;
     public:
 
+		/*
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
+		 */
         ModelRenderable();
 
+		/*
+			@brief Creates a ModelRenderable from the specified model.
+			@param model The model to create the ModelRenderable from.
+		 */
         ModelRenderable(Model& model);
 
 		/*
@@ -148,7 +156,9 @@ namespace Onyx
 		void resetTransform();
 
 		/*
-			@brief Disposes of all of the renderables contained within the ModelRenderable.
+			@brief Destroys the object, freeing any used memory.
+			This also disposes all the renderables contained in the model renderable.
+			Do not use the object after this is called.
 		 */
 		void dispose() override;
         

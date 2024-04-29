@@ -19,7 +19,7 @@ Onyx::UiRenderable::UiRenderable()
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb)
 {
 	m_mesh = mesh;
-	m_shader = Shader::UI_Color(Vec4(rgb, 1.0f));
+	m_shader = Shader::P_UI_Color(Vec4(rgb, 1.0f));
 	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
@@ -29,7 +29,7 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb)
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
 {
 	m_mesh = mesh;
-	m_shader = Shader::UI_Color(rgba);
+	m_shader = Shader::P_UI_Color(rgba);
 	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
@@ -50,7 +50,7 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, bool* result)
 	}
 	m_mesh = mesh;
 	m_texture = texture;
-	m_shader = Shader::UI_Texture();
+	m_shader = Shader::PT_UI();
 	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);

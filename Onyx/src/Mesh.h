@@ -16,8 +16,8 @@ namespace Onyx
 	{
 	public:
 		/*
-			@brief Creates an empty Mesh object.
-			Trying to use a mesh object constructed like this will most likely cause errors.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		Mesh();
 
@@ -84,9 +84,8 @@ namespace Onyx
 		VertexFormat getVertexFormat() const;
 
 		/*
-			@brief Disposes of the mesh.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+			@brief Destroys the object, freeing any used memory.
+			Do not use the object after this is called.
 		 */
 		void dispose() override;
 
@@ -98,72 +97,72 @@ namespace Onyx
 
 	public:
 		/*
-			@brief Creates an equilateral triangle mesh with the specified side length.
+			@brief Generates an equilateral triangle mesh with the specified side length.
 			@param side The side length.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh Triangle(float side);
 
 		/*
-			@brief Creates a triangle mesh with the specified base and height.
+			@brief Generates a triangle mesh with the specified base and height.
 			@param base The base length.
 			@param height The height.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh Triangle(float base, float height);
 
 		/*
-			@brief Creates a triangle mesh with the specified 3 vertices.
+			@brief Generates a triangle mesh with the specified 3 vertices.
 			@param a The first vertex.
 			@param b The second vertex.
 			@param c The third vertex.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh Triangle(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c);
 
 		/*
-			@brief Creates a square mesh with the specified side length.
+			@brief Generates a square mesh with the specified side length.
 			@param The side length.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh Square(float side);
 
 		/*
-			@brief Creates a rectangle mesh with the specified width and height.
+			@brief Generates a rectangle mesh with the specified width and height.
 			@param width The width of the rectangle.
 			@param height The height of the rectangle.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh Quad(float width, float height);
 
 		/*
-			@brief Creates a quadrilateral mesh with the specified 4 vertices.
+			@brief Generates a quadrilateral mesh with the specified 4 vertices.
 			@param a The bottom-left vertex.
 			@param b The bottom-right vertex.
 			@param c The top-right vertex.
 			@param d The top-left vertex.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh Quad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d);
 
 		/*
-			@brief Creates a cube mesh with the specified side length.
+			@brief Generates a cube mesh with the specified side length.
 			@param side The side length.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh Cube(float side);
 
 		/*
-			@brief Creates a rectangular prism / cuboid mesh with the specified dimensions.
+			@brief Generates a rectangular prism / cuboid mesh with the specified dimensions.
 			@param width The width (x-axis) of the prism.
 			@param height The height (y-axis) of the prism.
 			@param depth The depth (z-axis) of the prism.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh RectPrism(float width, float height, float depth);
 
 		/*
-			@brief Creates a rectangular prism / cuboid mesh with the specified 8 vertices.
+			@brief Generates a rectangular prism / cuboid mesh with the specified 8 vertices.
 			@param a The bottom-left vertex of the first quad.
 			@param b The bottom-right vertex of the first quad.
 			@param c The top-right vertex of the first quad.
@@ -172,7 +171,7 @@ namespace Onyx
 			@param f The bottom-right vertex of the second quad.
 			@param g The top-right vertex of the second quad.
 			@param h The top-left vertex of the second quad.
-			@return The resulting mesh.
+			@return The generated mesh.
 		 */
 		static Mesh RectPrism(Math::Vec3 a, Math::Vec3 b, Math::Vec3 c, Math::Vec3 d, Math::Vec3 e, Math::Vec3 f, Math::Vec3 g, Math::Vec3 h);
 	};

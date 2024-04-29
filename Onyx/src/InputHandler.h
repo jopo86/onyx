@@ -8,8 +8,6 @@ namespace Onyx
 
 	/*
 		@brief A class to handle input from a window.
-		This class can be used to access the state of keys and mouse buttons, as well as the mouse position.
-		It can also lock/unlock the cursor.
 	 */
 	class InputHandler
 	{
@@ -17,8 +15,8 @@ namespace Onyx
 
 	public:
 		/*
-			@brief Creates an empty InputHandler object.
-			Trying to use an input handler constructed like this will result in undefined behavior.
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
 		 */
 		InputHandler();
 

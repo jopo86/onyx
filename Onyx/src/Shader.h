@@ -27,8 +27,9 @@ namespace Onyx
 			This function may cause errors, it is recommended to use the overload with an error handler.
 			@param vertSource The vertex shader source code.
 			@param fragSource The fragment shader source code.
+			@param result A pointer to a boolean that will be set to true if the shader was successfully compiled, and false otherwise.
 		 */
-		Shader(const char* vertSource, const char* fragSource);
+		Shader(const char* vertSource, const char* fragSource, bool* result = nullptr);
 
 		/*
 			@brief Creates a new Shader object from another shader object.
@@ -43,15 +44,17 @@ namespace Onyx
 			@brief Loads a new Shader object from the specified vertex and fragment shader source code file paths.
 			@param vertSource The vertex shader file path.
 			@param fragSource The fragment shader file path.
+			@param result A pointer to a boolean that will be set to true if the shader was successfully compiled, and false otherwise.
 		 */
-		static Shader LoadSource(const std::string& vertPath, const std::string& fragPath);
+		static Shader LoadSource(const std::string& vertPath, const std::string& fragPath, bool* result = nullptr);
 
 		/*
 			@brief Loads a new Shader object from the specified shader program binary (already compiled).
 			Please note that a binary file that was not saved by Onyx will likely not be successfully loaded with Onyx.
 			@param filename The filename, including the path. Extension must be .bin
+			@param result A pointer to a boolean that will be set to true if the shader was successfully loaded, and false otherwise.
 		 */
-		static Shader LoadBinary(const std::string& filename);
+		static Shader LoadBinary(const std::string& filename, bool* result = nullptr);
 
 		/*
 			@brief Uses the shader.
@@ -63,8 +66,9 @@ namespace Onyx
 			@brief Saves the compiled shader program binary to a file.
 			@param dir The directory to save the file to. A slash at the end will be ignored.
 			@param filename The name of the file. An extension at the end will be replaced with .bin
+			@param result A pointer to a boolean that will be set to true if the shader was successfully saved, and false otherwise.
 		 */
-		void saveBinary(const std::string& dir, const std::string& filename) const;
+		void saveBinary(const std::string& dir, const std::string& filename, bool* result = nullptr) const;
 
 		/*
 			@brief Gets the ID of the OpenGL shader program.
@@ -295,9 +299,9 @@ namespace Onyx
 		void setMat4(const char* varName, const Math::Mat4& val, bool normalize = false);
 
 		/*
-			@brief Disposes of the shader.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+			@brief Clears memory in use by the object.
+			Do not use the object after this is called.
+			Should be called before program ends to avoid memory leaks.
 		 */
 		void dispose() override;
 

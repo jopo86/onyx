@@ -64,9 +64,10 @@ namespace Onyx
 			@brief Loads a font from the specified TrueType font file and the specified size.
 			@param ttfFilePath The path of the TrueType font file.
 			@param size The size of the font.
+			@param result A pointer to a boolean that will be set to true if the font was loaded successfully, and false otherwise.
 			@return The font.
 		 */
-		static Font Load(const std::string& ttfFilePath, uint size);
+		static Font Load(const std::string& ttfFilePath, uint size, bool* result = nullptr);
 
 		/*
 			@brief Gets the path of the TrueType font file.

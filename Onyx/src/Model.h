@@ -34,8 +34,9 @@ namespace Onyx
 			Credit to Bly7 on GitHub for the OBJ Loader library.
 			https://github.com/Bly7/OBJ-Loader
 			@param filepath The path of the OBJ file.
+			@param result A pointer to a boolean that will be set to true if the model was loaded successfully, and false otherwise.
 		 */
-		static Model& LoadOBJ(const std::string& filepath);
+		static Model& LoadOBJ(const std::string& filepath, bool* result = nullptr);
 
 	private:
 

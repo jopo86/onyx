@@ -426,9 +426,10 @@ namespace Onyx
 
 	/*
 		@brief Returns the name of the Graphics Card / GPU.
+		@param result A pointer to a boolean that will be set to true if the name was successfully retrieved, false otherwise.
 		@return The name of the GPU.
 	 */
-	std::string GetGraphicsName();
+	std::string GetGraphicsName(bool* result = nullptr);
 
 	/*
 		@brief Parent class for disposable objects.

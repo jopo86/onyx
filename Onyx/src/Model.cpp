@@ -10,12 +10,11 @@
 using Onyx::Math::Vec4;
 
 void onyx_add_malloc(void*, bool);
-bool onyx_is_ehandler_nullptr();
 void onyx_err(const Onyx::Error&);
 
 Onyx::Model::Model() {}
 
-Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
+Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath, bool* result)
 {
 	Model* model = new Model;
 	onyx_add_malloc(model, false);
@@ -25,12 +24,13 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 	objl::Loader loader;
 	if (!loader.LoadFile(filepath))
 	{
-		if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
+		onyx_err(Error{
 				.sourceFunction = "Onyx::Model::LoadOBJ(const std::string& filepath)",
 				.message = "Failed to load model from file: + \"" + filepath + "\"",
 				.howToFix = "Ensure the file exists, is an OBJ file, is not locked by another process, and does not explicitly deny access."
 			}
 		);
+		if (result != nullptr) *result = false;
 		return *model;
 	}
 
@@ -82,5 +82,6 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath)
 		delete indices;
 	}
 
+	if (result != nullptr) *result = true;
 	return *model;
 }

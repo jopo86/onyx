@@ -2,7 +2,6 @@
 
 #include <glad/glad.h>
 
-bool onyx_is_ehandler_nullptr();
 void onyx_warn(const Onyx::Warning&);
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, 
@@ -40,7 +39,7 @@ Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)
 {
 	if (!VertexBuffer::HasTextureCoords(mesh.getVertexFormat()))
 	{
-		if (!onyx_is_ehandler_nullptr()) onyx_warn(Warning{
+		onyx_warn(Warning{
                 .sourceFunction = "Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)",
                 .message = "The mesh contains a vertex buffer that is not of a format with texture coordinates. It will most likely have problems rendering.",
                 .howToFix = "Use a vertex format with texture coords: PT, PCT, PNT, or PNCT",

@@ -23,13 +23,11 @@ namespace Onyx
 
 		/*
 			@brief Creats a new Mesh object with the specified vertices and indices.
-			@param vertices The vertex array.
-			@param verticesSize The size, in bytes, of the vertex array. Use sizeof().
-			@param vertexFormat The format of the vertices. Use the definitions prefixed with MG_VERTEX_FORMAT.
-			@param indices The index array.
-			@param indicesSize The size, in bytes, of the index array. Use sizeof().
+			@param vertexBuffer The vertex buffer object.
+			@param indexBuffer The index buffer object.
+			@param result A pointer to a boolean that will be set to true if the mesh was created successfully, and false otherwise.
 		 */
-		Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer);
+		Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer, bool* result = nullptr);
 
 		/*
 			@brief Creates a new Mesh object from another mesh object.

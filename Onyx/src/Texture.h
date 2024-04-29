@@ -29,11 +29,12 @@ namespace Onyx
 		/*
 			@brief Creates a new Texture object from the specified image filepath.
 			@param filepath The path of the image.
+			@param result A pointer to a boolean that will be set to true if the texture was loaded successfully, and false otherwise.
 			@param textureWrap The texture wrap option. Repeat by default.
 			@param minFilter The minification filter (applied when the texture is shrunk). Nearest by default.
 			@param magFilter The magnification filter (applied when the texture is enlarged). Linear by default.
 		 */
-		static Texture Load(const std::string& filepath, Onyx::TextureWrap textureWrap = Onyx::TextureWrap::Repeat, Onyx::TextureFilter minFilter = Onyx::TextureFilter::Nearest, Onyx::TextureFilter magFilter = Onyx::TextureFilter::Linear);
+		static Texture Load(const std::string& filepath, bool* result = nullptr, Onyx::TextureWrap textureWrap = Onyx::TextureWrap::Repeat, Onyx::TextureFilter minFilter = Onyx::TextureFilter::Nearest, Onyx::TextureFilter magFilter = Onyx::TextureFilter::Linear);
 
 		/*
 			@brief Binds the texture.
@@ -49,9 +50,9 @@ namespace Onyx
 		uint getTextureID() const;
 
 		/*
-			@brief Disposes of the texture.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+			@brief Clears memory in use by the object.
+			Do not use the object after this is called.
+			Should be called before program ends to avoid memory leaks.
 		 */
 		void dispose() override;
 

@@ -6,13 +6,12 @@
 #include "Core.h"
 
 void onyx_add_malloc(void*, bool);
-bool onyx_is_ehandler_nullptr();
 void onyx_err(const Onyx::Error&);
 
-std::string Onyx::FileUtils::Read(const std::string& path)
+std::string Onyx::FileUtils::Read(const std::string& path, bool* result)
 {
 	std::ifstream file(path);
-	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	if (!file.is_open())
 	{
 		onyx_err(Error{
 				.sourceFunction = "Onyx::FileUtils::Read(const std::string& path)",
@@ -21,6 +20,7 @@ std::string Onyx::FileUtils::Read(const std::string& path)
 			}
 		);
 		file.close();
+		if (result != nullptr) *result = false;
 		return "";
 	}
 
@@ -31,13 +31,14 @@ std::string Onyx::FileUtils::Read(const std::string& path)
 
 	file.close();
 
+	if (result != nullptr) *result = true;
 	return contents;
 }
 
-const char* Onyx::FileUtils::ReadLiteral(const std::string& path)
+const char* Onyx::FileUtils::ReadLiteral(const std::string& path, bool* result)
 {
 	std::ifstream file(path);
-	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	if (!file.is_open())
 	{
 		onyx_err(Error{
 			.sourceFunction = "Onyx::FileUtils::ReadLiteral(const std::string& path)",
@@ -46,6 +47,7 @@ const char* Onyx::FileUtils::ReadLiteral(const std::string& path)
 			}
 		);
 		file.close();
+		if (result != nullptr) *result = false;
 		return "";
 	}
 
@@ -57,13 +59,14 @@ const char* Onyx::FileUtils::ReadLiteral(const std::string& path)
 
 	file.close();
 
+	if (result != nullptr) *result = true;
 	return contents->c_str();
 }
 
-std::vector<std::string> Onyx::FileUtils::ReadLines(const std::string& path)
+std::vector<std::string> Onyx::FileUtils::ReadLines(const std::string& path, bool* result)
 {
 	std::ifstream file(path);
-	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	if (!file.is_open())
 	{
 		onyx_err(Error{
 			   .sourceFunction = "Onyx::FileUtils::ReadLines(const std::string& path)",
@@ -72,6 +75,7 @@ std::vector<std::string> Onyx::FileUtils::ReadLines(const std::string& path)
 			}
 		);
 		file.close();
+		if (result != nullptr) *result = false;
 		return {};
 	}
 
@@ -82,6 +86,7 @@ std::vector<std::string> Onyx::FileUtils::ReadLines(const std::string& path)
 
 	file.close();
 
+	if (result != nullptr) *result = true;
 	return lines;
 }
 

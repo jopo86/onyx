@@ -29,11 +29,6 @@ void onyx_set_gl_init(bool val)
     glInitialized = val;
 }
 
-bool onyx_is_ehandler_nullptr()
-{
-    return p_errorHandler == nullptr;
-}
-
 FT_Library* onyx_get_ft()
 {
     return &ft;
@@ -269,7 +264,7 @@ void Onyx::Demo()
     car.rotate(Vec3(0.0f, -180.0f, 0.0f));
     float duration = round((GetTime() - start) * 100) / 100;
 
-    Renderable road = Renderable::TexturedQuad(250.0f, 250.0f, Texture::Load(Resources("textures/road.png"), Onyx::TextureWrap::Repeat, Onyx::TextureFilter::Nearest, Onyx::TextureFilter::Nearest));
+    Renderable road = Renderable::TexturedQuad(250.0f, 250.0f, Texture::Load(Resources("textures/road.png"), nullptr, Onyx::TextureWrap::Repeat, Onyx::TextureFilter::Nearest, Onyx::TextureFilter::Nearest));
     road.rotate(Vec3(90.0f, 0.0f, 0.0f));
     road.translate(Vec3(0.0f, -0.6f, 0.0f));
 
@@ -468,14 +463,21 @@ double Onyx::GetTime()
     return glfwGetTime();
 }
 
-std::string Onyx::GetGraphicsName()
+std::string Onyx::GetGraphicsName(bool* result)
 {
-    if (!onyx_is_ehandler_nullptr()) if (!glInitialized) onyx_err(Error{
+    if (!glInitialized)
+    {
+        onyx_err(Error{
             .sourceFunction = "Onyx::GetGraphics()",
             .message = "OpenGL is not initialized.",
             .howToFix = "Ensure OpenGL is initialized before calling this function."
-        });
-    return (const char*)glGetString(GL_RENDERER);
+            }
+        );
+        if (result != nullptr) *result = false;
+        return "";
+    }
+    if (result != nullptr) *result = true;
+    return std::string((const char*)glGetString(GL_RENDERER));
 
 #if defined(ONYX_GL_DEBUG_HIGH)
     glCheckError();

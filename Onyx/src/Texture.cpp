@@ -7,7 +7,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
 
-bool onyx_is_ehandler_nullptr();
 void onyx_err(const Onyx::Error&);
 
 Onyx::Texture::Texture()
@@ -20,10 +19,10 @@ Onyx::Texture::Texture(const Texture& other)
 	m_tex = other.m_tex;
 }
 
-Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)
+Onyx::Texture Onyx::Texture::Load(const std::string& filepath, bool* result, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)
 {
 	std::ifstream file(filepath);
-	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	if (!file.is_open())
 	{
 		onyx_err(Error{
 				.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
@@ -32,11 +31,12 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 			}
 		);
 		file.close();
+		if (result != nullptr) *result = false;
 		return Texture();
 	}
 	file.close();
 
-	if (!onyx_is_ehandler_nullptr()) if (textureWrap == Onyx::TextureWrap::Null)
+	if (textureWrap == Onyx::TextureWrap::Null)
     {
 		onyx_err(Error{
 				.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
@@ -44,10 +44,11 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
                 .howToFix = "Enter a valid texture wrap option."
 			}
 		);
+		if (result != nullptr) *result = false;
         return Texture();
     }
 
-	if (!onyx_is_ehandler_nullptr()) if (minFilter == Onyx::TextureFilter::Null)
+	if (minFilter == Onyx::TextureFilter::Null)
     {
 		onyx_err(Error{
 			.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
@@ -55,11 +56,11 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
             .howToFix = "Enter a valid minification filter option."
 			}
 		);
-
+		if (result != nullptr) *result = false;
         return Texture();
     }
 
-	if (!onyx_is_ehandler_nullptr()) if (magFilter == Onyx::TextureFilter::Null)
+	if (magFilter == Onyx::TextureFilter::Null)
 	{
 		onyx_err(Error{
 			.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
@@ -67,6 +68,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 			.howToFix = "Enter a valid magnification filter option."
 			}
 		);
+		if (result != nullptr) *result = false;
         return Texture();
 	}
 
@@ -75,7 +77,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 	stbi_set_flip_vertically_on_load(true);
 
 	ubyte* data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
-	if (!onyx_is_ehandler_nullptr()) if (!data)
+	if (!data)
 	{
 		onyx_err(Error{
                 .sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
@@ -83,6 +85,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
                 .howToFix = "Ensure the file is a valid image file. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
             }
         );
+		if (result != nullptr) *result = false;
 		return Texture();
 	}
 
@@ -125,7 +128,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap
 	glCheckError();
 #endif
 
-
+	if (result != nullptr) *result = true;
 	return texture;
 }
 

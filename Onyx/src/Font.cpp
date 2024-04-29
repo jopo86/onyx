@@ -7,7 +7,6 @@
 #include <glad/glad.h>
 
 FT_Library* onyx_get_ft();
-bool onyx_is_ehandler_nullptr();
 void onyx_err(const Onyx::Error&);
 
 Onyx::Font::Font()
@@ -17,10 +16,10 @@ Onyx::Font::Font()
 	m_size = 0;
 }
 
-Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
+Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size, bool* result)
 {
 	std::ifstream file(ttfFilePath);
-	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	if (!file.is_open())
 	{
 		onyx_err(Error{
 				.sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
@@ -29,6 +28,7 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 			}
 		);
 		file.close();
+		if (result != nullptr) *result = false;
 		return Font();
 	}
 	file.close();
@@ -40,12 +40,13 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 	
 	if (FT_New_Face(*font.m_pFreeType, ttfFilePath.c_str(), 0, &font.m_face))
 	{
-		if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
+		onyx_err(Error{
 				.sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
                 .message = "Found file, but failed to load font: \"" + ttfFilePath + "\"",
                 .howToFix = "Ensure the file is a valid TrueType font file."
 			}
 		);
+		if (result != nullptr) *result = false;
 		return font;
 	}
 
@@ -56,13 +57,14 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 	{
 		if (FT_Load_Char(font.m_face, c, FT_LOAD_RENDER))
 		{
-			if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
+			onyx_err(Error{
 				    .sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
                     .message = "Failed to load glyph: '" + std::to_string(c) + "' from font: \"" + ttfFilePath + "\"",
                     .howToFix = "Ensure the font file is a valid TrueType font file."
                 }
             );
-			continue;
+			if (result != nullptr) *result = false;
+			return font;
 		}
 
 		uint tex;
@@ -96,6 +98,7 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size)
 	glCheckError();
 #endif
 
+	if (result != nullptr) *result = true;
 	return font;
 }
 

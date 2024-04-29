@@ -135,8 +135,9 @@ namespace Onyx
 			Multiple filepaths allow for different resolutions, because the automatic scaling sucks.
 			Ideally, provide a 16x16, 24x24, 32x32, 48x48, and 256x256 image.
 			@param filepaths The filepaths of the images to use as the icon.
+			@param result A pointer to a boolean that will be set to true if the icon was loaded successfully, false otherwise.
 		 */
-		static WindowIcon Load(const std::initializer_list<std::string>& filepaths);
+		static WindowIcon Load(const std::initializer_list<std::string>& filepaths, bool* result = nullptr);
 
 		/*
 			@brief Disposes of the window icon.
@@ -164,7 +165,7 @@ namespace Onyx
 
 	public:
 		/*
-			@brief Creates an uninitialized 800x600 window with the name "Onyx Window"
+			@brief Initializes member variables. Do not attempt to use.
 		 */
 		Window();
 
@@ -177,12 +178,14 @@ namespace Onyx
 		/*
 			@brief Initializes the window.
 			This initializes OpenGL, so it must be called before any OpenGL functions.
+			@param result A pointer to a boolean that will be set to true if the window was initialized successfully, false otherwise.
 		 */
-		void init();
+		void init(bool* result = nullptr);
 
 		/*
 			@brief Prepares to render the current frame.
-			This function clears the screen to the background color, clears buffers, and polls GLFW events.
+			This function clears the window to the background color and polls GLFW events.
+			It also updates the delta time, FPS, and frame #.
 		 */
 		void startRender();
 
@@ -518,9 +521,9 @@ namespace Onyx
 		void toggleFocusOnShow();
 
 		/*
-			@brief Disposes of the window.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+			@brief Clears memory in use by the object.
+			Do not use the object after this is called.
+			Should be called before program ends to avoid memory leaks.
 		 */
 		void dispose() override;
 

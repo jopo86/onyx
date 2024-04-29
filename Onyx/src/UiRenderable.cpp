@@ -4,7 +4,6 @@
 
 #include "Shader.h"
 
-bool onyx_is_ehandler_nullptr();
 void onyx_err(const Onyx::Error&);
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
@@ -37,16 +36,17 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
 	m_hidden = false;
 }
 
-Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture) 
+Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, bool* result) 
 {
 	if (!VertexBuffer::HasTextureCoords(mesh.getVertexFormat()))
 	{
-		if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
+		onyx_err(Error{
 				.sourceFunction = "Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture)",
 				.message = "The mesh contains a vertex buffer that is not of a format with texture coordinates. It will most likely have problems rendering.",
 				.howToFix = "Use a vertex format with texture coords: PT, PCT, PNT, or PNCT"
 			}
 		);
+		if (result != nullptr) *result = false;
 	}
 	m_mesh = mesh;
 	m_texture = texture;
@@ -55,6 +55,8 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture)
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 	m_hidden = false;
+
+	if (result != nullptr) *result = true;
 }
 
 void Onyx::UiRenderable::render()

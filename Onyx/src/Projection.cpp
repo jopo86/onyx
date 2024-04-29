@@ -1,6 +1,5 @@
 #include "Projection.h"
 
-bool onyx_is_ehandler_nullptr();
 void onyx_warn(const Onyx::Warning& warning);
 
 using Onyx::Math::Mat4;
@@ -57,7 +56,7 @@ Onyx::ProjectionType Onyx::Projection::getType() const
 
 float Onyx::Projection::getLeft() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
+	if (m_type != ProjectionType::Orthographic)
 	{
 		onyx_warn(Warning{
 				.sourceFunction = "Onyx::Projection::getLeft()",
@@ -71,7 +70,7 @@ float Onyx::Projection::getLeft() const
 
 float Onyx::Projection::getRight() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
+	if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getRight()",
@@ -85,7 +84,7 @@ float Onyx::Projection::getRight() const
 
 float Onyx::Projection::getTop() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
+	if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getTop()",
@@ -99,7 +98,7 @@ float Onyx::Projection::getTop() const
 
 float Onyx::Projection::getBottom() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
+	if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getBottom()",
@@ -113,7 +112,7 @@ float Onyx::Projection::getBottom() const
 
 float Onyx::Projection::getFOV() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
+	if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getFOV()",
@@ -127,7 +126,7 @@ float Onyx::Projection::getFOV() const
 
 float Onyx::Projection::getAspectRatio() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
+	if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getAspectRatio()",
@@ -141,7 +140,7 @@ float Onyx::Projection::getAspectRatio() const
 
 float Onyx::Projection::getNearPlane() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
+	if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getNearPlane()",
@@ -155,7 +154,7 @@ float Onyx::Projection::getNearPlane() const
 
 float Onyx::Projection::getFarPlane() const
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
+	if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::getFarPlane()",
@@ -174,7 +173,7 @@ const Mat4& Onyx::Projection::getMatrix() const
 
 void Onyx::Projection::setLeft(float val)
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
+	if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setLeft(float)",
@@ -189,7 +188,7 @@ void Onyx::Projection::setLeft(float val)
 
 void Onyx::Projection::setRight(float val)
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
+	if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setRight(float)",
@@ -204,7 +203,7 @@ void Onyx::Projection::setRight(float val)
 
 void Onyx::Projection::setTop(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
+    if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setTop(float)",
@@ -219,7 +218,7 @@ void Onyx::Projection::setTop(float val)
 
 void Onyx::Projection::setBottom(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Orthographic)
+    if (m_type != ProjectionType::Orthographic)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setBottom(float)",
@@ -234,7 +233,7 @@ void Onyx::Projection::setBottom(float val)
 
 void Onyx::Projection::setFOV(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
+    if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setFOV(float)",
@@ -249,7 +248,7 @@ void Onyx::Projection::setFOV(float val)
 
 void Onyx::Projection::setAspectRatio(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
+    if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setAspectRatio(float)",
@@ -264,7 +263,7 @@ void Onyx::Projection::setAspectRatio(float val)
 
 void Onyx::Projection::setNearPlane(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
+    if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setNearPlane(float)",
@@ -279,7 +278,7 @@ void Onyx::Projection::setNearPlane(float val)
 
 void Onyx::Projection::setFarPlane(float val)
 {
-    if (!onyx_is_ehandler_nullptr()) if (m_type != ProjectionType::Perspective)
+    if (m_type != ProjectionType::Perspective)
     {
         onyx_warn(Warning{
                 .sourceFunction = "Onyx::Projection::setFarPlane(float)",

@@ -4,7 +4,6 @@
 
 #include <map>
 
-bool onyx_is_ehandler_nullptr();
 void onyx_warn(const Onyx::Warning&);
 
 bool Onyx::Renderer::sm_wireframe = false;
@@ -110,17 +109,14 @@ bool Onyx::Renderer::isLightingEnabled() const
 
 void Onyx::Renderer::setLightingEnabled(bool enabled)
 {
-	if (!onyx_is_ehandler_nullptr()) if (m_pLighting == nullptr)
-	{
-		onyx_warn(Warning{
-				.sourceFunction = "Onyx::Renderer::setLightingEnabled(bool enabled)",
-				.message = "Lighting is not set for the renderer, cannot enable/disable it.",
-				.howToFix = "Set lighting for the renderer using Onyx::Renderer::setLighting(Lighting& lighting) (or add it to the constructor) before enabling/disabling it.",
-				.severity = Warning::Severity::Med
-			}
-		);
-		return;
-	}
+	onyx_warn(Warning{
+			.sourceFunction = "Onyx::Renderer::setLightingEnabled(bool enabled)",
+			.message = "Lighting is not set for the renderer, cannot enable/disable it.",
+			.howToFix = "Set lighting for the renderer using Onyx::Renderer::setLighting(Lighting& lighting) (or add it to the constructor) before enabling/disabling it.",
+			.severity = Warning::Severity::Med
+		}
+	);
+	return;
 
 	m_lightingEnabled = enabled;
 	for (Renderable* r : m_renderables)

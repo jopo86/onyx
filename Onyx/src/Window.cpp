@@ -12,7 +12,6 @@ GLFWmonitor* Onyx::Window::m_pPrimaryMonitor = nullptr;
 GLFWvidmode* Onyx::Window::m_pPrimaryMonitorInfo = nullptr;
 
 void onyx_set_gl_init(bool);
-bool onyx_is_ehandler_nullptr();
 void onyx_err(const Onyx::Error&);
 
 Onyx::WindowIcon::WindowIcon() 
@@ -21,9 +20,9 @@ Onyx::WindowIcon::WindowIcon()
 	nImages = 0;
 }
 
-Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths)
+Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths, bool* result)
 {
-	if (!onyx_is_ehandler_nullptr()) for (const std::string& filepath : filepaths)
+	for (const std::string& filepath : filepaths)
 	{
 		std::ifstream file(filepath);
 		if (!file.is_open())
@@ -34,6 +33,7 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 					.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
 				}
 			);
+			if (result != nullptr) *result = false;
 			return WindowIcon();
 		}
 		file.close();
@@ -47,7 +47,7 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 	for (uint i = 0; i < icon.nImages; i++)
 	{
 		icon.images[i].pixels = stbi_load(filepaths.begin()[i].c_str(), &icon.images[i].width, &icon.images[i].height, nullptr, 4);
-		if (!onyx_is_ehandler_nullptr()) if (icon.images[i].pixels == nullptr)
+		if (icon.images[i].pixels == nullptr)
 		{
 			onyx_err(Error{
 					.sourceFunction = "Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths)",
@@ -55,10 +55,13 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 					.howToFix = "Ensure the files ares valid image files. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
 				}
 			);
+			icon.dispose();
+			if (result != nullptr) *result = false;
 			return WindowIcon();
 		}
 	}
 
+	if (result != nullptr) *result = true;
 	return icon;
 }
 
@@ -93,7 +96,7 @@ Onyx::Window::Window(WindowProperties properties)
 	m_lastFrameTime = m_deltaTime = 0;
 }
 
-void Onyx::Window::init()
+void Onyx::Window::init(bool* result)
 {
 	glfwWindowHint(GLFW_RESIZABLE, m_properties.resizable);
 	glfwWindowHint(GLFW_VISIBLE, m_properties.visible);
@@ -115,6 +118,7 @@ void Onyx::Window::init()
                 .howToFix = "Ensure the window is not already initialized, and that the GLFW library is downloaded for your specific platform. If you are not running Windows x64, you will need to download GLFW for yourself, you can't just use the one from the Onyx download."
 			}
 		);
+		if (result != nullptr) *result = false;
 		return;
 	}
 
@@ -140,6 +144,7 @@ void Onyx::Window::init()
                 .howToFix = "Ensure that the window is not already initialized, and that the glad library is downloaded for your specific platofrm. If you are not running Windows x64, you will need to download glad for yourself, you can't just use the one from the Onyx download."
             }
         );
+		if (result != nullptr) *result = false;
 		return;
 	}
 
@@ -153,6 +158,9 @@ void Onyx::Window::init()
 	if (m_properties.nSamplesMSAA) glEnable(GL_MULTISAMPLE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	m_initialized = true;
+	if (result != nullptr) *result = true;
 }
 
 void Onyx::Window::startRender()

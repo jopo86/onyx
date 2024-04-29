@@ -2,7 +2,6 @@
 
 #include <glad/glad.h>
 
-bool onyx_is_ehandler_nullptr();
 void onyx_err(const Onyx::Error&);
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3;
@@ -14,7 +13,7 @@ Onyx::Mesh::Mesh()
 	m_vertexFormat = VertexFormat::Null;
 }
 
-Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
+Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer, bool* result)
 {
 	m_vao = m_vbo = m_ibo = 0;
 	m_verticesSize = vertexBuffer.m_size;
@@ -44,12 +43,13 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 	switch (vertexBuffer.m_format)
 	{
 		case VertexFormat::Null:
-			if (!onyx_is_ehandler_nullptr()) onyx_err(Error{
+			onyx_err(Error{
 					.sourceFunction = "Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)",
 					.message = "Vertex format cannot be null",
 					.howToFix = "Pass a valid vertex format to the VertexBuffer constructor"
 				}
 			);
+			if (result != nullptr) *result = false;
 			return;
 
 		case VertexFormat::P:
@@ -123,6 +123,8 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
 
 	if (vertexBuffer.m_heap) delete[] vertexBuffer.m_vertices;
 	if (indexBuffer.m_heap) delete[] indexBuffer.m_indices;
+
+	if (result != nullptr) *result = true;
 
 #if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();

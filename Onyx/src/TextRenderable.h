@@ -24,16 +24,18 @@ namespace Onyx
 			@param text The text to render.
 			@param font The font to use.
 			@param color The color of the text.
+			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
          */
-        TextRenderable(const std::string& text, Font& font, Math::Vec3 color);
+        TextRenderable(const std::string& text, Font& font, Math::Vec3 color, bool* result = nullptr);
 
 		/*
 			@brief Creates a TextRenderable from the specified text, font, and color.
 			@param text The text to render.
 			@param font The font to use.
 			@param color The color of the text.
+			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
 		 */
-        TextRenderable(const std::string& text, Font& font, Math::Vec4 color);
+        TextRenderable(const std::string& text, Font& font, Math::Vec4 color, bool* result = nullptr);
 
 		/*
 			@brief Renders the object.
@@ -198,9 +200,9 @@ namespace Onyx
 		void resetTransform();
 
 		/*
-			@brief Disposes of the renderable, including the associated mesh, shader, and texture.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+			@brief Clears memory in use by the object.
+			Do not use the object after this is called.
+			Should be called before program ends to avoid memory leaks.
 		 */
 		void dispose() override;
 

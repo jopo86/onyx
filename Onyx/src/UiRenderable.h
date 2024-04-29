@@ -41,8 +41,9 @@ namespace Onyx
 			The mesh vertex array should be VT or TV format.
 			@param mesh The mesh to use.
 			@param texture The texture to use.
+			@param result A pointer to a boolean that will be set to true if the renderable was created successfully, and false otherwise.
 		 */
-		UiRenderable(Mesh mesh, Texture texture);
+		UiRenderable(Mesh mesh, Texture texture, bool* result = nullptr);
 
 		/*
 			@brief Renders the object.
@@ -179,9 +180,9 @@ namespace Onyx
 		void resetTransform();
 
 		/*
-			@brief Disposes of the renderable, including the associated mesh, shader, and texture.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
+			@brief Clears memory in use by the object.
+			Do not use the object after this is called.
+			Should be called before program ends to avoid memory leaks.
 		 */
 		void dispose() override;
 

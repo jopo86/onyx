@@ -1,11 +1,11 @@
+#pragma warning (disable: 4267)
+
 #include "Shader.h"
 
 #include <fstream>
 #include <glad/glad.h>
 
 #include "FileUtils.h"
-
-bool onyx_is_ehandler_nullptr();
 void onyx_err(const Onyx::Error&);
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::DVec2,
@@ -21,7 +21,7 @@ Onyx::Shader::Shader()
 	m_prog = 0;
 }
 
-Onyx::Shader::Shader(const char* vertSource, const char* fragSource)
+Onyx::Shader::Shader(const char* vertSource, const char* fragSource, bool* result)
 {
 	uint vert = glCreateShader(GL_VERTEX_SHADER);
 	uint frag = glCreateShader(GL_FRAGMENT_SHADER);
@@ -29,46 +29,42 @@ Onyx::Shader::Shader(const char* vertSource, const char* fragSource)
 	glShaderSource(vert, 1, &vertSource, nullptr);
 	glShaderSource(frag, 1, &fragSource, nullptr);
 
-	int result;
+	int glResult;
 
 	glCompileShader(vert);
-	glGetShaderiv(vert, GL_COMPILE_STATUS, &result);
-	if (!onyx_is_ehandler_nullptr())
+	glGetShaderiv(vert, GL_COMPILE_STATUS, &glResult);
+	if (!glResult)
 	{
-		if (!result)
-		{
-			char infoBuffer[ONYX_BUFFER_SIZE];
-			glGetShaderInfoLog(vert, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-			onyx_err(Error{
-					.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
-					.message = "Failed to compile a vertex shader, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
-				}
-			);
-			if (vert) glDeleteShader(vert);
-			if (frag) glDeleteShader(frag);
-			dispose();
-			return;
-		}
+		char infoBuffer[ONYX_BUFFER_SIZE];
+		glGetShaderInfoLog(vert, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
+				.message = "Failed to compile a vertex shader, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
+			}
+		);
+		if (vert) glDeleteShader(vert);
+		if (frag) glDeleteShader(frag);
+		dispose();
+		if (result != nullptr) *result = false;
+		return;
 	}
 
 	glCompileShader(frag);
-	if (!onyx_is_ehandler_nullptr())
+	glGetShaderiv(frag, GL_COMPILE_STATUS, &glResult);
+	if (!glResult)
 	{
-		glGetShaderiv(frag, GL_COMPILE_STATUS, &result);
-		if (!result)
-		{
-			char infoBuffer[ONYX_BUFFER_SIZE];
-			glGetShaderInfoLog(frag, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-			onyx_err(Error{
-					.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
-					.message = "Failed to compile a fragment shader, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
-				}
-			);
-			if (vert) glDeleteShader(vert);
-			if (frag) glDeleteShader(frag);
-			dispose();
-			return;
-		}
+		char infoBuffer[ONYX_BUFFER_SIZE];
+		glGetShaderInfoLog(frag, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
+				.message = "Failed to compile a fragment shader, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
+			}
+		);
+		if (vert) glDeleteShader(vert);
+		if (frag) glDeleteShader(frag);
+		dispose();
+		if (result != nullptr) *result = false;
+		return;
 	}
 
 	m_prog = glCreateProgram();
@@ -76,47 +72,45 @@ Onyx::Shader::Shader(const char* vertSource, const char* fragSource)
 	glAttachShader(m_prog, frag);
 
 	glLinkProgram(m_prog);
-	if (!onyx_is_ehandler_nullptr())
+	glGetProgramiv(m_prog, GL_LINK_STATUS, &glResult);
+	if (!glResult)
 	{
-		glGetProgramiv(m_prog, GL_LINK_STATUS, &result);
-		if (!result)
-		{
-			char infoBuffer[ONYX_BUFFER_SIZE];
-			glGetProgramInfoLog(m_prog, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-			onyx_err(Error{
-					.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
-					.message = "Failed to link a shader program, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
-				}
-			);
-			if (vert) glDeleteShader(vert);
-			if (frag) glDeleteShader(frag);
-			dispose();
-			return;
-		}
+		char infoBuffer[ONYX_BUFFER_SIZE];
+		glGetProgramInfoLog(m_prog, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
+				.message = "Failed to link a shader program, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
+			}
+		);
+		if (vert) glDeleteShader(vert);
+		if (frag) glDeleteShader(frag);
+		dispose();
+		if (result != nullptr) *result = false;
+		return;
 	}
 
 	glValidateProgram(m_prog);
-	if (!onyx_is_ehandler_nullptr())
+	glGetProgramiv(m_prog, GL_VALIDATE_STATUS, &glResult);
+	if (!glResult)
 	{
-		glGetProgramiv(m_prog, GL_VALIDATE_STATUS, &result);
-		if (!result)
-		{
-			char infoBuffer[ONYX_BUFFER_SIZE];
-			glGetProgramInfoLog(m_prog, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
-			onyx_err(Error{
-					.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
-					.message = "Failed to validate a shader program, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
-				}
-			);
-			if (vert) glDeleteShader(vert);
-			if (frag) glDeleteShader(frag);
-			dispose();
-			return;
-		}
+		char infoBuffer[ONYX_BUFFER_SIZE];
+		glGetProgramInfoLog(m_prog, ONYX_BUFFER_SIZE, nullptr, infoBuffer);
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::Shader(const char *vertSource, const char *fragSource) : vertSource(vertSource), fragSource(fragSource)",
+				.message = "Failed to validate a shader program, shader has been disposed. OpenGL output shown below: \n" + std::string(infoBuffer) + "\n"
+			}
+		);
+		if (vert) glDeleteShader(vert);
+		if (frag) glDeleteShader(frag);
+		dispose();
+		if (result != nullptr) *result = false;
+		return;
 	}
 
 	glDeleteShader(vert);
 	glDeleteShader(frag);
+
+	if (result != nullptr) *result = true;
 
 #if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
@@ -128,22 +122,54 @@ Onyx::Shader::Shader(const Shader& other)
 	m_prog = other.m_prog;
 }
 
-Onyx::Shader Onyx::Shader::LoadSource(const std::string& vertPath, const std::string& fragPath)
+Onyx::Shader Onyx::Shader::LoadSource(const std::string& vertPath, const std::string& fragPath, bool* result)
 {
-	return Shader(
-		FileUtils::ReadLiteral(vertPath),
-		FileUtils::ReadLiteral(fragPath)
+	bool vertResult, fragResult;
+	Shader shader(
+		FileUtils::ReadLiteral(vertPath, &vertResult),
+		FileUtils::ReadLiteral(fragPath, &fragResult)
 	);
+
+	if (!vertResult)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::LoadSource(const std::string& vertPath, const std::string& fragPath)",
+				.message = "Failed to read vertex shader source file: \"" + vertPath + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		if (result != nullptr) *result = false;
+	}
+
+	else if (!fragResult)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::LoadSource(const std::string& vertPath, const std::string& fragPath)",
+				.message = "Failed to read fragment shader source file: \"" + fragPath + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		if (result != nullptr) *result = false;
+	}
+
+	if (!fragResult || !vertResult)
+	{
+		shader.dispose();
+		return shader;
+	}
+
+	if (result != nullptr) *result = true;
+	return shader;
 }
 
-Onyx::Shader Onyx::Shader::LoadBinary(const std::string& binPath)
+Onyx::Shader Onyx::Shader::LoadBinary(const std::string& binPath, bool* result)
 {
 	Shader shader;
 	shader.m_prog = glCreateProgram();
 
 	std::ifstream file(binPath, std::ios::binary);
 
-	if (!onyx_is_ehandler_nullptr()) if (!file.is_open())
+	if (!file.is_open())
 	{
 		onyx_err(Error{
 			   .sourceFunction = "Onyx::Shader::LoadBinary(const std::string& binPath)",
@@ -153,7 +179,8 @@ Onyx::Shader Onyx::Shader::LoadBinary(const std::string& binPath)
 		);
 		file.close();
 		shader.dispose();
-		return shader;
+		if (result != nullptr) *result = false;
+ 		return shader;
 	}
 
 	std::istreambuf_iterator<char> startIt(file), endIt;
@@ -176,20 +203,20 @@ Onyx::Shader Onyx::Shader::LoadBinary(const std::string& binPath)
 
 	glProgramBinary(shader.m_prog, format, data, buffer.size() - startIndex);
 
-	if (!onyx_is_ehandler_nullptr())
+	int glResult;
+	glGetProgramiv(shader.m_prog, GL_LINK_STATUS, &glResult);
+	if (!glResult)
 	{
-		int result;
-		glGetProgramiv(shader.m_prog, GL_LINK_STATUS, &result);
-		if (!result)
-		{
-			onyx_err(Error{
-					.sourceFunction = "Onyx::Shader::LoadBinary(const std::string& binPath)",
-					.message = "Failed to link loaded shader program.",
-				}
-			);
-		}
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::LoadBinary(const std::string& binPath)",
+				.message = "Failed to link loaded shader program.",
+			}
+		);
+		shader.dispose();
+		if (result != nullptr) *result = false;
 	}
 
+	if (result != nullptr) *result = true;
 	return shader;
 }
 
@@ -202,22 +229,21 @@ void Onyx::Shader::use() const
 #endif
 }
 
-void Onyx::Shader::saveBinary(const std::string& dir, const std::string& filename) const
+void Onyx::Shader::saveBinary(const std::string& dir, const std::string& filename, bool* result) const
 {
-	if (!onyx_is_ehandler_nullptr())
-	{
-		int nFormats = 0;
-		glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS, &nFormats);
+	int nFormats = 0;
+	glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS, &nFormats);
 
-		if (nFormats < 1)
-		{
-			onyx_err(Error{
-					.sourceFunction = "Onyx::Shader::saveBinary(const std::string& dir, const std::string& filename)",
-					.message = "Graphics driver does not support any shader binary formats.",
-					.howToFix = "Ensure your graphics drivers are up to date."
-				}
-			);
-		}
+	if (nFormats < 1)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::saveBinary(const std::string& dir, const std::string& filename)",
+				.message = "Graphics driver does not support any shader binary formats.",
+				.howToFix = "Ensure your graphics drivers are up to date."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return;
 	}
 
 	int len = 0;
@@ -237,6 +263,8 @@ void Onyx::Shader::saveBinary(const std::string& dir, const std::string& filenam
 	file.close();
 
 	delete[] buffer;
+
+	if (result != nullptr) *result = true;
 }
 
 uint Onyx::Shader::getProgramID() const

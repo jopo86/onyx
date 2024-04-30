@@ -13,14 +13,14 @@ Onyx::Projection::Projection()
 	m_left = m_right = m_top = m_bottom = m_fov = m_aspectRatio = m_nearPlane = m_farPlane = 0.0f;
 }
 
-Onyx::Projection Onyx::Projection::Orthographic(float left, float right, float top, float bottom)
+Onyx::Projection Onyx::Projection::Orthographic(float screenWidth, float screenHeight)
 {
 	Projection proj;
 	proj.m_type = ProjectionType::Orthographic;
-	proj.m_left = left;
-	proj.m_right = right;
-	proj.m_top = top;
-	proj.m_bottom = bottom;
+	proj.m_left = 0.0f;
+	proj.m_right = screenWidth;
+	proj.m_top = screenHeight;
+	proj.m_bottom = 0.0f;
 	proj.updateMatrix();
 	return proj;
 }

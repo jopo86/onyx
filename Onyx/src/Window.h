@@ -477,16 +477,6 @@ namespace Onyx
 		void focus();
 
 		/*
-			@brief Unfocuses the window.
-		 */
-		void unfocus();
-
-		/*
-			@brief Toggles focus of the window.
-		 */
-		void toggleFocus();
-
-		/*
 			@brief Sets whether the window is resizable.
 			@param resizable Whether the window should be resizable.
 		 */

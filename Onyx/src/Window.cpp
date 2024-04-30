@@ -188,9 +188,7 @@ void Onyx::Window::close()
 
 void Onyx::Window::maximize()
 {
-	m_properties.fullscreen = true;
-	glfwSetWindowMonitor(m_pGlfwWin, glfwGetPrimaryMonitor(), 0, 0, m_pPrimaryMonitorInfo->width, m_pPrimaryMonitorInfo->height, m_pPrimaryMonitorInfo->refreshRate);
-	glfwSwapInterval(1);
+	glfwMaximizeWindow(m_pGlfwWin);
 }
 
 void Onyx::Window::minimize()
@@ -440,20 +438,6 @@ void Onyx::Window::focus()
 	glfwFocusWindow(m_pGlfwWin);
 }
 
-void Onyx::Window::unfocus()
-{
-	m_properties.focused = false;
-	glfwFocusWindow(nullptr);
-}
-
-void Onyx::Window::toggleFocus()
-{
-	if (m_properties.focused)
-		unfocus();
-	else
-		focus();
-}
-
 void Onyx::Window::setResizable(bool resizable)
 {
 	m_properties.resizable = resizable;
@@ -523,14 +507,20 @@ void Onyx::Window::framebufferSizeCallback(GLFWwindow* p_glfwWin, int width, int
 
 	if (m_pCam != nullptr)
 	{
-		if (m_pCam->getProjection().getType() != Onyx::ProjectionType::Perspective) return;
-		Projection proj = m_pCam->getProjection();
-		m_pCam->setProjection(Projection::Perspective(proj.getFOV(), width, height, proj.getNearPlane(), proj.getFarPlane()));
+		if (m_pCam->getProjection().getType() == Onyx::ProjectionType::Perspective)
+		{
+			Projection proj = m_pCam->getProjection();
+			m_pCam->setProjection(Projection::Perspective(proj.getFOV(), width, height, proj.getNearPlane(), proj.getFarPlane()));
+		}
+		else if (m_pCam->getProjection().getType() == Onyx::ProjectionType::Orthographic)
+		{
+			m_pCam->setProjection(Projection::Orthographic(width, height));
+		}
 	}
 
 	if (m_pRenderer != nullptr)
 	{
-		m_pRenderer->m_ortho = Projection::Orthographic(0.0f, width, height, 0.0f).getMatrix();
+		m_pRenderer->m_ortho = Projection::Orthographic(width, height).getMatrix();
 	}
 
 #if defined(ONYX_GL_DEBUG_HIGH)

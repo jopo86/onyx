@@ -1,3 +1,5 @@
+#pragma warning(disable: 4244)
+
 #include "Camera.h"
 
 using Onyx::Math::Vec3;
@@ -25,7 +27,7 @@ Onyx::Camera::Camera(Window& window)
 	m_up = Vec3(0.0f, 1.0f, 0.0f);
 
 	m_yaw = m_pitch = 0.0f;
-	m_proj = Projection::Orthographic(-1.0f, 1.0f, 1.0f, -1.0f);
+	m_proj = Projection::Orthographic(window.getBufferWidth(), window.getBufferHeight());
 	m_pitchClamp = 88.0f;
 
 	update();

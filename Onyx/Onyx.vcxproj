@@ -186,6 +186,7 @@
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="tests\PresetTests.cpp" />
     <ClCompile Include="src\TextRenderable.cpp" />
+    <ClCompile Include="tests\WindowTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="tests\PresetTests.h" />
+    <ClInclude Include="tests\WindowTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

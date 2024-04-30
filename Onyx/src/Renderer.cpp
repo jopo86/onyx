@@ -22,7 +22,7 @@ Onyx::Renderer::Renderer(Window& window)
 	m_pCam = nullptr;
 	window.m_pRenderer = this;
 	m_pLighting = nullptr;
-	m_ortho = Projection::Orthographic(0.0f, window.getBufferWidth(), window.getBufferHeight(), 0.0f).getMatrix();
+	m_ortho = Projection::Orthographic(window.getBufferWidth(), window.getBufferHeight()).getMatrix();
 	m_lightingEnabled = false;
 }
 
@@ -31,7 +31,7 @@ Onyx::Renderer::Renderer(Window& window, Camera& cam)
 	m_pCam = &cam;
 	window.m_pRenderer = this;
 	m_pLighting = nullptr;
-	m_ortho = Projection::Orthographic(0.0f, window.getBufferWidth(), window.getBufferHeight(), 0.0f).getMatrix();
+	m_ortho = Projection::Orthographic(window.getBufferWidth(), window.getBufferHeight()).getMatrix();
 	m_lightingEnabled = false;
 }
 
@@ -40,7 +40,7 @@ Onyx::Renderer::Renderer(Window& window, Camera& cam, Lighting& lighting)
 	m_pCam = &cam;
 	setLighting(lighting);
 	window.m_pRenderer = this;
-	m_ortho = Projection::Orthographic(0.0f, window.getBufferWidth(), window.getBufferHeight(), 0.0f).getMatrix();
+	m_ortho = Projection::Orthographic(window.getBufferWidth(), window.getBufferHeight()).getMatrix();
 	m_lightingEnabled = true;
 }
 

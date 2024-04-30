@@ -20,13 +20,11 @@ namespace Onyx
 
 		/*
 			@brief Creates an orthographic projection with the specified left, right, top, and bottom distances.
-			@param left The left of the screen, use -1 for default.
-			@param right The right of the screen, use 1 for default.
-			@param top The top of the screen, use 1 for default.
-			@param bottom The bottom of the screen, use -1 for default.
+			@param screenWidth The width of the screen to calculate the left and right values.
+			@param screenHeight The height of the screen to calculate the top and bottom values.
 			@return The resulting orthographic projection.
 		 */
-		static Projection Orthographic(float left, float right, float top, float bottom);
+		static Projection Orthographic(float screenWidth, float screenHeight);
 
 		/*
 			@brief Creates a perspective projection with the specified FOV and aspect ratio from the width/height.

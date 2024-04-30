@@ -56,47 +56,52 @@ namespace Onyx
 		/*
 			@brief Generates a vertex buffer for a triangle with the specified side length.
 			@param side The length of the side of the triangle.
+			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer Triangle(float side);
+		static VertexBuffer Triangle(float side, bool texCoords = false);
 
 		/*
             @brief Generates a vertex buffer for a triangle with the specified base and height.
             @param base The base of the triangle.
             @param height The height of the triangle.
+			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
             @return The generated vertex buffer.
          */
-		static VertexBuffer Triangle(float base, float height);
+		static VertexBuffer Triangle(float base, float height, bool texCoords = false);
 
 		/*
             @brief Generates a vertex buffer for a square with the specified side length.
             @param side The length of the side of the square.
+			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
             @return The generated vertex buffer.
          */
-		static VertexBuffer Square(float side);
+		static VertexBuffer Square(float side, bool texCoords = false);
 
 		/*
             @brief Generates a vertex buffer for a rectangle with the specified width and height.
             @param width The width of the rectangle.
             @param height The height of the rectangle.
+			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
             @return The generated vertex buffer.
          */
-		static VertexBuffer Quad(float width, float height);
+		static VertexBuffer Quad(float width, float height, bool texCoords = false);
 
 		/*
             @brief Generates a vertex buffer for a cube with the specified side length.
             @param side The length of the side of the cube.
             @return The generated vertex buffer.
          */
-		static VertexBuffer Cube(float side);
+		static VertexBuffer Cube(float side, bool texCoords = false);
 
 		/*
 			@brief Generates a vertex buffer for a rectangular prism with the specified width, height, and depth.
 			@param width The width (x-axis) of the rectangular prism.
 			@param height The height (y-axis) of the rectangular prism.
 			@param depth The depth (z-axis) of the rectangular prism.
+			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer RectPrism(float width, float height, float depth);
+		static VertexBuffer RectPrism(float width, float height, float depth, bool texCoords = false);
 	};
 }

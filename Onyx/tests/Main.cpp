@@ -6,6 +6,7 @@
 #include "../src/Core.h"
 
 #include "PresetTests.h"
+#include "WindowTest.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
@@ -20,6 +21,8 @@ int main()
 	Onyx::Terminate();
 
 	//PresetTests::RunAllTests();
+
+	//WindowTest::Run();
 
 	//recompShaders();
 	//lightingTest();

@@ -537,35 +537,35 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 {
 	float* vertices = new float[192] {
-		-side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, 0.0f,  1.0f,	0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, 0.0f,  1.0f,	1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 0.0f,  1.0f,	1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 0.0f,  1.0f,	0.0f, 1.0f,
 
-		-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f,	0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f,	1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f,	1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f,	0.0f, 1.0f,
 
-		-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-		-side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f,	0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f,	1.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, -1.0f, 0.0f,	1.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, -1.0f, 0.0f,	0.0f, 1.0f,
 
-		-side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 1.0f,  0.0f,	0.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 1.0f,  0.0f,	1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 1.0f,  0.0f,	1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 1.0f,  0.0f,	0.0f, 1.0f,
 
-		-side / 2.0f, -side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		-side / 2.0f, -side / 2.0f,  side / 2.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		-side / 2.0f, -side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f,	0.0f, 0.0f,
+		-side / 2.0f, -side / 2.0f,  side / 2.0f, -1.0f, 0.0f, 0.0f,	1.0f, 0.0f,
+		-side / 2.0f,  side / 2.0f,  side / 2.0f, -1.0f, 0.0f, 0.0f,	1.0f, 1.0f,
+		-side / 2.0f,  side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f,	0.0f, 1.0f,
 
-		 side / 2.0f, -side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		 side / 2.0f, -side / 2.0f, -side / 2.0f, 1.0f, 0.0f,  0.0f,	0.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f,  side / 2.0f, 1.0f, 0.0f,  0.0f,	1.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f,  side / 2.0f, 1.0f, 0.0f,  0.0f,	1.0f, 1.0f,
+		 side / 2.0f,  side / 2.0f, -side / 2.0f, 1.0f, 0.0f,  0.0f,	0.0f, 1.0f,
 	};
 
 	uint* indices = new uint[36]{

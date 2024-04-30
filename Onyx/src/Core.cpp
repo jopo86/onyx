@@ -265,10 +265,6 @@ void Onyx::Demo()
     car.rotate(Vec3(0.0f, -180.0f, 0.0f));
     float duration = round((GetTime() - start) * 100) / 100;
 
-    Renderable road = Renderable::TexturedQuad(250.0f, 250.0f, Texture::Load(Resources("textures/road.png"), nullptr, Onyx::TextureWrap::Repeat, Onyx::TextureFilter::Nearest, Onyx::TextureFilter::Nearest));
-    road.rotate(Vec3(90.0f, 0.0f, 0.0f));
-    road.translate(Vec3(0.0f, -0.6f, 0.0f));
-
     std::cout << "Model loaded in " << duration << " sec\n";
 
     UiRenderable textBg(
@@ -293,7 +289,6 @@ void Onyx::Demo()
     renderer.add(car);
     renderer.add(textBg);
     renderer.add(logo);
-    //renderer.add(road);
 
     Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
     Font robotoBold = Font::Load(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);

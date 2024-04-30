@@ -187,10 +187,11 @@ bool Onyx::IsStable()
 std::string Onyx::GetVersionString()
 {
     std::string ver = std::to_string(ONYX_VERSION_MAJOR) + "." + std::to_string(ONYX_VERSION_MINOR) + "." + std::to_string(ONYX_VERSION_PATCH);
-    if (ONYX_STABLE) return ver;
-    else if (ONYX_ALPHA) return ver + "-alpha";
-    else if (ONYX_BETA) return ver + "-beta";
-    else if (ONYX_RELEASE_CANDIDATE) return ver = "-rc";
+    if (ONYX_ALPHA) ver += "-alpha";
+    else if (ONYX_BETA) ver += "-beta";
+    else if (ONYX_RELEASE_CANDIDATE) ver += "-rc";
+    if (!ONYX_STABLE) ver += std::to_string(ONYX_PRE_RELEASE_NUM);
+    return ver;
 }
 
 void Onyx::Terminate()
@@ -333,18 +334,6 @@ void Onyx::Demo()
     textRenderables[10].setPosition(Vec2(25.0f, 205.0f));
     textRenderables[10].setScale(0.6f);
 
-    // make members of TextRenderable public for this to work
-    /*for (CharRenderable& c : textRenderables[0].chars)
-    {
-        std::cout << c.getChar() << ": VAO " << c.getVAO() << ", VBO " << c.getVBO() << ", Tex " << c.getTextureID() << "\n";
-    }
-    textRenderables[0].setText("Demo Onyx");
-    std::cout << "\n";
-    for (CharRenderable& c : textRenderables[0].chars)
-    {
-        std::cout << c.getChar() << ": VAO " << c.getVAO() << ", VBO " << c.getVBO() << ", Tex " << c.getTextureID() << "\n";
-    }*/
-
     for (TextRenderable& tr : textRenderables) renderer.add(tr);
 
     const double CAM_SPEED = 6.0;
@@ -378,7 +367,7 @@ void Onyx::Demo()
         if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(CAM_SPEED * dt);
         if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(CAM_SPEED * dt);
         if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-CAM_SPEED * dt);
-        if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen();
+        if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen(1280, 720, Math::IVec2(100, 100));
         if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
         if (input.isKeyDown(Onyx::Key::Num2)) car.toggleVisibility();
         if (input.isKeyDown(Onyx::Key::Num3)) renderer.toggleLightingEnabled();

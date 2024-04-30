@@ -38,41 +38,41 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float side)
 
 Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float base, float height)
 {
-	float* vertices = new float[6]{
-		-base / 2.0f, -height / 2.0f,
-		 base / 2.0f, -height / 2.0f,
-		 0.0f,         height / 2.0f
+	float* vertices = new float[9]{
+		-base / 2.0f, -height / 2.0f, 0.0f,
+		 base / 2.0f, -height / 2.0f, 0.0f,
+		 0.0f,         height / 2.0f, 0.0f,
 	};
 
-	VertexBuffer vb = VertexBuffer(vertices, 6 * sizeof(float), VertexFormat::P);
+	VertexBuffer vb = VertexBuffer(vertices, 9 * sizeof(float), VertexFormat::P);
 	vb.m_heap = true;
 	return vb;
 }
 
 Onyx::VertexBuffer Onyx::VertexBuffer::Square(float side)
 {
-	float* vertices = new float[8]{
-		-side / 2.0f, -side / 2.0f,
-		 side / 2.0f, -side / 2.0f,
-		 side / 2.0f,  side / 2.0f,
-		-side / 2.0f,  side / 2.0f
+	float* vertices = new float[12]{
+		-side / 2.0f, -side / 2.0f, 0.0f,
+		 side / 2.0f, -side / 2.0f, 0.0f,
+		 side / 2.0f,  side / 2.0f, 0.0f,
+		-side / 2.0f,  side / 2.0f, 0.0f,
 	};
 
-	VertexBuffer vb = VertexBuffer(vertices, 8 * sizeof(float), VertexFormat::P);
+	VertexBuffer vb = VertexBuffer(vertices, 12 * sizeof(float), VertexFormat::P);
 	vb.m_heap = true;
 	return vb;
 }
 
 Onyx::VertexBuffer Onyx::VertexBuffer::Quad(float width, float height)
 {
-	float* vertices = new float[8]{
-		-width / 2.0f, -height / 2.0f,
-		 width / 2.0f, -height / 2.0f,
-		 width / 2.0f,  height / 2.0f,
-		-width / 2.0f,  height / 2.0f
+	float* vertices = new float[12]{
+		-width / 2.0f, -height / 2.0f, 0.0f,
+		 width / 2.0f, -height / 2.0f, 0.0f,
+		 width / 2.0f,  height / 2.0f, 0.0f,
+		-width / 2.0f,  height / 2.0f, 0.0f,
 	};
 
-	VertexBuffer vb = VertexBuffer(vertices, 8 * sizeof(float), VertexFormat::P);
+	VertexBuffer vb = VertexBuffer(vertices, 12 * sizeof(float), VertexFormat::P);
 	vb.m_heap = true;
 	return vb;
 }

@@ -8,20 +8,22 @@
 	@file A header file containing useful definitions used by the Onyx library as well as the user.
  */
 
-#define ONYX_VERSION_MAJOR		0
-#define ONYX_VERSION_MINOR		9
-#define ONYX_VERSION_PATCH		8
+#define ONYX_VERSION_MAJOR		1
+#define ONYX_VERSION_MINOR		0
+#define ONYX_VERSION_PATCH		0
+
+#define ONYX_PRE_RELEASE_NUM	0
 
 #define ONYX_ALPHA              false
-#define ONYX_BETA				true
-#define ONYX_RELEASE_CANDIDATE	false
+#define ONYX_BETA				false
+#define ONYX_RELEASE_CANDIDATE	true
 #define ONYX_STABLE	            false
 
 //#define ONYX_GL_DEBUG_LOW
 //#define ONYX_GL_DEBUG_MED
 //#define ONYX_GL_DEBUG_HIGH
 
-/*	 
+/*
 	Definitions for system info.
  */
 #if defined(__LP64__) || defined(_LP64) || defined(__amd64__) || defined(__x86_64__) || defined(_M_X64) || defined(_WIN64) || defined(__ia64__) || defined(_M_IA64) || defined(__aarch64__) || defined(__powerpc64__) || defined(__ppc64__) || defined(__PPC64__) || defined(__mips64__) || defined(__mips64) || defined(__mips64) || defined(__sparc64__) || defined(__arch64__)

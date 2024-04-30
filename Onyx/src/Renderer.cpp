@@ -109,14 +109,17 @@ bool Onyx::Renderer::isLightingEnabled() const
 
 void Onyx::Renderer::setLightingEnabled(bool enabled)
 {
-	onyx_warn(Warning{
-			.sourceFunction = "Onyx::Renderer::setLightingEnabled(bool enabled)",
-			.message = "Lighting is not set for the renderer, cannot enable/disable it.",
-			.howToFix = "Set lighting for the renderer using Onyx::Renderer::setLighting(Lighting& lighting) (or add it to the constructor) before enabling/disabling it.",
-			.severity = Warning::Severity::Med
-		}
-	);
-	return;
+	if (m_pLighting == nullptr)
+	{
+		onyx_warn(Warning{
+			   .sourceFunction = "Onyx::Renderer::setLightingEnabled(bool enabled)",
+			   .message = "Lighting is not set for the renderer, cannot enable/disable it.",
+			   .howToFix = "Set lighting for the renderer using Onyx::Renderer::setLighting(Lighting& lighting) (or add it to the constructor) before enabling/disabling it.",
+			   .severity = Warning::Severity::Med
+			}
+		);
+		return;
+	}
 
 	m_lightingEnabled = enabled;
 	for (Renderable* r : m_renderables)

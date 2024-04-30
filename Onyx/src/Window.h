@@ -447,6 +447,16 @@ namespace Onyx
 		void toggleFullscreen();
 
 		/*
+			@brief Toggles between fullscreen and windowed mode.
+			If the window is fullscreen, it will be windowed with the specified width, height, and position.
+			If the window is windowed, it will be set to fullscreen and the parameters will be ignored.
+			@param width The width of the window if it gets switched to windowed mode.
+			@param height The height of the window if it gets switched to windowed mode.
+			@param position The position of the (top-left of the) window if it gets switched to windowed mode.
+		 */
+		void toggleFullscreen(int width, int height, Math::IVec2 position = Math::IVec2(0, 0));
+
+		/*
 			@brief Hides the window.
 		 */
 		void hide();

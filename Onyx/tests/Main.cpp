@@ -23,6 +23,8 @@ int main()
 
 	//recompShaders();
 	//lightingTest();
+
+	//std::cout << Onyx::GetVersionString();
 	
 	return 0;
 }

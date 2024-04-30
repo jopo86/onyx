@@ -20,7 +20,7 @@ Onyx::IndexBuffer Onyx::IndexBuffer::Triangle()
 		0, 1, 2
 	};
 
-	IndexBuffer ib(indices, sizeof(indices));
+	IndexBuffer ib(indices, 3 * sizeof(uint));
 	ib.m_heap = true;
 	return ib;
 }
@@ -37,7 +37,7 @@ Onyx::IndexBuffer Onyx::IndexBuffer::Quad()
 		2, 3, 0
 	};
 
-	IndexBuffer ib(indices, sizeof(indices));
+	IndexBuffer ib(indices, 6 * sizeof(uint));
 	ib.m_heap = true;
 	return ib;
 }
@@ -69,7 +69,7 @@ Onyx::IndexBuffer Onyx::IndexBuffer::RectPrism()
 		6, 2, 1
 	};
 
-	IndexBuffer ib(indices, sizeof(indices));
+	IndexBuffer ib(indices, 36 * sizeof(uint));
 	ib.m_heap = true;
 	return ib;
 }

@@ -185,7 +185,6 @@
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="tests\PresetTests.cpp" />
-    <ClCompile Include="tests\Result.cpp" />
     <ClCompile Include="src\TextRenderable.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -212,7 +211,6 @@
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="tests\PresetTests.h" />
-    <ClInclude Include="tests\Result.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

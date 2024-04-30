@@ -7,12 +7,13 @@ The intuitive and well-structured codebase makes it simpler than ever to code ga
 Onyx can be downloaded as pre-compiled binaries for Windows Visual Studio x64, or the source files themselves.  
 Everything needed is included in the following links (from a release page, download the onyx-x.x.x.zip file under assets).
 
-[Latest Release (0.9.8-beta)](https://github.com/jopo86/onyx/releases/tag/v0.9.8-beta)  
+[Latest Release (1.0.0-rc0)](https://github.com/jopo86/onyx/releases/tag/v1.0.0-rc0)  
 [All Releases](https://github.com/jopo86/onyx/releases)  
 
 ## Get Started
 I'm always lost when trying to learn a library by reading it's massive documentation. So, I've created two tutorials: the [Basic Tutorial](https://github.com/jopo86/onyx/wiki/Basic-Tutorial) and the [Advanced Tutorial](https://github.com/jopo86/onyx/wiki/Advanced-Tutorial). I recommend you go through at least the basic tutorial before using the documentation.  
-Full documentation will come with the full release (1.0.0).  
+
+There is also a [Guides](https://github.com/jopo86/onyx/wiki/guides) page, with helpful guides on how to use different classes throughout the library. But, if, for whatever reason, you want boring old documentation, it can be found in the code headers themselves.  
 
 ## Features (Natively Supported)
 - Creating/Customizing Windows

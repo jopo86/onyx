@@ -2,8 +2,6 @@
 
 #include <vector>
 
-#include "Result.h"
-
 #include "../src/Core.h"
 #include "../src/ErrorHandler.h"
 #include "../src/Window.h"
@@ -19,42 +17,37 @@
 
 namespace PresetTests
 {
-	void MeshTest__Triangle1();
-	void MeshTest__Triangle2();
-	void MeshTest__Triangle3();
-	void MeshTest__Square();
-	void MeshTest__Quad1();
-	void MeshTest__Quad2();
-	void MeshTest__Cube();
+	bool RunMeshTest(Onyx::Window& window, Onyx::Mesh mesh);
+	bool RunRenderableTest(Onyx::Window& window, Onyx::Renderable renderable);
+	bool RunBufferTest(Onyx::Window& window, Onyx::VertexBuffer vb, Onyx::IndexBuffer ib);
 
-	void MeshAndShaderTest__RectPrism1__V_Color();
-	void MeshAndShaderTest__RectPrism2__V_XYZtoRGB();
+	bool MeshTest_Triangle1();
+	bool MeshTest_Triangle2();
+	bool MeshTest_Triangle3();
+	bool MeshTest_Square();
+	bool MeshTest_Quad1();
+	bool MeshTest_Quad2();
+	bool MeshTest_Cube();
+	bool MeshTest_RectPrism1();
+	bool MeshTest_RectPrism2();
 
-	void ShaderTest__VC();
-	void ShaderTest__VT();
-	void ShaderTest__VCT();
+	bool RenderableTest_ColoredTriangle();
+	bool RenderableTest_VertexColoredTriangle();
+	bool RenderableTest_TexturedTriangle();
+	bool RenderableTest_ColoredSquare();
+	bool RenderableTest_ColoredQuad();
+	bool RenderableTest_VertexColoredSquare();
+	bool RenderableTest_VertexColoredQuad();
+	bool RenderableTest_TexturedSquare();
+	bool RenderableTest_TexturedQuad();
+	bool RenderableTest_ColoredCube();
+	bool RenderableTest_TexturedCube();
 
-	void RenderableTest__ColoredTriangle1();
-	void RenderableTest__ColoredTriangle2();
-	void RenderableTest__ColoredTriangle3();
-	void RenderableTest__VertexColoredTriangle1();
-	void RenderableTest__VertexColoredTriangle2();
-	void RenderableTest__VertexColoredTriangle3();
-	void RenderableTest__TexturedTriangle1();
-	void RenderableTest__TexturedTriangle2();
-	void RenderableTest__TexturedTriangle3();
-	void RenderableTest__ColoredSquare();
-	void RenderableTest__ColoredQuad1();
-	void RenderableTest__ColoredQuad2();
-	void RenderableTest__VertexColoredSquare();
-	void RenderableTest__VertexColoredQuad1();
-	void RenderableTest__VertexColoredQuad2();
-	void RenderableTest__TexturedSquare();
-	void RenderableTest__TexturedQuad1();
-	void RenderableTest__TexturedQuad2();
-	void RenderableTest__ColoredCube();
-	void RenderableTest__TexturedCube();
-
+	bool BufferTest_Triangle();
+	bool BufferTest_Square();
+	bool BufferTest_Quad();
+	bool BufferTest_Cube();
+	bool BufferTest_RectPrism();
 
 	void RunAllTests();
 }

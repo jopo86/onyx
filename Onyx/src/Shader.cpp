@@ -143,6 +143,7 @@ Onyx::Shader Onyx::Shader::LoadSource(const std::string& vertPath, const std::st
 			}
 		);
 		if (result != nullptr) *result = false;
+		return shader;
 	}
 
 	else if (!fragResult)
@@ -154,6 +155,7 @@ Onyx::Shader Onyx::Shader::LoadSource(const std::string& vertPath, const std::st
 			}
 		);
 		if (result != nullptr) *result = false;
+		return shader;
 	}
 
 	if (!fragResult || !vertResult)
@@ -218,6 +220,7 @@ Onyx::Shader Onyx::Shader::LoadBinary(const std::string& binPath, bool* result)
 		);
 		shader.dispose();
 		if (result != nullptr) *result = false;
+		return shader;
 	}
 
 	if (result != nullptr) *result = true;

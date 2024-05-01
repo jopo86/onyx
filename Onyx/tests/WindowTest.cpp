@@ -206,7 +206,7 @@ void WindowTest::Run()
 		if (input.isKeyDown(Onyx::Key::F9)) window.maximize();
 		if (input.isKeyDown(Onyx::Key::F10)) window.restore();
 		if (input.isKeyDown(Onyx::Key::F11)) window.requestAttention();
-		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen(1280, 600, Onyx::Math::IVec2(100, 100));
+		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen(950, 600, Onyx::Math::IVec2(100, 100));
 
 		window.startRender();
 		renderer.render();

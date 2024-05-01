@@ -47,6 +47,7 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, bool* result)
 			}
 		);
 		if (result != nullptr) *result = false;
+		return;
 	}
 	m_mesh = mesh;
 	m_texture = texture;

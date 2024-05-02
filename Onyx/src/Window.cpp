@@ -14,7 +14,7 @@ GLFWvidmode* Onyx::Window::m_pPrimaryMonitorInfo = nullptr;
 void onyx_set_gl_init(bool);
 void onyx_err(const Onyx::Error&);
 
-Onyx::WindowIcon::WindowIcon() 
+Onyx::WindowIcon::WindowIcon()
 {
 	images = nullptr;
 	nImages = 0;
@@ -75,9 +75,6 @@ Onyx::Window::Window()
 {
 	m_pGlfwWin = nullptr;
 	m_bufferWidth = m_bufferHeight = 0;
-	m_pInputHandler = nullptr;
-	m_pCam = nullptr;
-	m_pRenderer = nullptr;
 	m_initialized = false;
 	m_frame = m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
@@ -88,9 +85,6 @@ Onyx::Window::Window(WindowProperties properties)
 	m_pGlfwWin = nullptr;
 	m_properties = properties;
 	m_bufferWidth = m_bufferHeight = 0;
-	m_pInputHandler = nullptr;
-	m_pCam = nullptr;
-	m_pRenderer = nullptr;
 	m_initialized = false;
 	m_frame = m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
@@ -114,8 +108,8 @@ void Onyx::Window::init(bool* result)
 	{
 		onyx_err(Error{
 				.sourceFunction = "Onyx::Window::init()",
-                .message = "Failed to create GLFW window.",
-                .howToFix = "Ensure the window is not already initialized, and that the GLFW library is downloaded for your specific platform. If you are not running Windows x64, you will need to download GLFW for yourself, you can't just use the one from the Onyx download."
+				.message = "Failed to create GLFW window.",
+				.howToFix = "Ensure the window is not already initialized, and that the GLFW library is downloaded for your specific platform. If you are not running Windows x64, you will need to download GLFW for yourself, you can't just use the one from the Onyx download."
 			}
 		);
 		if (result != nullptr) *result = false;
@@ -139,11 +133,11 @@ void Onyx::Window::init(bool* result)
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		onyx_err(Error{
-                .sourceFunction = "Onyx::Window::init()",
-                .message = "Failed to initialize OpenGL.",
-                .howToFix = "Ensure that the window is not already initialized, and that the glad library is downloaded for your specific platofrm. If you are not running Windows x64, you will need to download glad for yourself, you can't just use the one from the Onyx download."
-            }
-        );
+				.sourceFunction = "Onyx::Window::init()",
+				.message = "Failed to initialize OpenGL.",
+				.howToFix = "Ensure that the window is not already initialized, and that the glad library is downloaded for your specific platofrm. If you are not running Windows x64, you will need to download glad for yourself, you can't just use the one from the Onyx download."
+			}
+		);
 		if (result != nullptr) *result = false;
 		return;
 	}
@@ -482,6 +476,30 @@ void Onyx::Window::toggleFocusOnShow()
 	setFocusOnShow(!m_properties.focusOnShow);
 }
 
+void Onyx::Window::linkInputHandler(InputHandler& inputHandler)
+{
+	inputHandler.m_pWin = this;
+	m_pInputHandlers.push_back(&inputHandler);
+	double mouseX, mouseY;
+	glfwGetCursorPos(m_pGlfwWin, &mouseX, &mouseY);
+	mouseY = m_properties.height - mouseY;
+	inputHandler.m_mousePos = Math::DVec2(mouseX, mouseY);
+	inputHandler.m_lastMousePos = Math::DVec2(mouseX, mouseY);
+}
+
+void Onyx::Window::linkCamera(Camera& camera)
+{
+	camera.m_pWin = this;
+	m_pCams.push_back(&camera);
+}
+
+void Onyx::Window::linkRenderer(Renderer& renderer)
+{
+	m_pRenderers.push_back(&renderer);
+
+	renderer.m_ortho = Projection::Orthographic(m_bufferWidth, m_bufferHeight).getMatrix();
+}
+
 void Onyx::Window::dispose()
 {
 	if (m_initialized)
@@ -499,28 +517,26 @@ void Onyx::Window::framebufferSizeCallback(GLFWwindow* p_glfwWin, int width, int
 {
 	glViewport(0, 0, width, height);
 
-	Window* p_win = (Window*)glfwGetWindowUserPointer(p_glfwWin);
-	p_win->m_bufferWidth = width;
-	p_win->m_bufferHeight = height;
-	Camera* m_pCam = p_win->m_pCam;
-	Renderer* m_pRenderer = p_win->m_pRenderer;
+	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	pWin->m_bufferWidth = width;
+	pWin->m_bufferHeight = height;
 
-	if (m_pCam != nullptr)
+	for (Camera* pCam : pWin->m_pCams)
 	{
-		if (m_pCam->getProjection().getType() == Onyx::ProjectionType::Perspective)
+		if (pCam->getProjection().getType() == Onyx::ProjectionType::Perspective)
 		{
-			Projection proj = m_pCam->getProjection();
-			m_pCam->setProjection(Projection::Perspective(proj.getFOV(), width, height, proj.getNearPlane(), proj.getFarPlane()));
+			Projection proj = pCam->getProjection();
+			pCam->setProjection(Projection::Perspective(proj.getFOV(), width, height, proj.getNearPlane(), proj.getFarPlane()));
 		}
-		else if (m_pCam->getProjection().getType() == Onyx::ProjectionType::Orthographic)
+		else if (pCam->getProjection().getType() == Onyx::ProjectionType::Orthographic)
 		{
-			m_pCam->setProjection(Projection::Orthographic(width, height));
+			pCam->setProjection(Projection::Orthographic(width, height));
 		}
 	}
 
-	if (m_pRenderer != nullptr)
+	for (Renderer* pRenderer : pWin->m_pRenderers)
 	{
-		m_pRenderer->m_ortho = Projection::Orthographic(width, height).getMatrix();
+		pRenderer->m_ortho = Projection::Orthographic(width, height).getMatrix();
 	}
 
 #if defined(ONYX_GL_DEBUG_HIGH)
@@ -530,37 +546,49 @@ void Onyx::Window::framebufferSizeCallback(GLFWwindow* p_glfwWin, int width, int
 
 void Onyx::Window::windowSizeCallback(GLFWwindow* p_glfwWin, int width, int height)
 {
-	Window* p_win = (Window*)glfwGetWindowUserPointer(p_glfwWin);
-	p_win->m_properties.width = width;
-	p_win->m_properties.height = height;
+	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	pWin->m_properties.width = width;
+	pWin->m_properties.height = height;
 }
 
 void Onyx::Window::windowPosCallback(GLFWwindow* p_glfwWin, int x, int y)
 {
-	Window* p_win = (Window*)glfwGetWindowUserPointer(p_glfwWin);
-	p_win->m_properties.position = Math::IVec2(x, y);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	pWin->m_properties.position = Math::IVec2(x, y);
 }
 
-void Onyx::Window::keyCallback(GLFWwindow *p_glfwWin, int key, int scancode, int action, int mods)
+void Onyx::Window::keyCallback(GLFWwindow* p_glfwWin, int key, int scancode, int action, int mods)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_pInputHandler;
-	if (p_input != nullptr) p_input->keyCallback(key, scancode, action, mods);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
+	{
+		pInputHandler->keyCallback(key, scancode, action, mods);
+	}
 }
 
-void Onyx::Window::mouseButtonCallback(GLFWwindow *p_glfwWin, int button, int action, int mods)
+void Onyx::Window::mouseButtonCallback(GLFWwindow* p_glfwWin, int button, int action, int mods)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_pInputHandler;
-	if (p_input != nullptr) p_input->mouseButtonCallback(button, action, mods);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
+	{
+		pInputHandler->mouseButtonCallback(button, action, mods);
+	}
 }
 
-void Onyx::Window::cursorPosCallback(GLFWwindow *p_glfwWin, double x, double y)
+void Onyx::Window::cursorPosCallback(GLFWwindow* p_glfwWin, double x, double y)
 {
-	InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_pInputHandler;
-	if (p_input != nullptr) p_input->cursorPosCallback(x, ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_properties.height - y);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
+	{
+		pInputHandler->cursorPosCallback(x, ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_properties.height - y);
+	}
 }
 
-void Onyx::Window::scrollCallback(GLFWwindow *p_glfwWin, double dx, double dy)
+void Onyx::Window::scrollCallback(GLFWwindow* p_glfwWin, double dx, double dy)
 {
-    InputHandler *p_input = ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_pInputHandler;
-    if (p_input != nullptr) p_input->scrollCallback(dx, dy);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
+	{
+		pInputHandler->scrollCallback(dx, dy);
+	}
 }

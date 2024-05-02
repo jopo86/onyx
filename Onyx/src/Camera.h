@@ -25,30 +25,24 @@ namespace Onyx
 		Camera();
 
 		/*
-			@brief Creates a camera, orthographic by default.
-			Camera starts at (0, 0, 0) facing the negative (forward) z-axis.
-			Pitch clamp is set to 89 degrees by default.
-			@param window The window that the camera is used for.
-		 */
-		Camera(Window& window);
-
-		/*
 			@brief Creates a camera with the specified projection.
+		 !  MUST BE LINKED TO A WINDOW FOR PROPER PROJECTION
+		 !  Use `Window::linkCamera()`
 			Camera starts at (0, 0, 0) facing the negative (forward) z-axis.
 			Pitch clamp is set to 89 degrees by default.
-			@param window The window that the camera is used for.
 			@param proj The projection to use.
 		 */
-		Camera(Window& window, const Projection& proj);
+		Camera(const Projection& proj);
 
 		/*
 			@brief Creates a camera with the specified projection and pitch limit.
+		 !  MUST BE LINKED TO A WINDOW FOR PROPER PROJECTION
+		 !  Use `Window::linkCamera()`
 			Camera starts at (0, 0, 0) facing the negative (forward) z-axis.
-			@param window The window that the camera is used for.
 			@param proj The projection to use.
 			@param pitchLimit The pitch limit to use.
 		 */
-		Camera(Window& window, const Projection& proj, float pitchLimit);
+		Camera(const Projection& proj, float pitchLimit);
 
 		/*
 			@brief Updates the view matrix of the camera.
@@ -111,10 +105,10 @@ namespace Onyx
 		void rotate(float yaw, float pitch, const Math::Vec3& origin);
 
 		/*
-            @brief Pitches the camera the specified degrees.
+			@brief Pitches the camera the specified degrees.
 		 !	Currently bugged - camera seems to slowly stray further from origin
 			@param degrees The degrees to pitch the camera (around the local X axis).
-        */
+		*/
 		void pitch(float degrees);
 
 		/*
@@ -126,18 +120,18 @@ namespace Onyx
 		void pitch(float degrees, const Math::Vec3& origin);
 
 		/*
-            @brief Yaws the camera the specified degrees.
+			@brief Yaws the camera the specified degrees.
 		 !	Currently bugged - camera seems to slowly stray further from origin
-            @param degrees The degrees to yaw the camera (around the local Y axis).
-         */
+			@param degrees The degrees to yaw the camera (around the local Y axis).
+		 */
 		void yaw(float degrees);
 
 		/*
-            @brief Yaws the camera the specified degrees around the specified origin.
+			@brief Yaws the camera the specified degrees around the specified origin.
 		 !	Currently bugged - camera seems to slowly stray further from origin
-            @param degrees The degrees to yaw the camera (around the local Y axis).
-            @param origin The origin.
-         */
+			@param degrees The degrees to yaw the camera (around the local Y axis).
+			@param origin The origin.
+		 */
 		void yaw(float degrees, const Math::Vec3& origin);
 
 		/*
@@ -193,15 +187,15 @@ namespace Onyx
 		float getYaw() const;
 
 		/*
-            @brief Gets the pitch of the camera.
-            @return The pitch of the camera.
-         */
+			@brief Gets the pitch of the camera.
+			@return The pitch of the camera.
+		 */
 		float getPitch() const;
 
 		/*
-            @brief Sets the position of the camera.
-            @param pos The desired position of the camera.
-         */
+			@brief Sets the position of the camera.
+			@param pos The desired position of the camera.
+		 */
 		void setPosition(const Math::Vec3& pos);
 
 		/*
@@ -220,15 +214,15 @@ namespace Onyx
 		void setProjection(const Projection& proj);
 
 		/*
-            @brief Sets the pitch of the camera.
-            @param pitch The desired pitch.
-         */
+			@brief Sets the pitch of the camera.
+			@param pitch The desired pitch.
+		 */
 		void setPitch(float pitch);
 
 		/*
-            @brief Sets the yaw of the camera.
-            @param yaw The desired yaw.
-         */
+			@brief Sets the yaw of the camera.
+			@param yaw The desired yaw.
+		 */
 		void setYaw(float yaw);
 
 		/*

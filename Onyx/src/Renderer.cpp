@@ -17,30 +17,17 @@ Onyx::Renderer::Renderer()
 	m_pLighting = nullptr;
 }
 
-Onyx::Renderer::Renderer(Window& window)
-{
-	m_pCam = nullptr;
-	window.m_pRenderer = this;
-	m_pLighting = nullptr;
-	m_ortho = Projection::Orthographic(window.getBufferWidth(), window.getBufferHeight()).getMatrix();
-	m_lightingEnabled = false;
-}
-
-Onyx::Renderer::Renderer(Window& window, Camera& cam)
+Onyx::Renderer::Renderer(Camera& cam)
 {
 	m_pCam = &cam;
-	window.m_pRenderer = this;
 	m_pLighting = nullptr;
-	m_ortho = Projection::Orthographic(window.getBufferWidth(), window.getBufferHeight()).getMatrix();
 	m_lightingEnabled = false;
 }
 
-Onyx::Renderer::Renderer(Window& window, Camera& cam, Lighting& lighting)
+Onyx::Renderer::Renderer(Camera& cam, Lighting& lighting)
 {
 	m_pCam = &cam;
 	setLighting(lighting);
-	window.m_pRenderer = this;
-	m_ortho = Projection::Orthographic(window.getBufferWidth(), window.getBufferHeight()).getMatrix();
 	m_lightingEnabled = true;
 }
 
@@ -63,7 +50,7 @@ void Onyx::Renderer::render()
 		SetWireframe(_wireframe);
 	}
 	glEnable(GL_DEPTH_TEST);
-	
+
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
 #endif

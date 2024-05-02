@@ -15,16 +15,11 @@ namespace Onyx
 
 	public:
 		/*
-			@brief Default constructor, initializes member variables.
-			Using an object created with this constructor will result in undefined behavior.
+			@brief Creates an InputHandler.
+		 !  MUST BE LINKED TO A WINDOW TO USE MOST FUNCTIONS
+		 !  Use `Window::linkInputHandler()`
 		 */
 		InputHandler();
-
-		/*
-			@brief Creates a new InputHandler object for the specified window.
-			@param window The window to handle input for.
-		 */
-		InputHandler(Window& window);
 
 		/*
 			@brief Updates mouse deltas and active key cooldowns.
@@ -134,9 +129,9 @@ namespace Onyx
 		const Onyx::Math::DVec2& getMouseDeltas() const;
 
 		/*
-            @brief Gets the change in scroll of the mouse since the last update.
-            @return The change in scroll of the mouse since the last frame.
-         */
+			@brief Gets the change in scroll of the mouse since the last update.
+			@return The change in scroll of the mouse since the last frame.
+		 */
 		const Onyx::Math::DVec2& getScrollDeltas() const;
 
 	private:

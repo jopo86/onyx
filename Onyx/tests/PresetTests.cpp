@@ -12,16 +12,19 @@ bool PresetTests::RunMeshTest(Onyx::Window& window, Mesh mesh)
 {
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
 
-	InputHandler input(window);
+	InputHandler input;
+	window.linkInputHandler(input);
 
 	Renderable obj(mesh, Onyx::Shader::P_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
-	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
+	Camera cam(Projection::Perspective(60.0f, 1280, 720));
+	window.linkCamera(cam);
 	cam.translateFB(-2.0f);
 
 	Lighting lighting(Vec3::White(), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
-	Renderer renderer(window, cam, lighting);
+	Renderer renderer(cam, lighting);
+	window.linkRenderer(renderer);
 	renderer.add(obj);
 
 	const double CAM_SPEED = 4.0;
@@ -70,16 +73,19 @@ bool PresetTests::RunRenderableTest(Onyx::Window& window, Renderable renderable)
 {
 	window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
 
-	InputHandler input(window);
+	InputHandler input;
+	window.linkInputHandler(input);
 
 	Renderable obj = renderable;
 
-	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
+	Camera cam(Projection::Perspective(60.0f, 1280, 720));
+	window.linkCamera(cam);
 	cam.translateFB(-2.0f);
 
 	Lighting lighting(Vec3::White(), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
-	Renderer renderer(window, cam, lighting);
+	Renderer renderer(cam, lighting);
+	window.linkRenderer(renderer);
 	renderer.add(obj);
 
 	const double CAM_SPEED = 4.0;
@@ -128,16 +134,19 @@ bool PresetTests::RunBufferTest(Onyx::Window& window, Onyx::VertexBuffer vb, Ony
 {
 	window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
 
-	InputHandler input(window);
+	InputHandler input;
+	window.linkInputHandler(input);
 
 	Renderable obj(Mesh(vb, ib), Shader::P_Color(Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
-	Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
+	Camera cam(Projection::Perspective(60.0f, 1280, 720));
+	window.linkCamera(cam);
 	cam.translateFB(-2.0f);
 
 	Lighting lighting(Vec3::White(), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
-	Renderer renderer(window, cam, lighting);
+	Renderer renderer(cam, lighting);
+	window.linkRenderer(renderer);
 	renderer.add(obj);
 
 	const double CAM_SPEED = 4.0;

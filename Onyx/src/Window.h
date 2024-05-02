@@ -38,7 +38,7 @@ namespace Onyx
 
 		/*
 			@brief The position of the top-left of the window.
-            (0, 0) is the top-left of the screen.
+			(0, 0) is the top-left of the screen.
 			This can be changed later with `setPosition()`.
 			Default: (0, 0)
 		 */
@@ -522,6 +522,24 @@ namespace Onyx
 		void toggleFocusOnShow();
 
 		/*
+			@brief Links an input handler to the window.
+			@param inputHandler The input handler to link.
+		 */
+		void linkInputHandler(InputHandler& inputHandler);
+
+		/*
+			@brief Links a camera to the window.
+			@param cam The camera to link.
+		 */
+		void linkCamera(Camera& cam);
+
+		/*
+			@brief Links a renderer to the window.
+			@param renderer The renderer to link.
+		 */
+		void linkRenderer(Renderer& renderer);
+
+		/*
 			@brief Destroys the object, freeing any used memory.
 			Do not use the object after this is called.
 		 */
@@ -536,9 +554,9 @@ namespace Onyx
 		static GLFWvidmode* m_pPrimaryMonitorInfo;
 		int m_bufferWidth, m_bufferHeight;
 
-		InputHandler* m_pInputHandler;
-		Camera* m_pCam;
-		Renderer* m_pRenderer;
+		std::vector<InputHandler*> m_pInputHandlers;
+		std::vector<Camera*> m_pCams;
+		std::vector<Renderer*> m_pRenderers;
 
 		bool m_initialized;
 

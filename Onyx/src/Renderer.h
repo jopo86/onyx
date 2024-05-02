@@ -29,32 +29,29 @@ namespace Onyx
 	public:
 		/*
 			@brief Creates a new Renderer object containing no renderables or camera.
+		 !  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
+		 !  Use `Window::linkRenderer()`
 		 */
 		Renderer();
 
 		/*
-			@brief Creates a new Renderer object containing no renderables or camera.
-			Links the renderer to the window so that UI elements are rendered properly.
-			@param window The window to link to.
-		 */
-		Renderer(Window& window);
-
-		/*
 			@brief Creates a new Renderer object containing no renderables and the specified camera.
-			Links the renderer to the window so that UI elements are rendered properly.
+		 !  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
+		 !  Use `Window::linkRenderer()`
 			@param window The window to link to.
 			@param cam The camera to use.
 		 */
-		Renderer(Window& window, Camera& cam);
+		Renderer(Camera& cam);
 
 		/*
 			@brief Creates a new Renderer object containing no renderables and the specified camera and lighting settings.
-			Links the renderer to the window so that UI elements are rendered properly.
+		 !  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
+		 !  Use `Window::linkRenderer()`
 			@param window The window to link to.
 			@param cam The camera to use.
 			@param lighting The lighting settings to use.
 		 */
-		Renderer(Window& window, Camera& cam, Lighting& lighting);
+		Renderer(Camera& cam, Lighting& lighting);
 
 		/*
 			@brief Renders all of the renderables contained by the renderer.
@@ -81,9 +78,9 @@ namespace Onyx
 		void add(UiRenderable& uiRenderable);
 
 		/*
-            @brief Adds a text renderable to the renderer.
-            Note that renderables cannot be removed once added, instead use hide().
-         */
+			@brief Adds a text renderable to the renderer.
+			Note that renderables cannot be removed once added, instead use hide().
+		 */
 		void add(TextRenderable& textRenderable);
 
 		/*
@@ -188,7 +185,7 @@ namespace Onyx
 		Camera* m_pCam;
 		Lighting* m_pLighting;
 		Math::Mat4 m_ortho;
-		
+
 		bool m_lightingEnabled;
 		static bool sm_wireframe;
 		static bool sm_uiWireframeAllowed;

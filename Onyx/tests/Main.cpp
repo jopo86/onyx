@@ -85,7 +85,8 @@ void lightingTest()
 	window.init();
 	window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
 
-	Onyx::InputHandler input(window);
+	Onyx::InputHandler input;
+	window.linkInputHandler(input);
 
 	Onyx::Shader objShader = Onyx::Shader::LoadSource(Onyx::Resources("../tests/shaders/obj.vert"), Onyx::Resources("../tests/shaders/obj.frag"));
 	Onyx::Shader lightShader = Onyx::Shader::LoadSource(Onyx::Resources("../tests/shaders/light.vert"), Onyx::Resources("../tests/shaders/light.frag"));
@@ -185,7 +186,8 @@ void lightingTest()
 	Onyx::Renderable obj(objMesh, objShader);
 	Onyx::Renderable light(Onyx::Mesh::Cube(0.1f), lightShader);
 
-	Onyx::Camera cam(window, Onyx::Projection::Perspective(60.0f, 1280, 720));
+	Onyx::Camera cam(Onyx::Projection::Perspective(60.0f, 1280, 720));
+	window.linkCamera(cam);
 	cam.translate(Vec3(0.6f, 0.4f, -4.0f));
 
 	float uiVertices[] = {
@@ -208,7 +210,8 @@ void lightingTest()
 		Vec4(1.0f, 1.0f, 1.0f, 0.2f)
 	);
 
-	Onyx::Renderer renderer(window, cam);
+	Onyx::Renderer renderer(cam);
+	window.linkRenderer(renderer);
 	renderer.add(obj);
 	renderer.add(light);
 	renderer.add(ui);

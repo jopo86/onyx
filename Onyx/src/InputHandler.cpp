@@ -29,36 +29,6 @@ Onyx::InputHandler::InputHandler()
 	m_cursorLock = false;
 }
 
-Onyx::InputHandler::InputHandler(Window& window)
-{
-	m_pWin = &window;
-	window.m_pInputHandler = this;
-
-	double mouseX, mouseY;
-	glfwGetCursorPos(m_pWin->m_pGlfwWin, &mouseX, &mouseY);
-	mouseY = m_pWin->m_properties.height - mouseY;
-	m_mousePos = DVec2(mouseX, mouseY);
-	m_lastMousePos = DVec2(mouseX, mouseY);
-
-	for (int i = 0; i < Onyx::Key::MaxKey; i++)
-	{
-		m_keys[i] = Onyx::KeyState::Untouched;
-		m_keyCooldowns[i] = 0.0f;
-		m_setKeyCooldowns[i] = 0.0f;
-	}
-
-	for (int i = 0; i < Onyx::MouseButton::MaxButton; i++)
-	{
-		m_buttons[i] = Onyx::KeyState::Untouched;
-		m_buttonCooldowns[i] = 0.0f;
-		m_setButtonCooldowns[i] = 0.0f;
-	}
-
-	m_mouseDeltas = DVec2(0.0f);
-
-	m_cursorLock = false;
-}
-
 void Onyx::InputHandler::update()
 {
 	m_mouseDeltas.setX(m_mousePos.getX() - m_lastMousePos.getX());
@@ -171,20 +141,20 @@ const Onyx::Math::DVec2& Onyx::InputHandler::getMouseDeltas() const
 
 const Onyx::Math::DVec2& Onyx::InputHandler::getScrollDeltas() const
 {
-    return m_scrollDeltas;
+	return m_scrollDeltas;
 }
 
-void Onyx::InputHandler::keyCallback(int key, int scancode, int action, int mods) 
+void Onyx::InputHandler::keyCallback(int key, int scancode, int action, int mods)
 {
 	m_keys[key] = (Onyx::KeyState)action;
 }
 
-void Onyx::InputHandler::mouseButtonCallback(int button, int action, int mods) 
+void Onyx::InputHandler::mouseButtonCallback(int button, int action, int mods)
 {
 	m_buttons[button] = (Onyx::KeyState)action;
 }
 
-void Onyx::InputHandler::cursorPosCallback(double x, double y) 
+void Onyx::InputHandler::cursorPosCallback(double x, double y)
 {
 	m_mousePos.set(x, y);
 }

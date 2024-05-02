@@ -49,10 +49,13 @@ void WindowTest::Run()
 	);
 	window.init();
 
-	Onyx::InputHandler input(window);
+	Onyx::InputHandler input;
+	window.linkInputHandler(input);
 
-	Onyx::Camera cam(window, Onyx::Projection::Orthographic(1280.0f, 600.0f));
-	Onyx::Renderer renderer(window, cam);
+	Onyx::Camera cam(Onyx::Projection::Orthographic(1280.0f, 600.0f));
+	window.linkCamera(cam);
+	Onyx::Renderer renderer(cam);
+	window.linkRenderer(renderer);
 
 	Onyx::Font roboto = Onyx::Font::Load(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 16);
 

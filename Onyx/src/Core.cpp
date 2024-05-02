@@ -234,7 +234,8 @@ void Onyx::Demo()
     window.setIcon(icon);
     icon.dispose();
 
-    InputHandler input(window);
+    InputHandler input;
+    window.linkInputHandler(input);
     
     float bgVertices[] = {
         0.0f,   110.0f, 0.0f,
@@ -279,13 +280,15 @@ void Onyx::Demo()
     );
     logo.setPosition(Vec2(window.getBufferWidth() - 90.0f, window.getBufferHeight() - 90.0f));
 
-    Camera cam(window, Projection::Perspective(60.0f, 1280, 720));
+    Camera cam(Projection::Perspective(60.0f, 1280, 720));
+    window.linkCamera(cam);
     cam.translateFB(-6.0f);
     cam.translateUD(2.0f);
 
     Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
 
-    Renderer renderer(window, cam, lighting);
+    Renderer renderer(cam, lighting);
+    window.linkRenderer(renderer);
     renderer.add(car);
     renderer.add(textBg);
     renderer.add(logo);

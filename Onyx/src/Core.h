@@ -339,6 +339,10 @@ namespace Onyx
 	 */
 	int GetVersionPatch();
 
+	/*
+		@brief Gets whether this version of the Onyx library is in alpha.
+		@return Whether the library is in alpha.
+	 */
 	bool IsAlpha();
 
 	/*
@@ -347,8 +351,16 @@ namespace Onyx
 	 */
 	bool IsBeta();
 
+	/*
+		@brief Gets whether this version of the Onyx library is a release candidate.
+		@return Whether the library is a release candidate.
+	 */
 	bool IsReleaseCandidate();
 
+	/*
+        @brief Gets whether this version of the Onyx library is stable.
+        @return Whether the library is stable.
+     */
 	bool IsStable();
 
 	/*

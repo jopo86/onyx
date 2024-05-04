@@ -64,6 +64,12 @@ namespace Onyx
 		void show();
 
 		/*
+			@brief Gets the size of the renderable.
+			@return The size in pixels, as a 2 component integer vector with the width and size.
+		 */
+		Math::IVec2 size() const;
+
+		/*
 			@brief Toggles the visibility of the renderable.
 			See hide() and show() for more info.
 		 */

@@ -145,6 +145,12 @@ void Onyx::TextRenderable::show()
 	m_hidden = false;
 }
 
+Onyx::Math::IVec2 Onyx::TextRenderable::size() const
+{
+	Math::IVec2 strSize = m_pFont->getStringSize(m_text);
+	return Math::IVec2(strSize.getX() * m_scale.getX(), strSize.getY() * m_scale.getY());
+}
+
 void Onyx::TextRenderable::toggleVisibility()
 {
 	m_hidden = !m_hidden;

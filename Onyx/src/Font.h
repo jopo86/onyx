@@ -7,6 +7,7 @@
 #include FT_FREETYPE_H
 
 #include "Core.h"
+#include "Math.h"
 
 namespace Onyx
 {
@@ -70,6 +71,13 @@ namespace Onyx
 		static Font Load(const std::string& ttfFilePath, uint size, bool* result = nullptr);
 
 		/*
+            @brief Gets the size of a string if it were to be rendered with this font.
+            @param str The string.
+            @return The size of the string in pixels, as a 2 component integer vector width the width and height.
+         */
+		Math::IVec2 getStringSize(const std::string& str) const;
+
+		/*
 			@brief Gets the path of the TrueType font file.
 			@return The path of the TrueType font file.
 		 */
@@ -77,7 +85,7 @@ namespace Onyx
 
 		/*
 			@brief Gets the size of the font.
-			@return The size of the font.
+			@return The size of the font, in pixels.
 		 */
 		uint getSize() const;
 

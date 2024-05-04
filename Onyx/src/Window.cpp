@@ -145,11 +145,12 @@ void Onyx::Window::init(bool* result)
 	onyx_set_gl_init(true);
 
 	glfwSetWindowOpacity(m_pGlfwWin, m_properties.opacity);
+	glfwSetWindowPos(m_pGlfwWin, m_properties.position.getX(), m_properties.position.getY());
 	if (m_properties.fullscreen) fullscreen();
 
 	glViewport(0, 0, m_bufferWidth, m_bufferHeight);
 	glEnable(GL_DEPTH_TEST);
-	if (m_properties.nSamplesMSAA) glEnable(GL_MULTISAMPLE);
+	if (m_properties.nSamplesMSAA != 0) glEnable(GL_MULTISAMPLE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

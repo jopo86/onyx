@@ -19,6 +19,7 @@ namespace PresetTests
 {
 	bool RunMeshTest(Onyx::Window& window, Onyx::Mesh mesh);
 	bool RunRenderableTest(Onyx::Window& window, Onyx::Renderable renderable);
+	bool RunUiRenderableTest(Onyx::Window& window, Onyx::UiRenderable renderable);
 	bool RunBufferTest(Onyx::Window& window, Onyx::VertexBuffer vb, Onyx::IndexBuffer ib);
 
 	bool MeshTest_Triangle1();
@@ -42,6 +43,13 @@ namespace PresetTests
 	bool RenderableTest_TexturedQuad();
 	bool RenderableTest_ColoredCube();
 	bool RenderableTest_TexturedCube();
+
+	bool UiRenderableTest_ColoredTriangle();
+	bool UiRenderableTest_TexturedTriangle();
+	bool UiRenderableTest_ColoredSquare();
+	bool UiRenderableTest_TexturedSquare();
+	bool UiRenderableTest_ColoredQuad();
+	bool UiRenderableTest_TexturedQuad();
 
 	bool BufferTest_Triangle();
 	bool BufferTest_Square();

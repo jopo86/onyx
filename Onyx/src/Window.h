@@ -40,9 +40,9 @@ namespace Onyx
 			@brief The position of the top-left of the window.
 			(0, 0) is the top-left of the screen.
 			This can be changed later with `setPosition()`.
-			Default: (0, 0)
+			Default: (100, 100)
 		 */
-		Math::IVec2 position = Math::IVec2(0, 0);
+		Math::IVec2 position = Math::IVec2(100, 100);
 
 		/*
 			@brief Whether the window is resizable.

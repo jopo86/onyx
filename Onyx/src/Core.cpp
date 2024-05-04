@@ -203,8 +203,8 @@ void Onyx::Terminate()
 
     for (int i = mallocs.size() - 1; i >= 0; i--)
     {
-        if (mallocs[i].second) delete[] mallocs[i].first;
-        else delete mallocs[i].first;
+        if (mallocs[i].second && mallocs[i].first != nullptr) delete[] mallocs[i].first;
+        else if (mallocs[i].first != nullptr) delete mallocs[i].first;
         mallocs.pop_back();
     }
     initialized = false;

@@ -84,9 +84,12 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size, bool* res
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		Glyph glyph = {
-			tex, font.m_face->glyph->bitmap.width, font.m_face->glyph->bitmap.rows,
-			font.m_face->glyph->bitmap_left, font.m_face->glyph->bitmap_top,
-			static_cast<uint>(font.m_face->glyph->advance.x)
+			.tex = tex, 
+			.width = abs((int)font.m_face->glyph->bitmap.width), 
+			.height = abs((int)font.m_face->glyph->bitmap.rows),
+			.bearingX = font.m_face->glyph->bitmap_left, 
+			.bearingY = font.m_face->glyph->bitmap_top,
+			.advance = static_cast<uint>(font.m_face->glyph->advance.x)
 		};
 
 		font.m_glyphs.insert(std::pair<char, Glyph>(c, glyph));
@@ -100,6 +103,23 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size, bool* res
 
 	if (result != nullptr) *result = true;
 	return font;
+}
+
+Onyx::Math::IVec2 Onyx::Font::getStringSize(const std::string& str) const
+{
+	int width = 0;
+    int height = 0;
+
+    for (int i = 0; i < str.length(); i++)
+    {
+		char c = str[i];
+        Glyph glyph = m_glyphs.at(c);
+		if (i != str.length() - 1) width += glyph.advance >> 6;
+		else width += glyph.width;
+        height = std::max(height, glyph.height);
+    }
+
+    return Math::IVec2(width, height);
 }
 
 std::string Onyx::Font::getTtfFilePath() const

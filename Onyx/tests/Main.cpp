@@ -10,7 +10,6 @@
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
-void recompShaders();
 void lightingTest();
 
 int main()
@@ -30,44 +29,6 @@ int main()
 	//std::cout << Onyx::GetVersionString();
 	
 	return 0;
-}
-
-void recompShaders()
-{
-	Onyx::ErrorHandler errorHandler(true, true);
-	Onyx::Init(errorHandler);
-
-	Onyx::Window window(Onyx::WindowProperties{ .visible = false });
-	window.init();
-
-	Onyx::Shader pcol = Onyx::Shader::P_Color(Vec4::Black());
-	Onyx::Shader pxr = Onyx::Shader::P_XYZtoRGB();
-	Onyx::Shader pc = Onyx::Shader::PC();
-	Onyx::Shader pt = Onyx::Shader::PT();
-	Onyx::Shader pct = Onyx::Shader::PCT();
-	Onyx::Shader pncol = Onyx::Shader::PN_Color(Vec4::Black());
-	Onyx::Shader pnc = Onyx::Shader::PNC();
-	Onyx::Shader pnt = Onyx::Shader::PNT();
-	Onyx::Shader pnct = Onyx::Shader::PNCT();
-	Onyx::Shader uicol = Onyx::Shader::P_UI_Color(Vec4::Black());
-	Onyx::Shader uitex = Onyx::Shader::PT_UI();
-	Onyx::Shader uitext = Onyx::Shader::UI_Text();
-
-	window.dispose();
-	pcol.dispose();
-	pxr.dispose();
-	pc.dispose();
-	pt.dispose();
-	pct.dispose();
-	pncol.dispose();
-	pnc.dispose();
-	pnt.dispose();
-	pnct.dispose();
-	uicol.dispose();
-	uitex.dispose();
-	uitext.dispose();
-	
-	Onyx::Terminate();
 }
 
 void lightingTest()

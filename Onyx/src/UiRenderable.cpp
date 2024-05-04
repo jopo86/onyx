@@ -38,6 +38,14 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
 
 Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, bool* result) 
 {
+	m_mesh = mesh;
+	m_texture = texture;
+	m_shader = Shader::PT_UI();
+	m_model = Mat4::Identity();
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
+	m_hidden = false;
+
 	if (!VertexBuffer::HasTextureCoords(mesh.getVertexFormat()))
 	{
 		onyx_err(Error{
@@ -49,13 +57,6 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, bool* result)
 		if (result != nullptr) *result = false;
 		return;
 	}
-	m_mesh = mesh;
-	m_texture = texture;
-	m_shader = Shader::PT_UI();
-	m_model = Mat4::Identity();
-	m_rotation = 0.0f;
-	m_scale = Vec2(1.0f);
-	m_hidden = false;
 
 	if (result != nullptr) *result = true;
 }
@@ -212,4 +213,64 @@ void Onyx::UiRenderable::updateModel()
 	m_model.translate(Vec3(m_position, 0.0f));
 	m_model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
 	m_model.scale(Vec3(m_scale, 1.0f));
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float side, Math::Vec3 rgb)
+{
+	return UiRenderable(Mesh::Triangle(side), rgb);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float side, Math::Vec4 rgba)
+{
+    return UiRenderable(Mesh::Triangle(side), rgba);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float base, float height, Math::Vec3 rgb)
+{
+	return UiRenderable(Mesh::Triangle(base, height), rgb);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float base, float height, Math::Vec4 rgba)
+{
+    return UiRenderable(Mesh::Triangle(base, height), rgba);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::TexturedTriangle(float side, Texture texture)
+{
+    return UiRenderable(Mesh(VertexBuffer::Triangle(side, true), IndexBuffer::Triangle()), texture);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::TexturedTriangle(float base, float height, Texture texture)
+{
+    return UiRenderable(Mesh(VertexBuffer::Triangle(base, height, true), IndexBuffer::Triangle()), texture);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredSquare(float side, Math::Vec3 rgb)
+{
+	return UiRenderable(Mesh::Square(side), rgb);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredSquare(float side, Math::Vec4 rgba)
+{
+    return UiRenderable(Mesh::Square(side), rgba);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::TexturedSquare(float side, Texture texture)
+{
+    return UiRenderable(Mesh(VertexBuffer::Square(side, true), IndexBuffer::Square()), texture);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredQuad(float width, float height, Math::Vec3 rgb)
+{
+    return UiRenderable(Mesh::Quad(width, height), rgb);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredQuad(float width, float height, Math::Vec4 rgba)
+{
+    return UiRenderable(Mesh::Quad(width, height), rgba);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::TexturedQuad(float width, float height, Texture texture)
+{
+    return UiRenderable(Mesh(VertexBuffer::Quad(width, height, true), IndexBuffer::Quad()), texture);
 }

@@ -3,7 +3,7 @@
 #include "PresetTests.h"
 
 using Onyx::ErrorHandler, Onyx::Window, Onyx::WindowProperties, Onyx::InputHandler,
-Onyx::Mesh, Onyx::Shader, Onyx::Renderable, Onyx::Camera,
+Onyx::Mesh, Onyx::Shader, Onyx::Renderable, Onyx::UiRenderable, Onyx::Camera,
 Onyx::Projection, Onyx::Renderer, Onyx::VertexBuffer,
 Onyx::IndexBuffer, Onyx::Texture, Onyx::Lighting, Onyx::Key,
 Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Init, Onyx::Terminate, Onyx::Resources;
@@ -128,6 +128,65 @@ bool PresetTests::RunRenderableTest(Onyx::Window& window, Renderable renderable)
 	renderer.dispose();
 
 	return result;
+}
+
+bool PresetTests::RunUiRenderableTest(Onyx::Window& window, UiRenderable renderable)
+{
+    window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
+
+    InputHandler input;
+    window.linkInputHandler(input);
+
+    UiRenderable obj = renderable;
+	obj.setPosition(Vec2(100, 100));
+
+    Camera cam(Projection::Orthographic(1280, 720));
+    window.linkCamera(cam);
+
+    Renderer renderer(cam);
+    window.linkRenderer(renderer);
+    renderer.add(obj);
+
+    const double CAM_SPEED = 4.0;
+    const double CAM_SENS = 50.0;
+
+    input.setCursorLock(true);
+    input.setKeyCooldown(Key::Num1, 0.5f);
+
+    bool result = true;
+
+    while (window.isOpen())
+    {
+        input.update();
+
+        double dt = window.getDeltaTime();
+
+        if (input.isKeyDown(Key::Escape)) window.close();
+        if (input.isKeyDown(Key::X))
+        {
+            result = false;
+            window.close();
+        }
+        if (input.isKeyDown(Key::Num1)) Renderer::ToggleWireframe();
+        if (input.isKeyDown(Key::W)) cam.translateFB(CAM_SPEED * dt);
+        if (input.isKeyDown(Key::A)) cam.translateLR(-CAM_SPEED * dt);
+        if (input.isKeyDown(Key::S)) cam.translateFB(-CAM_SPEED * dt);
+        if (input.isKeyDown(Key::D)) cam.translateLR(CAM_SPEED * dt);
+        if (input.isKeyDown(Key::Space)) cam.translateUD(CAM_SPEED * dt);
+        if (input.isKeyDown(Key::C)) cam.translateUD(-CAM_SPEED * dt);
+
+        cam.rotate(CAM_SENS / 200 * input.getMouseDeltas().getX(), CAM_SENS / 200 * input.getMouseDeltas().getY());
+        cam.update();
+
+        window.startRender();
+        renderer.render();
+        window.endRender();
+    }
+
+    window.dispose();
+    renderer.dispose();
+
+    return result;
 }
 
 bool PresetTests::RunBufferTest(Onyx::Window& window, Onyx::VertexBuffer vb, Onyx::IndexBuffer ib)
@@ -418,6 +477,72 @@ bool PresetTests::RenderableTest_TexturedCube()
 	return result;
 }
 
+bool PresetTests::UiRenderableTest_ColoredTriangle()
+{
+    ErrorHandler errorHandler(true, true);
+    Init(errorHandler);
+    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredTriangle", .width = 1280, .height = 720 });
+    win.init();
+    bool result = RunUiRenderableTest(win, UiRenderable::ColoredTriangle(100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+    Terminate();
+    return result;
+}
+
+bool PresetTests::UiRenderableTest_TexturedTriangle()
+{
+    ErrorHandler errorHandler(true, true);
+    Init(errorHandler);
+    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedTriangle", .width = 1280, .height = 720 });
+    win.init();
+    bool result = RunUiRenderableTest(win, UiRenderable::TexturedTriangle(100.0f, Texture::Load(Resources("textures/container.jpg"))));
+    Terminate();
+    return result;
+}
+
+bool PresetTests::UiRenderableTest_ColoredSquare()
+{
+    ErrorHandler errorHandler(true, true);
+    Init(errorHandler);
+    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredSquare", .width = 1280, .height = 720 });
+    win.init();
+    bool result = RunUiRenderableTest(win, UiRenderable::ColoredSquare(100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+    Terminate();
+    return result;
+}
+
+bool PresetTests::UiRenderableTest_TexturedSquare()
+{
+    ErrorHandler errorHandler(true, true);
+    Init(errorHandler);
+    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedSquare", .width = 1280, .height = 720 });
+    win.init();
+    bool result = RunUiRenderableTest(win, UiRenderable::TexturedSquare(100.0f, Texture::Load(Resources("textures/container.jpg"))));
+    Terminate();
+    return result;
+}
+
+bool PresetTests::UiRenderableTest_ColoredQuad()
+{
+    ErrorHandler errorHandler(true, true);
+    Init(errorHandler);
+    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredQuad", .width = 1280, .height = 720 });
+    win.init();
+    bool result = RunUiRenderableTest(win, UiRenderable::ColoredQuad(200.0f, 100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+    Terminate();
+    return result;
+}
+
+bool PresetTests::UiRenderableTest_TexturedQuad()
+{
+    ErrorHandler errorHandler(true, true);
+    Init(errorHandler);
+    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedQuad", .width = 1280, .height = 720 });
+    win.init();
+    bool result = RunUiRenderableTest(win, UiRenderable::TexturedQuad(200.0f, 100.0f, Texture::Load(Resources("textures/container.jpg"))));
+    Terminate();
+    return result;
+}
+
 bool PresetTests::BufferTest_Triangle()
 {
 	ErrorHandler errorHandler(true, true);
@@ -534,6 +659,24 @@ void PresetTests::RunAllTests()
 
 	if (RenderableTest_TexturedCube()) std::cout << "RenderableTest_TexturedCube - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "RenderableTest_TexturedCube - \x1b[31mFAILED\x1b[39m\n";
+
+	if (UiRenderableTest_ColoredTriangle()) std::cout << "UiRenderableTest_ColoredTriangle - \x1b[32mCOMPLETE\x1b[39m\n";
+    else std::cout << "UiRenderableTest_ColoredTriangle - \x1b[31mFAILED\x1b[39m\n";
+
+	if (UiRenderableTest_TexturedTriangle()) std::cout << "UiRenderableTest_TexturedTriangle - \x1b[32mCOMPLETE\x1b[39m\n";
+    else std::cout << "UiRenderableTest_TexturedTriangle - \x1b[31mFAILED\x1b[39m\n";
+
+	if (UiRenderableTest_ColoredSquare()) std::cout << "UiRenderableTest_ColoredSquare - \x1b[32mCOMPLETE\x1b[39m\n";
+    else std::cout << "UiRenderableTest_ColoredSquare - \x1b[31mFAILED\x1b[39m\n";
+
+	if (UiRenderableTest_TexturedSquare()) std::cout << "UiRenderableTest_TexturedSquare - \x1b[32mCOMPLETE\x1b[39m\n";
+    else std::cout << "UiRenderableTest_TexturedSquare - \x1b[31mFAILED\x1b[39m\n";
+
+	if (UiRenderableTest_ColoredQuad()) std::cout << "UiRenderableTest_ColoredQuad - \x1b[32mCOMPLETE\x1b[39m\n";
+    else std::cout << "UiRenderableTest_ColoredQuad - \x1b[31mFAILED\x1b[39m\n";
+
+	if (UiRenderableTest_TexturedQuad()) std::cout << "UiRenderableTest_TexturedQuad - \x1b[32mCOMPLETE\x1b[39m\n";
+    else std::cout << "UiRenderableTest_TexturedQuad - \x1b[31mFAILED\x1b[39m\n";
 
 	if (BufferTest_Triangle()) std::cout << "BufferTest_Triangle - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "BufferTest_Triangle - \x1b[31mFAILED\x1b[39m\n";

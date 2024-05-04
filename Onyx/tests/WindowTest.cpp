@@ -29,6 +29,8 @@ static Onyx::TextRenderable isFullscreen;
 static Onyx::TextRenderable isMaximized;
 static Onyx::TextRenderable isMinimized;
 
+static Onyx::Font roboto;
+
 void updateText();
 void updatePositions();
 
@@ -57,7 +59,7 @@ void WindowTest::Run()
 	Onyx::Renderer renderer(cam);
 	window.linkRenderer(renderer);
 
-	Onyx::Font roboto = Onyx::Font::Load(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 16);
+	roboto = Onyx::Font::Load(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 16);
 
 	title =             Onyx::TextRenderable("Title: " + window.getTitle(), roboto, Onyx::Math::Vec4::Black());
 	dimensions =        Onyx::TextRenderable("Dimensions: " + std::to_string(window.getWidth()) + "x" + std::to_string(window.getHeight()), roboto, Onyx::Math::Vec4::Black());

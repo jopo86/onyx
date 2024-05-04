@@ -2,6 +2,8 @@
 
 #include "Model.h"
 
+#include <fstream>
+
 #include <OBJ_Loader.h>
 
 #include "Shader.h"
@@ -18,6 +20,21 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath, bool* result)
 {
 	Model* model = new Model;
 	onyx_add_malloc(model, false);
+
+	std::ifstream file(filepath);
+	if (!file.is_open())
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Model::LoadOBJ(const std::string& filepath)",
+				.message = "Failed to open file: + \"" + filepath + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return *model;
+	}
+	file.close();
+
 	std::string slash = filepath.find("/") ? "/" : "\\";
 	model->m_directory = filepath.substr(0, filepath.find_last_of(slash));
 	
@@ -26,8 +43,8 @@ Onyx::Model& Onyx::Model::LoadOBJ(const std::string& filepath, bool* result)
 	{
 		onyx_err(Error{
 				.sourceFunction = "Onyx::Model::LoadOBJ(const std::string& filepath)",
-				.message = "Failed to load model from file: + \"" + filepath + "\"",
-				.howToFix = "Ensure the file exists, is an OBJ file, is not locked by another process, and does not explicitly deny access."
+				.message = "File found, but failed to load model from: + \"" + filepath + "\"",
+				.howToFix = "Ensure the file is an OBJ file and is not corrupt."
 			}
 		);
 		if (result != nullptr) *result = false;

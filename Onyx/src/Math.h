@@ -47,10 +47,31 @@ namespace Onyx
 		 */
 		double Degrees(double radians);
 
+		class Vec;
+		class Vec2;
+		class Vec3;
+		class Vec4;
+
+		class DVec;
+		class DVec2;
+		class DVec3;
+		class DVec4;
+
+		class IVec;
+		class IVec2;
+		class IVec3;
+		class IVec4;
+
+		class UVec;
+		class UVec2;
+		class UVec3;
+		class UVec4;
+
 		/*
 			@brief A parent class for vectors.
 		 */
 		class Vec {};
+
 
 		/*
 			@brief A vector with two components.
@@ -61,6 +82,9 @@ namespace Onyx
 			Vec2();
 			Vec2(float xy);
 			Vec2(float x, float y);
+			Vec2(DVec2 vec);
+			Vec2(IVec2 vec);
+			Vec2(UVec2 vec);
 			Vec2(glm::vec2 vec);
 
 			float magnitude() const;
@@ -108,9 +132,12 @@ namespace Onyx
 			Vec3();
 			Vec3(float xyz);
 			Vec3(float x, float y, float z);
-			Vec3(glm::vec3 vec);
 			Vec3(Vec2 vec, float z);
 			Vec3(float x, Vec2 vec);
+			Vec3(DVec3 vec);
+			Vec3(IVec3 vec);
+			Vec3(UVec3 vec);
+			Vec3(glm::vec3 vec);
 
 			float magnitude() const;
 			void normalize();
@@ -178,13 +205,16 @@ namespace Onyx
 			Vec4();
 			Vec4(float xyzw);
 			Vec4(float x, float y, float z, float w);
-			Vec4(glm::vec4 vec);
 			Vec4(Vec2 vec, float z, float w);
 			Vec4(float x, Vec2 vec, float w);
 			Vec4(float x, float y, Vec2 vec);
 			Vec4(Vec3 vec, float w);
 			Vec4(float x, Vec3 vec);
 			Vec4(Vec2 vec1, Vec2 vec2);
+			Vec4(DVec4 vec);
+			Vec4(IVec4 vec);
+			Vec4(UVec4 vec);
+			Vec4(glm::vec4 vec);
 
 			float magnitude() const;
 			void normalize();
@@ -262,6 +292,9 @@ namespace Onyx
 			DVec2();
 			DVec2(double xy);
 			DVec2(double x, double y);
+			DVec2(Vec2 vec);
+			DVec2(IVec2 vec);
+			DVec2(UVec2 vec);
 			DVec2(glm::dvec2 vec);
 
 			double magnitude() const;
@@ -309,9 +342,12 @@ namespace Onyx
 			DVec3();
 			DVec3(double xyz);
 			DVec3(double x, double y, double z);
-			DVec3(glm::dvec3 vec);
 			DVec3(DVec2 vec, double z);
 			DVec3(double x, DVec2 vec);
+			DVec3(Vec3 vec);
+			DVec3(IVec3 vec);
+			DVec3(UVec3 vec);
+			DVec3(glm::dvec3 vec);
 
 			double magnitude() const;
 			void normalize();
@@ -361,13 +397,16 @@ namespace Onyx
 			DVec4();
 			DVec4(double xyzw);
 			DVec4(double x, double y, double z, double w);
-			DVec4(glm::dvec4 vec);
 			DVec4(DVec2 vec, double z, double w);
 			DVec4(double x, DVec2 vec, double w);
 			DVec4(double x, double y, DVec2 vec);
 			DVec4(DVec3 vec, double w);
 			DVec4(double x, DVec3 vec);
 			DVec4(DVec2 vec1, DVec2 vec2);
+			DVec4(Vec4 vec);
+			DVec4(IVec4 vec);
+			DVec4(UVec4 vec);
+			DVec4(glm::dvec4 vec);
 
 			double magnitude() const;
 			void normalize();
@@ -427,6 +466,9 @@ namespace Onyx
 			IVec2();
 			IVec2(int xy);
 			IVec2(int x, int y);
+			IVec2(Vec2 vec);
+			IVec2(DVec2 vec);
+			IVec2(UVec2 vec);
 			IVec2(glm::ivec2 vec);
 
 			int* data() const;
@@ -468,9 +510,12 @@ namespace Onyx
 			IVec3();
 			IVec3(int xyz);
 			IVec3(int x, int y, int z);
-			IVec3(glm::ivec3 vec);
 			IVec3(IVec2 vec, int z);
 			IVec3(int x, IVec2 vec);
+			IVec3(Vec3 vec);
+			IVec3(DVec3 vec);
+			IVec3(UVec3 vec);
+			IVec3(glm::ivec3 vec);
 
 			int* data() const;
 			bool isZero() const;
@@ -513,13 +558,16 @@ namespace Onyx
 			IVec4();
 			IVec4(int xyzw);
 			IVec4(int x, int y, int z, int w);
-			IVec4(glm::ivec4 vec);
 			IVec4(IVec2 vec, int z, int w);
 			IVec4(int x, IVec2 vec, int w);
 			IVec4(int x, int y, IVec2 vec);
 			IVec4(IVec3 vec, int w);
 			IVec4(int x, IVec3 vec);
 			IVec4(IVec2 vec1, IVec2 vec2);
+			IVec4(Vec4 vec);
+			IVec4(DVec4 vec);
+			IVec4(UVec4 vec);
+			IVec4(glm::ivec4 vec);
 
 			int* data() const;
 			bool isZero() const;
@@ -600,9 +648,9 @@ namespace Onyx
 			UVec3();
 			UVec3(uint xyz);
 			UVec3(uint x, uint y, uint z);
-			UVec3(glm::uvec3 vec);
 			UVec3(UVec2 vec, uint z);
 			UVec3(uint x, UVec2 vec);
+			UVec3(glm::uvec3 vec);
 
 			uint* data() const;
 			bool isZero() const;
@@ -641,13 +689,13 @@ namespace Onyx
 			UVec4();
 			UVec4(uint xyzw);
 			UVec4(uint x, uint y, uint z, uint w);
-			UVec4(glm::uvec4 vec);
 			UVec4(UVec2 vec, uint z, uint w);
 			UVec4(uint x, UVec2 vec, uint w);
 			UVec4(uint x, uint y, UVec2 vec);
 			UVec4(UVec3 vec, uint w);
 			UVec4(uint x, UVec3 vec);
 			UVec4(UVec2 vec1, UVec2 vec2);
+			UVec4(glm::uvec4 vec);
 
 			uint* data() const;
 			bool isZero() const;

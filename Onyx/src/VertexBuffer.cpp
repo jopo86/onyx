@@ -33,7 +33,7 @@ bool Onyx::VertexBuffer::HasColors(Onyx::VertexFormat format)
 
 Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float side, bool texCoords)
 {
-	return Triangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)));
+	return Triangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)), texCoords);
 }
 
 Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float base, float height, bool texCoords)

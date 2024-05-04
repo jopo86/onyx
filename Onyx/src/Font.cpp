@@ -42,8 +42,8 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size, bool* res
 	{
 		onyx_err(Error{
 				.sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
-                .message = "Found file, but failed to load font: \"" + ttfFilePath + "\"",
-                .howToFix = "Ensure the file is a valid TrueType font file."
+				.message = "Found file, but failed to load font: \"" + ttfFilePath + "\"",
+				.howToFix = "Ensure the file is a valid TrueType font file."
 			}
 		);
 		if (result != nullptr) *result = false;
@@ -58,11 +58,11 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size, bool* res
 		if (FT_Load_Char(font.m_face, c, FT_LOAD_RENDER))
 		{
 			onyx_err(Error{
-				    .sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
-                    .message = "Failed to load glyph: '" + std::to_string(c) + "' from font: \"" + ttfFilePath + "\"",
-                    .howToFix = "Ensure the font file is a valid TrueType font file."
-                }
-            );
+					.sourceFunction = "Onyx::Font::Load(const std::string& ttfFilePath, uint size)",
+					.message = "Failed to load glyph: '" + std::to_string(c) + "' from font: \"" + ttfFilePath + "\"",
+					.howToFix = "Ensure the font file is a valid TrueType font file."
+				}
+			);
 			if (result != nullptr) *result = false;
 			return font;
 		}
@@ -105,21 +105,21 @@ Onyx::Font Onyx::Font::Load(const std::string& ttfFilePath, uint size, bool* res
 	return font;
 }
 
-Onyx::Math::IVec2 Onyx::Font::getStringSize(const std::string& str) const
+Onyx::Math::IVec2 Onyx::Font::getStringDimensions(const std::string& str) const
 {
 	int width = 0;
-    int height = 0;
+	int height = 0;
 
-    for (int i = 0; i < str.length(); i++)
-    {
+	for (int i = 0; i < str.length(); i++)
+	{
 		char c = str[i];
-        Glyph glyph = m_glyphs.at(c);
+		Glyph glyph = m_glyphs.at(c);
 		if (i != str.length() - 1) width += glyph.advance >> 6;
 		else width += glyph.width;
-        height = std::max(height, glyph.height);
-    }
+		height = std::max(height, glyph.height);
+	}
 
-    return Math::IVec2(width, height);
+	return Math::IVec2(width, height);
 }
 
 std::string Onyx::Font::getTtfFilePath() const

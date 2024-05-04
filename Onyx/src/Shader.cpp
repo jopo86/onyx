@@ -618,19 +618,19 @@ Onyx::Shader Onyx::Shader::PC()
 	else
 	{
 		bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/PC.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::PC()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+		shader = Shader::LoadBinary(Resources("shaders/bin/PC.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PC()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/PC.vert"), Resources("shaders/src/PC.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "PC");
-        }
+			shader = Shader::LoadSource(Resources("shaders/src/PC.vert"), Resources("shaders/src/PC.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "PC");
+		}
 	}
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
@@ -650,19 +650,19 @@ Onyx::Shader Onyx::Shader::PT()
 	else
 	{
 		bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/PT.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::PT()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+		shader = Shader::LoadBinary(Resources("shaders/bin/PT.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PT()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/PT.vert"), Resources("shaders/src/PT.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "PT");
-        }
+			shader = Shader::LoadSource(Resources("shaders/src/PT.vert"), Resources("shaders/src/PT.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "PT");
+		}
 	}
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
@@ -680,22 +680,22 @@ Onyx::Shader Onyx::Shader::PCT()
 		shader.saveBinary(Resources("shaders/bin"), "PCT");
 	}
 	else
-    {
-        bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/PCT.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::PCT()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/PCT.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PCT()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/PCT.vert"), Resources("shaders/src/PCT.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "PCT");
-        }
-    }
+			shader = Shader::LoadSource(Resources("shaders/src/PCT.vert"), Resources("shaders/src/PCT.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "PCT");
+		}
+	}
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -712,22 +712,22 @@ Onyx::Shader Onyx::Shader::PNC()
 		shader.saveBinary(Resources("shaders/bin"), "PNC");
 	}
 	else
-    {
-        bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/PNC.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::PNC()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/PNC.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PNC()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/PNC.vert"), Resources("shaders/src/PNC.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "PNC");
-        }
-    }
+			shader = Shader::LoadSource(Resources("shaders/src/PNC.vert"), Resources("shaders/src/PNC.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "PNC");
+		}
+	}
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -744,22 +744,22 @@ Onyx::Shader Onyx::Shader::PN_Color(Vec4 rgba)
 		shader.saveBinary(Resources("shaders/bin"), "PN_Color");
 	}
 	else
-    {
-        bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/PN_Color.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::PN_Color()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/PN_Color.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PN_Color()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/PN_Color.vert"), Resources("shaders/src/PN_Color.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "PN_Color");
-        }
-    }
+			shader = Shader::LoadSource(Resources("shaders/src/PN_Color.vert"), Resources("shaders/src/PN_Color.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "PN_Color");
+		}
+	}
 	shader.use();
 	shader.setVec4("u_color", rgba);
 	shader.setMat4("u_model", Mat4::Identity());
@@ -777,22 +777,22 @@ Onyx::Shader Onyx::Shader::PNT()
 		shader.saveBinary(Resources("shaders/bin"), "PNT");
 	}
 	else
-    {
-        bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/PNT.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::PNT()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/PNT.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PNT()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/PNT.vert"), Resources("shaders/src/PNT.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "PNT");
-        }
-    }
+			shader = Shader::LoadSource(Resources("shaders/src/PNT.vert"), Resources("shaders/src/PNT.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "PNT");
+		}
+	}
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -809,22 +809,22 @@ Onyx::Shader Onyx::Shader::PNCT()
 		shader.saveBinary(Resources("shaders/bin"), "PNCT");
 	}
 	else
-    {
-        bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/PNCT.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::PNCT()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/PNCT.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PNCT()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/PNCT.vert"), Resources("shaders/src/PNCT.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "PNCT");
-        }
-    }
+			shader = Shader::LoadSource(Resources("shaders/src/PNCT.vert"), Resources("shaders/src/PNCT.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "PNCT");
+		}
+	}
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -841,22 +841,22 @@ Onyx::Shader Onyx::Shader::P_UI_Color(Onyx::Math::Vec4 rgba)
 		shader.saveBinary(Resources("shaders/bin"), "P_UI_Color");
 	}
 	else
-    {
-        bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/P_UI_Color.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::P_UI_Color()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/P_UI_Color.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::P_UI_Color()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/P_UI_Color.vert"), Resources("shaders/src/P_UI_Color.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "P_UI_Color");
-        }
-    }
+			shader = Shader::LoadSource(Resources("shaders/src/P_UI_Color.vert"), Resources("shaders/src/P_UI_Color.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "P_UI_Color");
+		}
+	}
 	shader.use();
 	shader.setVec4("u_color", rgba);
 	shader.setMat4("u_model", Mat4::Identity());
@@ -874,22 +874,22 @@ Onyx::Shader Onyx::Shader::PT_UI()
 		shader.saveBinary(Resources("shaders/bin"), "PT_UI");
 	}
 	else
-    {
-        bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/PT_UI.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::PT_UI()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/PT_UI.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PT_UI()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/PT_UI.vert"), Resources("shaders/src/PT_UI.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "PT_UI");
-        }
-    }
+			shader = Shader::LoadSource(Resources("shaders/src/PT_UI.vert"), Resources("shaders/src/PT_UI.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "PT_UI");
+		}
+	}
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());
@@ -906,22 +906,22 @@ Onyx::Shader Onyx::Shader::UI_Text()
 		shader.saveBinary(Resources("shaders/bin"), "UI_Text");
 	}
 	else
-    {
-        bool result;
-        shader = Shader::LoadBinary(Resources("shaders/bin/UI_Text.bin"), &result);
-        if (!result)
-        {
-            onyx_warn(Warning{
-                    .sourceFunction = "Onyx::Shader::UI_Text()",
-                    .message = "Failed to load binary shader, recompiling source files instead.",
-                    .severity = Warning::Severity::Low
-                }
-            );
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/UI_Text.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::UI_Text()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
 			shader.dispose();
-            shader = Shader::LoadSource(Resources("shaders/src/UI_Text.vert"), Resources("shaders/src/UI_Text.frag"));
-            shader.saveBinary(Resources("shaders/bin"), "UI_Text");
-        }
-    }
+			shader = Shader::LoadSource(Resources("shaders/src/UI_Text.vert"), Resources("shaders/src/UI_Text.frag"));
+			shader.saveBinary(Resources("shaders/bin"), "UI_Text");
+		}
+	}
 	shader.use();
 	shader.setMat4("u_model", Mat4::Identity());
 	shader.setMat4("u_view", Mat4::Identity());

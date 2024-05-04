@@ -12,12 +12,12 @@
 #define ONYX_VERSION_MINOR		0
 #define ONYX_VERSION_PATCH		0
 
-#define ONYX_PRE_RELEASE_NUM	4
+#define ONYX_PRE_RELEASE_NUM	0
 
 #define ONYX_ALPHA              false
 #define ONYX_BETA				false
-#define ONYX_RELEASE_CANDIDATE	true
-#define ONYX_STABLE	            false
+#define ONYX_RELEASE_CANDIDATE	false
+#define ONYX_STABLE	            true
 
 //#define ONYX_GL_DEBUG_LOW
 //#define ONYX_GL_DEBUG_MED
@@ -358,9 +358,9 @@ namespace Onyx
 	bool IsReleaseCandidate();
 
 	/*
-        @brief Gets whether this version of the Onyx library is stable.
-        @return Whether the library is stable.
-     */
+		@brief Gets whether this version of the Onyx library is stable.
+		@return Whether the library is stable.
+	 */
 	bool IsStable();
 
 	/*

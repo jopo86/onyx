@@ -164,7 +164,7 @@ uint Onyx::Mesh::getIndicesSize() const
 
 Onyx::VertexFormat Onyx::Mesh::getVertexFormat() const
 {
-    return m_vertexFormat;
+	return m_vertexFormat;
 }
 
 uint Onyx::Mesh::getVAO() const

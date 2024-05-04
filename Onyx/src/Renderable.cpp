@@ -40,13 +40,13 @@ Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)
 	if (!VertexBuffer::HasTextureCoords(mesh.getVertexFormat()))
 	{
 		onyx_warn(Warning{
-                .sourceFunction = "Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)",
-                .message = "The mesh contains a vertex buffer that is not of a format with texture coordinates. It will most likely have problems rendering.",
-                .howToFix = "Use a vertex format with texture coords: PT, PCT, PNT, or PNCT",
+				.sourceFunction = "Onyx::Renderable::Renderable(Mesh mesh, Shader shader, Texture texture)",
+				.message = "The mesh contains a vertex buffer that is not of a format with texture coordinates. It will most likely have problems rendering.",
+				.howToFix = "Use a vertex format with texture coords: PT, PCT, PNT, or PNCT",
 				.severity = Warning::Severity::High
-            }
+			}
 		);
-    }
+	}
 	m_mesh = mesh;
 	m_shader = shader;
 	m_texture = texture;
@@ -111,17 +111,17 @@ void Onyx::Renderable::toggleVisibility()
 
 const Vec3& Onyx::Renderable::getPosition() const
 {
-    return m_position;
+	return m_position;
 }
 
 const Vec3& Onyx::Renderable::getRotation() const
 {
-    return m_rotation;
+	return m_rotation;
 }
 
 const Vec3& Onyx::Renderable::getScale() const
 {
-    return m_scale;
+	return m_scale;
 }
 
 Onyx::Mesh* Onyx::Renderable::getMesh()
@@ -211,10 +211,10 @@ void Onyx::Renderable::scale(float scalar)
 
 void Onyx::Renderable::resetTransform()
 {
-    m_position = Vec3(0.0f);
-    m_rotation = Vec3(0.0f);
-    m_scale = Vec3(1.0f);
-    updateModel();
+	m_position = Vec3(0.0f);
+	m_rotation = Vec3(0.0f);
+	m_scale = Vec3(1.0f);
+	updateModel();
 }
 
 void Onyx::Renderable::dispose()
@@ -226,13 +226,13 @@ void Onyx::Renderable::dispose()
 
 void Onyx::Renderable::updateModel()
 {
-    m_model = Mat4::Identity();
-    m_model.translate(m_position);
-    m_model.rotate(m_rotation.getX(), Vec3(1.0f, 0.0f, 0.0f));
-    m_model.rotate(m_rotation.getY(), Vec3(0.0f, 1.0f, 0.0f));
-    m_model.rotate(m_rotation.getZ(), Vec3(0.0f, 0.0f, 1.0f));
-    m_model.scale(m_scale);
-    m_inverseModel = Math::Inverse(m_model);
+	m_model = Mat4::Identity();
+	m_model.translate(m_position);
+	m_model.rotate(m_rotation.getX(), Vec3(1.0f, 0.0f, 0.0f));
+	m_model.rotate(m_rotation.getY(), Vec3(0.0f, 1.0f, 0.0f));
+	m_model.rotate(m_rotation.getZ(), Vec3(0.0f, 0.0f, 1.0f));
+	m_model.scale(m_scale);
+	m_inverseModel = Math::Inverse(m_model);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(float side, Vec3 rgb)
@@ -473,7 +473,7 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
 		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
 		-side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
-														 	    
+																
 		-side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
 		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
 		 side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
@@ -483,7 +483,7 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f, -1.0f,  0.0f,
 		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f, -1.0f,  0.0f,
 		-side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f, -1.0f,  0.0f,
-														 			   
+																	   
 		-side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  1.0f,  0.0f,
 		 side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  1.0f,  0.0f,
 		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  1.0f,  0.0f,
@@ -493,7 +493,7 @@ Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 		-side / 2.0f, -side / 2.0f,  side / 2.0f,		-1.0f,  0.0f,  0.0f,
 		-side / 2.0f,  side / 2.0f,  side / 2.0f,		-1.0f,  0.0f,  0.0f,
 		-side / 2.0f,  side / 2.0f, -side / 2.0f,		-1.0f,  0.0f,  0.0f,
-															    	   
+																	   
 		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 1.0f,  0.0f,  0.0f,
 		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 1.0f,  0.0f,  0.0f,
 		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 1.0f,  0.0f,  0.0f,

@@ -2,11 +2,8 @@
 
 #include "Camera.h"
 
-using Onyx::Math::Vec3;
-using Onyx::Math::Mat4;
-using Onyx::Math::Cross;
-using Onyx::Math::LookAt;
-using Onyx::Math::Radians;
+using Onyx::Math::Vec3, Onyx::Math::Mat4, Onyx::Math::Cross,
+Onyx::Math::LookAt, Onyx::Math::Radians, Onyx::Math::Degrees;
 
 Onyx::Camera::Camera()
 {
@@ -98,22 +95,22 @@ void Onyx::Camera::rotate(float yaw, float pitch)
 	updateFront();
 }
 
-void Onyx::Camera::rotate(float yaw, float pitch, const Vec3& origin)
-{
-	if (m_pWin != nullptr) if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || yaw == 0 && pitch == 0) return;
-
-	if (m_pitch + pitch > m_pitchClamp || m_pitch + pitch < -m_pitchClamp) pitch = 0.0f;
-
-	m_yaw += yaw;
-	m_pitch += pitch;
-	updateFront();
-
-	Vec3 diff = m_pos - origin;
-	m_pos += diff;
-	Vec3 left = Cross(m_front, m_up).getNormalized();
-	diff = Math::Rotate(diff, Vec3(-pitch * left.getX(), yaw, -pitch * left.getZ()));
-	m_pos -= diff;
-}
+//void Onyx::Camera::rotate(float yaw, float pitch, const Vec3& origin)
+//{
+//	if (m_pWin != nullptr) if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || yaw == 0 && pitch == 0) return;
+//
+//	if (m_pitch + pitch > m_pitchClamp || m_pitch + pitch < -m_pitchClamp) pitch = 0.0f;
+//
+//	m_yaw += yaw;
+//	m_pitch += pitch;
+//	updateFront();
+//
+//	Vec3 diff = m_pos - origin;
+//	m_pos += diff;
+//	Vec3 left = Cross(m_front, m_up).getNormalized();
+//	diff = Math::Rotate(diff, Vec3(-pitch * left.getX(), yaw, -pitch * left.getZ()));
+//	m_pos -= diff;
+//}
 
 void Onyx::Camera::pitch(float degrees)
 {
@@ -123,18 +120,18 @@ void Onyx::Camera::pitch(float degrees)
 	updateFront();
 }
 
-void Onyx::Camera::pitch(float degrees, const Math::Vec3& origin)
-{
-	if (m_pWin != nullptr) if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
-	if (m_pitch + degrees > m_pitchClamp || m_pitch + degrees < -m_pitchClamp) return;
-	m_pitch += degrees;
-	updateFront();
-	Vec3 diff = m_pos - origin;
-	m_pos += diff;
-	Vec3 left = Cross(m_front, m_up).getNormalized();
-	diff = Math::Rotate(diff, Vec3(-degrees * left.getX(), 0.0f, -degrees * left.getZ()));
-	m_pos -= diff;
-}
+//void Onyx::Camera::pitch(float degrees, const Math::Vec3& origin)
+//{
+//	if (m_pWin != nullptr) if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
+//	if (m_pitch + degrees > m_pitchClamp || m_pitch + degrees < -m_pitchClamp) return;
+//	m_pitch += degrees;
+//	updateFront();
+//	Vec3 diff = m_pos - origin;
+//	m_pos += diff;
+//	Vec3 left = Cross(m_front, m_up).getNormalized();
+//	diff = Math::Rotate(diff, Vec3(-degrees * left.getX(), 0.0f, -degrees * left.getZ()));
+//	m_pos -= diff;
+//}
 
 void Onyx::Camera::yaw(float degrees)
 {
@@ -143,21 +140,23 @@ void Onyx::Camera::yaw(float degrees)
 	updateFront();
 }
 
-void Onyx::Camera::yaw(float degrees, const Math::Vec3& origin)
-{
-	if (m_pWin != nullptr) if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
-	m_yaw += degrees;
-	updateFront();
-	Vec3 diff = m_pos - origin;
-	m_pos += diff;
-	Vec3 left = Cross(m_front, m_up).getNormalized();
-	diff = Math::Rotate(diff, Vec3(0.0f, degrees, 0.0f));
-	m_pos -= diff;
-}
+//void Onyx::Camera::yaw(float degrees, const Math::Vec3& origin)
+//{
+//	if (m_pWin != nullptr) if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
+//	m_yaw += degrees;
+//	updateFront();
+//	Vec3 diff = m_pos - origin;
+//	m_pos += diff;
+//	Vec3 left = Cross(m_front, m_up).getNormalized();
+//	diff = Math::Rotate(diff, Vec3(0.0f, degrees, 0.0f));
+//	m_pos -= diff;
+//}
 
 void Onyx::Camera::lookAt(const Vec3& target)
 {
 	m_front = (target - m_pos).getNormalized();
+	m_yaw = Degrees(atan2f(m_front.getZ(), m_front.getX()));
+	m_pitch = Degrees(asinf(m_front.getY()));
 }
 
 const Vec3& Onyx::Camera::getPosition() const

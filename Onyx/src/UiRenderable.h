@@ -211,97 +211,97 @@ namespace Onyx
 		static UiRenderable ColoredTriangle(float side, Math::Vec3 rgb);
 
 		/*
-            @brief Generates a colored triangle UI renderable with the specified side lengths.
-            @param side The side length of the triangle.
-            @param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-            @return The generated renderable.
-         */
+			@brief Generates a colored triangle UI renderable with the specified side lengths.
+			@param side The side length of the triangle.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
 		static UiRenderable ColoredTriangle(float side, Math::Vec4 rgba);
 
 		/*
-            @brief Generates a colored triangle UI renderable with the specified base and height.
-            @param base The base length of the triangle.
-            @param height The height of the triangle.
-            @param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-            @return The generated renderable.
-         */
+			@brief Generates a colored triangle UI renderable with the specified base and height.
+			@param base The base length of the triangle.
+			@param height The height of the triangle.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
 		static UiRenderable ColoredTriangle(float base, float height, Math::Vec3 rgb);
 
 		/*
-            @brief Generates a colored triangle UI renderable with the specified base and height.
-            @param base The base length of the triangle.
-            @param height The height of the triangle.
-            @param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@brief Generates a colored triangle UI renderable with the specified base and height.
+			@param base The base length of the triangle.
+			@param height The height of the triangle.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
 			@return The generated renderable.
 		 */
 		static UiRenderable ColoredTriangle(float base, float height, Math::Vec4 rgba);
 
 		/*
-            @brief Generates a textured triangle UI renderable with the specified side lengths.
-            @param side The side length of the triangle.
-            @param texture The texture to use.
-            @return The generated renderable.
-         */
+			@brief Generates a textured triangle UI renderable with the specified side lengths.
+			@param side The side length of the triangle.
+			@param texture The texture to use.
+			@return The generated renderable.
+		 */
 		static UiRenderable TexturedTriangle(float side, Texture texture);
 
 		/*
-            @brief Generates a textured triangle UI renderable with the specified base and height.
-            @param base The base length of the triangle.
-            @param height The height of the triangle.
-            @param texture The texture to use.
-            @return The generated renderable.
-         */
+			@brief Generates a textured triangle UI renderable with the specified base and height.
+			@param base The base length of the triangle.
+			@param height The height of the triangle.
+			@param texture The texture to use.
+			@return The generated renderable.
+		 */
 		static UiRenderable TexturedTriangle(float base, float height, Texture texture);
 
 		/*
-            @brief Generates a colored square UI renderable with the specified side length.
-            @param side The side length of the square.
-            @param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-            @return The generated renderable.
-         */
+			@brief Generates a colored square UI renderable with the specified side length.
+			@param side The side length of the square.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
 		static UiRenderable ColoredSquare(float side, Math::Vec3 rgb);
 
 		/*
-            @brief Generates a colored square UI renderable with the specified side length.
-            @param side The side length of the square.
-            @param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-            @return The generated renderable.
-         */
+			@brief Generates a colored square UI renderable with the specified side length.
+			@param side The side length of the square.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
 		static UiRenderable ColoredSquare(float side, Math::Vec4 rgba);
 
 		/*
-            @brief Generates a textured square UI renderable with the specified side length.
+			@brief Generates a textured square UI renderable with the specified side length.
 			@param side The side length of the square.
 			@param texture The texture to use.
 			@return The generated renderable.
-         */
+		 */
 		static UiRenderable TexturedSquare(float side, Texture texture);
 
 		/*
-            @brief Generates a colored quad UI renderable with the specified width and height.
-            @param width The width of the quad.
-            @param height The height of the quad.
-            @param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-            @return The generated renderable.
-         */
+			@brief Generates a colored quad UI renderable with the specified width and height.
+			@param width The width of the quad.
+			@param height The height of the quad.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
 		static UiRenderable ColoredQuad(float width, float height, Math::Vec3 rgb);
 
 		/*
-            @brief Generates a colored quad UI renderable with the specified width and height.
-            @param width The width of the quad.
-            @param height The height of the quad.
-            @param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@brief Generates a colored quad UI renderable with the specified width and height.
+			@param width The width of the quad.
+			@param height The height of the quad.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
 			@return The generated renderable.
 		 */
 		static UiRenderable ColoredQuad(float width, float height, Math::Vec4 rgba);
 
 		/*
-            @brief Generates a textured quad UI renderable with the specified width and height.
-            @param width The width of the quad.
-            @param height The height of the quad.
-            @param texture The texture to use.
-            @return The generated renderable.
-         */
+			@brief Generates a textured quad UI renderable with the specified width and height.
+			@param width The width of the quad.
+			@param height The height of the quad.
+			@param texture The texture to use.
+			@return The generated renderable.
+		 */
 		static UiRenderable TexturedQuad(float width, float height, Texture texture);
 	};
 }

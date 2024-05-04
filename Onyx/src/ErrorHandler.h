@@ -17,30 +17,30 @@ namespace Onyx
 		std::string sourceFunction = "";
 
 		/*
-            @brief The error message.
-         */
+			@brief The error message.
+		 */
 		std::string message = "";
 
 		/*
-            @brief How to fix the error.
-         */
+			@brief How to fix the error.
+		 */
 		std::string howToFix = "";
 
 		/*
-            @brief Converts the error to a string.
-            @return A string representation of the error.
-         */
+			@brief Converts the error to a string.
+			@return A string representation of the error.
+		 */
 		std::string toString() const;
 	};
 
 	/*
-        @brief A struct to represent a warning.
-     */
+		@brief A struct to represent a warning.
+	 */
 	struct Warning
 	{
 		/*
-            @brief An enum class to represent the severity of a warning.
-         */
+			@brief An enum class to represent the severity of a warning.
+		 */
 		enum class Severity
 		{
 			Null,
@@ -50,29 +50,29 @@ namespace Onyx
 		};
 
 		/*
-            @brief The name of the function the warning came from.
-         */
+			@brief The name of the function the warning came from.
+		 */
 		std::string sourceFunction = "";
 
 		/*
-            @brief The warning message.
-         */
+			@brief The warning message.
+		 */
 		std::string message = "";
 
 		/*
-            @brief How to fix the warning.
-         */
+			@brief How to fix the warning.
+		 */
 		std::string howToFix = "";
 
 		/*
-            @brief The severity of the warning.
-         */
+			@brief The severity of the warning.
+		 */
 		Severity severity = Severity::Null;
 
 		/*
-            @brief Converts the warning to a string.
-            @return A string representation of the warning.
-         */
+			@brief Converts the warning to a string.
+			@return A string representation of the warning.
+		 */
 		std::string toString() const;
 	};
 

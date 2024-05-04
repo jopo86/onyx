@@ -23,12 +23,12 @@ bool Onyx::VertexBuffer::HasNormals(Onyx::VertexFormat format)
 
 bool Onyx::VertexBuffer::HasTextureCoords(Onyx::VertexFormat format)
 {
-    return format == VertexFormat::PT || format == VertexFormat::PCT || format == VertexFormat::PNT || format == VertexFormat::PNCT;
+	return format == VertexFormat::PT || format == VertexFormat::PCT || format == VertexFormat::PNT || format == VertexFormat::PNCT;
 }
 
 bool Onyx::VertexBuffer::HasColors(Onyx::VertexFormat format)
 {
-    return format == VertexFormat::PC || format == VertexFormat::PCT || format == VertexFormat::PNC || format == VertexFormat::PNCT;
+	return format == VertexFormat::PC || format == VertexFormat::PCT || format == VertexFormat::PNC || format == VertexFormat::PNCT;
 }
 
 Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float side, bool texCoords)
@@ -53,10 +53,10 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Triangle(float base, float height, bool t
 	else
 	{
 		float* vertices = new float[15] {
-            -base / 2.0f, -height / 2.0f, 0.0f,		0.0f, 0.0f,
-             base / 2.0f, -height / 2.0f, 0.0f,		1.0f, 0.0f,
-             0.0f,         height / 2.0f, 0.0f,		0.5f, 1.0f,
-        };
+			-base / 2.0f, -height / 2.0f, 0.0f,		0.0f, 0.0f,
+			 base / 2.0f, -height / 2.0f, 0.0f,		1.0f, 0.0f,
+			 0.0f,         height / 2.0f, 0.0f,		0.5f, 1.0f,
+		};
 
 		VertexBuffer vb = VertexBuffer(vertices, 15 * sizeof(float), VertexFormat::PT);
 		vb.m_heap = true;
@@ -87,15 +87,15 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Quad(float width, float height, bool texC
 	else
 	{
 		float* vertices = new float[20] {
-            -width / 2.0f, -height / 2.0f, 0.0f,	0.0f, 0.0f,
-             width / 2.0f, -height / 2.0f, 0.0f,	1.0f, 0.0f,
-             width / 2.0f,  height / 2.0f, 0.0f,	1.0f, 1.0f,
-            -width / 2.0f,  height / 2.0f, 0.0f,	0.0f, 1.0f,
-        };
+			-width / 2.0f, -height / 2.0f, 0.0f,	0.0f, 0.0f,
+			 width / 2.0f, -height / 2.0f, 0.0f,	1.0f, 0.0f,
+			 width / 2.0f,  height / 2.0f, 0.0f,	1.0f, 1.0f,
+			-width / 2.0f,  height / 2.0f, 0.0f,	0.0f, 1.0f,
+		};
 
-        VertexBuffer vb = VertexBuffer(vertices, 20 * sizeof(float), VertexFormat::PT);
-        vb.m_heap = true;
-        return vb;
+		VertexBuffer vb = VertexBuffer(vertices, 20 * sizeof(float), VertexFormat::PT);
+		vb.m_heap = true;
+		return vb;
 	}
 }
 

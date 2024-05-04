@@ -47,6 +47,22 @@ namespace Onyx
 		 */
 		double Degrees(double radians);
 
+		/*
+			@brief Clamps a value between a minimum and maximum value.
+			@param value The value to clamp.
+			@param min The minimum value.
+			@param max The maximum value.
+		 */
+		float Clamp(float value, float min, float max);
+
+		/*
+			@brief Clamps a value between a minimum and maximum value.
+			@param value The value to clamp.
+			@param min The minimum value.
+			@param max The maximum value.
+		 */
+		double Clamp(double value, double min, double max);
+
 		class Vec;
 		class Vec2;
 		class Vec3;

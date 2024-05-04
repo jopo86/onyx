@@ -342,32 +342,32 @@ namespace Onyx
 		static Shader PCT();
 
 		/*
-            @brief Returns a shader that colors the mesh the specified color.
-            Meant for vertex format PN, compatible with any vertex format that provides positions and normals.
-            @param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-            @return The resulting shader.
-         */
+			@brief Returns a shader that colors the mesh the specified color.
+			Meant for vertex format PN, compatible with any vertex format that provides positions and normals.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting shader.
+		 */
 		static Shader PN_Color(Onyx::Math::Vec4 rgba);
 
 		/*
-            @brief Returns a shader that colors the mesh with the normals found in the vertex array.
-            Meant for vertex format PNC, compatible with any vertex format that provides positions, normals, and colors.
-            @return The resulting shader.
-         */
+			@brief Returns a shader that colors the mesh with the normals found in the vertex array.
+			Meant for vertex format PNC, compatible with any vertex format that provides positions, normals, and colors.
+			@return The resulting shader.
+		 */
 		static Shader PNC();
 
 		/*
-            @brief Returns a shader that textures the mesh with the texture coordinates found in the vertex array.
-            Meant for vertex format PNT, compatible with any vertex format that provides positions, normals, and texture coordinates.
-            @return The resulting shader.
-         */
+			@brief Returns a shader that textures the mesh with the texture coordinates found in the vertex array.
+			Meant for vertex format PNT, compatible with any vertex format that provides positions, normals, and texture coordinates.
+			@return The resulting shader.
+		 */
 		static Shader PNT();
 
 		/*
-            @brief Returns a shader that colors/textures the mesh with a blend of the colors, normals, and texture coordinates found in the vertex array.
-            Compatible only with vertex format PNCT.
-            @return The resulting shader.
-         */
+			@brief Returns a shader that colors/textures the mesh with a blend of the colors, normals, and texture coordinates found in the vertex array.
+			Compatible only with vertex format PNCT.
+			@return The resulting shader.
+		 */
 		static Shader PNCT();
 
 		/*

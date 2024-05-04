@@ -31,17 +31,17 @@ namespace Onyx
 		static bool HasNormals(Onyx::VertexFormat format);
 
 		/*
-            @brief Determines whether the specified format has texture coordinates.
-            @param format The format to check.
-            @return True if the format has texture coordinates, false otherwise.
-         */
+			@brief Determines whether the specified format has texture coordinates.
+			@param format The format to check.
+			@return True if the format has texture coordinates, false otherwise.
+		 */
 		static bool HasTextureCoords(Onyx::VertexFormat format);
 
 		/*
-            @brief Determines whether the specified format has colors.
-            @param format The format to check.
-            @return True if the format has colors, false otherwise.
-         */
+			@brief Determines whether the specified format has colors.
+			@param format The format to check.
+			@return True if the format has colors, false otherwise.
+		 */
 		static bool HasColors(Onyx::VertexFormat format);
 
 	private:
@@ -62,36 +62,36 @@ namespace Onyx
 		static VertexBuffer Triangle(float side, bool texCoords = false);
 
 		/*
-            @brief Generates a vertex buffer for a triangle with the specified base and height.
-            @param base The base of the triangle.
-            @param height The height of the triangle.
+			@brief Generates a vertex buffer for a triangle with the specified base and height.
+			@param base The base of the triangle.
+			@param height The height of the triangle.
 			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
-            @return The generated vertex buffer.
-         */
+			@return The generated vertex buffer.
+		 */
 		static VertexBuffer Triangle(float base, float height, bool texCoords = false);
 
 		/*
-            @brief Generates a vertex buffer for a square with the specified side length.
-            @param side The length of the side of the square.
+			@brief Generates a vertex buffer for a square with the specified side length.
+			@param side The length of the side of the square.
 			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
-            @return The generated vertex buffer.
-         */
+			@return The generated vertex buffer.
+		 */
 		static VertexBuffer Square(float side, bool texCoords = false);
 
 		/*
-            @brief Generates a vertex buffer for a rectangle with the specified width and height.
-            @param width The width of the rectangle.
-            @param height The height of the rectangle.
+			@brief Generates a vertex buffer for a rectangle with the specified width and height.
+			@param width The width of the rectangle.
+			@param height The height of the rectangle.
 			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
-            @return The generated vertex buffer.
-         */
+			@return The generated vertex buffer.
+		 */
 		static VertexBuffer Quad(float width, float height, bool texCoords = false);
 
 		/*
-            @brief Generates a vertex buffer for a cube with the specified side length.
-            @param side The length of the side of the cube.
-            @return The generated vertex buffer.
-         */
+			@brief Generates a vertex buffer for a cube with the specified side length.
+			@param side The length of the side of the cube.
+			@return The generated vertex buffer.
+		 */
 		static VertexBuffer Cube(float side, bool texCoords = false);
 
 		/*

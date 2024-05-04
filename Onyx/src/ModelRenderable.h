@@ -8,22 +8,22 @@
 
 namespace Onyx
 {
-    class ModelRenderable : Disposable
-    {
+	class ModelRenderable : Disposable
+	{
 		friend class Renderer;
-    public:
+	public:
 
 		/*
 			@brief Default constructor, initializes member variables.
 			Using an object created with this constructor will result in undefined behavior.
 		 */
-        ModelRenderable();
+		ModelRenderable();
 
 		/*
 			@brief Creates a ModelRenderable from the specified model.
 			@param model The model to create the ModelRenderable from.
 		 */
-        ModelRenderable(Model& model);
+		ModelRenderable(Model& model);
 
 		/*
 			@brief Renders the object.
@@ -161,10 +161,10 @@ namespace Onyx
 			Do not use the object after this is called.
 		 */
 		void dispose() override;
-        
-    private:
+		
+	private:
 		std::map<std::string, Renderable> m_renderableMap;
 
-        bool m_hidden;
-    };
+		bool m_hidden;
+	};
 }

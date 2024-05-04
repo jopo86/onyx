@@ -419,6 +419,7 @@ namespace Onyx
 		/*
 			@brief Sets the opacity of the window, including decorations.
 			@param opacity The opacity of the window, ranging from 0 to 1.
+			Value is clamped to the range [0, 1].
 		 */
 		void setOpacity(float opacity);
 
@@ -429,7 +430,8 @@ namespace Onyx
 
 		/*
 			@brief Sets the window to windowed mode.
-			Does not change the width or height if the window was previously fullscreen.
+			Does not change the width, height or position, so it may still look like fullscreen.
+			Use windowed(int, int, Math::IVec2) to change these values.
 		 */
 		void windowed();
 
@@ -473,6 +475,7 @@ namespace Onyx
 
 		/*
 			@brief Focuses the window.
+			Not recommended, as it can be annoying to the user.
 		 */
 		void focus();
 

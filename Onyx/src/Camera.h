@@ -96,15 +96,6 @@ namespace Onyx
 		void rotate(float yaw, float pitch);
 
 		/*
-			@brief Rotates the camera the specified angles around the specified origin.
-		 !	Currently bugged - camera seems to slowly stray further from origin
-			@param yaw The angle around the local Y axis (horizontal angle), AKA yaw, in degrees.
-			@param pitch The angle around the local X axis (vertical angle), AKA pitch, in degrees.
-			@param origin The origin.
-		*/
-		void rotate(float yaw, float pitch, const Math::Vec3& origin);
-
-		/*
 			@brief Pitches the camera the specified degrees.
 		 !	Currently bugged - camera seems to slowly stray further from origin
 			@param degrees The degrees to pitch the camera (around the local X axis).
@@ -112,27 +103,11 @@ namespace Onyx
 		void pitch(float degrees);
 
 		/*
-			@brief Pitches the camera the specified degrees around the specified origin.
-		 !	Currently bugged - camera seems to slowly stray further from origin
-			@param degrees The degrees to pitch the camera (around the local X axis).
-			@param origin The origin.
-		 */
-		void pitch(float degrees, const Math::Vec3& origin);
-
-		/*
 			@brief Yaws the camera the specified degrees.
 		 !	Currently bugged - camera seems to slowly stray further from origin
 			@param degrees The degrees to yaw the camera (around the local Y axis).
 		 */
 		void yaw(float degrees);
-
-		/*
-			@brief Yaws the camera the specified degrees around the specified origin.
-		 !	Currently bugged - camera seems to slowly stray further from origin
-			@param degrees The degrees to yaw the camera (around the local Y axis).
-			@param origin The origin.
-		 */
-		void yaw(float degrees, const Math::Vec3& origin);
 
 		/*
 			@brief Faces the camera towards the target.

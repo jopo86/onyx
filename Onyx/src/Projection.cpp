@@ -71,98 +71,98 @@ float Onyx::Projection::getLeft() const
 float Onyx::Projection::getRight() const
 {
 	if (m_type != ProjectionType::Orthographic)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::getRight()",
-                .message = "Projection type is not Orthographic, value returned is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::getRight()",
+				.message = "Projection type is not Orthographic, value returned is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	return m_right;
 }
 
 float Onyx::Projection::getTop() const
 {
 	if (m_type != ProjectionType::Orthographic)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::getTop()",
-                .message = "Projection type is not Orthographic, value returned is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::getTop()",
+				.message = "Projection type is not Orthographic, value returned is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	return m_top;
 }
 
 float Onyx::Projection::getBottom() const
 {
 	if (m_type != ProjectionType::Orthographic)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::getBottom()",
-                .message = "Projection type is not Orthographic, value returned is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::getBottom()",
+				.message = "Projection type is not Orthographic, value returned is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	return m_bottom;
 }
 
 float Onyx::Projection::getFOV() const
 {
 	if (m_type != ProjectionType::Perspective)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::getFOV()",
-                .message = "Projection type is not Perspective, value returned is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::getFOV()",
+				.message = "Projection type is not Perspective, value returned is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	return m_fov;
 }
 
 float Onyx::Projection::getAspectRatio() const
 {
 	if (m_type != ProjectionType::Perspective)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::getAspectRatio()",
-                .message = "Projection type is not Perspective, value returned is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::getAspectRatio()",
+				.message = "Projection type is not Perspective, value returned is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	return m_aspectRatio;
 }
 
 float Onyx::Projection::getNearPlane() const
 {
 	if (m_type != ProjectionType::Perspective)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::getNearPlane()",
-                .message = "Projection type is not Perspective, value returned is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::getNearPlane()",
+				.message = "Projection type is not Perspective, value returned is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	return m_nearPlane;
 }
 
 float Onyx::Projection::getFarPlane() const
 {
 	if (m_type != ProjectionType::Perspective)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::getFarPlane()",
-                .message = "Projection type is not Perspective, value returned is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::getFarPlane()",
+				.message = "Projection type is not Perspective, value returned is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	return m_farPlane;
 }
 
@@ -174,131 +174,131 @@ const Mat4& Onyx::Projection::getMatrix() const
 void Onyx::Projection::setLeft(float val)
 {
 	if (m_type != ProjectionType::Orthographic)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::setLeft(float)",
-                .message = "Projection type is not Orthographic, value set is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::setLeft(float)",
+				.message = "Projection type is not Orthographic, value set is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	m_left = val;
-    updateMatrix();
+	updateMatrix();
 }
 
 void Onyx::Projection::setRight(float val)
 {
 	if (m_type != ProjectionType::Orthographic)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::setRight(float)",
-                .message = "Projection type is not Orthographic, value set is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::setRight(float)",
+				.message = "Projection type is not Orthographic, value set is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	m_right = val;
-    updateMatrix();
+	updateMatrix();
 }
 
 void Onyx::Projection::setTop(float val)
 {
-    if (m_type != ProjectionType::Orthographic)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::setTop(float)",
-                .message = "Projection type is not Orthographic, value set is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	if (m_type != ProjectionType::Orthographic)
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::setTop(float)",
+				.message = "Projection type is not Orthographic, value set is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	m_top = val;
-    updateMatrix();
+	updateMatrix();
 }
 
 void Onyx::Projection::setBottom(float val)
 {
-    if (m_type != ProjectionType::Orthographic)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::setBottom(float)",
-                .message = "Projection type is not Orthographic, value set is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	if (m_type != ProjectionType::Orthographic)
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::setBottom(float)",
+				.message = "Projection type is not Orthographic, value set is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	m_bottom = val;
-    updateMatrix();
+	updateMatrix();
 }
 
 void Onyx::Projection::setFOV(float val)
 {
-    if (m_type != ProjectionType::Perspective)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::setFOV(float)",
-                .message = "Projection type is not Perspective, value set is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	if (m_type != ProjectionType::Perspective)
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::setFOV(float)",
+				.message = "Projection type is not Perspective, value set is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	m_fov = val;
-    updateMatrix();
+	updateMatrix();
 }
 
 void Onyx::Projection::setAspectRatio(float val)
 {
-    if (m_type != ProjectionType::Perspective)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::setAspectRatio(float)",
-                .message = "Projection type is not Perspective, value set is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	if (m_type != ProjectionType::Perspective)
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::setAspectRatio(float)",
+				.message = "Projection type is not Perspective, value set is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	m_aspectRatio = val;
-    updateMatrix();
+	updateMatrix();
 }
 
 void Onyx::Projection::setNearPlane(float val)
 {
-    if (m_type != ProjectionType::Perspective)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::setNearPlane(float)",
-                .message = "Projection type is not Perspective, value set is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	if (m_type != ProjectionType::Perspective)
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::setNearPlane(float)",
+				.message = "Projection type is not Perspective, value set is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	m_nearPlane = val;
-    updateMatrix();
+	updateMatrix();
 }
 
 void Onyx::Projection::setFarPlane(float val)
 {
-    if (m_type != ProjectionType::Perspective)
-    {
-        onyx_warn(Warning{
-                .sourceFunction = "Onyx::Projection::setFarPlane(float)",
-                .message = "Projection type is not Perspective, value set is senseless.",
-                .severity = Warning::Severity::Med
-            }
-        );
-    }
+	if (m_type != ProjectionType::Perspective)
+	{
+		onyx_warn(Warning{
+				.sourceFunction = "Onyx::Projection::setFarPlane(float)",
+				.message = "Projection type is not Perspective, value set is senseless.",
+				.severity = Warning::Severity::Med
+			}
+		);
+	}
 	m_farPlane = val;
-    updateMatrix();
+	updateMatrix();
 }
 
 void Onyx::Projection::updateMatrix()
 {
-    if (m_type == ProjectionType::Orthographic)
-    {
-        m_mat = OrthographicProjection(m_left, m_right, m_top, m_bottom);
-    }
-    else if (m_type == ProjectionType::Perspective)
-    {
-        m_mat = PerspectiveProjection(m_fov, m_aspectRatio, m_nearPlane, m_farPlane);
-    }
+	if (m_type == ProjectionType::Orthographic)
+	{
+		m_mat = OrthographicProjection(m_left, m_right, m_top, m_bottom);
+	}
+	else if (m_type == ProjectionType::Perspective)
+	{
+		m_mat = PerspectiveProjection(m_fov, m_aspectRatio, m_nearPlane, m_farPlane);
+	}
 }

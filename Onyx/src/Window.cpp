@@ -364,7 +364,7 @@ void Onyx::Window::setIcon(const WindowIcon& icon)
 
 void Onyx::Window::setOpacity(float opacity)
 {
-	m_properties.opacity = opacity;
+	m_properties.opacity = Math::Clamp(opacity, 0.0f, 1.0f);
 	glfwSetWindowOpacity(m_pGlfwWin, opacity);
 }
 

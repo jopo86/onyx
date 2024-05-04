@@ -203,7 +203,7 @@ void lightingTest()
 		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(1.0f * CAM_SPEED * window.getDeltaTime());
 		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-1.0f * CAM_SPEED * window.getDeltaTime());
 
-		cam.rotate(input.getMouseDeltas().getX() * 0.005f * CAM_SENS, input.getMouseDeltas().getY() * 0.005f * CAM_SENS, 0.0f);
+		cam.rotate(input.getMouseDeltas().getX() * 0.005f * CAM_SENS, input.getMouseDeltas().getY() * 0.005f * CAM_SENS);
 
 		cam.update();
 

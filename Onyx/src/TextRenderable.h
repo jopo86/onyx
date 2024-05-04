@@ -11,23 +11,14 @@ namespace Onyx
 	/*
 		@brief A class to represent a renderable string of text.
 	 */
-    class TextRenderable : Disposable
-    {
-    public:
+	class TextRenderable : Disposable
+	{
+	public:
 		/*
 			@brief Default constructor, initializes member variables.
 			Using an object created with this constructor will result in undefined behavior.
 		 */
-        TextRenderable();
-
-		/*
-			@brief Creates a TextRenderable from the specified text, font, and color.
-			@param text The text to render.
-			@param font The font to use.
-			@param color The color of the text.
-			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
-         */
-        TextRenderable(const std::string& text, Font& font, Math::Vec3 color, bool* result = nullptr);
+		TextRenderable();
 
 		/*
 			@brief Creates a TextRenderable from the specified text, font, and color.
@@ -36,7 +27,16 @@ namespace Onyx
 			@param color The color of the text.
 			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
 		 */
-        TextRenderable(const std::string& text, Font& font, Math::Vec4 color, bool* result = nullptr);
+		TextRenderable(const std::string& text, Font& font, Math::Vec3 color, bool* result = nullptr);
+
+		/*
+			@brief Creates a TextRenderable from the specified text, font, and color.
+			@param text The text to render.
+			@param font The font to use.
+			@param color The color of the text.
+			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
+		 */
+		TextRenderable(const std::string& text, Font& font, Math::Vec4 color, bool* result = nullptr);
 
 		/*
 			@brief Renders the object.
@@ -64,10 +64,10 @@ namespace Onyx
 		void show();
 
 		/*
-			@brief Gets the size of the renderable.
-			@return The size in pixels, as a 2 component integer vector with the width and size.
+			@brief Gets the dimensions of the renderable.
+			@return The dimensions (width and height), in pixels.
 		 */
-		Math::IVec2 size() const;
+		Math::Vec2 dimensions() const;
 
 		/*
 			@brief Toggles the visibility of the renderable.
@@ -94,21 +94,21 @@ namespace Onyx
 		const Math::Vec2& getScale() const;
 
 		/*
-            @brief Gets the text that is being rendered.
-            @return The text that is being rendered.
-         */
+			@brief Gets the text that is being rendered.
+			@return The text that is being rendered.
+		 */
 		const std::string& getText() const;
 
 		/*
-            @brief Gets the font that is being used.
-            @return The font that is being used.
-         */
+			@brief Gets the font that is being used.
+			@return The font that is being used.
+		 */
 		const Font& getFont() const;
 
 		/*
-            @brief Gets the color of the text.
-            @return The color of the text.
-         */
+			@brief Gets the color of the text.
+			@return The color of the text.
+		 */
 		const Math::Vec4& getColor() const;
 
 		/*
@@ -212,22 +212,22 @@ namespace Onyx
 		 */
 		void dispose() override;
 
-    private:
-        std::vector<CharRenderable> m_chars;
+	private:
+		std::vector<CharRenderable> m_chars;
 		std::string m_text;
 		Math::Vec4 m_color;
 
-        Shader m_shader;
-        Math::Mat4 m_model;
+		Shader m_shader;
+		Math::Mat4 m_model;
 
 		Math::Vec2 m_position;
 		float m_rotation;
 		Math::Vec2 m_scale;
 
-        Font* m_pFont;
+		Font* m_pFont;
 
 		bool m_hidden;
 
 		void updateModel();
-    };
+	};
 }

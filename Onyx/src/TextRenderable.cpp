@@ -145,10 +145,10 @@ void Onyx::TextRenderable::show()
 	m_hidden = false;
 }
 
-Onyx::Math::IVec2 Onyx::TextRenderable::size() const
+Onyx::Math::Vec2 Onyx::TextRenderable::dimensions() const
 {
-	Math::IVec2 strSize = m_pFont->getStringSize(m_text);
-	return Math::IVec2(strSize.getX() * m_scale.getX(), strSize.getY() * m_scale.getY());
+	Math::IVec2 strDims = m_pFont->getStringDimensions(m_text);
+	return Math::Vec2(strDims.getX() * m_scale.getX(), strDims.getY() * m_scale.getY());
 }
 
 void Onyx::TextRenderable::toggleVisibility()

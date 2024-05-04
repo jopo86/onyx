@@ -23,6 +23,20 @@ double Onyx::Math::Degrees(double radians)
 	return glm::degrees<double>(radians);
 }
 
+float Onyx::Math::Clamp(float value, float min, float max)
+{
+	if (value < min) return min;
+	if (value > max) return max;
+	return value;
+}
+
+double Onyx::Math::Clamp(double value, double min, double max)
+{
+	if (value < min) return min;
+	if (value > max) return max;
+	return value;
+}
+
 Onyx::Math::Vec2::Vec2()
 {
 	m_vec = glm::vec2(0.0f, 0.0f);
@@ -50,7 +64,7 @@ Onyx::Math::Vec2::Vec2(IVec2 vec)
 
 Onyx::Math::Vec2::Vec2(UVec2 vec)
 {
-    m_vec = glm::vec2(vec.getMVec());
+	m_vec = glm::vec2(vec.getMVec());
 }
 
 Onyx::Math::Vec2::Vec2(glm::vec2 vec)
@@ -198,17 +212,17 @@ Onyx::Math::Vec3::Vec3(float x, Vec2 vec)
 
 Onyx::Math::Vec3::Vec3(DVec3 vec)
 {
-    m_vec = glm::vec3(vec.getMVec());
+	m_vec = glm::vec3(vec.getMVec());
 }
 
 Onyx::Math::Vec3::Vec3(IVec3 vec)
 {
-    m_vec = glm::vec3(vec.getMVec());
+	m_vec = glm::vec3(vec.getMVec());
 }
 
 Onyx::Math::Vec3::Vec3(UVec3 vec)
 {
-    m_vec = glm::vec3(vec.getMVec());
+	m_vec = glm::vec3(vec.getMVec());
 }
 
 Onyx::Math::Vec3::Vec3(glm::vec3 vec)
@@ -473,17 +487,17 @@ Onyx::Math::Vec4::Vec4(Vec2 vec1, Vec2 vec2)
 
 Onyx::Math::Vec4::Vec4(DVec4 vec)
 {
-    m_vec = glm::vec4(vec.getMVec());
+	m_vec = glm::vec4(vec.getMVec());
 }
 
 Onyx::Math::Vec4::Vec4(IVec4 vec)
 {
-    m_vec = glm::vec4(vec.getMVec());
+	m_vec = glm::vec4(vec.getMVec());
 }
 
 Onyx::Math::Vec4::Vec4(UVec4 vec)
 {
-    m_vec = glm::vec4(vec.getMVec());
+	m_vec = glm::vec4(vec.getMVec());
 }
 
 Onyx::Math::Vec4::Vec4(glm::vec4 vec)
@@ -827,17 +841,17 @@ Onyx::Math::DVec2::DVec2(double x, double y)
 
 Onyx::Math::DVec2::DVec2(Vec2 vec)
 {
-    m_vec = glm::dvec2(vec.getMVec());
+	m_vec = glm::dvec2(vec.getMVec());
 }
 
 Onyx::Math::DVec2::DVec2(IVec2 vec)
 {
-    m_vec = glm::dvec2(vec.getMVec());
+	m_vec = glm::dvec2(vec.getMVec());
 }
 
 Onyx::Math::DVec2::DVec2(UVec2 vec)
 {
-    m_vec = glm::dvec2(vec.getMVec());
+	m_vec = glm::dvec2(vec.getMVec());
 }
 
 Onyx::Math::DVec2::DVec2(glm::dvec2 vec)
@@ -985,17 +999,17 @@ Onyx::Math::DVec3::DVec3(double x, DVec2 vec)
 
 Onyx::Math::DVec3::DVec3(Vec3 vec)
 {
-    m_vec = glm::dvec3(vec.getMVec());
+	m_vec = glm::dvec3(vec.getMVec());
 }
 
 Onyx::Math::DVec3::DVec3(IVec3 vec)
 {
-    m_vec = glm::dvec3(vec.getMVec());
+	m_vec = glm::dvec3(vec.getMVec());
 }
 
 Onyx::Math::DVec3::DVec3(UVec3 vec)
 {
-    m_vec = glm::dvec3(vec.getMVec());
+	m_vec = glm::dvec3(vec.getMVec());
 }
 
 Onyx::Math::DVec3::DVec3(glm::dvec3 vec)
@@ -1175,17 +1189,17 @@ Onyx::Math::DVec4::DVec4(DVec2 vec1, DVec2 vec2)
 
 Onyx::Math::DVec4::DVec4(Vec4 vec)
 {
-    m_vec = glm::dvec4(vec.getMVec());
+	m_vec = glm::dvec4(vec.getMVec());
 }
 
 Onyx::Math::DVec4::DVec4(IVec4 vec)
 {
-    m_vec = glm::dvec4(vec.getMVec());
+	m_vec = glm::dvec4(vec.getMVec());
 }
 
 Onyx::Math::DVec4::DVec4(UVec4 vec)
 {
-    m_vec = glm::dvec4(vec.getMVec());
+	m_vec = glm::dvec4(vec.getMVec());
 }
 
 Onyx::Math::DVec4::DVec4(glm::dvec4 vec)
@@ -1449,12 +1463,12 @@ Onyx::Math::IVec2::IVec2(Vec2 vec)
 
 Onyx::Math::IVec2::IVec2(DVec2 vec)
 {
-    m_vec = glm::ivec2(vec.getMVec());
+	m_vec = glm::ivec2(vec.getMVec());
 }
 
 Onyx::Math::IVec2::IVec2(UVec2 vec)
 {
-    m_vec = glm::ivec2(vec.getMVec());
+	m_vec = glm::ivec2(vec.getMVec());
 }
 
 Onyx::Math::IVec2::IVec2(glm::ivec2 vec)
@@ -1581,17 +1595,17 @@ Onyx::Math::IVec3::IVec3(int x, IVec2 vec)
 
 Onyx::Math::IVec3::IVec3(Vec3 vec)
 {
-    m_vec = glm::ivec3(vec.getMVec());
+	m_vec = glm::ivec3(vec.getMVec());
 }
 
 Onyx::Math::IVec3::IVec3(DVec3 vec)
 {
-    m_vec = glm::ivec3(vec.getMVec());
+	m_vec = glm::ivec3(vec.getMVec());
 }
 
 Onyx::Math::IVec3::IVec3(UVec3 vec)
 {
-    m_vec = glm::ivec3(vec.getMVec());
+	m_vec = glm::ivec3(vec.getMVec());
 }
 
 Onyx::Math::IVec3::IVec3(glm::ivec3 vec)
@@ -1750,17 +1764,17 @@ Onyx::Math::IVec4::IVec4(IVec2 vec1, IVec2 vec2)
 
 Onyx::Math::IVec4::IVec4(Vec4 vec)
 {
-    m_vec = glm::ivec4(vec.getMVec());
+	m_vec = glm::ivec4(vec.getMVec());
 }
 
 Onyx::Math::IVec4::IVec4(DVec4 vec)
 {
-    m_vec = glm::ivec4(vec.getMVec());
+	m_vec = glm::ivec4(vec.getMVec());
 }
 
 Onyx::Math::IVec4::IVec4(UVec4 vec)
 {
-    m_vec = glm::ivec4(vec.getMVec());
+	m_vec = glm::ivec4(vec.getMVec());
 }
 
 Onyx::Math::IVec4::IVec4(glm::ivec4 vec)

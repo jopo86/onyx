@@ -40,27 +40,27 @@ namespace Onyx
 		static IndexBuffer Triangle();
 
 		/*
-            @brief Generates an index buffer for a square. (Same as quad)
-            @return The generated index buffer.
-         */
+			@brief Generates an index buffer for a square. (Same as quad)
+			@return The generated index buffer.
+		 */
 		static IndexBuffer Square();
 
 		/*
-            @brief Generates an index buffer for a quad. (Same as square)
-            @return The generated index buffer.
-         */
+			@brief Generates an index buffer for a quad. (Same as square)
+			@return The generated index buffer.
+		 */
 		static IndexBuffer Quad();
 
 		/*
-            @brief Generates an index buffer for a cube. (Same as rect prism)
-            @return The generated index buffer.
-         */
+			@brief Generates an index buffer for a cube. (Same as rect prism)
+			@return The generated index buffer.
+		 */
 		static IndexBuffer Cube();
 
 		/*
-            @brief Generates an index buffer for a rect prism. (Same as cube)
-            @return The generated index buffer.
-         */
+			@brief Generates an index buffer for a rect prism. (Same as cube)
+			@return The generated index buffer.
+		 */
 		static IndexBuffer RectPrism();
 	};
 }

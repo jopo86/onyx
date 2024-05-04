@@ -37,28 +37,28 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, bool* result, Ony
 	file.close();
 
 	if (textureWrap == Onyx::TextureWrap::Null)
-    {
+	{
 		onyx_err(Error{
 				.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
-                .message = "Texture wrap option cannot be null",
-                .howToFix = "Enter a valid texture wrap option."
+				.message = "Texture wrap option cannot be null",
+				.howToFix = "Enter a valid texture wrap option."
 			}
 		);
 		if (result != nullptr) *result = false;
-        return Texture();
-    }
+		return Texture();
+	}
 
 	if (minFilter == Onyx::TextureFilter::Null)
-    {
+	{
 		onyx_err(Error{
 			.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
-            .message = "Minification filter option cannot be null",
-            .howToFix = "Enter a valid minification filter option."
+			.message = "Minification filter option cannot be null",
+			.howToFix = "Enter a valid minification filter option."
 			}
 		);
 		if (result != nullptr) *result = false;
-        return Texture();
-    }
+		return Texture();
+	}
 
 	if (magFilter == Onyx::TextureFilter::Null)
 	{
@@ -69,7 +69,7 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, bool* result, Ony
 			}
 		);
 		if (result != nullptr) *result = false;
-        return Texture();
+		return Texture();
 	}
 
 	int width = 0, height = 0, nChannels = 0;
@@ -80,11 +80,11 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, bool* result, Ony
 	if (!data)
 	{
 		onyx_err(Error{
-                .sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
-                .message = "Found file, but failed to load image data: \"" + filepath + "\"",
-                .howToFix = "Ensure the file is a valid image file. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
-            }
-        );
+				.sourceFunction = "Onyx::Texture::Load(const std::string& filepath, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+				.message = "Found file, but failed to load image data: \"" + filepath + "\"",
+				.howToFix = "Ensure the file is a valid image file. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
+			}
+		);
 		if (result != nullptr) *result = false;
 		return Texture();
 	}

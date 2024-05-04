@@ -222,7 +222,7 @@ Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float side, Math::Vec3 rg
 
 Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float side, Math::Vec4 rgba)
 {
-    return UiRenderable(Mesh::Triangle(side), rgba);
+	return UiRenderable(Mesh::Triangle(side), rgba);
 }
 
 Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float base, float height, Math::Vec3 rgb)
@@ -232,17 +232,17 @@ Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float base, float height,
 
 Onyx::UiRenderable Onyx::UiRenderable::ColoredTriangle(float base, float height, Math::Vec4 rgba)
 {
-    return UiRenderable(Mesh::Triangle(base, height), rgba);
+	return UiRenderable(Mesh::Triangle(base, height), rgba);
 }
 
 Onyx::UiRenderable Onyx::UiRenderable::TexturedTriangle(float side, Texture texture)
 {
-    return UiRenderable(Mesh(VertexBuffer::Triangle(side, true), IndexBuffer::Triangle()), texture);
+	return UiRenderable(Mesh(VertexBuffer::Triangle(side, true), IndexBuffer::Triangle()), texture);
 }
 
 Onyx::UiRenderable Onyx::UiRenderable::TexturedTriangle(float base, float height, Texture texture)
 {
-    return UiRenderable(Mesh(VertexBuffer::Triangle(base, height, true), IndexBuffer::Triangle()), texture);
+	return UiRenderable(Mesh(VertexBuffer::Triangle(base, height, true), IndexBuffer::Triangle()), texture);
 }
 
 Onyx::UiRenderable Onyx::UiRenderable::ColoredSquare(float side, Math::Vec3 rgb)
@@ -252,25 +252,25 @@ Onyx::UiRenderable Onyx::UiRenderable::ColoredSquare(float side, Math::Vec3 rgb)
 
 Onyx::UiRenderable Onyx::UiRenderable::ColoredSquare(float side, Math::Vec4 rgba)
 {
-    return UiRenderable(Mesh::Square(side), rgba);
+	return UiRenderable(Mesh::Square(side), rgba);
 }
 
 Onyx::UiRenderable Onyx::UiRenderable::TexturedSquare(float side, Texture texture)
 {
-    return UiRenderable(Mesh(VertexBuffer::Square(side, true), IndexBuffer::Square()), texture);
+	return UiRenderable(Mesh(VertexBuffer::Square(side, true), IndexBuffer::Square()), texture);
 }
 
 Onyx::UiRenderable Onyx::UiRenderable::ColoredQuad(float width, float height, Math::Vec3 rgb)
 {
-    return UiRenderable(Mesh::Quad(width, height), rgb);
+	return UiRenderable(Mesh::Quad(width, height), rgb);
 }
 
 Onyx::UiRenderable Onyx::UiRenderable::ColoredQuad(float width, float height, Math::Vec4 rgba)
 {
-    return UiRenderable(Mesh::Quad(width, height), rgba);
+	return UiRenderable(Mesh::Quad(width, height), rgba);
 }
 
 Onyx::UiRenderable Onyx::UiRenderable::TexturedQuad(float width, float height, Texture texture)
 {
-    return UiRenderable(Mesh(VertexBuffer::Quad(width, height, true), IndexBuffer::Quad()), texture);
+	return UiRenderable(Mesh(VertexBuffer::Quad(width, height, true), IndexBuffer::Quad()), texture);
 }

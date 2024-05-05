@@ -178,10 +178,12 @@ namespace Onyx
 		void dispose() override;
 
 	private:
+
 		std::vector<Renderable*> m_renderables;
 		std::vector<UiRenderable*> m_uiRenderables;
 		std::vector<TextRenderable*> m_textRenderables;
 
+		Window* m_pWin;
 		Camera* m_pCam;
 		Lighting* m_pLighting;
 		Math::Mat4 m_ortho;

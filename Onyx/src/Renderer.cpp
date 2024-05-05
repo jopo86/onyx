@@ -4,6 +4,7 @@
 
 #include <map>
 
+void onyx_err(const Onyx::Error&);
 void onyx_warn(const Onyx::Warning&);
 
 bool Onyx::Renderer::sm_wireframe = false;
@@ -12,6 +13,7 @@ float Onyx::Renderer::sm_lineWidth = 1.0f;
 
 Onyx::Renderer::Renderer()
 {
+	m_pWin = nullptr;
 	m_pCam = nullptr;
 	m_lightingEnabled = false;
 	m_pLighting = nullptr;
@@ -19,6 +21,7 @@ Onyx::Renderer::Renderer()
 
 Onyx::Renderer::Renderer(Camera& cam)
 {
+	m_pWin = nullptr;
 	m_pCam = &cam;
 	m_pLighting = nullptr;
 	m_lightingEnabled = false;
@@ -26,6 +29,7 @@ Onyx::Renderer::Renderer(Camera& cam)
 
 Onyx::Renderer::Renderer(Camera& cam, Lighting& lighting)
 {
+	m_pWin = nullptr;
 	m_pCam = &cam;
 	setLighting(lighting);
 	m_lightingEnabled = true;
@@ -33,6 +37,17 @@ Onyx::Renderer::Renderer(Camera& cam, Lighting& lighting)
 
 void Onyx::Renderer::render()
 {
+	if (m_pWin == nullptr)
+	{
+		onyx_err(Error{
+			.sourceFunction = "Onyx::Renderer::render()",
+			.message = "Window pointer is null.",
+			.howToFix = "Make sure the renderer was linked to a window (Window::linkRenderer())."
+			}
+		);
+		return;
+	}
+
 	if (m_pCam == nullptr) for (Renderable* r : m_renderables) r->render();
 	else for (Renderable* r : m_renderables) r->render(m_pCam->getViewMatrix(), m_pCam->getProjectionMatrix());
 

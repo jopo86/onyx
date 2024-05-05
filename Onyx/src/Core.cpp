@@ -333,8 +333,12 @@ void Onyx::Demo()
 
 	for (TextRenderable& tr : textRenderables) renderer.add(tr);
 
-	const double CAM_SPEED = 6.0;
-	const double CAM_SENS = 30.0;
+	const double MOVE_SPEED = 6.0;
+	const double MOUSE_SENS = 30.0;
+	const double CONTROLLER_SENS = 30.0f;
+
+	const float DEAD_ZONE_LEFT = 0.1f;
+	const float DEAD_ZONE_RIGHT = 0.1f;
 
 	input.setCursorLock(true);
 
@@ -353,25 +357,54 @@ void Onyx::Demo()
 		input.update();
 		double dx = input.getMouseDeltas().getX();
 		double dy = input.getMouseDeltas().getY();
-
+		float lsx = 0.0f, lsy = 0.0f, rsx = 0.0f, rsy = 0.0f;
+		bool a = false, b = false, x = false, y = false, rs = false;
 		double dt = window.getDeltaTime();
+
 		if (window.getFrame() % 100 == 0 || window.getFrame() == 2) fps = window.getFPS();
 
 		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
-		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(CAM_SPEED * dt);
-		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-CAM_SPEED * dt);
-		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-CAM_SPEED * dt);
-		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(CAM_SPEED * dt);
-		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(CAM_SPEED * dt);
-		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-CAM_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::W)) cam.translateFB(MOVE_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::A)) cam.translateLR(-MOVE_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::S)) cam.translateFB(-MOVE_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(MOVE_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(MOVE_SPEED * dt);
+		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-MOVE_SPEED * dt);
 		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen(1280, 720, Math::IVec2(100, 100));
 		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
 		if (input.isKeyDown(Onyx::Key::Num2)) car.toggleVisibility();
 		if (input.isKeyDown(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
 
-		car.rotate(Vec3(0.0f, 20.0f * dt, 0.0f));
-		cam.rotate(CAM_SENS * .005 * dx, CAM_SENS * .005 * dy);
+		car.rotate(Vec3(0.0f, 10.0f * dt, 0.0f));
+
+		cam.rotate(MOUSE_SENS * .005 * dx, MOUSE_SENS * .005 * dy);
 		cam.setFOV(cam.getProjection().getFOV() - input.getScrollDeltas().getY());
+
+		for (const Gamepad& gp : input.getGamepads())
+		{
+			if (abs(gp.getAxis(GamepadAxis::LeftX)) > lsx) lsx = gp.getAxis(GamepadAxis::LeftX);
+			if (abs(gp.getAxis(GamepadAxis::LeftY)) > lsy) lsy = gp.getAxis(GamepadAxis::LeftY);
+			if (abs(gp.getAxis(GamepadAxis::RightX)) > rsx) rsx = gp.getAxis(GamepadAxis::RightX);
+			if (abs(gp.getAxis(GamepadAxis::RightY)) > rsy) rsy = gp.getAxis(GamepadAxis::RightY);
+			if (gp.isButtonPressed(GamepadButton::A)) a = true;
+			if (gp.isButtonPressed(GamepadButton::B)) b = true;
+			if (gp.isButtonPressed(GamepadButton::X)) x = true;
+			if (gp.isButtonPressed(GamepadButton::Y)) y = true;
+			if (gp.isButtonPressed(GamepadButton::RightStick)) rs = true;
+		}
+
+		lsx = abs(lsx) < DEAD_ZONE_LEFT ? 0.0f : lsx;
+		lsy = abs(lsy) < DEAD_ZONE_LEFT ? 0.0f : lsy;
+		rsx = abs(rsx) < DEAD_ZONE_RIGHT ? 0.0f : rsx;
+		rsy = abs(rsy) < DEAD_ZONE_RIGHT ? 0.0f : rsy;
+
+		cam.translateFB(MOVE_SPEED * dt * lsy);
+		cam.translateLR(MOVE_SPEED * dt * lsx);
+		if (a) cam.translateUD(MOVE_SPEED * dt);
+		if (b || rs) cam.translateUD(-MOVE_SPEED * dt);
+
+		cam.rotate(MOUSE_SENS * 10.0f * dt * rsx, MOUSE_SENS * 10.0f * dt * rsy);
+
 		cam.update();
 
 		textRenderables[1].setText("FPS: " + std::to_string(fps));
@@ -448,9 +481,9 @@ std::string Onyx::GetGraphicsName(bool* result)
 	if (!glInitialized)
 	{
 		onyx_err(Error{
-			.sourceFunction = "Onyx::GetGraphics()",
-			.message = "OpenGL is not initialized.",
-			.howToFix = "Ensure OpenGL is initialized before calling this function."
+				.sourceFunction = "Onyx::GetGraphics()",
+				.message = "OpenGL is not initialized, name unavailable.",
+				.howToFix = "Initialze OpenGL by initializing a window before this function is called."
 			}
 		);
 		if (result != nullptr) *result = false;

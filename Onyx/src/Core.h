@@ -125,21 +125,10 @@ namespace Onyx
 	};
 
 	/*
-		@brief Definitions for the three axes.
-	 */
-	enum class Axis
-	{
-		Null,
-		X,
-		Y,
-		Z
-	};
-
-	/*
 		@brief Definitions for keys on a keyboard.
 		Used for polling input from an InputHandler object.
 	 */
-	enum Key
+	enum class Key
 	{
 		Unknown = -1,
 		Space = 32,
@@ -269,9 +258,9 @@ namespace Onyx
 		@brief Definitions for mouse buttons.
 		Used for polling input from an InputHandler object.
 	 */
-	enum MouseButton
+	enum class MouseButton
 	{
-		Unkown = -1,
+		Unknown = -1,
 		Button1 = 0,
 		Button2 = 1,
 		Button3 = 2,
@@ -280,10 +269,57 @@ namespace Onyx
 		Button6 = 5,
 		Button7 = 6,
 		Button8 = 7,
-		Left = Button1,
-		Right = Button2,
-		Middle = Button3,
+		Left = Button1, // @brief Identical to `MouseButton::Button1`
+		Right = Button2, // @brief Identical to `MouseButton::Button2`
+		Middle = Button3, // @brief Identical to `MouseButton::Button3`
+		SideBack = Button4, // @brief Identical to `MouseButton::Button4`
+		SideFront = Button5, // @brief Identical to `MouseButton::Button5`
 		MaxButton = Button8
+	};
+
+	/*
+		@brief Definitions for gamepad/controller buttons.
+		Note that triggers are axes, not buttons.
+		Used for polling input from a Gamepad object.
+	 */
+	enum class GamepadButton
+	{
+		A = 0,
+		B = 1,
+		X = 2,
+		Y = 3,
+		Cross = A, // @brief Identical to `GamepadButton::A`
+		Circle = B, // @brief Identical to `GamepadButton::B`
+		Square = X, // @brief Identical to `GamepadButton::X`
+		Triangle = Y, // @brief Identical to `GamepadButton::Y`
+		LeftBumper = 4,
+		RightBumper = 5,
+		Back = 6,
+		Start = 7,
+		Guide = 8,
+		LeftStick = 9,
+		RightStick = 10,
+		DpadUp = 11,
+		DpadRight = 11,
+		DpadDown = 13,
+		DpadLeft = 14,
+		MaxButton = DpadLeft
+	};
+
+	/*
+		@brief Definitions for gamepad/controller axes.
+		These include the sticks and triggers.
+		Used for polling input from a Gamepad object.
+	 */
+	enum class GamepadAxis
+	{
+		LeftX = 0,
+		LeftY = 1,
+		RightX = 2,
+		RightY = 3,
+		LeftTrigger = 4,
+		RightTrigger = 5,
+		MaxAxis = RightTrigger
 	};
 
 	/*
@@ -433,8 +469,7 @@ namespace Onyx
 	void* GetUserPtr();
 
 	/*
-		@brief Gets the time (sec) since the backends were initialized, so when the first window was initialized.
-		Use for calculating delta time.
+		@brief Gets the time (sec) since the library was initialized.
 	 */
 	double GetTime();
 

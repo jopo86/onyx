@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Gamepad.cpp" />
     <ClCompile Include="src\CharRenderable.cpp" />
     <ClCompile Include="src\ModelRenderable.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="src\Font.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\InputHandler.h" />
+    <ClInclude Include="src\Gamepad.h" />
     <ClInclude Include="src\Lighting.h" />
     <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Mesh.h" />

@@ -185,8 +185,8 @@ namespace Onyx
 
 		/*
 			@brief Prepares to render the current frame.
-			This function clears the window to the background color and polls GLFW events.
-			It also updates the delta time, FPS, and frame #.
+			This function clears the window to the background color and updates the delta time / FPS / frame #.
+			It also polls events if no input handler has been linked to do so.
 		 */
 		void startRender();
 

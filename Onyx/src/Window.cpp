@@ -167,7 +167,8 @@ void Onyx::Window::startRender()
 
 	glClearColor(m_properties.backgroundColor.getX(), m_properties.backgroundColor.getY(), m_properties.backgroundColor.getZ(), 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glfwPollEvents();
+
+	if (m_pInputHandlers.size() == 0) glfwPollEvents();
 }
 
 void Onyx::Window::endRender()
@@ -496,6 +497,7 @@ void Onyx::Window::linkCamera(Camera& camera)
 
 void Onyx::Window::linkRenderer(Renderer& renderer)
 {
+	renderer.m_pWin = this;
 	m_pRenderers.push_back(&renderer);
 
 	renderer.m_ortho = Projection::Orthographic(m_bufferWidth, m_bufferHeight).getMatrix();

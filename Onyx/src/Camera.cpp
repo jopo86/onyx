@@ -5,13 +5,15 @@
 using Onyx::Math::Vec3, Onyx::Math::Mat4, Onyx::Math::Cross,
 Onyx::Math::LookAt, Onyx::Math::Radians, Onyx::Math::Degrees;
 
+void onyx_err(const Onyx::Error&);
+
 Onyx::Camera::Camera()
 {
 	m_pWin = nullptr;
 
 	m_yaw = m_pitch = m_pitchClamp = 0.0f;
 
-	update();
+	m_view = LookAt(m_pos, m_pos + m_front, m_up);
 }
 
 Onyx::Camera::Camera(const Projection& proj)
@@ -28,7 +30,7 @@ Onyx::Camera::Camera(const Projection& proj)
 
 	if (proj.getType() == Onyx::ProjectionType::Perspective) rotate(-90.0f, 0.0f);
 
-	update();
+	m_view = LookAt(m_pos, m_pos + m_front, m_up);
 }
 
 Onyx::Camera::Camera(const Projection& proj, float pitchClamp)
@@ -45,11 +47,21 @@ Onyx::Camera::Camera(const Projection& proj, float pitchClamp)
 
 	if (proj.getType() == Onyx::ProjectionType::Perspective) rotate(-90.0f, 0.0f);
 
-	update();
+	m_view = LookAt(m_pos, m_pos + m_front, m_up);
 }
 
 void Onyx::Camera::update()
 {
+	if (m_pWin == nullptr)
+	{
+		onyx_err(Error{
+			   .sourceFunction = "Onyx::Camera::update()",
+			   .message = "Window pointer is null.",
+			   .howToFix = "Make sure the camera was linked to a window (Window::linkCamera())."
+			}
+		);
+		return;
+	}
 	m_view = LookAt(m_pos, m_pos + m_front, m_up);
 }
 

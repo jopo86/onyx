@@ -2,6 +2,7 @@
 
 #include "Window.h"
 #include "Core.h"
+#include "Gamepad.h"
 
 namespace Onyx
 {
@@ -22,8 +23,10 @@ namespace Onyx
 		InputHandler();
 
 		/*
-			@brief Updates mouse deltas and active key cooldowns.
+			@brief Updates the input handler.
 			Should be called each frame.
+			This function polls events and updates gamepad states, mouse deltas, and cooldowns.
+			Cooldowns are updated using the delta time of the window this input handler was linked to.
 		 */
 		void update();
 
@@ -116,6 +119,19 @@ namespace Onyx
 		void toggleCursorLock();
 
 		/*
+			@brief Gets whether the cursor is locked.
+			@return Whether the cursor is locked.
+		 */
+		bool isCursorLocked() const;
+
+		/*
+			@brief Rescans for connected gamepads, appends newfound ones to the list of gamepads.
+			The indices of existing gamepads will remain unchanged, new gamepads will be added to the end of the list.
+			Gamepads that are no longer connected will not be removed from the list.
+		 */
+		void refreshGamepads();
+
+		/*
 			@brief Gets the position of the mouse.
 			This is independent of whether update() is called each frame.
 			@return The position of the mouse.
@@ -134,16 +150,22 @@ namespace Onyx
 		 */
 		const Onyx::Math::DVec2& getScrollDeltas() const;
 
+		/*
+			@brief Gets all gamepads connected to the system.
+			@return A vector of all gamepads connected to the system.
+		 */
+		const std::vector<Onyx::Gamepad>& getGamepads() const;
+
 	private:
 		Window* m_pWin;
 
-		Onyx::KeyState m_keys[Onyx::Key::MaxKey];
-		float m_keyCooldowns[Onyx::Key::MaxKey];
-		float m_setKeyCooldowns[Onyx::Key::MaxKey];
+		Onyx::KeyState m_keys[(int)Onyx::Key::MaxKey];
+		float m_keyCooldowns[(int)Onyx::Key::MaxKey];
+		float m_setKeyCooldowns[(int)Onyx::Key::MaxKey];
 
-		Onyx::KeyState m_buttons[Onyx::MouseButton::MaxButton];
-		float m_buttonCooldowns[Onyx::MouseButton::MaxButton];
-		float m_setButtonCooldowns[Onyx::MouseButton::MaxButton];
+		Onyx::KeyState m_buttons[(int)Onyx::MouseButton::MaxButton];
+		float m_buttonCooldowns[(int)Onyx::MouseButton::MaxButton];
+		float m_setButtonCooldowns[(int)Onyx::MouseButton::MaxButton];
 
 		std::vector<Onyx::Key> m_activeKeyCooldowns;
 		std::vector<Onyx::MouseButton> m_activeButtonCooldowns;
@@ -152,6 +174,9 @@ namespace Onyx
 		Onyx::Math::DVec2 m_lastMousePos;
 		Onyx::Math::DVec2 m_mouseDeltas;
 		Onyx::Math::DVec2 m_scrollDeltas;
+		bool m_scrollThisFrame;
+
+		std::vector<Onyx::Gamepad> m_gamepads;
 
 		bool m_cursorLock;
 

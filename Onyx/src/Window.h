@@ -10,6 +10,7 @@
 #include "InputHandler.h"
 #include "Camera.h"
 #include "Renderer.h"
+#include "Monitor.h"
 
 namespace Onyx
 {
@@ -424,9 +425,14 @@ namespace Onyx
 		void setOpacity(float opacity);
 
 		/*
-			@brief Sets the window to fullscreen mode.
+			@brief Sets the window to fullscreen mode on the primary monitor.
 		 */
 		void fullscreen();
+
+		/*
+			@brief Sets the window to fullscreen mode on the specified monitor.
+		 */
+		void fullscreen(Monitor& monitor);
 
 		/*
 			@brief Sets the window to windowed mode.

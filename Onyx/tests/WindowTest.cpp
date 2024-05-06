@@ -29,6 +29,17 @@ static Onyx::TextRenderable isFullscreen;
 static Onyx::TextRenderable isMaximized;
 static Onyx::TextRenderable isMinimized;
 
+static Onyx::TextRenderable monitorLabel;
+static Onyx::TextRenderable monitorName;
+static Onyx::TextRenderable monitorDimensions;
+static Onyx::TextRenderable monitorBitDepth;
+static Onyx::TextRenderable monitorRefreshRate;
+static Onyx::TextRenderable monitorPhysicalSize;
+static Onyx::TextRenderable monitorContentScale;
+static Onyx::TextRenderable monitorPosition;
+static Onyx::TextRenderable monitorWorkArea;
+static Onyx::TextRenderable monitorIsPrimary;
+
 static Onyx::Font roboto;
 
 void updateText();
@@ -59,6 +70,8 @@ void WindowTest::Run()
 	Onyx::Renderer renderer(cam);
 	window.linkRenderer(renderer);
 
+	Onyx::Monitor monitor = Onyx::Monitor::GetPrimary();
+
 	roboto = Onyx::Font::Load(Onyx::Resources("fonts/Roboto/Roboto-Regular.ttf"), 16);
 
 	title =             Onyx::TextRenderable("Title: " + window.getTitle(), roboto, Onyx::Math::Vec4::Black());
@@ -81,6 +94,17 @@ void WindowTest::Run()
 	isFullscreen =		Onyx::TextRenderable("Is Fullscreen: " + std::string(window.isFullscreen() ? "true" : "false"), roboto, Onyx::Math::Vec4::Black());
 	isMaximized =		Onyx::TextRenderable("Is Maximized: " + std::string(window.isMaximized() ? "true" : "false"), roboto, Onyx::Math::Vec4::Black());
 	isMinimized =		Onyx::TextRenderable("Is Minimized: " + std::string(window.isMinimized() ? "true" : "false"), roboto, Onyx::Math::Vec4::Black());
+
+	monitorLabel =		Onyx::TextRenderable("MONITOR INFO", roboto, Onyx::Math::Vec4::Black());
+	monitorName =		Onyx::TextRenderable("Name: " + monitor.getName(), roboto, Onyx::Math::Vec4::Black());
+	monitorDimensions =	Onyx::TextRenderable("Dimensions: " + monitor.getDimensions().toString(), roboto, Onyx::Math::Vec4::Black());
+	monitorBitDepth =	Onyx::TextRenderable("Bit Depth: " + monitor.getBitDepth().toString(), roboto, Onyx::Math::Vec4::Black());
+	monitorRefreshRate = Onyx::TextRenderable("Refresh Rate: " + std::to_string(monitor.getRefreshRate()) + "Hz", roboto, Onyx::Math::Vec4::Black());
+	monitorPhysicalSize = Onyx::TextRenderable("Physical Size: " + monitor.getPhysicalSize().toString(), roboto, Onyx::Math::Vec4::Black());
+	monitorContentScale = Onyx::TextRenderable("Content Scale: " + monitor.getContentScale().toString(), roboto, Onyx::Math::Vec4::Black());
+	monitorPosition =	Onyx::TextRenderable("Position: " + monitor.getPosition().toString(), roboto, Onyx::Math::Vec4::Black());
+	monitorWorkArea =	Onyx::TextRenderable("Work Area: " + monitor.getWorkArea().toString(), roboto, Onyx::Math::Vec4::Black());
+	monitorIsPrimary =	Onyx::TextRenderable("Is Primary: " + std::string(monitor.isPrimary() ? "true" : "false"), roboto, Onyx::Math::Vec4::Black());
 
 	Onyx::TextRenderable esc("[ESC] Close Window", roboto, Onyx::Math::Vec4::Black());
 	Onyx::TextRenderable up("[UP] Increase Opacity", roboto, Onyx::Math::Vec4::Black());
@@ -114,7 +138,8 @@ void WindowTest::Run()
 	f12.setPosition(Onyx::Math::Vec2(10.0f, 10.0f));
 
 	Onyx::UiRenderable logo(Onyx::Mesh(Onyx::VertexBuffer::Square(256.0f, true), Onyx::IndexBuffer::Square()), Onyx::Texture::Load(Onyx::Resources("textures/onyx.png")));
-	logo.setPosition(Onyx::Math::Vec2(640.0f, 270.0f));
+	logo.setPosition(Onyx::Math::Vec2(550.0f, 270.0f));
+	logo.scale(0.6f);
 
 	renderer.add(title);
 	renderer.add(dimensions);
@@ -136,6 +161,17 @@ void WindowTest::Run()
 	renderer.add(isFullscreen);
 	renderer.add(isMaximized);
 	renderer.add(isMinimized);
+
+	renderer.add(monitorLabel);
+	renderer.add(monitorName);
+	renderer.add(monitorDimensions);
+	renderer.add(monitorBitDepth);
+	renderer.add(monitorRefreshRate);
+	renderer.add(monitorPhysicalSize);
+	renderer.add(monitorContentScale);
+	renderer.add(monitorPosition);
+	renderer.add(monitorWorkArea);
+	renderer.add(monitorIsPrimary);
 
 	renderer.add(esc);
 	renderer.add(up);
@@ -245,6 +281,16 @@ void updateText()
 	isFullscreen.setText("Is Fullscreen: " + std::string(window.isFullscreen() ? "true" : "false"));
 	isMaximized.setText("Is Maximized: " + std::string(window.isMaximized() ? "true" : "false"));
 	isMinimized.setText("Is Minimized: " + std::string(window.isMinimized() ? "true" : "false"));	
+
+	monitorName.setText("Name: " + Onyx::Monitor::GetPrimary().getName());
+	monitorDimensions.setText("Dimensions: " + Onyx::Monitor::GetPrimary().getDimensions().toString());
+	monitorBitDepth.setText("Bit Depth: " + Onyx::Monitor::GetPrimary().getBitDepth().toString());
+	monitorRefreshRate.setText("Refresh Rate: " + std::to_string(Onyx::Monitor::GetPrimary().getRefreshRate()) + "Hz");
+	monitorPhysicalSize.setText("Physical Size: " + Onyx::Monitor::GetPrimary().getPhysicalSize().toString());
+	monitorContentScale.setText("Content Scale: " + Onyx::Monitor::GetPrimary().getContentScale().toString());
+	monitorPosition.setText("Position: " + Onyx::Monitor::GetPrimary().getPosition().toString());
+	monitorWorkArea.setText("Work Area: " + Onyx::Monitor::GetPrimary().getWorkArea().toString());
+	monitorIsPrimary.setText("Is Primary: " + std::string(Onyx::Monitor::GetPrimary().isPrimary() ? "true" : "false"));
 }
 
 void updatePositions()
@@ -270,4 +316,14 @@ void updatePositions()
 	isMaximized.setPosition(Onyx::Math::Vec2(760.0f, window.getBufferHeight() - 40));
 	isMinimized.setPosition(Onyx::Math::Vec2(760.0f, window.getBufferHeight() - 60));
 
+	monitorLabel.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorLabel.dimensions().getX(), window.getBufferHeight() - 160.0f));
+	monitorName.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorName.dimensions().getX(), window.getBufferHeight() - 180.0f));
+	monitorDimensions.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorDimensions.dimensions().getX(), window.getBufferHeight() - 200.0f));
+	monitorBitDepth.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorBitDepth.dimensions().getX(), window.getBufferHeight() - 220.0f));
+	monitorRefreshRate.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorRefreshRate.dimensions().getX(), window.getBufferHeight() - 240.0f));
+	monitorPhysicalSize.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorPhysicalSize.dimensions().getX(), window.getBufferHeight() - 260.0f));
+	monitorContentScale.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorContentScale.dimensions().getX(), window.getBufferHeight() - 280.0f));
+	monitorPosition.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorPosition.dimensions().getX(), window.getBufferHeight() - 300.0f));
+	monitorWorkArea.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorWorkArea.dimensions().getX(), window.getBufferHeight() - 320.0f));
+	monitorIsPrimary.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorIsPrimary.dimensions().getX(), window.getBufferHeight() - 340.0f));
 }

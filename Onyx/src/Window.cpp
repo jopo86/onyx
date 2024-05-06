@@ -372,7 +372,14 @@ void Onyx::Window::setOpacity(float opacity)
 void Onyx::Window::fullscreen()
 {
 	m_properties.fullscreen = true;
-	glfwSetWindowMonitor(m_pGlfwWin, glfwGetPrimaryMonitor(), 0, 0, m_pPrimaryMonitorInfo->width, m_pPrimaryMonitorInfo->height, m_pPrimaryMonitorInfo->refreshRate);
+	glfwSetWindowMonitor(m_pGlfwWin, m_pPrimaryMonitor, 0, 0, m_pPrimaryMonitorInfo->width, m_pPrimaryMonitorInfo->height, m_pPrimaryMonitorInfo->refreshRate);
+	glfwSwapInterval(1);
+}
+
+void Onyx::Window::fullscreen(Monitor& monitor)
+{
+	m_properties.fullscreen = true;
+	glfwSetWindowMonitor(m_pGlfwWin, monitor.getGlfwMonitor(), 0, 0, monitor.getDimensions().getX(), monitor.getDimensions().getY(), monitor.getRefreshRate());
 	glfwSwapInterval(1);
 }
 

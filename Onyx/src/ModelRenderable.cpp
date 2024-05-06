@@ -29,11 +29,11 @@ void Onyx::ModelRenderable::render()
 	}
 }
 
-void Onyx::ModelRenderable::render(const Mat4& view, const Mat4& proj)
+void Onyx::ModelRenderable::render(const Mat4& view, const Mat4& proj, const Vec3& camPos)
 {
 	for (std::pair<const std::string, Renderable>& renderable : m_renderableMap)
 	{
-		renderable.second.render(view, proj);
+		renderable.second.render(view, proj, camPos);
 	}
 }
 

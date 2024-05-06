@@ -216,11 +216,11 @@ void Onyx::Demo()
 			.title = "Onyx Demo",
 			.width = 1280,
 			.height = 720,
-			.nSamplesMSAA = 4
+			.nSamplesMSAA = 4,
+			.backgroundColor = Vec3(0.0f, 0.7f, 1.0f)
 		}
 	);
 	window.init();
-	window.setBackgroundColor(Vec3(0.0f, 0.7f, 1.0f));
 
 	WindowIcon icon = WindowIcon::Load({
 		Resources("icons/icon-16x.png"),
@@ -285,8 +285,9 @@ void Onyx::Demo()
 	cam.translateUD(2.0f);
 
 	Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
+	Fog fog(window.getBackgroundColor(), 10.0f, 20.0f);
 
-	Renderer renderer(cam, lighting);
+	Renderer renderer(cam, lighting, fog);
 	window.linkRenderer(renderer);
 	renderer.add(car);
 	renderer.add(textBg);

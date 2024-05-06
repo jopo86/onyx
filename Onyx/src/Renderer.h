@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "Camera.h"
 #include "Lighting.h"
+#include "Fog.h"
 #include "Renderable.h"
 #include "ModelRenderable.h"
 #include "UiRenderable.h"
@@ -54,6 +55,27 @@ namespace Onyx
 		Renderer(Camera& cam, Lighting& lighting);
 
 		/*
+			@brief Creates a new Renderer object containing no renderables and the specified camera and fog settings.
+		 !  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
+		 !	Use `Window::linkRenderer()`
+			@param window The window to link to.
+			@param cam The camera to use.
+			@param fog The fog settings to use.
+		 */
+		Renderer(Camera& cam, Fog& fog);
+
+		/*
+			@brief Creates a new Renderer object containing no renderables and the specified camera, lighting settings, and fog settings.
+			!  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
+			!	Use `Window::linkRenderer()`
+			@param window The window to link to.
+			@param cam The camera to use.
+			@param lighting The lighting settings to use.
+			@param fog The fog settings to use.
+		 */
+		Renderer(Camera& cam, Lighting& lighting, Fog& fog);
+
+		/*
 			@brief Renders all of the renderables contained by the renderer.
 			Does not render any renderables that have been hidden by hide().
 		 */
@@ -90,15 +112,32 @@ namespace Onyx
 		bool isLightingEnabled() const;
 
 		/*
+			@brief Gets whether fog is enabled for the renderer.
+			@return True if fog is enabled, false if not.
+		 */
+		bool isFogEnabled() const;
+
+		/*
 			@brief Sets whether lighting is enabled for the renderer.
 			@param enabled True to enable lighting, false to disable.
 		 */
 		void setLightingEnabled(bool enabled);
 
 		/*
+			@brief Sets whether fog is enabled for the renderer.
+			@param enabled True to enable fog, false to disable.
+		 */
+		void setFogEnabled(bool enabled);
+
+		/*
 			@brief Toggles whether lighting is enabled for the renderer.
 		 */
 		void toggleLightingEnabled();
+
+		/*
+			@brief Toggles whether fog is enabled for the renderer.
+		 */
+		void toggleFogEnabled();
 
 		/*
 			@brief Gets the lighting settings for the renderer.
@@ -107,16 +146,34 @@ namespace Onyx
 		const Lighting& getLighting() const;
 
 		/*
+			@brief Gets the fog settings for the renderer.
+			@return A pointer to the fog settings.
+		 */
+		const Fog& getFog() const;
+
+		/*
 			@brief Sets the lighting settings for the renderer.
 			@param lighting The lighting settings to use.
 		 */
 		void setLighting(Lighting& lighting);
 
 		/*
+			@brief Sets the fog settings for the renderer.
+			@param fog The fog settings to use.
+		 */
+		void setFog(Fog& fog);
+
+		/*
 			@brief Refreshes the lighting variables in the shaders of all renderables contained in the renderer.
 			This needs to be called if the lighting values are changed after an object has been added to the renderer.
 		 */
 		void refreshLighting();
+
+		/*
+			@brief Refreshes the fog variables in the shaders of all renderables contained in the renderer.
+			This needs to be called if the fog values are changed after an object has been added to the renderer.
+		 */
+		void refreshFog();
 
 		/*
 			@brief Sets whether wireframe rendering mode is enabled.
@@ -186,9 +243,11 @@ namespace Onyx
 		Window* m_pWin;
 		Camera* m_pCam;
 		Lighting* m_pLighting;
+		Fog* m_pFog;
 		Math::Mat4 m_ortho;
 
 		bool m_lightingEnabled;
+		bool m_fogEnabled;
 		static bool sm_wireframe;
 		static bool sm_uiWireframeAllowed;
 		static float sm_lineWidth;

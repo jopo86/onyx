@@ -74,7 +74,7 @@ void Onyx::Renderable::render()
 #endif
 }
 
-void Onyx::Renderable::render(const Mat4& view, const Mat4& proj)
+void Onyx::Renderable::render(const Mat4& view, const Mat4& proj, const Vec3& camPos)
 {
 	if (m_hidden) return;
 	m_shader.use();
@@ -83,6 +83,7 @@ void Onyx::Renderable::render(const Mat4& view, const Mat4& proj)
 	m_shader.setMat4("u_inverseModel", m_inverseModel);
 	m_shader.setMat4("u_view", view);
 	m_shader.setMat4("u_projection", proj);
+	m_shader.setVec3("u_camPos", camPos);
 	glBindVertexArray(m_mesh.getVAO());
 	glDrawElements(GL_TRIANGLES, m_mesh.getIndicesSize() / sizeof(uint), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);

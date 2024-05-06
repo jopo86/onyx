@@ -37,7 +37,7 @@ namespace Onyx
 			@param view The view matrix to use, generally from an Camera.
 			@param proj The projection matrix to use, generally from an Camera.
 		 */
-		void render(const Math::Mat4& view, const Math::Mat4& proj);
+		void render(const Math::Mat4& view, const Math::Mat4& proj, const Math::Vec3& camPos);
 
 		/*
 			@brief Hides the renderable.

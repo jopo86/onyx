@@ -5,6 +5,7 @@ layout (location = 1) in vec4 i_color;
 layout (location = 2) in vec2 i_texCoord;
 layout (location = 3) in vec3 i_normal;
 
+out vec3 io_pos;
 out float io_diffuseFactor;
 out vec4 io_color;
 out vec2 io_texCoord;
@@ -29,6 +30,7 @@ void main()
 	gl_Position = u_projection * u_view * u_model * vec4(i_pos, 1.0);
 	io_texCoord = i_texCoord;
 	io_color = i_color;
+	io_pos = vec3(u_model * vec4(i_pos, 1.0));
 
 	if (!u_lighting.enabled)
 	{

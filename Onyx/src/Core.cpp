@@ -428,6 +428,16 @@ void Onyx::Demo()
 	robotoBold.dispose();
 }
 
+std::string Onyx::GetClipboardString()
+{
+	return glfwGetClipboardString(nullptr);
+}
+
+void Onyx::SetClipboardString(const std::string& str)
+{
+	glfwSetClipboardString(nullptr, str.c_str());
+}
+
 bool Onyx::IsInitialized()
 {
 	return initialized;

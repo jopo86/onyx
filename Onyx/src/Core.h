@@ -430,9 +430,25 @@ namespace Onyx
 	void Terminate();
 
 	/*
-	 @brief Starts a little demo of the library.
+		@brief Starts a little demo of the library.
 	 */
 	void Demo();
+
+	/*
+		@brief Gets the contents of the system clipboard.
+		The clipboard is what contains copied text from the user.
+		Use this function to 'paste' text.
+		@return The contents of the system clipboard as a string.
+	 */
+	std::string GetClipboardString();
+
+	/*
+		@brief Sets the text to copy to the clipboard.
+		The clipboard is what contains copied text from the user.
+		Use this function to 'copy' text.
+		@param str The text to copy to the clipboard.
+	 */
+	void SetClipboardString(const std::string& str);
 
 	/*
 		@brief Gets whether the library has been initialized.

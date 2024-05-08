@@ -9,7 +9,7 @@
  */
 
 #define ONYX_VERSION_MAJOR		1
-#define ONYX_VERSION_MINOR		0
+#define ONYX_VERSION_MINOR		1
 #define ONYX_VERSION_PATCH		0
 
 #define ONYX_PRE_RELEASE_NUM	0

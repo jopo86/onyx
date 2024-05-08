@@ -4,7 +4,6 @@
 
 #include <glad/glad.h>
 
-#define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
 
 void onyx_err(const Onyx::Error&);
@@ -73,8 +72,6 @@ Onyx::Texture Onyx::Texture::Load(const std::string& filepath, bool* result, Ony
 	}
 
 	int width = 0, height = 0, nChannels = 0;
-
-	stbi_set_flip_vertically_on_load(true);
 
 	ubyte* data = stbi_load(filepath.c_str(), &width, &height, &nChannels, 0);
 	if (!data)

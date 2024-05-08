@@ -100,10 +100,10 @@ void Onyx::Camera::rotate(float yaw, float pitch)
 {
 	if (m_pWin != nullptr) if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || yaw == 0 && pitch == 0) return;
 
-	if (m_pitch + pitch > m_pitchClamp || m_pitch + pitch < -m_pitchClamp) pitch = 0.0f;
-
 	m_yaw += yaw;
 	m_pitch += pitch;
+	if (m_pitch > m_pitchClamp) m_pitch = m_pitchClamp;
+	else if (m_pitch < -m_pitchClamp) m_pitch = -m_pitchClamp;
 	updateFront();
 }
 
@@ -127,8 +127,9 @@ void Onyx::Camera::rotate(float yaw, float pitch)
 void Onyx::Camera::pitch(float degrees)
 {
 	if (m_pWin != nullptr) if (m_pWin->m_frame > 0 && m_pWin->m_frame < 5 || degrees == 0) return;
-	if (m_pitch + degrees > m_pitchClamp || m_pitch + degrees < -m_pitchClamp) return;
 	m_pitch += degrees;
+	if (m_pitch > m_pitchClamp) m_pitch = m_pitchClamp;
+	else if (m_pitch < -m_pitchClamp) m_pitch = -m_pitchClamp;
 	updateFront();
 }
 

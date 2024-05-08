@@ -1,12 +1,15 @@
 #pragma warning(disable : 4244; disable: 4267)
 
-
 #include "Core.h"
 
 #include <string>
+#include <unordered_map>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stbi/stb_image.h>
 
 #include "Math.h"
 #include "Window.h"
@@ -18,11 +21,12 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 bool initialized = false;
 bool glInitialized = false;
-Onyx::ErrorHandler* p_errorHandler = nullptr;
+Onyx::ErrorHandler* pErrorHandler = nullptr;
 std::string resourcePath;
 FT_Library ft;
-void* p_user;
 std::vector<std::pair<void*, bool>> mallocs;
+void* oldUserPtr = nullptr;
+std::unordered_map<std::string, void*> userPtrs;
 
 void onyx_set_gl_init(bool val)
 {
@@ -41,12 +45,12 @@ void onyx_add_malloc(void* ptr, bool array)
 
 void onyx_err(const Onyx::Error& error)
 {
-	if (p_errorHandler != nullptr) p_errorHandler->err(error);
+	if (pErrorHandler != nullptr) pErrorHandler->err(error);
 }
 
 void onyx_warn(const Onyx::Warning& warning)
 {
-	if (p_errorHandler != nullptr) p_errorHandler->warn(warning);
+	if (pErrorHandler != nullptr) pErrorHandler->warn(warning);
 }
 
 void onyx_glerr(const Onyx::GLError& error)
@@ -90,6 +94,8 @@ void Onyx::Init()
 	initialized = true;
 	resourcePath = "resources/";
 
+	stbi_set_flip_vertically_on_load(true);
+
 	FT_Init_FreeType(&ft);
 
 	glfwInit();
@@ -99,11 +105,14 @@ void Onyx::Init()
 #ifdef ONYX_OS_MAC
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 #endif
+
 }
 
 void Onyx::Init(ErrorHandler& errorHandler)
 {
-	p_errorHandler = &errorHandler;
+	pErrorHandler = &errorHandler;
+
+	stbi_set_flip_vertically_on_load(true);
 
 	if (initialized)
 	{
@@ -211,11 +220,14 @@ void Onyx::Terminate()
 
 void Onyx::Demo()
 {
+	Onyx::Monitor primaryMonitor = Onyx::Monitor::GetPrimary();
+
 	Window window(
 		WindowProperties {
 			.title = "Onyx Demo",
 			.width = 1280,
 			.height = 720,
+			.position = Math::IVec2(primaryMonitor.getDimensions().getX() / 2 - 1280 / 2, primaryMonitor.getDimensions().getY() / 2 - 720 / 2),
 			.nSamplesMSAA = 4,
 			.backgroundColor = Vec3(0.0f, 0.7f, 1.0f)
 		}
@@ -440,7 +452,7 @@ bool Onyx::IsOpenGLInitialized()
 
 void Onyx::SetErrorHandler(ErrorHandler& errorHandler)
 {
-	p_errorHandler = &errorHandler;
+	pErrorHandler = &errorHandler;
 }
 
 void Onyx::SetResourcePath(std::string path)
@@ -453,7 +465,19 @@ void Onyx::SetResourcePath(std::string path)
 
 void Onyx::SetUserPtr(void* ptr)
 {
-	p_user = ptr;
+	onyx_warn(Warning{
+			.sourceFunction = "Onyx::SetUserPtr(void* ptr)",
+			.message = "This function is deprecated and will be removed in the next major release.",
+			.howToFix = "Use the named user pointer system instead. See Onyx::SetUserPtr(const std::string& name, void* ptr) and Onyx::GetUserPtr(const std::string& name).",
+			.severity = Warning::Severity::High
+		}
+	);
+	oldUserPtr = ptr;
+}
+
+void Onyx::SetUserPtr(const std::string& name, void* ptr)
+{
+	userPtrs[name] = ptr;
 }
 
 const std::string& Onyx::GetResourcePath()
@@ -469,7 +493,36 @@ std::string Onyx::Resources(const std::string& path)
 
 void* Onyx::GetUserPtr()
 {
-	return p_user;
+	onyx_warn(Warning{
+			   .sourceFunction = "Onyx::GetUserPtr()",
+			   .message = "This function is deprecated and will be removed in the next major release.",
+			   .howToFix = "Use the named user pointer system instead. See Onyx::SetUserPtr(const std::string& name, void* ptr) and Onyx::GetUserPtr(const std::string& name).",
+			   .severity = Warning::Severity::High
+		}
+	);
+	return oldUserPtr;
+}
+
+void* Onyx::GetUserPtr(const std::string& name, bool* result)
+{
+	if (pErrorHandler != nullptr || result != nullptr)
+	{
+		bool found = userPtrs.contains(name);
+		if (!found)
+		{
+			if (pErrorHandler != nullptr) onyx_err(Error{
+					.sourceFunction = "Onyx::GetUserPtr(const std::string& name, bool* result)",
+					.message = "User pointer with name \"" + name + "\" not found.",
+					.howToFix = "Ensure a user pointer with this name was set."
+				}
+			);
+			if (result != nullptr) *result = false;
+			return nullptr;
+		}
+		if (result != nullptr) *result = true;
+		return userPtrs.at(name);
+	}
+	return userPtrs.at(name);
 }
 
 double Onyx::GetTime()

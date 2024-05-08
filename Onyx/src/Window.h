@@ -128,6 +128,7 @@ namespace Onyx
 		/*
 			@brief Default constructor, initializes member variables.
 			Using an object created with this constructor will result in undefined behavior.
+			Use the static Load() function to create a valid window icon.
 		 */
 		WindowIcon();
 
@@ -137,19 +138,71 @@ namespace Onyx
 			Ideally, provide a 16x16, 24x24, 32x32, 48x48, and 256x256 image.
 			@param filepaths The filepaths of the images to use as the icon.
 			@param result A pointer to a boolean that will be set to true if the icon was loaded successfully, false otherwise.
+			@return The created window icon.
 		 */
 		static WindowIcon Load(const std::initializer_list<std::string>& filepaths, bool* result = nullptr);
 
 		/*
-			@brief Disposes of the window icon.
-			This clears up any memory that the object was using.
-			This can be safely called after the icon has been used with Window::setIcon().
+			@brief Destroys the object, freeing any used memory.
+			Do not use the object after this is called.
+			This can safely be called after the window's icon has been set.
 		 */
 		void dispose() override;
 
 	private:
-		GLFWimage* images;
-		uint nImages;
+		GLFWimage* m_pImages;
+		uint m_nImages;
+	};
+
+	/*
+		@brief A class to represent a cursor.
+	 */
+	class Cursor : public Disposable
+	{
+		friend class Window;
+	public:
+		/*
+			@brief Default constructor, initializes member variables.
+			Using an object created with this constructor will result in undefined behavior.
+			Use the static Standard() or Load() functions to create a valid cursor.
+		 */
+		Cursor();
+
+		/*
+			@brief Gets the type of the cursor.
+			If the cursor was created with Standard(), this will return the type of standard cursor.
+			If the cursor was created with Load(), this will return CursorType::Custom.
+			If the cursor was created with the default constructor, this will return CursorType::Null.
+			@return The type of the cursor.
+		 */
+		CursorType getType() const;
+
+		/*
+			@brief Creates a standard cursor.
+			@param type The type of standard cursor to create.
+			@return The created cursor.
+		 */
+		static Cursor Standard(CursorType type);
+
+		/*
+			@brief Creates a cursor from the specified image file.
+			@param filepath The filepath of the image to use as the cursor.
+			@param hotspot The hotspot of the cursor, specified as a pixel offset from the top-left of the image.
+			The hotspot is the part of the cursor that interacts with other elements.
+			@param result A pointer to a boolean that will be set to true if the cursor was loaded successfully, false otherwise.
+			@return The created cursor.
+		 */
+		static Cursor Load(const std::string& filepath, Math::IVec2 hotspot = Math::IVec2(0, 0), bool* result = nullptr);
+
+		/*
+			@brief Destroys the object, freeing any used memory.
+			Do not use the object after this is called.
+		 */
+		void dispose() override;
+
+	private:
+		GLFWcursor* m_pCursor;
+		CursorType m_type;
 	};
 
 	/*
@@ -418,6 +471,12 @@ namespace Onyx
 		void setIcon(const WindowIcon& icon);
 
 		/*
+			@brief Sets the cursor of the window.
+			@param cursor The cursor to set.
+		 */
+		void setCursor(const Cursor& cursor);
+
+		/*
 			@brief Sets the opacity of the window, including decorations.
 			@param opacity The opacity of the window, ranging from 0 to 1.
 			Value is clamped to the range [0, 1].
@@ -549,6 +608,14 @@ namespace Onyx
 		void linkRenderer(Renderer& renderer);
 
 		/*
+			@brief Sets the file drop callback.
+			This function receives an array of string literals representing filepaths, and the count of the filepaths.
+			You can do whatever you want with this.
+			@param callback The function to call when files are dropped onto the window.
+		 */
+		void setFileDropCallback(void (*callback)(const char**, int));
+
+		/*
 			@brief Destroys the object, freeing any used memory.
 			Do not use the object after this is called.
 		 */
@@ -574,13 +641,17 @@ namespace Onyx
 		double m_lastFrameTime;
 		double m_deltaTime;
 
-		static void framebufferSizeCallback(GLFWwindow* p_window, int width, int height);
-		static void windowSizeCallback(GLFWwindow* p_window, int width, int height);
-		static void windowPosCallback(GLFWwindow* p_window, int x, int y);
+		void (*m_fileDropCallback)(const char**, int);
 
-		static void keyCallback(GLFWwindow* p_window, int key, int scancode, int action, int mods);
-		static void mouseButtonCallback(GLFWwindow* p_window, int button, int action, int mods);
-		static void cursorPosCallback(GLFWwindow* p_window, double x, double y);
-		static void scrollCallback(GLFWwindow* p_window, double dx, double dy);
+		static void framebufferSizeCallback(GLFWwindow* pGlfwWin, int width, int height);
+		static void windowSizeCallback(GLFWwindow* pGlfwWin, int width, int height);
+		static void windowPosCallback(GLFWwindow* pGlfwWin, int x, int y);
+
+		static void keyCallback(GLFWwindow* pGlfwWin, int key, int scancode, int action, int mods);
+		static void mouseButtonCallback(GLFWwindow* pGlfwWin, int button, int action, int mods);
+		static void cursorPosCallback(GLFWwindow* pGlfwWin, double x, double y);
+		static void scrollCallback(GLFWwindow* pGlfwWin, double dx, double dy);
+
+		static void fileDropCallback(GLFWwindow* pGlfwWin, int count, const char** paths);
 	};
 }

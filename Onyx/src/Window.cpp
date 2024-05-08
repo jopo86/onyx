@@ -16,8 +16,8 @@ void onyx_err(const Onyx::Error&);
 
 Onyx::WindowIcon::WindowIcon()
 {
-	images = nullptr;
-	nImages = 0;
+	m_pImages = nullptr;
+	m_nImages = 0;
 }
 
 Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths, bool* result)
@@ -41,13 +41,14 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 
 	WindowIcon icon;
 
-	icon.nImages = filepaths.size();
-	icon.images = new GLFWimage[icon.nImages];
+	icon.m_nImages = filepaths.size();
+	icon.m_pImages = new GLFWimage[icon.m_nImages];
 
-	for (uint i = 0; i < icon.nImages; i++)
+	stbi_set_flip_vertically_on_load(false);
+	for (uint i = 0; i < icon.m_nImages; i++)
 	{
-		icon.images[i].pixels = stbi_load(filepaths.begin()[i].c_str(), &icon.images[i].width, &icon.images[i].height, nullptr, 4);
-		if (icon.images[i].pixels == nullptr)
+		icon.m_pImages[i].pixels = stbi_load(filepaths.begin()[i].c_str(), &icon.m_pImages[i].width, &icon.m_pImages[i].height, nullptr, 4);
+		if (icon.m_pImages[i].pixels == nullptr)
 		{
 			onyx_err(Error{
 					.sourceFunction = "Onyx::WindowIcon::Load(const std::initializer_list<std::string>& filepaths)",
@@ -60,6 +61,7 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 			return WindowIcon();
 		}
 	}
+	stbi_set_flip_vertically_on_load(true);
 
 	if (result != nullptr) *result = true;
 	return icon;
@@ -67,8 +69,58 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 
 void Onyx::WindowIcon::dispose()
 {
-	for (uint i = 0; i < nImages; i++) stbi_image_free(images[i].pixels);
-	delete[] images;
+	for (uint i = 0; i < m_nImages; i++) stbi_image_free(m_pImages[i].pixels);
+	delete[] m_pImages;
+}
+
+Onyx::Cursor::Cursor()
+{
+	m_pCursor = nullptr;
+	m_type = CursorType::Null;
+}
+
+Onyx::CursorType Onyx::Cursor::getType() const
+{
+	return m_type;
+}
+
+Onyx::Cursor Onyx::Cursor::Standard(CursorType type)
+{
+	Cursor cursor;
+	cursor.m_type = type;
+	cursor.m_pCursor = glfwCreateStandardCursor((int)type);
+	return cursor;
+}
+
+Onyx::Cursor Onyx::Cursor::Load(const std::string& filepath, Math::IVec2 hotspot, bool* result)
+{
+	std::ifstream file(filepath);
+	if (!file.is_open())
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Cursor::Load(const std::string& filepath)",
+				.message = "File not found (or access denied): \"" + filepath + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return Cursor();
+	}
+
+	Cursor cursor;
+	cursor.m_type = CursorType::Custom;
+
+	GLFWimage image;
+	image.pixels = stbi_load(filepath.c_str(), &image.width, &image.height, nullptr, 4);
+	cursor.m_pCursor = glfwCreateCursor(&image, hotspot.getX(), hotspot.getY());
+
+	stbi_image_free(image.pixels);
+}
+
+void Onyx::Cursor::dispose()
+{
+	glfwDestroyCursor(m_pCursor);
+	m_pCursor = nullptr;
 }
 
 Onyx::Window::Window()
@@ -78,6 +130,7 @@ Onyx::Window::Window()
 	m_initialized = false;
 	m_frame = m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
+	m_fileDropCallback = nullptr;
 }
 
 Onyx::Window::Window(WindowProperties properties)
@@ -88,6 +141,7 @@ Onyx::Window::Window(WindowProperties properties)
 	m_initialized = false;
 	m_frame = m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
+	m_fileDropCallback = nullptr;
 }
 
 void Onyx::Window::init(bool* result)
@@ -127,6 +181,7 @@ void Onyx::Window::init(bool* result)
 	glfwSetMouseButtonCallback(m_pGlfwWin, mouseButtonCallback);
 	glfwSetCursorPosCallback(m_pGlfwWin, cursorPosCallback);
 	glfwSetScrollCallback(m_pGlfwWin, scrollCallback);
+	glfwSetDropCallback(m_pGlfwWin, fileDropCallback);
 
 	glfwSwapInterval(1);
 
@@ -147,6 +202,8 @@ void Onyx::Window::init(bool* result)
 	glfwSetWindowOpacity(m_pGlfwWin, m_properties.opacity);
 	glfwSetWindowPos(m_pGlfwWin, m_properties.position.getX(), m_properties.position.getY());
 	if (m_properties.fullscreen) fullscreen();
+
+	if (glfwRawMouseMotionSupported()) glfwSetInputMode(m_pGlfwWin, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
 	glViewport(0, 0, m_bufferWidth, m_bufferHeight);
 	glEnable(GL_DEPTH_TEST);
@@ -360,7 +417,12 @@ void Onyx::Window::setBackgroundColor(Onyx::Math::Vec3 rgb)
 void Onyx::Window::setIcon(const WindowIcon& icon)
 {
 	m_icon = icon;
-	glfwSetWindowIcon(m_pGlfwWin, icon.nImages, icon.images);
+	glfwSetWindowIcon(m_pGlfwWin, icon.m_nImages, icon.m_pImages);
+}
+
+void Onyx::Window::setCursor(const Cursor& cursor)
+{
+	glfwSetCursor(m_pGlfwWin, cursor.m_pCursor);
 }
 
 void Onyx::Window::setOpacity(float opacity)
@@ -510,6 +572,11 @@ void Onyx::Window::linkRenderer(Renderer& renderer)
 	renderer.m_ortho = Projection::Orthographic(m_bufferWidth, m_bufferHeight).getMatrix();
 }
 
+void Onyx::Window::setFileDropCallback(void (*callback)(const char**, int))
+{
+	m_fileDropCallback = callback;
+}
+
 void Onyx::Window::dispose()
 {
 	if (m_initialized)
@@ -523,11 +590,11 @@ void Onyx::Window::dispose()
 }
 
 
-void Onyx::Window::framebufferSizeCallback(GLFWwindow* p_glfwWin, int width, int height)
+void Onyx::Window::framebufferSizeCallback(GLFWwindow* pGlfwWin, int width, int height)
 {
 	glViewport(0, 0, width, height);
 
-	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	pWin->m_bufferWidth = width;
 	pWin->m_bufferHeight = height;
 
@@ -554,51 +621,57 @@ void Onyx::Window::framebufferSizeCallback(GLFWwindow* p_glfwWin, int width, int
 #endif
 }
 
-void Onyx::Window::windowSizeCallback(GLFWwindow* p_glfwWin, int width, int height)
+void Onyx::Window::windowSizeCallback(GLFWwindow* pGlfwWin, int width, int height)
 {
-	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	pWin->m_properties.width = width;
 	pWin->m_properties.height = height;
 }
 
-void Onyx::Window::windowPosCallback(GLFWwindow* p_glfwWin, int x, int y)
+void Onyx::Window::windowPosCallback(GLFWwindow* pGlfwWin, int x, int y)
 {
-	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	pWin->m_properties.position = Math::IVec2(x, y);
 }
 
-void Onyx::Window::keyCallback(GLFWwindow* p_glfwWin, int key, int scancode, int action, int mods)
+void Onyx::Window::keyCallback(GLFWwindow* pGlfwWin, int key, int scancode, int action, int mods)
 {
-	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
 	{
 		pInputHandler->keyCallback(key, scancode, action, mods);
 	}
 }
 
-void Onyx::Window::mouseButtonCallback(GLFWwindow* p_glfwWin, int button, int action, int mods)
+void Onyx::Window::mouseButtonCallback(GLFWwindow* pGlfwWin, int button, int action, int mods)
 {
-	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
 	{
 		pInputHandler->mouseButtonCallback(button, action, mods);
 	}
 }
 
-void Onyx::Window::cursorPosCallback(GLFWwindow* p_glfwWin, double x, double y)
+void Onyx::Window::cursorPosCallback(GLFWwindow* pGlfwWin, double x, double y)
 {
-	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
 	{
-		pInputHandler->cursorPosCallback(x, ((Window*)glfwGetWindowUserPointer(p_glfwWin))->m_properties.height - y);
+		pInputHandler->cursorPosCallback(x, ((Window*)glfwGetWindowUserPointer(pGlfwWin))->m_properties.height - y);
 	}
 }
 
-void Onyx::Window::scrollCallback(GLFWwindow* p_glfwWin, double dx, double dy)
+void Onyx::Window::scrollCallback(GLFWwindow* pGlfwWin, double dx, double dy)
 {
-	Window* pWin = (Window*)glfwGetWindowUserPointer(p_glfwWin);
+	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
 	{
 		pInputHandler->scrollCallback(dx, dy);
 	}
+}
+
+void Onyx::Window::fileDropCallback(GLFWwindow* pGlfwWin, int count, const char** paths)
+{
+	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
+	if (pWin->m_fileDropCallback != nullptr) pWin->m_fileDropCallback(paths, count);
 }

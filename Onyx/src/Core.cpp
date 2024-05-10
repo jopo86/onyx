@@ -106,6 +106,10 @@ void Onyx::Init()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 #endif
 
+	for (int i = GLFW_JOYSTICK_1; i <= GLFW_JOYSTICK_16; i++)
+	{
+		glfwSetJoystickUserPointer(i, nullptr);
+	}
 }
 
 void Onyx::Init(ErrorHandler& errorHandler)
@@ -155,6 +159,9 @@ void Onyx::Init(ErrorHandler& errorHandler)
 #ifdef ONYX_OS_MAC
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 #endif
+
+	for (int i = GLFW_JOYSTICK_1; i <= GLFW_JOYSTICK_16; i++)
+		{
 }
 
 int Onyx::GetVersionMajor()

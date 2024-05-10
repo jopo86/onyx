@@ -125,6 +125,8 @@ namespace Onyx
 		bool isCursorLocked() const;
 
 		/*
+			@deprecated There is no longer a need for this function, as newly connected gamepads are automatically added to the list.
+			This function is deprecated and will be removed in the next major release.
 			@brief Rescans for connected gamepads, appends newfound ones to the list of gamepads.
 			The indices of existing gamepads will remain unchanged, new gamepads will be added to the end of the list.
 			Gamepads that are no longer connected will not be removed from the list.
@@ -184,5 +186,6 @@ namespace Onyx
 		void mouseButtonCallback(int button, int action, int mods);
 		void cursorPosCallback(double x, double y);
 		void scrollCallback(double dx, double dy);
+		void joystickCallback(int jid, int event);
 	};
 }

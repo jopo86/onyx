@@ -67,31 +67,27 @@ bool Onyx::Monitor::isConnected() const
 	return m_connected;
 }
 
-Onyx::Monitor* Onyx::Monitor::fromGlfwMonitor(GLFWmonitor* pGlfwMonitor)
+Onyx::Monitor::Monitor(GLFWmonitor* pGlfwMonitor)
 {
-	Monitor* pMonitor = new Monitor();
-	onyx_add_malloc(pMonitor, false);
-	pMonitor->m_pGlfwMonitor = pGlfwMonitor;
-	pMonitor->m_name = glfwGetMonitorName(pGlfwMonitor);
+	m_pGlfwMonitor = pGlfwMonitor;
+	m_name = glfwGetMonitorName(pGlfwMonitor);
 	const GLFWvidmode* pVideoMode = glfwGetVideoMode(pGlfwMonitor);
-	pMonitor->m_dimensions = IVec2(pVideoMode->width, pVideoMode->height);
-	pMonitor->m_bitDepth = IVec3(pVideoMode->redBits, pVideoMode->greenBits, pVideoMode->blueBits);
-	pMonitor->m_refreshRate = pVideoMode->refreshRate;
+	m_dimensions = IVec2(pVideoMode->width, pVideoMode->height);
+	m_bitDepth = IVec3(pVideoMode->redBits, pVideoMode->greenBits, pVideoMode->blueBits);
+	m_refreshRate = pVideoMode->refreshRate;
 	int tmpInt0, tmpInt1, tmpInt2, tmpInt3;
 	float tmpFloat0, tmpFloat1;
 	glfwGetMonitorPhysicalSize(pGlfwMonitor, &tmpInt0, &tmpInt1);
-	pMonitor->m_physicalSize = IVec2(tmpInt0, tmpInt1);
+	m_physicalSize = IVec2(tmpInt0, tmpInt1);
 	glfwGetMonitorContentScale(pGlfwMonitor, &tmpFloat0, &tmpFloat1);
-	pMonitor->m_contentScale = Vec2(tmpFloat0, tmpFloat1);
+	m_contentScale = Vec2(tmpFloat0, tmpFloat1);
 	glfwGetMonitorPos(pGlfwMonitor, &tmpInt0, &tmpInt1);
-	pMonitor->m_position = IVec2(tmpInt0, tmpInt1);
+	m_position = IVec2(tmpInt0, tmpInt1);
 	glfwGetMonitorWorkarea(pGlfwMonitor, &tmpInt0, &tmpInt1, &tmpInt2, &tmpInt3);
-	pMonitor->m_workArea = IVec4(tmpInt0, tmpInt1, tmpInt2, tmpInt3);
-	pMonitor->m_primary = pGlfwMonitor == glfwGetPrimaryMonitor();
-	pMonitor->m_connected = true;
-	glfwSetMonitorUserPointer(pGlfwMonitor, pMonitor);
-
-	return pMonitor;
+	m_workArea = IVec4(tmpInt0, tmpInt1, tmpInt2, tmpInt3);
+	m_primary = pGlfwMonitor == glfwGetPrimaryMonitor();
+	m_connected = true;
+	glfwSetMonitorUserPointer(pGlfwMonitor, );
 }
 
 void Onyx::Monitor::callback(GLFWmonitor* pGlfwMonitor, int event)
@@ -101,20 +97,20 @@ void Onyx::Monitor::callback(GLFWmonitor* pGlfwMonitor, int event)
 	else if (event == GLFW_DISCONNECTED) ((Monitor*)glfwGetMonitorUserPointer(pGlfwMonitor))->m_connected = false;
 }
 
-const Onyx::Monitor& Onyx::Monitor::GetPrimary()
+Onyx::Monitor Onyx::Monitor::GetPrimary()
 {
-	return *fromGlfwMonitor(glfwGetPrimaryMonitor());
+	return Monitor(glfwGetPrimaryMonitor());
 }
 
-std::vector<Onyx::Monitor*> Onyx::Monitor::GetAll()
+std::vector<Onyx::Monitor> Onyx::Monitor::GetAll()
 {
 	int count;
 	GLFWmonitor** monitors = glfwGetMonitors(&count);
 
-	std::vector<Onyx::Monitor*> vec;
+	std::vector<Onyx::Monitor> vec;
 	for (int i = 0; i < count; i++)
 	{
-		vec.push_back(fromGlfwMonitor(monitors[i]));
+		vec.push_back(Monitor(monitors[i]));
 	}
 
 	return vec;

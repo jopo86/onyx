@@ -20,15 +20,9 @@ namespace Onyx
 		/*
 			@brief Default constructor, initializes member variables.
 			Using an object created with this constructor will result in undefined behavior.
+			Gamepads are not meant to be created by the user, they are created and managed by the InputHandler.
 		 */
 		Gamepad();
-
-		/*
-			@brief Creates a Gamepad object from the specified GLFW joystick ID.
-			@param joystickID The GLFW joystick ID.
-			@param result A pointer to a boolean that will be set to true if the gamepad was created successfully, and false otherwise.
-		 */
-		Gamepad(int joystickID, bool* result = nullptr);
 
 		/*
 			@brief Updates the gamepad input state.
@@ -71,5 +65,7 @@ namespace Onyx
 		int m_joystickID;
 		std::string m_name;
 		GLFWgamepadstate m_state;
+
+		Gamepad(int joystickID, bool* result = nullptr);
 	};
 }

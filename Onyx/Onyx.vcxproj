@@ -176,6 +176,7 @@
     <ClCompile Include="src\Lighting.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Monitor.cpp" />
+    <ClCompile Include="src\MathSwizzle.cpp" />
     <ClCompile Include="src\UiRenderable.cpp" />
     <ClCompile Include="tests\Main.cpp" />
     <ClCompile Include="src\Math.cpp" />

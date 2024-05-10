@@ -118,7 +118,7 @@ void Onyx::Init(ErrorHandler& errorHandler)
 	{
 		onyx_warn(Warning{
 				.sourceFunction = "Onyx::Init(ErrorHandler& errorHandler)",
-				.message = "Attempted to initialize library when it is already initialize. Initialization aborted.",
+				.message = "Attempted to initialize library when it is already initialized. Initialization aborted.",
 				.howToFix = "If reinitialization was intentional, terminate the library first.",
 				.severity = Warning::Severity::Low
 			}

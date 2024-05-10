@@ -16,15 +16,16 @@ I'm always lost when trying to learn a library by reading it's massive documenta
 There is also a [Guides](https://github.com/jopo86/onyx/wiki/guides) page, with helpful guides on how to use different classes throughout the library. But, if, for whatever reason, you want boring old documentation, it can be found in the code headers themselves.  
 
 ## Features (Natively Supported)
-- Creating/Customizing Windows
-- Input Handling
+- Creating & Customizing Windows
+- Input Handling (keyboard, mouse, controllers/gamepads)
 - Can Render:
   - Hardcoded meshes
   - Loaded models (OBJ format)
-  - Lighting (Ambient & Directional)
   - GUI and Text
+  - Lighting (Ambient & Directional), Fog
   - Colors and/or Textures
 - Camera (movement in 2D or 3D world)
 - Transforms (position, rotation, scale) for Renderables and the Camera
 - Presets for Meshes, Shaders, and Renderables
+- Monitor info
 - Extensive Matrix & Vector Math

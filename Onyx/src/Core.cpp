@@ -402,11 +402,11 @@ void Onyx::Demo()
 			if (abs(gp.getAxis(GamepadAxis::LeftY)) > lsy) lsy = gp.getAxis(GamepadAxis::LeftY);
 			if (abs(gp.getAxis(GamepadAxis::RightX)) > rsx) rsx = gp.getAxis(GamepadAxis::RightX);
 			if (abs(gp.getAxis(GamepadAxis::RightY)) > rsy) rsy = gp.getAxis(GamepadAxis::RightY);
-			if (gp.isButtonPressed(GamepadButton::A)) a = true;
-			if (gp.isButtonPressed(GamepadButton::B)) b = true;
-			if (gp.isButtonPressed(GamepadButton::X)) x = true;
-			if (gp.isButtonPressed(GamepadButton::Y)) y = true;
-			if (gp.isButtonPressed(GamepadButton::RightStick)) rs = true;
+			if (gp.isButtonDown(GamepadButton::A)) a = true;
+			if (gp.isButtonDown(GamepadButton::B)) b = true;
+			if (gp.isButtonDown(GamepadButton::X)) x = true;
+			if (gp.isButtonDown(GamepadButton::Y)) y = true;
+			if (gp.isButtonDown(GamepadButton::RightStick)) rs = true;
 		}
 
 		lsx = abs(lsx) < DEAD_ZONE_LEFT ? 0.0f : lsx;

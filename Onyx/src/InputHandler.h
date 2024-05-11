@@ -48,7 +48,7 @@ namespace Onyx
 		/*
 			@brief Gets whether the specified key was tapped.
 			Ignores key cooldowns.
-			This function will return true if it is called the same frame the key was pressed, so only once per press.
+			This function will return true only once per key press.
 			@param key The key to check.
 			@return Whether the specified key was tapped.
 		 */
@@ -86,7 +86,7 @@ namespace Onyx
 		/*
 			@brief Gets whether the specified mouse button was tapped.
 			Ignores mouse button cooldowns.
-			This function will return true if it is called the same frame the mouse button was pressed, so only once per press.
+			This function will return true only once per mouse button press.
 			@param button The mouse button to check.
 			@return Whether the specified mouse button was tapped.
 		 */

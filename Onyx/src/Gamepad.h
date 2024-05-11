@@ -46,7 +46,15 @@ namespace Onyx
 			@param button The button to check.
 			@return True if the button is pressed, false otherwise.
 		 */
-		bool isButtonPressed(GamepadButton button) const;
+		bool isButtonDown(GamepadButton button) const;
+
+		/*
+			@brief Checks if a button on the gamepad is tapped.
+			This function will return true only once per button press.
+			@param button The button to check.
+			@return True if the button is tapped, false otherwise.
+		 */
+		bool isButtonTapped(GamepadButton button);
 
 		/*
 			@brief Gets the value of an axis on the gamepad.
@@ -65,6 +73,7 @@ namespace Onyx
 		int m_joystickID;
 		std::string m_name;
 		GLFWgamepadstate m_state;
+		bool m_buttonsTapped[(int)Onyx::GamepadButton::MaxButton];
 
 		Gamepad(int joystickID, bool* result = nullptr);
 	};

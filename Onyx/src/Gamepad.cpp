@@ -10,6 +10,10 @@ Onyx::Gamepad::Gamepad()
 		.buttons = { 0 },
 		.axes = { 0 }
 	};
+	for (int i = 0; i < (int)Onyx::GamepadButton::MaxButton; i++)
+	{
+		m_buttonsTapped[i] = false;
+	}
 }
 
 Onyx::Gamepad::Gamepad(int joystickID, bool* result)
@@ -47,6 +51,10 @@ void Onyx::Gamepad::update()
 		glfwGetGamepadState(m_joystickID, &m_state);
 		m_state.axes[GLFW_GAMEPAD_AXIS_LEFT_Y] = -m_state.axes[GLFW_GAMEPAD_AXIS_LEFT_Y];
 		m_state.axes[GLFW_GAMEPAD_AXIS_RIGHT_Y] = -m_state.axes[GLFW_GAMEPAD_AXIS_RIGHT_Y];
+		for (int i = 0; i < (int)Onyx::GamepadButton::MaxButton; i++)
+		{
+			m_buttonsTapped[i] = m_state.buttons[i] == GLFW_PRESS;
+		}
 	}
 	else
 	{
@@ -69,9 +77,16 @@ int Onyx::Gamepad::getGlfwID() const
 	return m_joystickID;
 }
 
-bool Onyx::Gamepad::isButtonPressed(GamepadButton button) const
+bool Onyx::Gamepad::isButtonDown(GamepadButton button) const
 {
 	return m_state.buttons[(int)button] == GLFW_PRESS;
+}
+
+bool Onyx::Gamepad::isButtonTapped(GamepadButton button)
+{
+	bool retval = m_buttonsTapped[(int)button];
+	m_buttonsTapped[(int)button] = false;
+	return retval;
 }
 
 float Onyx::Gamepad::getAxis(GamepadAxis axis) const

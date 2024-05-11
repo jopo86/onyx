@@ -14,6 +14,7 @@ Onyx::InputHandler::InputHandler()
 	for (int i = 0; i < (int)Onyx::Key::MaxKey; i++)
 	{
 		m_keys[i] = Onyx::KeyState::Untouched;
+		m_keysTapped[i] = false;
 		m_keyCooldowns[i] = 0.0f;
 		m_setKeyCooldowns[i] = 0.0f;
 	}
@@ -21,6 +22,7 @@ Onyx::InputHandler::InputHandler()
 	for (int i = 0; i < (int)Onyx::MouseButton::MaxButton; i++)
 	{
 		m_buttons[i] = Onyx::KeyState::Untouched;
+		m_buttonsTapped[i] = false;
 		m_buttonCooldowns[i] = 0.0f;
 		m_setButtonCooldowns[i] = 0.0f;
 	}
@@ -88,6 +90,15 @@ bool Onyx::InputHandler::isKeyPressed(Onyx::Key _key)
 	return retval;
 }
 
+bool Onyx::InputHandler::isKeyTapped(Onyx::Key _key)
+{
+	int key = (int)_key;
+	if (key < 0) return false;
+	bool retval = m_keysTapped[key];
+	m_keysTapped[key] = false;
+	return retval;
+}
+
 bool Onyx::InputHandler::isKeyRepeated(Onyx::Key _key)
 {
 	int key = (int)_key;
@@ -118,6 +129,15 @@ bool Onyx::InputHandler::isMouseButtonPressed(Onyx::MouseButton _button)
 	if (button < 0) return false;
 	bool retval = m_buttonCooldowns[button] <= 0 ? m_buttons[button] == Onyx::KeyState::Press : false;
 	if (retval) m_buttonCooldowns[button] = m_setButtonCooldowns[button];
+	return retval;
+}
+
+bool Onyx::InputHandler::isMouseButtonTapped(Onyx::MouseButton _button)
+{
+	int button = (int)_button;
+	if (button < 0) return false;
+	bool retval = m_buttonsTapped[button];
+	m_buttonsTapped[button] = false;
 	return retval;
 }
 
@@ -211,11 +231,13 @@ const std::vector<Onyx::Gamepad>& Onyx::InputHandler::getGamepads() const
 void Onyx::InputHandler::keyCallback(int key, int scancode, int action, int mods)
 {
 	m_keys[key] = (Onyx::KeyState)action;
+	if (action == GLFW_PRESS) m_keysTapped[key] = true;
 }
 
 void Onyx::InputHandler::mouseButtonCallback(int button, int action, int mods)
 {
 	m_buttons[button] = (Onyx::KeyState)action;
+	if (action == GLFW_PRESS) m_buttonsTapped[button] = true;
 }
 
 void Onyx::InputHandler::cursorPosCallback(double x, double y)
@@ -243,37 +265,34 @@ void Onyx::InputHandler::joystickCallback(int jid, int event)
 		}
 	}
 
-	if (!found)
+	if (!found && event == GLFW_CONNECTED) m_gamepads.push_back(Gamepad(jid));
+	else if (found && event == GLFW_DISCONNECTED)
 	{
-		if (event == GLFW_CONNECTED) m_gamepads.push_back(Gamepad(jid));
-		else if (event == GLFW_DISCONNECTED)
+		Gamepad* pGP = (Gamepad*)glfwGetJoystickUserPointer(jid);
+		if (pGP != nullptr)
 		{
-			Gamepad* pGP = (Gamepad*)glfwGetJoystickUserPointer(jid);
-			if (pGP != nullptr)
-			{
-				pGP->m_state.buttons[(int)GamepadButton::A] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::B] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::X] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::Y] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::LeftBumper] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::RightBumper] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::Back] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::Start] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::Guide] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::LeftStick] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::RightStick] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::DpadUp] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::DpadRight] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::DpadDown] = GLFW_RELEASE;
-				pGP->m_state.buttons[(int)GamepadButton::DpadLeft] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::A] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::B] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::X] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::Y] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::LeftBumper] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::RightBumper] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::Back] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::Start] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::Guide] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::LeftStick] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::RightStick] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::DpadUp] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::DpadRight] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::DpadDown] = GLFW_RELEASE;
+			pGP->m_state.buttons[(int)GamepadButton::DpadLeft] = GLFW_RELEASE;
 
-				pGP->m_state.axes[(int)GamepadAxis::LeftX] = 0.0f;
-				pGP->m_state.axes[(int)GamepadAxis::LeftY] = 0.0f;
-				pGP->m_state.axes[(int)GamepadAxis::RightX] = 0.0f;
-				pGP->m_state.axes[(int)GamepadAxis::RightY] = 0.0f;
-				pGP->m_state.axes[(int)GamepadAxis::LeftTrigger] = 0.0f;
-				pGP->m_state.axes[(int)GamepadAxis::RightTrigger] = 0.0f;
-			}
+			pGP->m_state.axes[(int)GamepadAxis::LeftX] = 0.0f;
+			pGP->m_state.axes[(int)GamepadAxis::LeftY] = 0.0f;
+			pGP->m_state.axes[(int)GamepadAxis::RightX] = 0.0f;
+			pGP->m_state.axes[(int)GamepadAxis::RightY] = 0.0f;
+			pGP->m_state.axes[(int)GamepadAxis::LeftTrigger] = 0.0f;
+			pGP->m_state.axes[(int)GamepadAxis::RightTrigger] = 0.0f;
 		}
 	}
 }

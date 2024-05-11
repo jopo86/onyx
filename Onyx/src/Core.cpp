@@ -364,12 +364,6 @@ void Onyx::Demo()
 
 	input.setCursorLock(true);
 
-	input.setKeyCooldown(Onyx::Key::F12, 1.0f);
-	input.setKeyCooldown(Onyx::Key::Num1, 0.5f);
-	input.setKeyCooldown(Onyx::Key::Num2, 0.5f);
-	input.setKeyCooldown(Onyx::Key::Num3, 0.5f);
-	input.setMouseButtonCooldown(Onyx::MouseButton::Left, 0.5f);
-
 	int fps = 0;
 
 	bool lookAtOrigin = false;
@@ -392,10 +386,10 @@ void Onyx::Demo()
 		if (input.isKeyDown(Onyx::Key::D)) cam.translateLR(MOVE_SPEED * dt);
 		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(MOVE_SPEED * dt);
 		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-MOVE_SPEED * dt);
-		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen(1280, 720, Math::IVec2(100, 100));
-		if (input.isKeyDown(Onyx::Key::Num1)) Renderer::ToggleWireframe();
-		if (input.isKeyDown(Onyx::Key::Num2)) car.toggleVisibility();
-		if (input.isKeyDown(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
+		if (input.isKeyTapped(Onyx::Key::F12)) window.toggleFullscreen(1280, 720, Math::IVec2(100, 100));
+		if (input.isKeyTapped(Onyx::Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyTapped(Onyx::Key::Num2)) car.toggleVisibility();
+		if (input.isKeyTapped(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
 
 		car.rotate(Vec3(0.0f, 10.0f * dt, 0.0f));
 

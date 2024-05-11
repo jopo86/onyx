@@ -24,7 +24,7 @@ namespace Onyx
 
 		/*
 			@brief Updates the input handler.
-			Should be called each frame.
+			Should be called each frame, before input is polled.
 			This function polls events and updates gamepad states, mouse deltas, and cooldowns.
 			Cooldowns are updated using the delta time of the window this input handler was linked to.
 		 */
@@ -32,56 +32,76 @@ namespace Onyx
 
 		/*
 			@brief Gets the keystate of the specified key.
-			Either ONYX_KEYSTATE_UP, DOWN, or REPEAT.
-			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
+			Ignores key cooldowns.
+			@param key The key to check.
+			@return The keystate of the specified key.
 		 */
 		Onyx::KeyState getKeyState(Onyx::Key key) const;
 
 		/*
 			@brief Gets whether the specified key was pressed but is not repeating.
-			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
+			@param key The key to check.
 			@return Whether the specified key was pressed but is not repeating.
 		 */
 		bool isKeyPressed(Onyx::Key key);
 
 		/*
+			@brief Gets whether the specified key was tapped.
+			Ignores key cooldowns.
+			This function will return true if it is called the same frame the key was pressed, so only once per press.
+			@param key The key to check.
+			@return Whether the specified key was tapped.
+		 */
+		bool isKeyTapped(Onyx::Key key);
+
+		/*
 			@brief Gets whether the specified key has been pressed long enough to be repeating.
-			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
+			@param key The key to check.
 			@return Whether the specified key has been pressed long enough to be repeating.
 		 */
 		bool isKeyRepeated(Onyx::Key key);
 
 		/*
 			@brief Gets whether the specified key is currently pressed down.
-			@param key The key to check. Use the definitions prefixed with ONYX_KEY.
+			@param key The key to check.
 			@return Whether the specified key is pressed down.
 		 */
 		bool isKeyDown(Onyx::Key key);
 
 		/*
 			@brief Gets the keystate of the specified mouse button.
-			Either ONYX_KEYSTATE_UP, DOWN, or REPEAT.
-			@param button The mouse button to check. Use the definitions prefixed with ONYX_MOUSE_BUTTON.
+			Ignores mouse button cooldowns.
+			@param button The mouse button to check.
+			@return The keystate of the specified mouse button.
 		 */
 		Onyx::KeyState getMouseButtonState(Onyx::MouseButton button) const;
 
 		/*
 			@brief Gets whether the specified mouse button was pressed but is not repeating.
-			@param button The mouse button to check. Use the definitions prefixed with ONYX_KEY.
+			@param button The mouse button to check.
 			@return Whether the specified mouse button was pressed but is not repeating.
 		 */
 		bool isMouseButtonPressed(Onyx::MouseButton button);
 
 		/*
+			@brief Gets whether the specified mouse button was tapped.
+			Ignores mouse button cooldowns.
+			This function will return true if it is called the same frame the mouse button was pressed, so only once per press.
+			@param button The mouse button to check.
+			@return Whether the specified mouse button was tapped.
+		 */
+		bool isMouseButtonTapped(Onyx::MouseButton button);
+
+		/*
 			@brief Gets whether the specified mouse button has been pressed long enough to be repeating.
-			@param button The mouse button to check. Use the definitions prefixed with ONYX_KEY.
+			@param button The mouse button to check.
 			@return Whether the specified mouse button has been pressed long enough to be repeating.
 		 */
 		bool isMouseButtonRepeated(Onyx::MouseButton button);
 
 		/*
 			@brief Gets whether the specified mouse button is currently pressed down.
-			@param button The mouse button to check. Use the definitions prefixed with ONYX_KEY.
+			@param button The mouse button to check.
 			@return Whether the specified mouse button is pressed down.
 		 */
 		bool isMouseButtonDown(Onyx::MouseButton button);
@@ -163,10 +183,12 @@ namespace Onyx
 		Window* m_pWin;
 
 		Onyx::KeyState m_keys[(int)Onyx::Key::MaxKey];
+		bool m_keysTapped[(int)Onyx::Key::MaxKey];
 		float m_keyCooldowns[(int)Onyx::Key::MaxKey];
 		float m_setKeyCooldowns[(int)Onyx::Key::MaxKey];
 
 		Onyx::KeyState m_buttons[(int)Onyx::MouseButton::MaxButton];
+		bool m_buttonsTapped[(int)Onyx::MouseButton::MaxButton];
 		float m_buttonCooldowns[(int)Onyx::MouseButton::MaxButton];
 		float m_setButtonCooldowns[(int)Onyx::MouseButton::MaxButton];
 

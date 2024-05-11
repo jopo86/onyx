@@ -1,9 +1,30 @@
 #version 410 core
 
-out vec4 o_color;
+layout (location = 0) in vec3 i_pos;
+
+out vec3 io_pos;
+out vec4 io_color;
+
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
+
+void main()
+{
+	gl_Position = u_projection * u_view * u_model * vec4(i_pos, 1.0);
+	io_pos = vec3(u_model * vec4(i_pos, 1.0));
+	io_color = vec4(i_pos, 1.0);
+}
+
+// ------------------------------------------------------------------------
+#switch
+
+#version 410 core
 
 in vec3 io_pos;
 in vec4 io_color;
+
+out vec4 o_color;
 
 uniform vec3 u_camPos;
 

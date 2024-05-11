@@ -651,6 +651,7 @@ namespace Onyx
 		static void mouseButtonCallback(GLFWwindow* pGlfwWin, int button, int action, int mods);
 		static void cursorPosCallback(GLFWwindow* pGlfwWin, double x, double y);
 		static void scrollCallback(GLFWwindow* pGlfwWin, double dx, double dy);
+		static void joystickCallback(int jid, int event);
 
 		static void fileDropCallback(GLFWwindow* pGlfwWin, int count, const char** paths);
 	};

@@ -181,6 +181,7 @@ void Onyx::Window::init(bool* result)
 	glfwSetMouseButtonCallback(m_pGlfwWin, mouseButtonCallback);
 	glfwSetCursorPosCallback(m_pGlfwWin, cursorPosCallback);
 	glfwSetScrollCallback(m_pGlfwWin, scrollCallback);
+	glfwSetJoystickCallback(joystickCallback);
 	glfwSetDropCallback(m_pGlfwWin, fileDropCallback);
 
 	glfwSwapInterval(1);
@@ -667,6 +668,15 @@ void Onyx::Window::scrollCallback(GLFWwindow* pGlfwWin, double dx, double dy)
 	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
 	{
 		pInputHandler->scrollCallback(dx, dy);
+	}
+}
+
+void Onyx::Window::joystickCallback(int jid, int event)
+{
+	Window* pWin = (Window*)glfwGetWindowUserPointer(glfwGetCurrentContext());
+	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
+	{
+		pInputHandler->joystickCallback(jid, event);
 	}
 }
 

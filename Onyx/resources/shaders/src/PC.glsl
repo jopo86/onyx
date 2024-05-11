@@ -1,5 +1,26 @@
 #version 410 core
 
+layout (location = 0) in vec3 i_pos;
+layout (location = 1) in vec4 i_color;
+
+out vec3 io_pos;
+out vec4 io_color;
+
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
+
+void main() {
+	gl_Position = u_projection * u_view * u_model * vec4(i_pos, 1.0);
+	io_pos = vec3(u_model * vec4(i_pos, 1.0));
+	io_color = i_color;
+}
+
+// ------------------------------------------------------------------------
+#switch
+
+#version 410 core
+
 in vec3 io_pos;
 in vec4 io_color;
 
@@ -14,10 +35,9 @@ struct Fog
 	float start, end;
 };
 
-uniform Fog u_fog;
+uniform Fog fog;
 
-void main()
-{
+void main() {
 	o_color = io_color;
 
 	if (!u_fog.enabled) return;
@@ -31,3 +51,4 @@ void main()
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fogFactor);
 	}
 }
+

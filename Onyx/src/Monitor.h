@@ -95,22 +95,20 @@ namespace Onyx
 		bool m_primary;
 		bool m_connected;
 
-		static Monitor* fromGlfwMonitor(GLFWmonitor* pGlfwMonitor);
+		Monitor(GLFWmonitor* pGlfwMonitor);
 		static void callback(GLFWmonitor* pGlfwMonitor, int event);
 
 	public:
 		/*
 			@brief Gets the primary monitor.
-			The monitor is allocated on the heap, but memory is freed automatically when the library is terminated.
 			@return The primary monitor.
 		 */
-		static const Monitor& GetPrimary();
+		static Monitor GetPrimary();
 
 		/*
 			@brief Gets all connected monitors.
-			The monitor is allocated on the heap, but memory is freed automatically when the library is terminated.
-			@return A vector of pointesr to all connected monitors.
+			@return A vector of all connected monitors.
 		 */
-		static std::vector<Monitor*> GetAll();
+		static std::vector<Monitor> GetAll();
 	};
 }

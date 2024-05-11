@@ -5,6 +5,7 @@
 using Onyx::Math::DVec2;
 
 void onyx_err(const Onyx::Error&);
+void onyx_warn(const Onyx::Warning&);
 
 Onyx::InputHandler::InputHandler()
 {
@@ -33,7 +34,7 @@ Onyx::InputHandler::InputHandler()
 
 	for (int jid = GLFW_JOYSTICK_1; jid <= GLFW_JOYSTICK_16; jid++)
 	{
-		if (glfwJoystickIsGamepad(jid)) m_gamepads.push_back(Onyx::Gamepad(jid));
+		if (glfwJoystickIsGamepad(jid)) m_gamepads.push_back(Gamepad(jid));
 	}
 }
 
@@ -67,7 +68,7 @@ void Onyx::InputHandler::update()
 		if (m_buttonCooldowns[(int)button] >= 0) m_buttonCooldowns[(int)button] -= m_pWin->m_deltaTime;
 	}
 
-	for (Onyx::Gamepad& gp : m_gamepads)
+	for (Gamepad& gp : m_gamepads)
 	{
 		if (gp.isConnected()) gp.update();
 	}
@@ -173,7 +174,7 @@ void Onyx::InputHandler::refreshGamepads()
 		if (glfwJoystickIsGamepad(jid))
 		{
 			bool found = false;
-			for (Onyx::Gamepad& gamepad : m_gamepads)
+			for (Gamepad& gamepad : m_gamepads)
 			{
 				if (gamepad.getGlfwID() == jid)
 				{
@@ -182,7 +183,7 @@ void Onyx::InputHandler::refreshGamepads()
 				}
 			}
 
-			if (!found) m_gamepads.push_back(Onyx::Gamepad(jid));
+			if (!found) m_gamepads.push_back(Gamepad(jid));
 		}
 	}
 }
@@ -226,4 +227,53 @@ void Onyx::InputHandler::scrollCallback(double dx, double dy)
 {
 	m_scrollDeltas.set(dx, dy);
 	m_scrollThisFrame = true;
+}
+
+void Onyx::InputHandler::joystickCallback(int jid, int event)
+{
+	if (!glfwJoystickIsGamepad(jid)) return;
+
+	bool found = false;
+	for (Gamepad& gamepad : m_gamepads)
+	{
+		if (gamepad.getGlfwID() == jid)
+		{
+			found = true;
+			break;
+		}
+	}
+
+	if (!found)
+	{
+		if (event == GLFW_CONNECTED) m_gamepads.push_back(Gamepad(jid));
+		else if (event == GLFW_DISCONNECTED)
+		{
+			Gamepad* pGP = (Gamepad*)glfwGetJoystickUserPointer(jid);
+			if (pGP != nullptr)
+			{
+				pGP->m_state.buttons[(int)GamepadButton::A] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::B] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::X] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::Y] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::LeftBumper] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::RightBumper] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::Back] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::Start] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::Guide] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::LeftStick] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::RightStick] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::DpadUp] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::DpadRight] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::DpadDown] = GLFW_RELEASE;
+				pGP->m_state.buttons[(int)GamepadButton::DpadLeft] = GLFW_RELEASE;
+
+				pGP->m_state.axes[(int)GamepadAxis::LeftX] = 0.0f;
+				pGP->m_state.axes[(int)GamepadAxis::LeftY] = 0.0f;
+				pGP->m_state.axes[(int)GamepadAxis::RightX] = 0.0f;
+				pGP->m_state.axes[(int)GamepadAxis::RightY] = 0.0f;
+				pGP->m_state.axes[(int)GamepadAxis::LeftTrigger] = 0.0f;
+				pGP->m_state.axes[(int)GamepadAxis::RightTrigger] = 0.0f;
+			}
+		}
+	}
 }

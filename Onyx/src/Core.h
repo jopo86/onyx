@@ -10,7 +10,7 @@
 
 #define ONYX_VERSION_MAJOR		1
 #define ONYX_VERSION_MINOR		1
-#define ONYX_VERSION_PATCH		0
+#define ONYX_VERSION_PATCH		1
 
 #define ONYX_PRE_RELEASE_NUM	0
 
@@ -481,6 +481,7 @@ namespace Onyx
 		@deprecated Use the named user pointer system instead - `SetUserPtr(const std::string& name, void* ptr)`.
 		@param ptr The pointer to set.
 	 */
+	[[deprecated("This function is deprecated and will be removed in the next major release. Use the named user pointer system instead - `SetUserPtr(const std::string& name, void* ptr)`.")]]
 	void SetUserPtr(void* ptr);
 
 	/*
@@ -512,6 +513,7 @@ namespace Onyx
 		@deprecated Use the named user pointer system instead - `GetUserPtr(const std::string& name)`.
 		@return The user pointer.
 	 */
+	[[deprecated("This function is deprecated and will be removed in the next major release. Use the named user pointer system instead - `GetUserPtr(const std::string& name)`.")]]
 	void* GetUserPtr();
 
 	/*

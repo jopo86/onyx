@@ -169,14 +169,6 @@ bool Onyx::InputHandler::isCursorLocked() const
 
 void Onyx::InputHandler::refreshGamepads()
 {
-	onyx_warn(Warning{
-			.sourceFunction = "Onyx::InputHandler::refreshGamepads()",
-			.message = "This function is deprecated and will be removed in the next major release.",
-			.howToFix = "There is no longer a need for this function, as newly connected gamepads are automatically added to the list.",
-			.severity = Warning::Severity::High
-		}
-	);
-
 	for (int jid = GLFW_JOYSTICK_1; jid <= GLFW_JOYSTICK_16; jid++)
 	{
 		if (glfwJoystickIsGamepad(jid))
@@ -211,7 +203,7 @@ const Onyx::Math::DVec2& Onyx::InputHandler::getScrollDeltas() const
 	return m_scrollDeltas;
 }
 
-const std::vector<Gamepad>& Onyx::InputHandler::getGamepads() const
+const std::vector<Onyx::Gamepad>& Onyx::InputHandler::getGamepads() const
 {
 	return m_gamepads;
 }

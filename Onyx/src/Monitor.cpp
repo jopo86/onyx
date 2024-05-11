@@ -87,7 +87,7 @@ Onyx::Monitor::Monitor(GLFWmonitor* pGlfwMonitor)
 	m_workArea = IVec4(tmpInt0, tmpInt1, tmpInt2, tmpInt3);
 	m_primary = pGlfwMonitor == glfwGetPrimaryMonitor();
 	m_connected = true;
-	glfwSetMonitorUserPointer(pGlfwMonitor, );
+	glfwSetMonitorUserPointer(pGlfwMonitor, this);
 }
 
 void Onyx::Monitor::callback(GLFWmonitor* pGlfwMonitor, int event)

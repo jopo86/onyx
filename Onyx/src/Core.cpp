@@ -161,7 +161,9 @@ void Onyx::Init(ErrorHandler& errorHandler)
 #endif
 
 	for (int i = GLFW_JOYSTICK_1; i <= GLFW_JOYSTICK_16; i++)
-		{
+	{
+		glfwSetJoystickUserPointer(i, nullptr);
+	}
 }
 
 int Onyx::GetVersionMajor()
@@ -482,13 +484,6 @@ void Onyx::SetResourcePath(std::string path)
 
 void Onyx::SetUserPtr(void* ptr)
 {
-	onyx_warn(Warning{
-			.sourceFunction = "Onyx::SetUserPtr(void* ptr)",
-			.message = "This function is deprecated and will be removed in the next major release.",
-			.howToFix = "Use the named user pointer system instead. See Onyx::SetUserPtr(const std::string& name, void* ptr) and Onyx::GetUserPtr(const std::string& name).",
-			.severity = Warning::Severity::High
-		}
-	);
 	oldUserPtr = ptr;
 }
 
@@ -510,13 +505,6 @@ std::string Onyx::Resources(const std::string& path)
 
 void* Onyx::GetUserPtr()
 {
-	onyx_warn(Warning{
-			   .sourceFunction = "Onyx::GetUserPtr()",
-			   .message = "This function is deprecated and will be removed in the next major release.",
-			   .howToFix = "Use the named user pointer system instead. See Onyx::SetUserPtr(const std::string& name, void* ptr) and Onyx::GetUserPtr(const std::string& name).",
-			   .severity = Warning::Severity::High
-		}
-	);
 	return oldUserPtr;
 }
 

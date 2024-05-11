@@ -142,8 +142,6 @@ Onyx::Shader Onyx::Shader::LoadSource(const std::string& vertPath, const std::st
 				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
 			}
 		);
-		if (result != nullptr) *result = false;
-		return shader;
 	}
 
 	else if (!fragResult)
@@ -154,18 +152,37 @@ Onyx::Shader Onyx::Shader::LoadSource(const std::string& vertPath, const std::st
 				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
 			}
 		);
-		if (result != nullptr) *result = false;
-		return shader;
 	}
 
 	if (!fragResult || !vertResult)
 	{
 		shader.dispose();
+		if (result != nullptr) *result = false;
 		return shader;
 	}
 
 	if (result != nullptr) *result = true;
 	return shader;
+}
+
+Onyx::Shader Onyx::Shader::LoadSource(const std::string& combinedPath, bool* result)
+{
+	bool parseResult;
+	auto [vertSource, fragSource] = ParseCombined(combinedPath, &parseResult);
+
+	if (!parseResult)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::LoadSource(const std::string& combinedPath)",
+				.message = "Failed to parse combined shader source file: \"" + combinedPath + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return Shader();
+	}
+
+	return Shader(vertSource.c_str(), fragSource.c_str(), result);
 }
 
 Onyx::Shader Onyx::Shader::LoadBinary(const std::string& binPath, bool* result)
@@ -542,13 +559,96 @@ void Onyx::Shader::setMat4(const char* varName, const Mat4x4& val, bool normaliz
 #endif
 }
 
+std::string trimAndToLower(const std::string& str)
+{
+	int start = 0, end = str.length();
+	for (int i = 0; i < str.length(); i++)
+	{
+		if (str[i] != ' ')
+		{
+			start = i;
+			break;
+		}
+	}
+	for (int i = str.length() - 1; i >= 0; i--)
+	{
+		if (str[i] != ' ')
+		{
+			end = i + 1;
+			break;
+		}
+	}
+	std::string trimmed = str.substr(start, end - start);
+	for (int i = 0; i < trimmed.length(); i++)
+	{
+		trimmed[i] = std::tolower(trimmed[i]);
+	}
+
+	return trimmed;
+}
+
+std::pair<std::string, std::string> Onyx::Shader::ParseCombined(const std::string& combinedPath, bool* result)
+{
+	bool fileResult;
+	std::vector<std::string> lines = FileUtils::ReadLines(combinedPath, &fileResult);
+
+	if (!fileResult)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::ParseCombined(const std::string& combinedPath)",
+				.message = "Failed to read combined shader source file: \"" + combinedPath + "\"",
+				.howToFix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return { "", "" };
+	}
+
+	std::string vertSource, fragSource;
+	bool vert = true;
+	bool switched = false;
+
+	for (const std::string& line : lines)
+	{
+		if (trimAndToLower(line) == "#switch")
+		{
+			vert = false;
+			switched = true;
+			continue;
+		}
+
+		if (vert) vertSource += line + "\n";
+		else fragSource += line + "\n";
+	}
+
+	if (!switched)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Shader::ParseCombined(const std::string& combinedPath)",
+				.message = "Failed to parse combined shader source file: \"" + combinedPath + "\"",
+				.howToFix = "No #switch statement found. Make sure you put #switch between the vertex and fragment code."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return { "", "" };
+	}
+
+	if (result != nullptr) *result = true;
+	return { vertSource, fragSource };
+}
+
 Onyx::Shader Onyx::Shader::P_Color(Vec4 rgba)
 {
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/P_Color.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/P_Color.vert"), Resources("shaders/src/P_Color.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/P_Color.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "P_Color");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -563,7 +663,7 @@ Onyx::Shader Onyx::Shader::P_Color(Vec4 rgba)
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/P_Color.vert"), Resources("shaders/src/P_Color.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/P_Color.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "P_Color");
 		}
 	}
@@ -580,8 +680,13 @@ Onyx::Shader Onyx::Shader::P_XYZtoRGB()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/P_XYZtoRGB.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/P_XYZtoRGB.vert"), Resources("shaders/src/P_XYZtoRGB.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/P_XYZtoRGB.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "P_XYZtoRGB");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -596,7 +701,7 @@ Onyx::Shader Onyx::Shader::P_XYZtoRGB()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/P_XYZtoRGB.vert"), Resources("shaders/src/P_XYZtoRGB.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/P_XYZtoRGB.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "P_XYZtoRGB");
 		}
 	}
@@ -612,8 +717,13 @@ Onyx::Shader Onyx::Shader::PC()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/PC.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/PC.vert"), Resources("shaders/src/PC.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/PC.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "PC");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -628,7 +738,7 @@ Onyx::Shader Onyx::Shader::PC()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/PC.vert"), Resources("shaders/src/PC.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/PC.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "PC");
 		}
 	}
@@ -644,8 +754,13 @@ Onyx::Shader Onyx::Shader::PT()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/PT.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/PT.vert"), Resources("shaders/src/PT.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/PT.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "PT");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -660,7 +775,7 @@ Onyx::Shader Onyx::Shader::PT()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/PT.vert"), Resources("shaders/src/PT.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/PT.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "PT");
 		}
 	}
@@ -676,8 +791,13 @@ Onyx::Shader Onyx::Shader::PCT()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/PCT.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/PCT.vert"), Resources("shaders/src/PCT.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/PCT.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "PCT");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -692,7 +812,7 @@ Onyx::Shader Onyx::Shader::PCT()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/PCT.vert"), Resources("shaders/src/PCT.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/PCT.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "PCT");
 		}
 	}
@@ -708,8 +828,13 @@ Onyx::Shader Onyx::Shader::PNC()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/PNC.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/PNC.vert"), Resources("shaders/src/PNC.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/PNC.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "PNC");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -724,7 +849,7 @@ Onyx::Shader Onyx::Shader::PNC()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/PNC.vert"), Resources("shaders/src/PNC.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/PNC.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "PNC");
 		}
 	}
@@ -740,8 +865,13 @@ Onyx::Shader Onyx::Shader::PN_Color(Vec4 rgba)
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/PN_Color.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/PN_Color.vert"), Resources("shaders/src/PN_Color.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/PN_Color.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "PN_Color");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -756,7 +886,7 @@ Onyx::Shader Onyx::Shader::PN_Color(Vec4 rgba)
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/PN_Color.vert"), Resources("shaders/src/PN_Color.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/PN_Color.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "PN_Color");
 		}
 	}
@@ -773,8 +903,13 @@ Onyx::Shader Onyx::Shader::PNT()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/PNT.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/PNT.vert"), Resources("shaders/src/PNT.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/PNT.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "PNT");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -789,7 +924,7 @@ Onyx::Shader Onyx::Shader::PNT()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/PNT.vert"), Resources("shaders/src/PNT.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/PNT.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "PNT");
 		}
 	}
@@ -805,8 +940,13 @@ Onyx::Shader Onyx::Shader::PNCT()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/PNCT.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/PNCT.vert"), Resources("shaders/src/PNCT.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/PNCT.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "PNCT");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -821,7 +961,7 @@ Onyx::Shader Onyx::Shader::PNCT()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/PNCT.vert"), Resources("shaders/src/PNCT.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/PNCT.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "PNCT");
 		}
 	}
@@ -837,8 +977,13 @@ Onyx::Shader Onyx::Shader::P_UI_Color(Onyx::Math::Vec4 rgba)
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/P_UI_Color.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/P_UI_Color.vert"), Resources("shaders/src/P_UI_Color.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/P_UI_Color.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "P_UI_Color");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -853,7 +998,7 @@ Onyx::Shader Onyx::Shader::P_UI_Color(Onyx::Math::Vec4 rgba)
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/P_UI_Color.vert"), Resources("shaders/src/P_UI_Color.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/P_UI_Color.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "P_UI_Color");
 		}
 	}
@@ -870,8 +1015,13 @@ Onyx::Shader Onyx::Shader::PT_UI()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/PT_UI.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/PT_UI.vert"), Resources("shaders/src/PT_UI.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/PT_UI.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "PT_UI");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -886,7 +1036,7 @@ Onyx::Shader Onyx::Shader::PT_UI()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/PT_UI.vert"), Resources("shaders/src/PT_UI.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/PT_UI.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "PT_UI");
 		}
 	}
@@ -902,8 +1052,13 @@ Onyx::Shader Onyx::Shader::UI_Text()
 	Shader shader;
 	if (!FileUtils::FileExists(Resources("shaders/bin/UI_Text.bin")))
 	{
-		shader = Shader::LoadSource(Resources("shaders/src/UI_Text.vert"), Resources("shaders/src/UI_Text.frag"));
+		shader = Shader::LoadSource(Resources("shaders/src/UI_Text.glsl"));
 		shader.saveBinary(Resources("shaders/bin"), "UI_Text");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
 	}
 	else
 	{
@@ -918,7 +1073,7 @@ Onyx::Shader Onyx::Shader::UI_Text()
 				}
 			);
 			shader.dispose();
-			shader = Shader::LoadSource(Resources("shaders/src/UI_Text.vert"), Resources("shaders/src/UI_Text.frag"));
+			shader = Shader::LoadSource(Resources("shaders/src/UI_Text.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "UI_Text");
 		}
 	}

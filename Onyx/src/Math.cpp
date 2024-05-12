@@ -37,6 +37,16 @@ double Onyx::Math::Clamp(double value, double min, double max)
 	return value;
 }
 
+float Onyx::Math::Remap(float val, Vec2 oldRange, Vec2 newRange)
+{
+	return ((val - oldRange.getX()) / (oldRange.getY() - oldRange.getX())) * (newRange.getY() - newRange.getX()) + newRange.getX();
+}
+
+double Onyx::Math::Remap(double val, DVec2 oldRange, DVec2 newRange)
+{
+	return ((val - oldRange.getX()) / (oldRange.getY() - oldRange.getX())) * (newRange.getY() - newRange.getX()) + newRange.getX();
+}
+
 Onyx::Math::Vec2::Vec2()
 {
 	m_vec = glm::vec2(0.0f, 0.0f);

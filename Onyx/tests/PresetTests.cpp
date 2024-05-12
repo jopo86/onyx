@@ -2,15 +2,18 @@
 
 #include "PresetTests.h"
 
-using Onyx::ErrorHandler, Onyx::Window, Onyx::WindowProperties, Onyx::InputHandler,
-Onyx::Mesh, Onyx::Shader, Onyx::Renderable, Onyx::UiRenderable, Onyx::Camera,
-Onyx::Projection, Onyx::Renderer, Onyx::VertexBuffer,
+using Onyx::ErrorHandler, Onyx::Window, Onyx::Monitor, Onyx::WindowProperties, 
+Onyx::InputHandler, Onyx::Mesh, Onyx::Shader, Onyx::Renderable, Onyx::UiRenderable, 
+Onyx::Camera, Onyx::Projection, Onyx::Renderer, Onyx::VertexBuffer,
 Onyx::IndexBuffer, Onyx::Texture, Onyx::Lighting, Onyx::Key,
-Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Init, Onyx::Terminate, Onyx::Resources;
+Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::IVec2,
+Onyx::Init, Onyx::Terminate, Onyx::Resources;
 
 bool PresetTests::RunMeshTest(Onyx::Window& window, Mesh mesh)
 {
 	window.setBackgroundColor(Onyx::Math::Vec3(0.0f, 0.0f, 0.0f));
+	Monitor primaryMonitor = Monitor::GetPrimary();
+	window.setPosition(IVec2(primaryMonitor.getDimensions().getX() / 2 - window.getWidth() / 2, primaryMonitor.getDimensions().getY() / 2 - window.getHeight() / 2));
 
 	InputHandler input;
 	window.linkInputHandler(input);
@@ -31,7 +34,6 @@ bool PresetTests::RunMeshTest(Onyx::Window& window, Mesh mesh)
 	const double CAM_SENS = 50.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(Key::Num1, 0.5f);
 
 	bool result = true;
 
@@ -47,7 +49,7 @@ bool PresetTests::RunMeshTest(Onyx::Window& window, Mesh mesh)
 			result = false;
 			window.close();
 		}
-		if (input.isKeyDown(Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyTapped(Key::Num1)) Renderer::ToggleWireframe();
 		if (input.isKeyDown(Key::W)) cam.translateFB( CAM_SPEED * dt);
 		if (input.isKeyDown(Key::A)) cam.translateLR(-CAM_SPEED * dt);
 		if (input.isKeyDown(Key::S)) cam.translateFB(-CAM_SPEED * dt);
@@ -72,6 +74,8 @@ bool PresetTests::RunMeshTest(Onyx::Window& window, Mesh mesh)
 bool PresetTests::RunRenderableTest(Onyx::Window& window, Renderable renderable)
 {
 	window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
+	Monitor primaryMonitor = Monitor::GetPrimary();
+	window.setPosition(IVec2(primaryMonitor.getDimensions().getX() / 2 - window.getWidth() / 2, primaryMonitor.getDimensions().getY() / 2 - window.getHeight() / 2));
 
 	InputHandler input;
 	window.linkInputHandler(input);
@@ -92,7 +96,6 @@ bool PresetTests::RunRenderableTest(Onyx::Window& window, Renderable renderable)
 	const double CAM_SENS = 50.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(Key::Num1, 0.5f);
 
 	bool result = true;
 
@@ -108,7 +111,7 @@ bool PresetTests::RunRenderableTest(Onyx::Window& window, Renderable renderable)
             result = false;
             window.close();
         }
-		if (input.isKeyDown(Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyTapped(Key::Num1)) Renderer::ToggleWireframe();
 		if (input.isKeyDown(Key::W)) cam.translateFB(CAM_SPEED * dt);
 		if (input.isKeyDown(Key::A)) cam.translateLR(-CAM_SPEED * dt);
 		if (input.isKeyDown(Key::S)) cam.translateFB(-CAM_SPEED * dt);
@@ -133,12 +136,14 @@ bool PresetTests::RunRenderableTest(Onyx::Window& window, Renderable renderable)
 bool PresetTests::RunUiRenderableTest(Onyx::Window& window, UiRenderable renderable)
 {
     window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
+	Monitor primaryMonitor = Monitor::GetPrimary();
+	window.setPosition(IVec2(primaryMonitor.getDimensions().getX() / 2 - window.getWidth() / 2, primaryMonitor.getDimensions().getY() / 2 - window.getHeight() / 2));
 
     InputHandler input;
     window.linkInputHandler(input);
 
     UiRenderable obj = renderable;
-	obj.setPosition(Vec2(100, 100));
+	obj.setPosition(Vec2(300, 300));
 
     Camera cam(Projection::Orthographic(1280, 720));
     window.linkCamera(cam);
@@ -167,7 +172,7 @@ bool PresetTests::RunUiRenderableTest(Onyx::Window& window, UiRenderable rendera
             result = false;
             window.close();
         }
-        if (input.isKeyDown(Key::Num1)) Renderer::ToggleWireframe();
+        if (input.isKeyTapped(Key::Num1)) Renderer::ToggleWireframe();
         if (input.isKeyDown(Key::W)) cam.translateFB(CAM_SPEED * dt);
         if (input.isKeyDown(Key::A)) cam.translateLR(-CAM_SPEED * dt);
         if (input.isKeyDown(Key::S)) cam.translateFB(-CAM_SPEED * dt);
@@ -192,6 +197,8 @@ bool PresetTests::RunUiRenderableTest(Onyx::Window& window, UiRenderable rendera
 bool PresetTests::RunBufferTest(Onyx::Window& window, Onyx::VertexBuffer vb, Onyx::IndexBuffer ib)
 {
 	window.setBackgroundColor(Vec3(0.0f, 0.0f, 0.0f));
+	Monitor primaryMonitor = Monitor::GetPrimary();
+	window.setPosition(IVec2(primaryMonitor.getDimensions().getX() / 2 - window.getWidth() / 2, primaryMonitor.getDimensions().getY() / 2 - window.getHeight() / 2));
 
 	InputHandler input;
 	window.linkInputHandler(input);
@@ -212,7 +219,6 @@ bool PresetTests::RunBufferTest(Onyx::Window& window, Onyx::VertexBuffer vb, Ony
 	const double CAM_SENS = 50.0;
 
 	input.setCursorLock(true);
-	input.setKeyCooldown(Key::Num1, 0.5f);
 
 	bool result = true;
 
@@ -228,7 +234,7 @@ bool PresetTests::RunBufferTest(Onyx::Window& window, Onyx::VertexBuffer vb, Ony
             result = false;
             window.close();
         }
-		if (input.isKeyDown(Key::Num1)) Renderer::ToggleWireframe();
+		if (input.isKeyTapped(Key::Num1)) Renderer::ToggleWireframe();
 		if (input.isKeyDown(Key::W)) cam.translateFB(CAM_SPEED * dt);
 		if (input.isKeyDown(Key::A)) cam.translateLR(-CAM_SPEED * dt);
 		if (input.isKeyDown(Key::S)) cam.translateFB(-CAM_SPEED * dt);
@@ -254,7 +260,7 @@ bool PresetTests::MeshTest_Triangle1()
 {
 	ErrorHandler errorHandler(true, true);
 	Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Triangle1", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_Triangle1", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
 	bool result = RunMeshTest(win, Mesh::Triangle(1.0f));
 	Terminate();
@@ -265,7 +271,7 @@ bool PresetTests::MeshTest_Triangle2()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Triangle2", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_Triangle2", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Triangle(1.0f, 1.0f));
     Terminate();
@@ -276,7 +282,7 @@ bool PresetTests::MeshTest_Triangle3()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Triangle3", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_Triangle3", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Triangle(
 		Vec2(0.0f, 0.0f), Vec2(1.0f, 0.0f), Vec2(0.0f, 1.0f)
@@ -289,7 +295,7 @@ bool PresetTests::MeshTest_Square()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Square", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_Square", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Square(1.0f));
     Terminate();
@@ -300,7 +306,7 @@ bool PresetTests::MeshTest_Quad1()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Quad1", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_Quad1", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Quad(2.0f, 1.0f));
     Terminate();
@@ -311,7 +317,7 @@ bool PresetTests::MeshTest_Quad2()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Quad2", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_Quad2", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Quad(
 		Vec2(0.0f, 0.0f), Vec2(2.0f, 0.0f), Vec2(2.0f, 1.0f), Vec2(0.0f, 1.0f)
@@ -320,11 +326,24 @@ bool PresetTests::MeshTest_Quad2()
 	return result;
 }
 
+bool PresetTests::MeshTest_Circle()
+{
+	ErrorHandler errorHandler(true, true);
+	Init(errorHandler);
+	Window win(WindowProperties{ .title = "MeshTest_Circle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
+	win.init();
+	bool result = RunMeshTest(win, Mesh::Circle(
+		0.5f, 50
+	));
+	Terminate();
+	return result;
+}
+
 bool PresetTests::MeshTest_Cube()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Cube", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_Cube", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Cube(1.0f));
     Terminate();
@@ -335,7 +354,7 @@ bool PresetTests::MeshTest_RectPrism1()
 {
 	ErrorHandler errorHandler(true, true);
 	Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_RectPrism1", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_RectPrism1", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::RectPrism(1.0f, 1.0f, 1.0f));
     Terminate();
@@ -346,7 +365,7 @@ bool PresetTests::MeshTest_RectPrism2()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_RectPrism2", .width = 1280, .height = 720 });
+	Window win(WindowProperties{ .title = "MeshTest_RectPrism2", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::RectPrism(
         Vec3(0.0f, 0.0f, 0.0f), Vec3(2.0f, 0.0f, 0.0f), Vec3(2.0f, 1.0f, 0.0f), Vec3(0.0f, 1.0f, 0.0f),
@@ -360,7 +379,7 @@ bool PresetTests::RenderableTest_ColoredTriangle()
 {
 	ErrorHandler errorHandler(true, true);
 	Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_ColoredTriangle", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_ColoredTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
 	bool result = RunRenderableTest(win, Renderable::ColoredTriangle(1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
 	Terminate();
@@ -371,7 +390,7 @@ bool PresetTests::RenderableTest_VertexColoredTriangle()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_VertexColoredTriangle", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_VertexColoredTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::VertexColoredTriangle(1.0f));
     Terminate();
@@ -382,7 +401,7 @@ bool PresetTests::RenderableTest_TexturedTriangle()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_TexturedTriangle", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_TexturedTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::TexturedTriangle(1.0f, Texture::Load(Resources("textures/container.jpg"))));
     Terminate();
@@ -393,7 +412,7 @@ bool PresetTests::RenderableTest_ColoredSquare()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_ColoredSquare", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_ColoredSquare", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::ColoredSquare(1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
     Terminate();
@@ -404,7 +423,7 @@ bool PresetTests::RenderableTest_ColoredQuad()
 {
 	ErrorHandler errorHandler(true, true);
 	Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_ColoredQuad", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_ColoredQuad", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::ColoredQuad(2.0f, 1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
     Terminate();
@@ -415,7 +434,7 @@ bool PresetTests::RenderableTest_VertexColoredSquare()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_VertexColoredSquare", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_VertexColoredSquare", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::VertexColoredSquare(1.0f));
     Terminate();
@@ -426,10 +445,43 @@ bool PresetTests::RenderableTest_VertexColoredQuad()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_VertexColoredQuad", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_VertexColoredQuad", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::VertexColoredQuad(2.0f, 1.0f));
     Terminate();
+	return result;
+}
+
+bool PresetTests::RenderableTest_ColoredCircle()
+{
+	ErrorHandler errorHandler(true, true);
+	Init(errorHandler);
+	Window win(WindowProperties{ .title = "RenderableTest_ColoredCircle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
+	win.init();
+	bool result = RunRenderableTest(win, Renderable::ColoredCircle(0.5f, 50, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	Terminate();
+	return result;
+}
+
+bool PresetTests::RenderableTest_VertexColoredCircle()
+{
+	ErrorHandler errorHandler(true, true);
+	Init(errorHandler);
+	Window win(WindowProperties{ .title = "RenderableTest_VertexColoredCircle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
+	win.init();
+	bool result = RunRenderableTest(win, Renderable::VertexColoredCircle(0.5f, 50));
+	Terminate();
+	return result;
+}
+
+bool PresetTests::RenderableTest_TexturedCircle()
+{
+	ErrorHandler errorHandler(true, true);
+	Init(errorHandler);
+	Window win(WindowProperties{ .title = "RenderableTest_TexturedCircle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
+	win.init();
+	bool result = RunRenderableTest(win, Renderable::TexturedCircle(0.5f, 50, Texture::Load(Resources("textures/container.jpg"))));
+	Terminate();
 	return result;
 }
 
@@ -437,7 +489,7 @@ bool PresetTests::RenderableTest_TexturedSquare()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_TexturedSquare", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_TexturedSquare", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::TexturedSquare(1.0f, Texture::Load(Resources("textures/container.jpg"))));
     Terminate();
@@ -448,7 +500,7 @@ bool PresetTests::RenderableTest_TexturedQuad()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_TexturedQuad", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_TexturedQuad", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::TexturedQuad(2.0f, 1.0f, Texture::Load(Resources("textures/container.jpg"))));
     Terminate();
@@ -459,7 +511,7 @@ bool PresetTests::RenderableTest_ColoredCube()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_ColoredCube", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_ColoredCube", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::ColoredCube(1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
     Terminate();
@@ -470,7 +522,7 @@ bool PresetTests::RenderableTest_TexturedCube()
 {
 	ErrorHandler errorHandler(true, true);
 	Init(errorHandler);
-    Window win(WindowProperties{ .title = "RenderableTest_TexturedCube", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "RenderableTest_TexturedCube", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::TexturedCube(1.0f, Texture::Load(Resources("textures/container.jpg"))));
     Terminate();
@@ -481,7 +533,7 @@ bool PresetTests::UiRenderableTest_ColoredTriangle()
 {
     ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredTriangle", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::ColoredTriangle(100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
     Terminate();
@@ -492,7 +544,7 @@ bool PresetTests::UiRenderableTest_TexturedTriangle()
 {
     ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedTriangle", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::TexturedTriangle(100.0f, Texture::Load(Resources("textures/container.jpg"))));
     Terminate();
@@ -503,7 +555,7 @@ bool PresetTests::UiRenderableTest_ColoredSquare()
 {
     ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredSquare", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredSquare", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::ColoredSquare(100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
     Terminate();
@@ -514,7 +566,7 @@ bool PresetTests::UiRenderableTest_TexturedSquare()
 {
     ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedSquare", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedSquare", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::TexturedSquare(100.0f, Texture::Load(Resources("textures/container.jpg"))));
     Terminate();
@@ -525,7 +577,7 @@ bool PresetTests::UiRenderableTest_ColoredQuad()
 {
     ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredQuad", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "UiRenderableTest_ColoredQuad", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::ColoredQuad(200.0f, 100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
     Terminate();
@@ -536,18 +588,40 @@ bool PresetTests::UiRenderableTest_TexturedQuad()
 {
     ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedQuad", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "UiRenderableTest_TexturedQuad", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::TexturedQuad(200.0f, 100.0f, Texture::Load(Resources("textures/container.jpg"))));
     Terminate();
     return result;
 }
 
+bool PresetTests::UiRenderableTest_ColoredCircle()
+{
+	ErrorHandler errorHandler(true, true);
+	Init(errorHandler);
+	Window win(WindowProperties{ .title = "UiRenderableTest_ColoredCircle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
+	win.init();
+	bool result = RunUiRenderableTest(win, UiRenderable::ColoredCircle(50.0f, 50, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	Terminate();
+	return result;
+}
+
+bool PresetTests::UiRenderableTest_TexturedCircle()
+{
+	ErrorHandler errorHandler(true, true);
+	Init(errorHandler);
+	Window win(WindowProperties{ .title = "UiRenderableTest_TexturedCircle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
+	win.init();
+	bool result = RunUiRenderableTest(win, UiRenderable::TexturedCircle(50.0f, 50, Texture::Load(Resources("textures/container.jpg"))));
+	Terminate();
+	return result;
+}
+
 bool PresetTests::BufferTest_Triangle()
 {
 	ErrorHandler errorHandler(true, true);
 	Init(errorHandler);
-    Window win(WindowProperties{ .title = "BufferTest_Triangle", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "BufferTest_Triangle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunBufferTest(win, VertexBuffer::Triangle(1.0f), IndexBuffer::Triangle());
     Terminate();
@@ -558,7 +632,7 @@ bool PresetTests::BufferTest_Square()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "BufferTest_Square", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "BufferTest_Square", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunBufferTest(win, VertexBuffer::Square(1.0f), IndexBuffer::Square());
     Terminate();
@@ -569,18 +643,29 @@ bool PresetTests::BufferTest_Quad()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "BufferTest_Quad", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "BufferTest_Quad", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunBufferTest(win, VertexBuffer::Quad(2.0f, 1.0f), IndexBuffer::Quad());
     Terminate();
     return result;
 }
 
+bool PresetTests::BufferTest_Circle()
+{
+	ErrorHandler errorHandler(true, true);
+	Init(errorHandler);
+	Window win(WindowProperties{ .title = "BufferTest_Circle", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
+	win.init();
+	bool result = RunBufferTest(win, VertexBuffer::Circle(0.5f, 50), IndexBuffer::Circle(50));
+	Terminate();
+	return result;
+}
+
 bool PresetTests::BufferTest_Cube()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "BufferTest_Cube", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "BufferTest_Cube", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunBufferTest(win, VertexBuffer::Cube(1.0f), IndexBuffer::Cube());
     Terminate();
@@ -591,7 +676,7 @@ bool PresetTests::BufferTest_RectPrism()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
-    Window win(WindowProperties{ .title = "BufferTest_RectPrism", .width = 1280, .height = 720 });
+    Window win(WindowProperties{ .title = "BufferTest_RectPrism", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
     win.init();
     bool result = RunBufferTest(win, VertexBuffer::RectPrism(2.0f, 1.0f, 1.0f), IndexBuffer::RectPrism());
     Terminate();
@@ -617,6 +702,9 @@ void PresetTests::RunAllTests()
 
 	if (MeshTest_Quad2()) std::cout << "MeshTest_Quad2 - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "MeshTest_Quad2 - \x1b[31mFAILED\x1b[39m\n";
+
+	if (MeshTest_Circle()) std::cout << "MeshTest_Circle - \x1b[32mCOMPLETE\x1b[39m\n";
+	else std::cout << "MeshTest_Circle - \x1b[31mFAILED\x1b[39m\n";
 
 	if (MeshTest_Cube()) std::cout << "MeshTest_Cube - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "MeshTest_Cube - \x1b[31mFAILED\x1b[39m\n";
@@ -648,6 +736,15 @@ void PresetTests::RunAllTests()
 	if (RenderableTest_VertexColoredQuad()) std::cout << "RenderableTest_VertexColoredQuad - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "RenderableTest_VertexColoredQuad - \x1b[31mFAILED\x1b[39m\n";
 
+	if (RenderableTest_ColoredCircle()) std::cout << "RenderableTest_ColoredCircle - \x1b[32mCOMPLETE\x1b[39m\n";
+	else std::cout << "RenderableTest_ColoredCircle - \x1b[31mFAILED\x1b[39m\n";
+
+	if (RenderableTest_VertexColoredCircle()) std::cout << "RenderableTest_VertexColoredCircle - \x1b[32mCOMPLETE\x1b[39m\n";
+	else std::cout << "RenderableTest_VertexColoredCircle - \x1b[31mFAILED\x1b[39m\n";
+
+	if (RenderableTest_TexturedCircle()) std::cout << "RenderableTest_TexturedCircle - \x1b[32mCOMPLETE\x1b[39m\n";
+	else std::cout << "RenderableTest_TexturedCircle - \x1b[31mFAILED\x1b[39m\n";
+
 	if (RenderableTest_TexturedSquare()) std::cout << "RenderableTest_TexturedSquare - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "RenderableTest_TexturedSquare - \x1b[31mFAILED\x1b[39m\n";
 
@@ -678,6 +775,12 @@ void PresetTests::RunAllTests()
 	if (UiRenderableTest_TexturedQuad()) std::cout << "UiRenderableTest_TexturedQuad - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "UiRenderableTest_TexturedQuad - \x1b[31mFAILED\x1b[39m\n";
 
+	if (UiRenderableTest_ColoredCircle()) std::cout << "UiRenderableTest_ColoredCircle - \x1b[32mCOMPLETE\x1b[39m\n";
+	else std::cout << "UiRenderableTest_ColoredCircle - \x1b[31mFAILED\x1b[39m\n";
+
+	if (UiRenderableTest_TexturedCircle()) std::cout << "UiRenderableTest_TexturedCircle - \x1b[32mCOMPLETE\x1b[39m\n";
+	else std::cout << "UiRenderableTest_TexturedCircle - \x1b[31mFAILED\x1b[39m\n";
+
 	if (BufferTest_Triangle()) std::cout << "BufferTest_Triangle - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "BufferTest_Triangle - \x1b[31mFAILED\x1b[39m\n";
 
@@ -686,6 +789,9 @@ void PresetTests::RunAllTests()
 
 	if (BufferTest_Quad()) std::cout << "BufferTest_Quad - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "BufferTest_Quad - \x1b[31mFAILED\x1b[39m\n";
+
+	if (BufferTest_Circle()) std::cout << "BufferTest_Circle - \x1b[32mCOMPLETE\x1b[39m\n";
+	else std::cout << "BufferTest_Circle - \x1b[31mFAILED\x1b[39m\n";
 
 	if (BufferTest_Cube()) std::cout << "BufferTest_Cube - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "BufferTest_Cube - \x1b[31mFAILED\x1b[39m\n";

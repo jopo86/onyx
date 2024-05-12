@@ -274,3 +274,33 @@ Onyx::UiRenderable Onyx::UiRenderable::TexturedQuad(float width, float height, T
 {
 	return UiRenderable(Mesh(VertexBuffer::Quad(width, height, true), IndexBuffer::Quad()), texture);
 }
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredCircle(float radius, int nSegments, Math::Vec3 rgb)
+{
+	return UiRenderable(Mesh::Circle(radius, nSegments), rgb);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredCircle(float radius, int nSegments, Math::Vec4 rgba)
+{
+	return UiRenderable(Mesh::Circle(radius, nSegments), rgba);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredCircle(float radius, float angleStep, Math::Vec3 rgb)
+{
+	return UiRenderable(Mesh::Circle(radius, angleStep), rgb);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::ColoredCircle(float radius, float angleStep, Math::Vec4 rgba)
+{
+	return UiRenderable(Mesh::Circle(radius, angleStep), rgba);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::TexturedCircle(float radius, int nSegments, Texture texture)
+{
+	return UiRenderable(Mesh(VertexBuffer::Circle(radius, nSegments, true), IndexBuffer::Circle(nSegments)), texture);
+}
+
+Onyx::UiRenderable Onyx::UiRenderable::TexturedCircle(float radius, float angleStep, Texture texture)
+{
+	return UiRenderable(Mesh(VertexBuffer::Circle(radius, angleStep, true), IndexBuffer::Circle(angleStep)), texture);
+}

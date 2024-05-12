@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../src/Core.h"
+#include "../src/Math.h"
 
 #include "PresetTests.h"
 #include "WindowTest.h"
@@ -19,7 +20,7 @@ int main()
 	Onyx::Demo();
 	Onyx::Terminate();
 
-	//PresetTests::RunAllTests();
+	//PresetTests::RenderableTest_TexturedCircle();
 
 	//WindowTest::Run();
 

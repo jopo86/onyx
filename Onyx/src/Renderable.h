@@ -427,6 +427,78 @@ namespace Onyx
 		static Renderable TexturedQuad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d, Texture texture);
 
 		/*
+			@brief Creates a circle renderable with the specified radius, number of segments, and color.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredCircle(float radius, int nSegments, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a circle renderable with the specified radius, number of segments, and color.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredCircle(float radius, int nSegments, Math::Vec4 rgba);
+
+		/*
+			@brief Creates a circle renderable with the specified radius, angle step, and color.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredCircle(float radius, float angleStep, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a circle renderable with the specified radius, angle step, and color.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredCircle(float radius, float angleStep, Math::Vec4 rgba);
+
+		/*
+			@brief Creates a circle renderable with the specified radius, number of segments, and texture.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		static Renderable VertexColoredCircle(float radius, int nSegments);
+
+		/*
+			@brief Creates a circle renderable with the specified radius, angle step, and texture.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		static Renderable VertexColoredCircle(float radius, float angleStep);
+
+		/*
+			@brief Creates a circle renderable with the specified radius, number of segments, and texture.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		static Renderable TexturedCircle(float radius, int nSegments, Texture texture);
+
+		/*
+			@brief Creates a circle renderable with the specified radius, angle step, and texture.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		static Renderable TexturedCircle(float radius, float angleStep, Texture texture);
+
+		/*
 			@brief Creates a cube renderable with the specified side length and color.
 			@param side The side length.
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.

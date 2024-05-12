@@ -146,6 +146,22 @@ namespace Onyx
 		static Mesh Quad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d);
 
 		/*
+			@brief Generates a circle mesh from the specified radius and number of segments.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@return The generated mesh.
+		 */
+		static Mesh Circle(float radius, int nSegments);
+
+		/*
+			@brief Generates a circle mesh from the specified radius and angle step.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@return The generated mesh.
+		 */
+		static Mesh Circle(float radius, float angleStep);
+
+		/*
 			@brief Generates a cube mesh with the specified side length.
 			@param side The side length.
 			@return The generated mesh.

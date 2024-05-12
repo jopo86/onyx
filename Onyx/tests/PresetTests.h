@@ -28,6 +28,7 @@ namespace PresetTests
 	bool MeshTest_Square();
 	bool MeshTest_Quad1();
 	bool MeshTest_Quad2();
+	bool MeshTest_Circle();
 	bool MeshTest_Cube();
 	bool MeshTest_RectPrism1();
 	bool MeshTest_RectPrism2();
@@ -39,6 +40,9 @@ namespace PresetTests
 	bool RenderableTest_ColoredQuad();
 	bool RenderableTest_VertexColoredSquare();
 	bool RenderableTest_VertexColoredQuad();
+	bool RenderableTest_ColoredCircle();
+	bool RenderableTest_VertexColoredCircle();
+	bool RenderableTest_TexturedCircle();
 	bool RenderableTest_TexturedSquare();
 	bool RenderableTest_TexturedQuad();
 	bool RenderableTest_ColoredCube();
@@ -50,10 +54,13 @@ namespace PresetTests
 	bool UiRenderableTest_TexturedSquare();
 	bool UiRenderableTest_ColoredQuad();
 	bool UiRenderableTest_TexturedQuad();
+	bool UiRenderableTest_ColoredCircle();
+	bool UiRenderableTest_TexturedCircle();
 
 	bool BufferTest_Triangle();
 	bool BufferTest_Square();
 	bool BufferTest_Quad();
+	bool BufferTest_Circle();
 	bool BufferTest_Cube();
 	bool BufferTest_RectPrism();
 

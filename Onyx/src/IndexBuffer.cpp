@@ -1,4 +1,9 @@
+#pragma warning(disable: 4267)
+
 #include "IndexBuffer.h"
+#include "Math.h"
+
+void onyx_add_malloc(void*, bool);
 
 Onyx::IndexBuffer::IndexBuffer()
 {
@@ -40,6 +45,35 @@ Onyx::IndexBuffer Onyx::IndexBuffer::Quad()
 	IndexBuffer ib(indices, 6 * sizeof(uint));
 	ib.m_heap = true;
 	return ib;
+}
+
+Onyx::IndexBuffer Onyx::IndexBuffer::Circle(int nSegments)
+{
+	return Circle(360.0f / nSegments);
+}
+
+Onyx::IndexBuffer Onyx::IndexBuffer::Circle(float _angleStep)
+{
+	float angleStep = Math::Radians(_angleStep);
+
+	std::vector<uint>* indices = new std::vector<uint>;
+	onyx_add_malloc(indices, false);
+
+	int i = 0;
+	for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+	{
+		if (i == 0 || ang + angleStep >= Math::TAU)
+		{
+			i++;
+			continue;
+		}
+		indices->push_back(i);
+		indices->push_back(i + 1);
+		indices->push_back(0);
+		i++;
+	}
+
+	return IndexBuffer(indices->data(), indices->size() * sizeof(uint));
 }
 
 Onyx::IndexBuffer Onyx::IndexBuffer::Cube()

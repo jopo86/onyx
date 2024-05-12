@@ -1,3 +1,5 @@
+#pragma warning(disable: 4267)
+
 #include "Mesh.h"
 
 #include <glad/glad.h>
@@ -265,6 +267,41 @@ Onyx::Mesh Onyx::Mesh::Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
 
 	delete[] vertices;
 	delete[] indices;
+}
+
+Onyx::Mesh Onyx::Mesh::Circle(float r, int nSegments)
+{
+	return Circle(r, 360.0f / nSegments);
+}
+
+Onyx::Mesh Onyx::Mesh::Circle(float r, float _angleStep)
+{
+	float angleStep = Math::Radians(_angleStep);
+
+	std::vector<float> vertices;
+	std::vector<uint> indices;
+
+	int i = 0;
+	for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+	{
+		vertices.push_back(cosf(ang) * r);
+		vertices.push_back(sinf(ang) * r);
+		vertices.push_back(0.0f);
+		if (i == 0 || ang + angleStep >= Math::TAU)
+		{
+			i++;
+			continue;
+		}
+		indices.push_back(i);
+		indices.push_back(i + 1);
+		indices.push_back(0);
+		i++;
+	}
+
+	return Mesh(
+		VertexBuffer(vertices.data(), vertices.size() * sizeof(float), VertexFormat::P),
+		IndexBuffer(indices.data(), indices.size() * sizeof(uint))
+	);
 }
 
 Onyx::Mesh Onyx::Mesh::Cube(float side)

@@ -19,6 +19,36 @@ namespace Onyx
 	 */
 	namespace Math
 	{
+		class Vec;
+		class Vec2;
+		class Vec3;
+		class Vec4;
+
+		class DVec;
+		class DVec2;
+		class DVec3;
+		class DVec4;
+
+		class IVec;
+		class IVec2;
+		class IVec3;
+		class IVec4;
+
+		class UVec;
+		class UVec2;
+		class UVec3;
+		class UVec4;
+
+		/*
+			@brief The pi constant.
+		 */
+		const double PI = 3.14159265358979311599796346854;
+
+		/*
+			@brief The tau constant, 2 * pi.
+		 */
+		const double TAU = 2.0 * PI;
+
 		/*
 			@brief Converts a degree angle measure to radians.
 			@param degrees The degree angle measure.
@@ -63,25 +93,23 @@ namespace Onyx
 		 */
 		double Clamp(double value, double min, double max);
 
-		class Vec;
-		class Vec2;
-		class Vec3;
-		class Vec4;
+		/*
+			@brief Remaps a value from a previous range to a new one.
+			@param val The value to remap.
+			@param oldRange The old range (min, max).
+			@param newRange The new range (min, max).
+			@return The remapped value.
+		 */
+		float Remap(float val, Vec2 oldRange, Vec2 newRange);
 
-		class DVec;
-		class DVec2;
-		class DVec3;
-		class DVec4;
-
-		class IVec;
-		class IVec2;
-		class IVec3;
-		class IVec4;
-
-		class UVec;
-		class UVec2;
-		class UVec3;
-		class UVec4;
+		/*
+			@brief Remaps a value from a previous range to a new one.
+			@param val The value to remap.
+			@param oldRange The old range (min, max).
+			@param newRange The new range (min, max).
+			@return The remapped value.
+		 */
+		double Remap(double val, DVec2 oldRange, DVec2 newRange);
 
 		/*
 			@brief A parent class for vectors.

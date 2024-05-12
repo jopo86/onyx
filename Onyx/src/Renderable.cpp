@@ -462,6 +462,72 @@ Onyx::Renderable Onyx::Renderable::TexturedQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, 
 	);
 }
 
+Onyx::Renderable Onyx::Renderable::ColoredCircle(float radius, int nSegments, Math::Vec3 rgb)
+{
+	return ColoredCircle(radius, nSegments, Vec4(rgb, 1.0f));
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredCircle(float radius, int nSegments, Math::Vec4 rgba)
+{
+	return Renderable(
+		Mesh::Circle(radius, nSegments),
+		Shader::P_Color(rgba)
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredCircle(float radius, float angleStep, Math::Vec3 rgb)
+{
+	return ColoredCircle(radius, angleStep, Vec4(rgb, 1.0f));
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredCircle(float radius, float angleStep, Math::Vec4 rgba)
+{
+	return Renderable(
+		Mesh::Circle(radius, angleStep),
+		Shader::P_Color(rgba)
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::VertexColoredCircle(float radius, int nSegments)
+{
+	return Renderable(
+		Mesh::Circle(radius, nSegments),
+		Shader::P_XYZtoRGB()
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::VertexColoredCircle(float radius, float angleStep)
+{
+	return Renderable(
+		Mesh::Circle(radius, angleStep),
+		Shader::P_XYZtoRGB()
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::TexturedCircle(float radius, int nSegments, Texture texture)
+{
+	return Renderable(
+		Mesh(
+			VertexBuffer::Circle(radius, nSegments, true),
+			IndexBuffer::Circle(nSegments)
+		),
+		Shader::PT(),
+		texture
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::TexturedCircle(float radius, float angleStep, Texture texture)
+{
+	return Renderable(
+		Mesh(
+			VertexBuffer::Circle(radius, angleStep, true),
+			IndexBuffer::Circle(angleStep)
+		),
+		Shader::PT(),
+		texture
+	);
+}
+
 Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec3 rgb)
 {
 	return ColoredCube(side, Vec4(rgb, 1.0f));

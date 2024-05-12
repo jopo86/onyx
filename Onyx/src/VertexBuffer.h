@@ -88,6 +88,24 @@ namespace Onyx
 		static VertexBuffer Quad(float width, float height, bool texCoords = false);
 
 		/*
+			@brief Generates a vertex buffer for a circle with the specified radius and number of segments.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@return The generated vertex buffer.
+		 */
+		static VertexBuffer Circle(float radius, int nSegments, bool texCoords = false);
+
+		/*
+			@brief Generates a vertex buffer for a circle with the specified radius and angle step.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@return The generated vertex buffer.
+		 */
+		static VertexBuffer Circle(float radius, float angleStep, bool texCoords = false);
+
+		/*
 			@brief Generates a vertex buffer for a cube with the specified side length.
 			@param side The length of the side of the cube.
 			@return The generated vertex buffer.

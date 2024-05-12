@@ -303,5 +303,59 @@ namespace Onyx
 			@return The generated renderable.
 		 */
 		static UiRenderable TexturedQuad(float width, float height, Texture texture);
+
+		/*
+			@brief Generates a colored circle UI renderable with the specified radius and number of segments.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
+		static UiRenderable ColoredCircle(float radius, int nSegments, Math::Vec3 rgb);
+
+		/*
+			@brief Generates a colored circle UI renderable with the specified radius and number of segments.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
+		static UiRenderable ColoredCircle(float radius, int nSegments, Math::Vec4 rgba);
+
+		/*
+			@brief Generates a colored circle UI renderable with the specified radius and angle step.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
+		static UiRenderable ColoredCircle(float radius, float angleStep, Math::Vec3 rgb);
+
+		/*
+			@brief Generates a colored circle UI renderable with the specified radius and angle step.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The generated renderable.
+		 */
+		static UiRenderable ColoredCircle(float radius, float angleStep, Math::Vec4 rgba);
+
+		/*
+			@brief Generates a textured circle UI renderable with the specified radius and number of segments.
+			@param radius The radius of the circle.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param texture The texture to use.
+			@return The generated renderable.
+		 */
+		static UiRenderable TexturedCircle(float radius, int nSegments, Texture texture);
+
+		/*
+			@brief Generates a textured circle UI renderable with the specified radius and angle step.
+			@param radius The radius of the circle.
+			@param angleStep The angle step, in degrees, between vertices.
+			@param texture The texture to use.
+			@return The generated renderable.
+		 */
+		static UiRenderable TexturedCircle(float radius, float angleStep, Texture texture);
 	};
 }

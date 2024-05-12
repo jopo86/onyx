@@ -1,4 +1,11 @@
+#pragma warning(disable: 4267)
+
 #include "VertexBuffer.h"
+#include "Math.h"
+
+using Onyx::Math::Vec2;
+
+void onyx_add_malloc(void*, bool);
 
 Onyx::VertexBuffer::VertexBuffer()
 {
@@ -97,6 +104,35 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Quad(float width, float height, bool texC
 		vb.m_heap = true;
 		return vb;
 	}
+}
+
+Onyx::VertexBuffer Onyx::VertexBuffer::Circle(float r, int nSegments, bool texCoords)
+{
+	return Circle(r, 360.0f / nSegments, texCoords);
+}
+
+Onyx::VertexBuffer Onyx::VertexBuffer::Circle(float r, float _angleStep, bool texCoords)
+{
+	float angleStep = Math::Radians(_angleStep);
+
+	std::vector<float>* vertices = new std::vector<float>;
+	onyx_add_malloc(vertices, false);
+
+	for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+	{
+		float c = cosf(ang);
+		float s = sinf(ang);
+		vertices->push_back(c * r);
+		vertices->push_back(s * r);
+		vertices->push_back(0.0f);
+		if (texCoords)
+		{
+			vertices->push_back(Math::Remap(c, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+			vertices->push_back(Math::Remap(s, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+		}
+	}
+
+	return VertexBuffer(vertices->data(), vertices->size() * sizeof(float), texCoords ? VertexFormat::PT : VertexFormat::P);
 }
 
 Onyx::VertexBuffer Onyx::VertexBuffer::Cube(float side, bool texCoords)

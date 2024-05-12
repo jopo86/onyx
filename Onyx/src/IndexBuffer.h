@@ -52,6 +52,20 @@ namespace Onyx
 		static IndexBuffer Quad();
 
 		/*
+			@brief Generates an index buffer for a circle with the specified number of line segments.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@return The generated index buffer.
+		 */
+		static IndexBuffer Circle(int nSegments);
+
+		/*
+			@brief Generates an index buffer for a circle with the specified angle step.
+			@param angleStep The angle step, in degrees, between vertices.
+			@return The generated index buffer.
+		 */
+		static IndexBuffer Circle(float angleStep);
+
+		/*
 			@brief Generates an index buffer for a cube. (Same as rect prism)
 			@return The generated index buffer.
 		 */

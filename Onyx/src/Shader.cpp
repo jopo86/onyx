@@ -898,6 +898,44 @@ Onyx::Shader Onyx::Shader::PN_Color(Vec4 rgba)
 	return shader;
 }
 
+Onyx::Shader Onyx::Shader::PN_XYZtoRGB()
+{
+	Shader shader;
+	if (!FileUtils::FileExists(Resources("shaders/bin/PN_XYZtoRGB.bin")))
+	{
+		shader = Shader::LoadSource(Resources("shaders/src/PN_XYZtoRGB.glsl"));
+		shader.saveBinary(Resources("shaders/bin"), "PN_XYZtoRGB");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
+	}
+	else
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/PN_XYZtoRGB.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::PN_XYZtoRGB()",
+					.message = "Failed to load binary shader, recompiling source files instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
+			shader.dispose();
+			shader = Shader::LoadSource(Resources("shaders/src/PN_XYZtoRGB.glsl"));
+			shader.saveBinary(Resources("shaders/bin"), "PN_XYZtoRGB");
+		}
+	}
+	shader.use();
+	shader.setMat4("u_model", Mat4::Identity());
+	shader.setMat4("u_view", Mat4::Identity());
+	shader.setMat4("u_projection", Mat4::Identity());
+	return shader;
+
+}
+
 Onyx::Shader Onyx::Shader::PNT()
 {
 	Shader shader;

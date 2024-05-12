@@ -37,9 +37,9 @@ Onyx::Mesh::Mesh(VertexBuffer vertexBuffer, IndexBuffer indexBuffer, bool* resul
 	/*
 		Layout locations:
 		0: Position
-		1: Color
-		2: Texture coords
-		3: Normal
+		1: Colors
+		2: Texture Coords
+		3: Normals
 	 */
 
 	switch (vertexBuffer.m_format)
@@ -196,171 +196,81 @@ void Onyx::Mesh::dispose()
 #endif
 }
 
-Onyx::Mesh Onyx::Mesh::Triangle(float side)
+Onyx::Mesh Onyx::Mesh::Triangle(float side, bool genNormals, bool genTexCoords)
 {
-	return Triangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)));
+	return Mesh(
+		VertexBuffer::Triangle(side, genNormals, genTexCoords),
+		IndexBuffer::Triangle(genNormals)
+	);
 }
 
-Onyx::Mesh Onyx::Mesh::Triangle(float base, float height)
+Onyx::Mesh Onyx::Mesh::Triangle(float base, float height, bool genNormals, bool genTexCoords)
 {
-	return Triangle(
-		Vec2(-base / 2.0f, -height / 2.0f),
-		Vec2(base / 2.0f, -height / 2.0f),
-		Vec2(0.0f, height / 2.0f)
+	return Mesh(
+		VertexBuffer::Triangle(base, height, genNormals, genTexCoords),
+		IndexBuffer::Triangle(genNormals)
 	);
 }
 
 Onyx::Mesh Onyx::Mesh::Triangle(Vec2 a, Vec2 b, Vec2 c)
 {
-	float* vertices = new float[9] {
-		a.getX(), a.getY(), 0.0f,
-			b.getX(), b.getY(), 0.0f,
-			c.getX(), c.getY(), 0.0f
-		};
+	return Mesh();
+}
 
-	uint* indices = new uint[3]{
-		0, 1, 2
-	};
-
+Onyx::Mesh Onyx::Mesh::Square(float side, bool genNormals, bool genTexCoords)
+{
 	return Mesh(
-		VertexBuffer(vertices, 9 * sizeof(float), VertexFormat::P),
-		IndexBuffer(indices, 3 * sizeof(uint))
+		VertexBuffer::Square(side, genNormals, genTexCoords),
+		IndexBuffer::Square(genNormals)
 	);
-
-	delete[] vertices;
-	delete[] indices;
 }
 
-Onyx::Mesh Onyx::Mesh::Square(float side)
+Onyx::Mesh Onyx::Mesh::Quad(float width, float height, bool genNormals, bool genTexCoords)
 {
-	return Quad(side, side);
-}
-
-Onyx::Mesh Onyx::Mesh::Quad(float width, float height)
-{
-	return Quad(
-		Vec2(-width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, height / 2.0f),
-		Vec2(-width / 2.0f, height / 2.0f)
+	return Mesh(
+		VertexBuffer::Quad(width, height, genNormals, genTexCoords),
+		IndexBuffer::Quad(genNormals)
 	);
 }
 
 Onyx::Mesh Onyx::Mesh::Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
 {
-	float* vertices = new float[12] {
-		a.getX(), a.getY(), 0.0f,
-			b.getX(), b.getY(), 0.0f,
-			c.getX(), c.getY(), 0.0f,
-			d.getX(), d.getY(), 0.0f
-		};
-
-	uint* indices = new uint[6]{
-		0, 1, 2,
-		2, 3, 0
-	};
-
-	return Mesh(
-		VertexBuffer(vertices, 12 * sizeof(float), VertexFormat::P),
-		IndexBuffer(indices, 6 * sizeof(uint))
-	);
-
-	delete[] vertices;
-	delete[] indices;
+	return Mesh();
 }
 
-Onyx::Mesh Onyx::Mesh::Circle(float r, int nSegments)
+Onyx::Mesh Onyx::Mesh::Circle(float r, int nSegments, bool genNormals, bool genTexCoords)
 {
-	return Circle(r, 360.0f / nSegments);
-}
-
-Onyx::Mesh Onyx::Mesh::Circle(float r, float _angleStep)
-{
-	float angleStep = Math::Radians(_angleStep);
-
-	std::vector<float> vertices;
-	std::vector<uint> indices;
-
-	int i = 0;
-	for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
-	{
-		vertices.push_back(cosf(ang) * r);
-		vertices.push_back(sinf(ang) * r);
-		vertices.push_back(0.0f);
-		if (i == 0 || ang + angleStep >= Math::TAU)
-		{
-			i++;
-			continue;
-		}
-		indices.push_back(i);
-		indices.push_back(i + 1);
-		indices.push_back(0);
-		i++;
-	}
-
 	return Mesh(
-		VertexBuffer(vertices.data(), vertices.size() * sizeof(float), VertexFormat::P),
-		IndexBuffer(indices.data(), indices.size() * sizeof(uint))
+		VertexBuffer::Circle(r, nSegments, genNormals, genTexCoords),
+		IndexBuffer::Circle(nSegments, genNormals)
 	);
 }
 
-Onyx::Mesh Onyx::Mesh::Cube(float side)
+Onyx::Mesh Onyx::Mesh::Circle(float r, float _angleStep, bool genNormals, bool genTexCoords)
 {
-	return RectPrism(side, side, side);
+	return Mesh(
+		VertexBuffer::Circle(r, _angleStep, genNormals, genTexCoords),
+		IndexBuffer::Circle(_angleStep, genNormals)
+	);
 }
 
-Onyx::Mesh Onyx::Mesh::RectPrism(float width, float height, float depth)
+Onyx::Mesh Onyx::Mesh::Cube(float side, bool genNormals, bool genTexCoords)
 {
-	return RectPrism(
-		Vec3(-width / 2.0f, -height / 2.0f,  depth / 2.0f),
-		Vec3( width / 2.0f, -height / 2.0f,  depth / 2.0f),
-		Vec3( width / 2.0f,  height / 2.0f,  depth / 2.0f),
-		Vec3(-width / 2.0f,  height / 2.0f,  depth / 2.0f),
-		Vec3(-width / 2.0f, -height / 2.0f, -depth / 2.0f),
-		Vec3( width / 2.0f, -height / 2.0f, -depth / 2.0f),
-		Vec3( width / 2.0f,  height / 2.0f, -depth / 2.0f),
-		Vec3(-width / 2.0f,  height / 2.0f, -depth / 2.0f)
+	return Mesh(
+		VertexBuffer::Cube(side, genNormals, genTexCoords),
+		IndexBuffer::Cube(genNormals)
+	);
+}
+
+Onyx::Mesh Onyx::Mesh::RectPrism(float width, float height, float depth, bool genNormals, bool genTexCoords)
+{
+	return Mesh(
+		VertexBuffer::RectPrism(width, height, depth, genNormals, genTexCoords),
+		IndexBuffer::RectPrism(genNormals)
 	);
 }
 
 Onyx::Mesh Onyx::Mesh::RectPrism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, Vec3 f, Vec3 g, Vec3 h)
 {
-	float* vertices = new float[24] {
-		a.getX(), a.getY(), a.getZ(),
-		b.getX(), b.getY(), b.getZ(),
-		c.getX(), c.getY(), c.getZ(),
-		d.getX(), d.getY(), d.getZ(),
-		e.getX(), e.getY(), e.getZ(),
-		f.getX(), f.getY(), f.getZ(),
-		g.getX(), g.getY(), g.getZ(),
-		h.getX(), h.getY(), h.getZ()
-	};
-
-	uint* indices = new uint[36]{
-		0, 1, 2,
-		2, 3, 0,
-
-		4, 5, 6,
-		6, 7, 4,
-
-		0, 1, 5,
-		5, 4, 0,
-
-		3, 2, 6,
-		6, 7, 3,
-
-		0, 4, 7,
-		7, 3, 0,
-
-		1, 5, 6,
-		6, 2, 1
-	};
-
-	return Mesh(
-		VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::P),
-		IndexBuffer(indices, 36 * sizeof(uint))
-	);
-
-	delete[] vertices;
-	delete[] indices;
+	return Mesh();
 }

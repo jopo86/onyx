@@ -238,160 +238,130 @@ void Onyx::Renderable::updateModel()
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(float side, Vec3 rgb)
 {
-	return ColoredTriangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)), Vec4(rgb, 1.0f));
+	return Renderable(
+		Mesh::Triangle(side, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(float side, Vec4 rgba)
 {
-	return ColoredTriangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)), rgba);
+	return Renderable(
+		Mesh::Triangle(side, true),
+		Shader::PN_Color(rgba)
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(float base, float height, Vec3 rgb)
 {
-	return ColoredTriangle(
-		Vec2(-base / 2.0f, -height / 2.0f),
-		Vec2(base / 2.0f, -height / 2.0f),
-		Vec2(0.0f, height / 2.0f),
-		rgb
+	return Renderable(
+		Mesh::Triangle(base, height, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(float base, float height, Vec4 rgba)
 {
-	return ColoredTriangle(
-		Vec2(-base / 2.0f, -height / 2.0f),
-		Vec2(base / 2.0f, -height / 2.0f),
-		Vec2(0.0f, height / 2.0f),
-		rgba
+	return Renderable(
+		Mesh::Triangle(base, height, true),
+		Shader::PN_Color(rgba)
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(Vec2 a, Vec2 b, Vec2 c, Vec3 rgb)
 {
-	return Renderable(
-		Mesh::Triangle(a, b, c),
-		Shader::P_Color(Vec4(rgb, 1.0f))
-	);
+	return Renderable();
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredTriangle(Vec2 a, Vec2 b, Vec2 c, Vec4 rgba)
 {
-	return Renderable(
-		Mesh::Triangle(a, b, c),
-		Shader::P_Color(rgba)
-	);
+	return Renderable();
 }
 
 Onyx::Renderable Onyx::Renderable::VertexColoredTriangle(float side)
 {
-	return VertexColoredTriangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)));
+	return Renderable(
+		Mesh::Triangle(side, true),
+		Shader::PN_XYZtoRGB()
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::VertexColoredTriangle(float base, float height)
 {
-	return VertexColoredTriangle(
-		Vec2(-base / 2.0f, -height / 2.0f),
-		Vec2(base / 2.0f, -height / 2.0f),
-		Vec2(0.0f, height / 2.0f)
+	return Renderable(
+		Mesh::Triangle(base, height, true),
+		Shader::PN_XYZtoRGB()
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::VertexColoredTriangle(Vec2 a, Vec2 b, Vec2 c)
 {
-	return Renderable(
-		Mesh::Triangle(a, b, c),
-		Shader::P_XYZtoRGB()
-	);
+	return Renderable();
 }
 
 Onyx::Renderable Onyx::Renderable::TexturedTriangle(float side, Texture texture)
 {
-	return TexturedTriangle(side, sqrtf(powf(side, 2.0f) - powf(side / 2.0f, 2.0f)), texture);
+	return Renderable(
+		Mesh::Triangle(side, true, true),
+		Shader::PNT(),
+		texture
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::TexturedTriangle(float base, float height, Texture texture)
 {
-	return TexturedTriangle(
-		Vec2(-base / 2.0f, -height / 2.0f),
-		Vec2(base / 2.0f, -height / 2.0f),
-		Vec2(0.0f, height / 2.0f),
+	return Renderable(
+		Mesh::Triangle(base, height, true, true),
+		Shader::PNT(),
 		texture
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::TexturedTriangle(Vec2 a, Vec2 b, Vec2 c, Texture texture)
 {
-	float* vertices = new float[15] {
-		a.getX(), a.getY(), 0.0f, 0.0f, 0.0f,
-			b.getX(), b.getY(), 0.0f, 1.0f, 0.0f,
-			c.getX(), c.getY(), 0.0f, 0.5f, 1.0f
-		};
-
-	uint* indices = new uint[3]{
-		0, 1, 2
-	};
-
-	Mesh mesh(
-		VertexBuffer(vertices, 15 * sizeof(float), Onyx::VertexFormat::PT),
-		IndexBuffer(indices, 3 * sizeof(uint))
-	);
-
-	delete[] vertices;
-	delete[] indices;
-
-	return Renderable(
-		mesh,
-		Shader::PT(),
-		texture
-	);
+	return Renderable();
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredSquare(float side, Vec3 rgb)
 {
-	return ColoredQuad(side, side, rgb);
+	return Renderable(
+		Mesh::Square(side, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredSquare(float side, Vec4 rgba)
 {
-	return ColoredQuad(side, side, rgba);
+	return Renderable(
+		Mesh::Square(side, true),
+		Shader::PN_Color(rgba)
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredQuad(float width, float height, Vec3 rgb)
 {
-	return ColoredQuad(
-		Vec2(-width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, height / 2.0f),
-		Vec2(-width / 2.0f, height / 2.0f),
-		rgb
+	return Renderable(
+		Mesh::Quad(width, height, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredQuad(float width, float height, Vec4 rgba)
 {
-	return ColoredQuad(
-		Vec2(-width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, height / 2.0f),
-		Vec2(-width / 2.0f, height / 2.0f),
-		rgba
+	return Renderable(
+		Mesh::Quad(width, height, true),
+		Shader::PN_Color(rgba)
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Vec3 rgb)
 {
-	return Renderable(
-		Mesh::Quad(a, b, c, d),
-		Shader::P_Color(Vec4(rgb, 1.0f))
-	);
+	return Renderable();
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Vec4 rgba)
 {
-	return Renderable(
-		Mesh::Quad(a, b, c, d),
-		Shader::P_Color(rgba)
-	);
+	return Renderable();
 }
 
 Onyx::Renderable Onyx::Renderable::VertexColoredSquare(float side)
@@ -401,117 +371,93 @@ Onyx::Renderable Onyx::Renderable::VertexColoredSquare(float side)
 
 Onyx::Renderable Onyx::Renderable::VertexColoredQuad(float width, float height)
 {
-	return VertexColoredQuad(
-		Vec2(-width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, height / 2.0f),
-		Vec2(-width / 2.0f, height / 2.0f)
+	return Renderable(
+		Mesh::Quad(width, height, true),
+		Shader::PN_XYZtoRGB()
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::VertexColoredQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
 {
-	return Renderable(
-		Mesh::Quad(a, b, c, d),
-		Shader::P_XYZtoRGB()
-	);
+	return Renderable();
 }
 
 Onyx::Renderable Onyx::Renderable::TexturedSquare(float side, Texture texture)
 {
-	return TexturedQuad(side, side, texture);
+	return Renderable(
+		Mesh::Square(side, true, true),
+		Shader::PNT(),
+		texture
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::TexturedQuad(float width, float height, Texture texture)
 {
-	return TexturedQuad(
-		Vec2(-width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, -height / 2.0f),
-		Vec2(width / 2.0f, height / 2.0f),
-		Vec2(-width / 2.0f, height / 2.0f),
+	return Renderable(
+		Mesh::Quad(width, height, true, true),
+		Shader::PNT(),
 		texture
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::TexturedQuad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Texture texture)
 {
-	float* vertices = new float[20] {
-		a.getX(), a.getY(), 0.0f, 0.0f, 0.0f,
-		b.getX(), b.getY(), 0.0f, 1.0f, 0.0f,
-		c.getX(), c.getY(), 0.0f, 1.0f, 1.0f,
-		d.getX(), d.getY(), 0.0f, 0.0f, 1.0f
-	};
-
-	uint* indices = new uint[6]{
-		0, 1, 2,
-		2, 3, 0
-	};
-
-	Mesh mesh(
-		VertexBuffer(vertices, 20 * sizeof(float), Onyx::VertexFormat::PT),
-		IndexBuffer(indices, 6 * sizeof(uint))
-	);
-
-	delete[] vertices;
-	delete[] indices;
-
-	return Renderable(
-		mesh,
-		Shader::PT(),
-		texture
-	);
+	return Renderable();
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredCircle(float radius, int nSegments, Math::Vec3 rgb)
 {
-	return ColoredCircle(radius, nSegments, Vec4(rgb, 1.0f));
+	return Renderable(
+		Mesh::Circle(radius, nSegments, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredCircle(float radius, int nSegments, Math::Vec4 rgba)
 {
 	return Renderable(
-		Mesh::Circle(radius, nSegments),
-		Shader::P_Color(rgba)
+		Mesh::Circle(radius, nSegments, true),
+		Shader::PN_Color(rgba)
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredCircle(float radius, float angleStep, Math::Vec3 rgb)
 {
-	return ColoredCircle(radius, angleStep, Vec4(rgb, 1.0f));
+	return Renderable(
+		Mesh::Circle(radius, angleStep, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredCircle(float radius, float angleStep, Math::Vec4 rgba)
 {
 	return Renderable(
-		Mesh::Circle(radius, angleStep),
-		Shader::P_Color(rgba)
+		Mesh::Circle(radius, angleStep, true),
+		Shader::PN_Color(rgba)
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::VertexColoredCircle(float radius, int nSegments)
 {
 	return Renderable(
-		Mesh::Circle(radius, nSegments),
-		Shader::P_XYZtoRGB()
+		Mesh::Circle(radius, nSegments, true),
+		Shader::PN_XYZtoRGB()
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::VertexColoredCircle(float radius, float angleStep)
 {
 	return Renderable(
-		Mesh::Circle(radius, angleStep),
-		Shader::P_XYZtoRGB()
+		Mesh::Circle(radius, angleStep, true),
+		Shader::PN_XYZtoRGB()
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::TexturedCircle(float radius, int nSegments, Texture texture)
 {
 	return Renderable(
-		Mesh(
-			VertexBuffer::Circle(radius, nSegments, true),
-			IndexBuffer::Circle(nSegments)
-		),
-		Shader::PT(),
+		Mesh::Circle(radius, nSegments, true, true),
+		Shader::PNT(),
 		texture
 	);
 }
@@ -519,152 +465,32 @@ Onyx::Renderable Onyx::Renderable::TexturedCircle(float radius, int nSegments, T
 Onyx::Renderable Onyx::Renderable::TexturedCircle(float radius, float angleStep, Texture texture)
 {
 	return Renderable(
-		Mesh(
-			VertexBuffer::Circle(radius, angleStep, true),
-			IndexBuffer::Circle(angleStep)
-		),
-		Shader::PT(),
+		Mesh::Circle(radius, angleStep, true, true),
+		Shader::PNT(),
 		texture
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec3 rgb)
 {
-	return ColoredCube(side, Vec4(rgb, 1.0f));
+	return Renderable(
+		Mesh::Cube(side, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
 }
 
 Onyx::Renderable Onyx::Renderable::ColoredCube(float side, Vec4 rgba)
 {
-	float* vertices = new float[144] {
-		-side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  0.0f,  1.0f,
-																
-		-side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
-		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
-		-side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  0.0f, -1.0f,
-														 
-		-side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f, -1.0f,  0.0f,
-		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 0.0f, -1.0f,  0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f, -1.0f,  0.0f,
-		-side / 2.0f, -side / 2.0f,  side / 2.0f,		 0.0f, -1.0f,  0.0f,
-																	   
-		-side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  1.0f,  0.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f,		 0.0f,  1.0f,  0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  1.0f,  0.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f,		 0.0f,  1.0f,  0.0f,
-																	   
-		-side / 2.0f, -side / 2.0f, -side / 2.0f,		-1.0f,  0.0f,  0.0f,
-		-side / 2.0f, -side / 2.0f,  side / 2.0f,		-1.0f,  0.0f,  0.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f,		-1.0f,  0.0f,  0.0f,
-		-side / 2.0f,  side / 2.0f, -side / 2.0f,		-1.0f,  0.0f,  0.0f,
-																	   
-		 side / 2.0f, -side / 2.0f, -side / 2.0f,		 1.0f,  0.0f,  0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f,		 1.0f,  0.0f,  0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f,		 1.0f,  0.0f,  0.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f,		 1.0f,  0.0f,  0.0f,
-	};
-
-	uint* indices = new uint[36]{
-		0, 1, 2,
-		2, 3, 0,
-
-		4, 5, 6,
-		6, 7, 4,
-
-		8, 9, 10,
-		10, 11, 8,
-
-		12, 13, 14,
-		14, 15, 12,
-
-		16, 17, 18,
-		18, 19, 16,
-
-		20, 21, 22,
-		22, 23, 20
-	};
-
-	Mesh mesh(
-		VertexBuffer(vertices, 144 * sizeof(float), Onyx::VertexFormat::PN),
-		IndexBuffer(indices, 36 * sizeof(uint))
-	);
-
-	delete[] vertices;
-	delete[] indices;
-
 	return Renderable(
-		mesh,
+		Mesh::Cube(side, true),
 		Shader::PN_Color(rgba)
 	);
 }
 
 Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 {
-	float* vertices = new float[192] {
-		-side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, 0.0f,  1.0f,	0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, 0.0f,  1.0f,	1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 0.0f,  1.0f,	1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 0.0f,  1.0f,	0.0f, 1.0f,
-
-		-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f,	0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f,	1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f,	1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 0.0f, -1.0f,	0.0f, 1.0f,
-
-		-side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f,	0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f, -side / 2.0f, 0.0f, -1.0f, 0.0f,	1.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, -1.0f, 0.0f,	1.0f, 1.0f,
-		-side / 2.0f, -side / 2.0f,  side / 2.0f, 0.0f, -1.0f, 0.0f,	0.0f, 1.0f,
-
-		-side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 1.0f,  0.0f,	0.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f, 0.0f, 1.0f,  0.0f,	1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 1.0f,  0.0f,	1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f, 0.0f, 1.0f,  0.0f,	0.0f, 1.0f,
-
-		-side / 2.0f, -side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f,	0.0f, 0.0f,
-		-side / 2.0f, -side / 2.0f,  side / 2.0f, -1.0f, 0.0f, 0.0f,	1.0f, 0.0f,
-		-side / 2.0f,  side / 2.0f,  side / 2.0f, -1.0f, 0.0f, 0.0f,	1.0f, 1.0f,
-		-side / 2.0f,  side / 2.0f, -side / 2.0f, -1.0f, 0.0f, 0.0f,	0.0f, 1.0f,
-
-		 side / 2.0f, -side / 2.0f, -side / 2.0f, 1.0f, 0.0f,  0.0f,	0.0f, 0.0f,
-		 side / 2.0f, -side / 2.0f,  side / 2.0f, 1.0f, 0.0f,  0.0f,	1.0f, 0.0f,
-		 side / 2.0f,  side / 2.0f,  side / 2.0f, 1.0f, 0.0f,  0.0f,	1.0f, 1.0f,
-		 side / 2.0f,  side / 2.0f, -side / 2.0f, 1.0f, 0.0f,  0.0f,	0.0f, 1.0f,
-	};
-
-	uint* indices = new uint[36]{
-		0, 1, 2,
-		2, 3, 0,
-
-		4, 5, 6,
-		6, 7, 4,
-
-		8, 9, 10,
-		10, 11, 8,
-
-		12, 13, 14,
-		14, 15, 12,
-
-		16, 17, 18,
-		18, 19, 16,
-
-		20, 21, 22,
-		22, 23, 20
-	};
-
-	Mesh mesh(
-		VertexBuffer(vertices, 192 * sizeof(float), Onyx::VertexFormat::PNT),
-		IndexBuffer(indices, 36 * sizeof(uint))
-	);
-
-	delete[] vertices;
-	delete[] indices;
-
 	return Renderable(
-		mesh,
+		Mesh::Cube(side, true, true),
 		Shader::PNT(),
 		texture
 	);

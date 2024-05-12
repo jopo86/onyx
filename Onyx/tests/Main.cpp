@@ -15,12 +15,12 @@ void lightingTest();
 
 int main()
 {
-	Onyx::ErrorHandler errorHandler(true, true);
+	/*Onyx::ErrorHandler errorHandler(true, true);
 	Onyx::Init(errorHandler);
 	Onyx::Demo();
-	Onyx::Terminate();
+	Onyx::Terminate();*/
 
-	//PresetTests::RenderableTest_TexturedCircle();
+	PresetTests::RunAllTests();
 
 	//WindowTest::Run();
 

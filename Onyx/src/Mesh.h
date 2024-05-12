@@ -99,96 +99,97 @@ namespace Onyx
 		/*
 			@brief Generates an equilateral triangle mesh with the specified side length.
 			@param side The side length.
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated mesh.
 		 */
-		static Mesh Triangle(float side);
+		static Mesh Triangle(float side, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a triangle mesh with the specified base and height.
 			@param base The base length.
 			@param height The height.
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated mesh.
 		 */
-		static Mesh Triangle(float base, float height);
+		static Mesh Triangle(float base, float height, bool genNormals = false, bool genTexCoords = false);
 
 		/*
-			@brief Generates a triangle mesh with the specified 3 vertices.
-			@param a The first vertex.
-			@param b The second vertex.
-			@param c The third vertex.
-			@return The generated mesh.
+			@deprecated This function is deprecated and will be removed in the next major release.
 		 */
+		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `Triangle` overloads")]]
 		static Mesh Triangle(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c);
 
 		/*
 			@brief Generates a square mesh with the specified side length.
 			@param The side length.
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated mesh.
 		 */
-		static Mesh Square(float side);
+		static Mesh Square(float side, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a rectangle mesh with the specified width and height.
 			@param width The width of the rectangle.
 			@param height The height of the rectangle.
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated mesh.
 		 */
-		static Mesh Quad(float width, float height);
+		static Mesh Quad(float width, float height, bool genNormals = false, bool genTexCoords = false);
 
 		/*
-			@brief Generates a quadrilateral mesh with the specified 4 vertices.
-			@param a The bottom-left vertex.
-			@param b The bottom-right vertex.
-			@param c The top-right vertex.
-			@param d The top-left vertex.
-			@return The generated mesh.
+			@deprecated This function is deprecated and will be removed in the next major release.
 		 */
+		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `Quad` overloads")]]
 		static Mesh Quad(Math::Vec2 a, Math::Vec2 b, Math::Vec2 c, Math::Vec2 d);
 
 		/*
 			@brief Generates a circle mesh from the specified radius and number of segments.
 			@param radius The radius of the circle.
 			@param nSegments The number of line segments used to approximate the circle outline.
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated mesh.
 		 */
-		static Mesh Circle(float radius, int nSegments);
+		static Mesh Circle(float radius, int nSegments, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a circle mesh from the specified radius and angle step.
 			@param radius The radius of the circle.
 			@param angleStep The angle step, in degrees, between vertices.
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated mesh.
 		 */
-		static Mesh Circle(float radius, float angleStep);
+		static Mesh Circle(float radius, float angleStep, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a cube mesh with the specified side length.
 			@param side The side length.
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated mesh.
 		 */
-		static Mesh Cube(float side);
+		static Mesh Cube(float side, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a rectangular prism / cuboid mesh with the specified dimensions.
 			@param width The width (x-axis) of the prism.
 			@param height The height (y-axis) of the prism.
 			@param depth The depth (z-axis) of the prism.
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated mesh.
 		 */
-		static Mesh RectPrism(float width, float height, float depth);
+		static Mesh RectPrism(float width, float height, float depth, bool genNormals = false, bool genTexCoords = false);
 
 		/*
-			@brief Generates a rectangular prism / cuboid mesh with the specified 8 vertices.
-			@param a The bottom-left vertex of the first quad.
-			@param b The bottom-right vertex of the first quad.
-			@param c The top-right vertex of the first quad.
-			@param d The top-left vertex of the first quad.
-			@param e The bottom-left vertex of the second quad.
-			@param f The bottom-right vertex of the second quad.
-			@param g The top-right vertex of the second quad.
-			@param h The top-left vertex of the second quad.
-			@return The generated mesh.
+			@deprecated This function is deprecated and will be removed in the next major release.
 		 */
+		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `RectPrism` overloads")]]
 		static Mesh RectPrism(Math::Vec3 a, Math::Vec3 b, Math::Vec3 c, Math::Vec3 d, Math::Vec3 e, Math::Vec3 f, Math::Vec3 g, Math::Vec3 h);
 	};
 }

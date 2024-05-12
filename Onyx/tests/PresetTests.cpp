@@ -278,19 +278,6 @@ bool PresetTests::MeshTest_Triangle2()
 	return result;
 }
 
-bool PresetTests::MeshTest_Triangle3()
-{
-	ErrorHandler errorHandler(true, true);
-    Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Triangle3", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
-	win.init();
-    bool result = RunMeshTest(win, Mesh::Triangle(
-		Vec2(0.0f, 0.0f), Vec2(1.0f, 0.0f), Vec2(0.0f, 1.0f)
-	));
-    Terminate();
-	return result;
-}
-
 bool PresetTests::MeshTest_Square()
 {
 	ErrorHandler errorHandler(true, true);
@@ -302,26 +289,13 @@ bool PresetTests::MeshTest_Square()
 	return result;
 }
 
-bool PresetTests::MeshTest_Quad1()
+bool PresetTests::MeshTest_Quad()
 {
 	ErrorHandler errorHandler(true, true);
     Init(errorHandler);
 	Window win(WindowProperties{ .title = "MeshTest_Quad1", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Quad(2.0f, 1.0f));
-    Terminate();
-	return result;
-}
-
-bool PresetTests::MeshTest_Quad2()
-{
-	ErrorHandler errorHandler(true, true);
-    Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_Quad2", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
-	win.init();
-    bool result = RunMeshTest(win, Mesh::Quad(
-		Vec2(0.0f, 0.0f), Vec2(2.0f, 0.0f), Vec2(2.0f, 1.0f), Vec2(0.0f, 1.0f)
-	));
     Terminate();
 	return result;
 }
@@ -350,27 +324,13 @@ bool PresetTests::MeshTest_Cube()
 	return result;
 }
 
-bool PresetTests::MeshTest_RectPrism1()
+bool PresetTests::MeshTest_RectPrism()
 {
 	ErrorHandler errorHandler(true, true);
 	Init(errorHandler);
 	Window win(WindowProperties{ .title = "MeshTest_RectPrism1", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::RectPrism(1.0f, 1.0f, 1.0f));
-    Terminate();
-	return result;
-}
-
-bool PresetTests::MeshTest_RectPrism2()
-{
-	ErrorHandler errorHandler(true, true);
-    Init(errorHandler);
-	Window win(WindowProperties{ .title = "MeshTest_RectPrism2", .width = 1280, .height = 720, .nSamplesMSAA = 8 });
-	win.init();
-    bool result = RunMeshTest(win, Mesh::RectPrism(
-        Vec3(0.0f, 0.0f, 0.0f), Vec3(2.0f, 0.0f, 0.0f), Vec3(2.0f, 1.0f, 0.0f), Vec3(0.0f, 1.0f, 0.0f),
-		Vec3(0.0f, 0.0f, 1.0f), Vec3(2.0f, 0.0f, 1.0f), Vec3(2.0f, 1.0f, 1.0f), Vec3(0.0f, 1.0f, 1.0f)
-    ));
     Terminate();
 	return result;
 }
@@ -691,17 +651,11 @@ void PresetTests::RunAllTests()
 	if (MeshTest_Triangle2()) std::cout << "MeshTest_Triangle2 - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "MeshTest_Triangle2 - \x1b[31mFAILED\x1b[39m\n";
 
-	if (MeshTest_Triangle3()) std::cout << "MeshTest_Triangle3 - \x1b[32mCOMPLETE\x1b[39m\n";
-    else std::cout << "MeshTest_Triangle3 - \x1b[31mFAILED\x1b[39m\n";
-
 	if (MeshTest_Square()) std::cout << "MeshTest_Square - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "MeshTest_Square - \x1b[31mFAILED\x1b[39m\n";
 
-	if (MeshTest_Quad1()) std::cout << "MeshTest_Quad1 - \x1b[32mCOMPLETE\x1b[39m\n";
-    else std::cout << "MeshTest_Quad1 - \x1b[31mFAILED\x1b[39m\n";
-
-	if (MeshTest_Quad2()) std::cout << "MeshTest_Quad2 - \x1b[32mCOMPLETE\x1b[39m\n";
-    else std::cout << "MeshTest_Quad2 - \x1b[31mFAILED\x1b[39m\n";
+	if (MeshTest_Quad()) std::cout << "MeshTest_Quad - \x1b[32mCOMPLETE\x1b[39m\n";
+    else std::cout << "MeshTest_Quad - \x1b[31mFAILED\x1b[39m\n";
 
 	if (MeshTest_Circle()) std::cout << "MeshTest_Circle - \x1b[32mCOMPLETE\x1b[39m\n";
 	else std::cout << "MeshTest_Circle - \x1b[31mFAILED\x1b[39m\n";
@@ -709,11 +663,8 @@ void PresetTests::RunAllTests()
 	if (MeshTest_Cube()) std::cout << "MeshTest_Cube - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "MeshTest_Cube - \x1b[31mFAILED\x1b[39m\n";
 
-	if (MeshTest_RectPrism1()) std::cout << "MeshTest_RectPrism1 - \x1b[32mCOMPLETE\x1b[39m\n";
-    else std::cout << "MeshTest_RectPrism1 - \x1b[31mFAILED\x1b[39m\n";
-
-	if (MeshTest_RectPrism2()) std::cout << "MeshTest_RectPrism2 - \x1b[32mCOMPLETE\x1b[39m\n";
-    else std::cout << "MeshTest_RectPrism2 - \x1b[31mFAILED\x1b[39m\n";
+	if (MeshTest_RectPrism()) std::cout << "MeshTest_RectPrism - \x1b[32mCOMPLETE\x1b[39m\n";
+    else std::cout << "MeshTest_RectPrism - \x1b[31mFAILED\x1b[39m\n";
 
 	if (RenderableTest_ColoredTriangle()) std::cout << "RenderableTest_ColoredTriangle - \x1b[32mCOMPLETE\x1b[39m\n";
     else std::cout << "RenderableTest_ColoredTriangle - \x1b[31mFAILED\x1b[39m\n";

@@ -24,14 +24,11 @@ namespace PresetTests
 
 	bool MeshTest_Triangle1();
 	bool MeshTest_Triangle2();
-	bool MeshTest_Triangle3();
 	bool MeshTest_Square();
-	bool MeshTest_Quad1();
-	bool MeshTest_Quad2();
+	bool MeshTest_Quad();
 	bool MeshTest_Circle();
 	bool MeshTest_Cube();
-	bool MeshTest_RectPrism1();
-	bool MeshTest_RectPrism2();
+	bool MeshTest_RectPrism();
 
 	bool RenderableTest_ColoredTriangle();
 	bool RenderableTest_VertexColoredTriangle();

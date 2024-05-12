@@ -133,7 +133,7 @@ namespace Onyx
 
 			float magnitude() const;
 			void normalize();
-			float* data() const;
+			const float* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -190,7 +190,7 @@ namespace Onyx
 
 			float magnitude() const;
 			void normalize();
-			float* data() const;
+			const float* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -305,7 +305,7 @@ namespace Onyx
 
 			float magnitude() const;
 			void normalize();
-			float* data() const;
+			const float* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -725,7 +725,7 @@ namespace Onyx
 
 			double magnitude() const;
 			void normalize();
-			double* data() const;
+			const double* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -782,7 +782,7 @@ namespace Onyx
 
 			double magnitude() const;
 			void normalize();
-			double* data() const;
+			const double* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -879,7 +879,7 @@ namespace Onyx
 
 			double magnitude() const;
 			void normalize();
-			double* data() const;
+			const double* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -1279,7 +1279,7 @@ namespace Onyx
 			IVec2(UVec2 vec);
 			IVec2(glm::ivec2 vec);
 
-			int* data() const;
+			const int* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -1330,7 +1330,7 @@ namespace Onyx
 			IVec3(UVec3 vec);
 			IVec3(glm::ivec3 vec);
 
-			int* data() const;
+			const int* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -1420,7 +1420,7 @@ namespace Onyx
 			IVec4(UVec4 vec);
 			IVec4(glm::ivec4 vec);
 
-			int* data() const;
+			const int* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -1803,7 +1803,7 @@ namespace Onyx
 			UVec2(uint x, uint y);
 			UVec2(glm::uvec2 vec);
 
-			uint* data() const;
+			const uint* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -1847,7 +1847,7 @@ namespace Onyx
 			UVec3(uint x, UVec2 vec);
 			UVec3(glm::uvec3 vec);
 
-			uint* data() const;
+			const uint* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -1930,7 +1930,7 @@ namespace Onyx
 			UVec4(UVec2 vec1, UVec2 vec2);
 			UVec4(glm::uvec4 vec);
 
-			uint* data() const;
+			const uint* data() const;
 			bool isZero() const;
 			std::string toString() const;
 
@@ -2404,7 +2404,7 @@ namespace Onyx
 
 			glm::mat2x2 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec2 operator[](int index) const;
@@ -2434,7 +2434,7 @@ namespace Onyx
 
 			glm::mat2x3 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec3 operator[](int index) const;
@@ -2464,7 +2464,7 @@ namespace Onyx
 
 			glm::mat2x4 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec4 operator[](int index) const;
@@ -2494,7 +2494,7 @@ namespace Onyx
 
 			glm::mat3x2 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec2 operator[](int index) const;
@@ -2524,7 +2524,7 @@ namespace Onyx
 
 			glm::mat3x3 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec3 operator[](int index) const;
@@ -2554,7 +2554,7 @@ namespace Onyx
 
 			glm::mat3x4 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec4 operator[](int index) const;
@@ -2584,7 +2584,7 @@ namespace Onyx
 
 			glm::mat4x2 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec2 operator[](int index) const;
@@ -2614,7 +2614,7 @@ namespace Onyx
 
 			glm::mat4x3 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec3 operator[](int index) const;
@@ -2648,7 +2648,7 @@ namespace Onyx
 
 			glm::mat4x4 getMMat() const;
 
-			float* data() const;
+			const float* data() const;
 			std::string toString() const;
 
 			Vec4 operator[](int index) const;

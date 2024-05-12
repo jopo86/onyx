@@ -35,46 +35,53 @@ namespace Onyx
 
 		/*
 			@brief Generates an index buffer for a triangle.
+			@param normals Whether the vertex buffer was generated with normals (this is needed because it increases the number of vertices).
 			@return The generated index buffer.
 		 */
-		static IndexBuffer Triangle();
+		static IndexBuffer Triangle(bool normals = false);
 
 		/*
 			@brief Generates an index buffer for a square. (Same as quad)
+			@param normals Whether the vertex buffer was generated with normals (this is needed because it increases the number of vertices).
 			@return The generated index buffer.
 		 */
-		static IndexBuffer Square();
+		static IndexBuffer Square(bool normals = false);
 
 		/*
 			@brief Generates an index buffer for a quad. (Same as square)
+			@param normals Whether the vertex buffer was generated with normals (this is needed because it increases the number of vertices).
 			@return The generated index buffer.
 		 */
-		static IndexBuffer Quad();
+		static IndexBuffer Quad(bool normals = false);
 
 		/*
 			@brief Generates an index buffer for a circle with the specified number of line segments.
 			@param nSegments The number of line segments used to approximate the circle outline.
+			@param normals Whether the vertex buffer was generated with normals (this is needed because it increases the number of vertices).
 			@return The generated index buffer.
 		 */
-		static IndexBuffer Circle(int nSegments);
+		static IndexBuffer Circle(int nSegments, bool normals = false);
 
 		/*
 			@brief Generates an index buffer for a circle with the specified angle step.
 			@param angleStep The angle step, in degrees, between vertices.
+			@param normals Whether the vertex buffer was generated with normals (this is needed because it increases the number of vertices).
 			@return The generated index buffer.
 		 */
-		static IndexBuffer Circle(float angleStep);
+		static IndexBuffer Circle(float angleStep, bool normals = false);
 
 		/*
 			@brief Generates an index buffer for a cube. (Same as rect prism)
+			@param normalsOrTexCoords Whether the vertex buffer was generated with normals AND/OR texture coordinates (this is needed because it increases the number of vertices).
 			@return The generated index buffer.
 		 */
-		static IndexBuffer Cube();
+		static IndexBuffer Cube(bool normalsOrTexCoords = false);
 
 		/*
 			@brief Generates an index buffer for a rect prism. (Same as cube)
+			@param normalsOrTexCoords Whether the vertex buffer was generated with normals AND/OR texture coordinates (this is needed because it increases the number of vertices).
 			@return The generated index buffer.
 		 */
-		static IndexBuffer RectPrism();
+		static IndexBuffer RectPrism(bool normalsOrTexCoords = false);
 	};
 }

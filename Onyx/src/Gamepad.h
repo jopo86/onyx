@@ -42,9 +42,15 @@ namespace Onyx
 		int getGlfwID() const;
 
 		/*
-			@brief Checks if a button on the gamepad is pressed.
+			@deprecated Use isButtonDown instead.
+		 */
+		[[deprecated("This function is deprecated and will be removed in the next major release. Use isButtonDown instead.")]]
+		bool isButtonPressed(GamepadButton button) const;
+
+		/*
+			@brief Checks if a button on the gamepad is down.
 			@param button The button to check.
-			@return True if the button is pressed, false otherwise.
+			@return True if the button is down, false otherwise.
 		 */
 		bool isButtonDown(GamepadButton button) const;
 

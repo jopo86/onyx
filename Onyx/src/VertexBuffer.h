@@ -55,71 +55,94 @@ namespace Onyx
 
 		/*
 			@brief Generates a vertex buffer for a triangle with the specified side length.
+			Memory is allocated on the heap and will only be freed when the object is used by the Mesh constructor.
+			Vertex format will be P, PN, PT, or PNT depending on the `normals` and `texCoords` arguments.
 			@param side The length of the side of the triangle.
-			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer Triangle(float side, bool texCoords = false);
+		static VertexBuffer Triangle(float side, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a vertex buffer for a triangle with the specified base and height.
+			Memory is allocated on the heap and will only be freed when the object is used by the Mesh constructor.
+			Vertex format will be P, PN, PT, or PNT depending on the `normals` and `texCoords` arguments.
 			@param base The base of the triangle.
 			@param height The height of the triangle.
-			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer Triangle(float base, float height, bool texCoords = false);
+		static VertexBuffer Triangle(float base, float height, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a vertex buffer for a square with the specified side length.
+			Memory is allocated on the heap and will only be freed when the object is used by the Mesh constructor.
+			Vertex format will be P, PN, PT, or PNT depending on the `normals` and `texCoords` arguments.
 			@param side The length of the side of the square.
-			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer Square(float side, bool texCoords = false);
+		static VertexBuffer Square(float side, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a vertex buffer for a rectangle with the specified width and height.
+			Memory is allocated on the heap and will only be freed when the object is used by the Mesh constructor.
+			Vertex format will be P, PN, PT, or PNT depending on the `normals` and `texCoords` arguments.
 			@param width The width of the rectangle.
 			@param height The height of the rectangle.
-			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer Quad(float width, float height, bool texCoords = false);
+		static VertexBuffer Quad(float width, float height, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a vertex buffer for a circle with the specified radius and number of segments.
+			Memory is allocated on the heap and will only be freed when the object is used by the Mesh constructor.
+			Vertex format will be P, PN, PT, or PNT depending on the `normals` and `texCoords` arguments.
 			@param radius The radius of the circle.
 			@param nSegments The number of line segments used to approximate the circle outline.
-			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer Circle(float radius, int nSegments, bool texCoords = false);
+		static VertexBuffer Circle(float radius, int nSegments, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a vertex buffer for a circle with the specified radius and angle step.
+			Memory is allocated on the heap and will only be freed when the object is used by the Mesh constructor.
+			Vertex format will be P, PN, PT, or PNT depending on the `normals` and `texCoords` arguments.
 			@param radius The radius of the circle.
 			@param angleStep The angle step, in degrees, between vertices.
-			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer Circle(float radius, float angleStep, bool texCoords = false);
+		static VertexBuffer Circle(float radius, float angleStep, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a vertex buffer for a cube with the specified side length.
+			Memory is allocated on the heap and will only be freed when the object is used by the Mesh constructor.
+			Vertex format will be P, PN, PT, or PNT depending on the `normals` and `texCoords` arguments.
 			@param side The length of the side of the cube.
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer Cube(float side, bool texCoords = false);
+		static VertexBuffer Cube(float side, bool genNormals = false, bool genTexCoords = false);
 
 		/*
 			@brief Generates a vertex buffer for a rectangular prism with the specified width, height, and depth.
+			Memory is allocated on the heap and will only be freed when the object is used by the Mesh constructor.
+			Vertex format will be P, PN, PT, or PNT depending on the `normals` and `texCoords` arguments.
 			@param width The width (x-axis) of the rectangular prism.
 			@param height The height (y-axis) of the rectangular prism.
 			@param depth The depth (z-axis) of the rectangular prism.
-			@param texCoords Whether to generate texture coordinates (vertex format will be P if this is false, PT if true).
+			@param genNormals Whether to generate normal vectors.
+			@param genTexCoords Whether to generate texture coordinates.
 			@return The generated vertex buffer.
 		 */
-		static VertexBuffer RectPrism(float width, float height, float depth, bool texCoords = false);
+		static VertexBuffer RectPrism(float width, float height, float depth, bool genNormals = false, bool genTexCoords = false);
 	};
 }

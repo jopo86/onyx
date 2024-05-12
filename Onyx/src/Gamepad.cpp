@@ -1,5 +1,7 @@
 #include "Gamepad.h"
 
+#include <string>
+
 void onyx_err(const Onyx::Error&);
 void onyx_warn(const Onyx::Warning&);
 
@@ -59,8 +61,8 @@ void Onyx::Gamepad::update()
 	else
 	{
 		onyx_warn(Warning{
-				.sourceFunction = "void Onyx::Gamepad::update()",
-				.message = "Gamepad is no longer connected and present, cannot update",
+				.sourceFunction = "Onyx::Gamepad::update()",
+				.message = "Gamepad is no longer connected and present, cannot update (Joystick ID: GLFW_JOYSTICK_" + std::to_string(m_joystickID + 1) + ")",
 				.severity = Warning::Severity::Low
 			}
 		);
@@ -75,6 +77,11 @@ const std::string& Onyx::Gamepad::getName() const
 int Onyx::Gamepad::getGlfwID() const
 {
 	return m_joystickID;
+}
+
+bool Onyx::Gamepad::isButtonPressed(GamepadButton button) const
+{
+	return isButtonDown(button);
 }
 
 bool Onyx::Gamepad::isButtonDown(GamepadButton button) const

@@ -92,7 +92,7 @@ void Onyx::Math::Vec2::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-float* Onyx::Math::Vec2::data() const
+const float* Onyx::Math::Vec2::data() const
 {
 	return (float*)(glm::value_ptr(m_vec));
 }
@@ -250,7 +250,7 @@ void Onyx::Math::Vec3::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-float* Onyx::Math::Vec3::data() const
+const float* Onyx::Math::Vec3::data() const
 {
 	return (float*)(glm::value_ptr(m_vec));
 }
@@ -525,7 +525,7 @@ void Onyx::Math::Vec4::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-float* Onyx::Math::Vec4::data() const
+const float* Onyx::Math::Vec4::data() const
 {
 	return (float*)(glm::value_ptr(m_vec));
 }
@@ -879,7 +879,7 @@ void Onyx::Math::DVec2::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-double* Onyx::Math::DVec2::data() const
+const double* Onyx::Math::DVec2::data() const
 {
 	return (double*)(glm::value_ptr(m_vec));
 }
@@ -1037,7 +1037,7 @@ void Onyx::Math::DVec3::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-double* Onyx::Math::DVec3::data() const
+const double* Onyx::Math::DVec3::data() const
 {
 	return (double*)(glm::value_ptr(m_vec));
 }
@@ -1227,7 +1227,7 @@ void Onyx::Math::DVec4::normalize()
 	m_vec = glm::normalize(m_vec);
 }
 
-double* Onyx::Math::DVec4::data() const
+const double* Onyx::Math::DVec4::data() const
 {
 	return (double*)(glm::value_ptr(m_vec));
 }
@@ -1486,7 +1486,7 @@ Onyx::Math::IVec2::IVec2(glm::ivec2 vec)
 	m_vec = vec;
 }
 
-int* Onyx::Math::IVec2::data() const
+const int* Onyx::Math::IVec2::data() const
 {
 	return (int*)(glm::value_ptr(m_vec));
 }
@@ -1623,7 +1623,7 @@ Onyx::Math::IVec3::IVec3(glm::ivec3 vec)
 	m_vec = vec;
 }
 
-int* Onyx::Math::IVec3::data() const
+const int* Onyx::Math::IVec3::data() const
 {
 	return (int*)(glm::value_ptr(m_vec));
 }
@@ -1792,7 +1792,7 @@ Onyx::Math::IVec4::IVec4(glm::ivec4 vec)
 	m_vec = vec;
 }
 
-int* Onyx::Math::IVec4::data() const
+const int* Onyx::Math::IVec4::data() const
 {
 	return (int*)(glm::value_ptr(m_vec));
 }
@@ -1928,7 +1928,7 @@ Onyx::Math::UVec2::UVec2(glm::uvec2 vec)
 	m_vec = vec;
 }
 
-uint* Onyx::Math::UVec2::data() const
+const uint* Onyx::Math::UVec2::data() const
 {
 	return (uint*)(glm::value_ptr(m_vec));
 }
@@ -2045,7 +2045,7 @@ Onyx::Math::UVec3::UVec3(glm::uvec3 vec)
 	m_vec = vec;
 }
 
-uint* Onyx::Math::UVec3::data() const
+const uint* Onyx::Math::UVec3::data() const
 {
 	return (uint*)(glm::value_ptr(m_vec));
 }
@@ -2194,7 +2194,7 @@ Onyx::Math::UVec4::UVec4(glm::uvec4 vec)
 	m_vec = vec;
 }
 
-uint* Onyx::Math::UVec4::data() const
+const uint* Onyx::Math::UVec4::data() const
 {
 	return (uint*)(glm::value_ptr(m_vec));
 }
@@ -2485,7 +2485,7 @@ glm::mat2x2 Onyx::Math::Mat2x2::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat2x2::data() const
+const float* Onyx::Math::Mat2x2::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -2498,9 +2498,9 @@ std::string Onyx::Math::Mat2x2::toString() const
 		str += "|";
 		for (int j = 0; j < 2; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;
@@ -2566,7 +2566,7 @@ glm::mat2x3 Onyx::Math::Mat2x3::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat2x3::data() const
+const float* Onyx::Math::Mat2x3::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -2579,9 +2579,9 @@ std::string Onyx::Math::Mat2x3::toString() const
 		str += "|";
 		for (int j = 0; j < 3; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;
@@ -2647,7 +2647,7 @@ glm::mat2x4 Onyx::Math::Mat2x4::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat2x4::data() const
+const float* Onyx::Math::Mat2x4::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -2660,9 +2660,9 @@ std::string Onyx::Math::Mat2x4::toString() const
 		str += "|";
 		for (int j = 0; j < 4; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;
@@ -2728,7 +2728,7 @@ glm::mat3x2 Onyx::Math::Mat3x2::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat3x2::data() const
+const float* Onyx::Math::Mat3x2::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -2741,9 +2741,9 @@ std::string Onyx::Math::Mat3x2::toString() const
 		str += "|";
 		for (int j = 0; j < 2; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;
@@ -2809,7 +2809,7 @@ glm::mat3x3 Onyx::Math::Mat3x3::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat3x3::data() const
+const float* Onyx::Math::Mat3x3::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -2822,9 +2822,9 @@ std::string Onyx::Math::Mat3x3::toString() const
 		str += "|";
 		for (int j = 0; j < 3; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;
@@ -2890,7 +2890,7 @@ glm::mat3x4 Onyx::Math::Mat3x4::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat3x4::data() const
+const float* Onyx::Math::Mat3x4::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -2903,9 +2903,9 @@ std::string Onyx::Math::Mat3x4::toString() const
 		str += "|";
 		for (int j = 0; j < 4; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;
@@ -2971,7 +2971,7 @@ glm::mat4x2 Onyx::Math::Mat4x2::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat4x2::data() const
+const float* Onyx::Math::Mat4x2::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -2984,9 +2984,9 @@ std::string Onyx::Math::Mat4x2::toString() const
 		str += "|";
 		for (int j = 0; j < 2; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;
@@ -3052,7 +3052,7 @@ glm::mat4x3 Onyx::Math::Mat4x3::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat4x3::data() const
+const float* Onyx::Math::Mat4x3::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -3065,9 +3065,9 @@ std::string Onyx::Math::Mat4x3::toString() const
 		str += "|";
 		for (int j = 0; j < 3; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;
@@ -3148,7 +3148,7 @@ glm::mat4x4 Onyx::Math::Mat4x4::getMMat() const
 	return m_mat;
 }
 
-float* Onyx::Math::Mat4x4::data() const
+const float* Onyx::Math::Mat4x4::data() const
 {
 	return (float*)(glm::value_ptr(m_mat));
 }
@@ -3161,9 +3161,9 @@ std::string Onyx::Math::Mat4x4::toString() const
 		str += "|";
 		for (int j = 0; j < 4; j++)
 		{
-			str += " " + std::to_string(m_mat[i][j]);
+			str += std::string(m_mat[i][j] < 0 ? "" : " ") + std::to_string(m_mat[i][j]) + " ";
 		}
-		str += " |\n";
+		str += "|\n";
 	}
 
 	return str;

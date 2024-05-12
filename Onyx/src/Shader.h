@@ -363,6 +363,13 @@ namespace Onyx
 		static Shader PN_Color(Onyx::Math::Vec4 rgba);
 
 		/*
+			@brief Returns a shader that uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
+			Meant for vertex format PN, compatible with any vertex format that provides positions and normals.
+			@return The resulting shader.
+		 */
+		static Shader PN_XYZtoRGB();
+
+		/*
 			@brief Returns a shader that colors the mesh with the normals found in the vertex array.
 			Meant for vertex format PNC, compatible with any vertex format that provides positions, normals, and colors.
 			@return The resulting shader.

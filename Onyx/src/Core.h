@@ -477,9 +477,7 @@ namespace Onyx
 	void SetResourcePath(std::string path);
 
 	/*
-		@brief Sets the user pointer for the library.
 		@deprecated Use the named user pointer system instead - `SetUserPtr(const std::string& name, void* ptr)`.
-		@param ptr The pointer to set.
 	 */
 	[[deprecated("This function is deprecated and will be removed in the next major release. Use the named user pointer system instead - `SetUserPtr(const std::string& name, void* ptr)`.")]]
 	void SetUserPtr(void* ptr);
@@ -509,9 +507,7 @@ namespace Onyx
 	std::string Resources(const std::string& path);
 
 	/*
-		@brief Gets the user pointer for the library.
 		@deprecated Use the named user pointer system instead - `GetUserPtr(const std::string& name)`.
-		@return The user pointer.
 	 */
 	[[deprecated("This function is deprecated and will be removed in the next major release. Use the named user pointer system instead - `GetUserPtr(const std::string& name)`.")]]
 	void* GetUserPtr();

@@ -74,8 +74,16 @@ void Onyx::Renderer::render()
 		return;
 	}
 
-	if (m_pCam == nullptr) for (Renderable* r : m_renderables) r->render();
-	else for (Renderable* r : m_renderables) r->render(m_pCam->getViewMatrix(), m_pCam->getProjectionMatrix(), m_pCam->getPosition());
+	if (m_pCam == nullptr)
+	{
+		for (Renderable* r : m_renderables) r->render();
+		for (TextRenderable3D* tr : m_textRenderables3D) tr->render();
+	}
+	else
+	{
+		for (Renderable* r : m_renderables) r->render(m_pCam->getViewMatrix(), m_pCam->getProjectionMatrix(), m_pCam->getPosition());
+		for (TextRenderable3D* tr : m_textRenderables3D) tr->render(m_pCam->getViewMatrix(), m_pCam->getProjectionMatrix(), m_pCam->getPosition());
+	}
 
 	glDisable(GL_DEPTH_TEST);
 	if (sm_uiWireframeAllowed) {
@@ -137,6 +145,21 @@ void Onyx::Renderer::add(TextRenderable& textRenderable)
 	m_textRenderables.push_back(&textRenderable);
 }
 
+void Onyx::Renderer::add(TextRenderable3D& textRenderable3D)
+{
+	TextRenderable3D* p_renderable = &textRenderable3D;
+	Shader* shader = p_renderable->getShader();
+	shader->use();
+	shader->setBool("u_fog.enabled", m_fogEnabled);
+	if (m_pFog != nullptr)
+	{
+		shader->setVec3("u_fog.color", m_pFog->getColor());
+		shader->setFloat("u_fog.start", m_pFog->getStart());
+		shader->setFloat("u_fog.end", m_pFog->getEnd());
+	}
+	m_textRenderables3D.push_back(p_renderable);
+}
+
 bool Onyx::Renderer::isLightingEnabled() const
 {
 	return m_lightingEnabled;
@@ -191,6 +214,12 @@ void Onyx::Renderer::setFogEnabled(bool enabled)
 		shader->use();
 		shader->setBool("u_fog.enabled", enabled);
 	}
+	for (TextRenderable3D* tr : m_textRenderables3D)
+	{
+		Shader* shader = tr->getShader();
+		shader->use();
+		shader->setBool("u_fog.enabled", enabled);
+	}
 }
 
 void Onyx::Renderer::toggleLightingEnabled()
@@ -237,6 +266,14 @@ void Onyx::Renderer::setFog(Fog& fog)
 		shader->setFloat("u_fog.start", fog.getStart());
 		shader->setFloat("u_fog.end", fog.getEnd());
 	}
+	for (TextRenderable3D* tr : m_textRenderables3D)
+	{
+		Shader* shader = tr->getShader();
+		shader->use();
+		shader->setVec3("u_fog.color", fog.getColor());
+		shader->setFloat("u_fog.start", fog.getStart());
+		shader->setFloat("u_fog.end", fog.getEnd());
+	}
 }
 
 void Onyx::Renderer::refreshLighting()
@@ -260,6 +297,18 @@ void Onyx::Renderer::refreshFog()
 	for (Renderable* r : m_renderables)
 	{
 		Shader* shader = r->getShader();
+		shader->use();
+		shader->setBool("u_fog.enabled", m_fogEnabled);
+		if (m_pFog != nullptr)
+		{
+			shader->setVec3("u_fog.color", m_pFog->getColor());
+			shader->setFloat("u_fog.start", m_pFog->getStart());
+			shader->setFloat("u_fog.end", m_pFog->getEnd());
+		}
+	}
+	for (TextRenderable3D* tr : m_textRenderables3D)
+	{
+		Shader* shader = tr->getShader();
 		shader->use();
 		shader->setBool("u_fog.enabled", m_fogEnabled);
 		if (m_pFog != nullptr)

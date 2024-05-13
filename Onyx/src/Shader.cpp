@@ -658,7 +658,7 @@ Onyx::Shader Onyx::Shader::P_Color(Vec4 rgba)
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::P_Color()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -696,7 +696,7 @@ Onyx::Shader Onyx::Shader::P_XYZtoRGB()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::P_XYZtoRGB()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -733,7 +733,7 @@ Onyx::Shader Onyx::Shader::PC()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PC()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -770,7 +770,7 @@ Onyx::Shader Onyx::Shader::PT()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PT()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -807,7 +807,7 @@ Onyx::Shader Onyx::Shader::PCT()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PCT()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -844,7 +844,7 @@ Onyx::Shader Onyx::Shader::PNC()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PNC()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -881,7 +881,7 @@ Onyx::Shader Onyx::Shader::PN_Color(Vec4 rgba)
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PN_Color()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -919,7 +919,7 @@ Onyx::Shader Onyx::Shader::PN_XYZtoRGB()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PN_XYZtoRGB()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -957,7 +957,7 @@ Onyx::Shader Onyx::Shader::PNT()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PNT()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -994,7 +994,7 @@ Onyx::Shader Onyx::Shader::PNCT()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PNCT()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -1031,7 +1031,7 @@ Onyx::Shader Onyx::Shader::P_UI_Color(Onyx::Math::Vec4 rgba)
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::P_UI_Color()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -1069,7 +1069,7 @@ Onyx::Shader Onyx::Shader::PT_UI()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::PT_UI()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
@@ -1106,13 +1106,50 @@ Onyx::Shader Onyx::Shader::UI_Text()
 		{
 			onyx_warn(Warning{
 					.sourceFunction = "Onyx::Shader::UI_Text()",
-					.message = "Failed to load binary shader, recompiling source files instead.",
+					.message = "Failed to load binary shader, recompiling source code instead.",
 					.severity = Warning::Severity::Low
 				}
 			);
 			shader.dispose();
 			shader = Shader::LoadSource(Resources("shaders/src/UI_Text.glsl"));
 			shader.saveBinary(Resources("shaders/bin"), "UI_Text");
+		}
+	}
+	shader.use();
+	shader.setMat4("u_model", Mat4::Identity());
+	shader.setMat4("u_view", Mat4::Identity());
+	shader.setMat4("u_projection", Mat4::Identity());
+	return shader;
+}
+
+Onyx::Shader Onyx::Shader::Text()
+{
+	Shader shader;
+	if (!FileUtils::FileExists(Resources("shaders/bin/Text.bin")))
+	{
+		shader = Shader::LoadSource(Resources("shaders/src/Text.glsl"));
+		shader.saveBinary(Resources("shaders/bin"), "Text");
+		shader.use();
+		shader.setMat4("u_model", Mat4::Identity());
+		shader.setMat4("u_view", Mat4::Identity());
+		shader.setMat4("u_projection", Mat4::Identity());
+		return shader;
+	}
+	else
+	{
+		bool result;
+		shader = Shader::LoadBinary(Resources("shaders/bin/Text.bin"), &result);
+		if (!result)
+		{
+			onyx_warn(Warning{
+					.sourceFunction = "Onyx::Shader::Text()",
+					.message = "Failed to load binary shader, recompiling source code instead.",
+					.severity = Warning::Severity::Low
+				}
+			);
+			shader.dispose();
+			shader = Shader::LoadSource(Resources("shaders/src/Text.glsl"));
+			shader.saveBinary(Resources("shaders/bin"), "Text");
 		}
 	}
 	shader.use();

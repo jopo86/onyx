@@ -16,6 +16,7 @@
 #include "Projection.h"
 #include "Model.h"
 #include "TextRenderable.h"
+#include "TextRenderable3D.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 

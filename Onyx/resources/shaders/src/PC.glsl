@@ -48,7 +48,9 @@ void main() {
 	{
 		float fogFactor = (camDist - u_fog.start) / (u_fog.end - u_fog.start);
 		fogFactor = clamp(fogFactor, 0.0, 1.0);
+		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fogFactor);
+		o_color.a = a;
 	}
 }
 

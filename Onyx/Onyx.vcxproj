@@ -177,6 +177,7 @@
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Monitor.cpp" />
     <ClCompile Include="src\MathSwizzle.cpp" />
+    <ClCompile Include="src\TextRenderable3D.cpp" />
     <ClCompile Include="src\UiRenderable.cpp" />
     <ClCompile Include="tests\Main.cpp" />
     <ClCompile Include="src\Math.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\TextRenderable.h" />
+    <ClInclude Include="src\TextRenderable3D.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\UiRenderable.h" />
     <ClInclude Include="src\VertexBuffer.h" />

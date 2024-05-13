@@ -407,9 +407,16 @@ namespace Onyx
 
 		/*
 			@brief Returns a shader for UI text elements.
-			Incompatible with any vertex format, only used by TextRenderables.
+			Incompatible with any vertex format, only used by `TextRenderable`.
 			@return The resulting shader.
 		 */
 		static Shader UI_Text();
+
+		/*
+			@brief Returns a shader for 3D text elements.
+			Incompatible with any vertex format, only used by `TextRenderable3D`.
+			@return The resulting shader.
+		 */
+		static Shader Text();
 	};
 }

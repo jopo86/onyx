@@ -51,6 +51,7 @@ namespace Onyx
 			This function, more technically, uses the shader, binds the texture, binds the VAO, draws, unbinds the VAO, unbinds the texture, and unuses the shader.
 			@param view The view matrix to use, generally from an Camera.
 			@param proj The projection matrix to use, generally from an Camera.
+			@param camPos The position of the camera.
 		 */
 		void render(const Math::Mat4& view, const Math::Mat4& proj, const Math::Vec3& camPos);
 

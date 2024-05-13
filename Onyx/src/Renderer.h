@@ -234,11 +234,6 @@ namespace Onyx
 		 */
 		static float GetLineWidth();
 
-		/*
-			@brief Disposes of the renderer, including all of the contained renderables.
-			This clears up any memory that the object was using.
-			This function should be used when the object is no longer needed, such as just before the program ends or the object goes out of scope.
-		 */
 		void dispose() override;
 
 	private:

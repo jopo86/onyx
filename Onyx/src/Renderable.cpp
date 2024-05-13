@@ -220,9 +220,11 @@ void Onyx::Renderable::resetTransform()
 
 void Onyx::Renderable::dispose()
 {
+	if (m_disposed) return;
 	m_texture.dispose();
 	m_shader.dispose();
 	m_mesh.dispose();
+	m_disposed = true;
 }
 
 void Onyx::Renderable::updateModel()

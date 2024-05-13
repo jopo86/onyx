@@ -144,6 +144,7 @@ const Onyx::Glyph& Onyx::Font::operator[](char c) const
 
 void Onyx::Font::dispose()
 {
+	if (m_disposed) return;
 	for (const std::pair<char, Glyph>& g : m_glyphs)
 	{
 		if (g.second.tex) glDeleteTextures(1, &g.second.tex);
@@ -158,4 +159,5 @@ void Onyx::Font::dispose()
 	m_pFreeType = nullptr;
 	m_ttfFilePath = "";
 	m_size = 0;
+	m_disposed = true;
 }

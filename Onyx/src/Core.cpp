@@ -550,3 +550,8 @@ std::string Onyx::GetGraphicsName(bool* result)
 	glCheckError();
 #endif
 }
+
+bool Onyx::Disposable::isDisposed() const
+{
+	return m_disposed;
+}

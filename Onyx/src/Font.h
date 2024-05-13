@@ -95,12 +95,13 @@ namespace Onyx
 		 */
 		std::map<char, Glyph> getGlyphs() const;
 
+		/*
+			@brief Gets the glyph of the specified character.
+			@param c The character.
+			@return The glyph of the character.
+		 */
 		const Glyph& operator[](char c) const;
 
-		/*
-			@brief Destroys the object, freeing any used memory.
-			Do not use the object after this is called.
-		 */
 		void dispose() override;
 
 	private:

@@ -69,8 +69,10 @@ Onyx::WindowIcon Onyx::WindowIcon::Load(const std::initializer_list<std::string>
 
 void Onyx::WindowIcon::dispose()
 {
+	if (m_disposed) return;
 	for (uint i = 0; i < m_nImages; i++) stbi_image_free(m_pImages[i].pixels);
 	delete[] m_pImages;
+	m_disposed = true;
 }
 
 Onyx::Cursor::Cursor()
@@ -119,8 +121,10 @@ Onyx::Cursor Onyx::Cursor::Load(const std::string& filepath, Math::IVec2 hotspot
 
 void Onyx::Cursor::dispose()
 {
+	if (m_disposed) return;
 	glfwDestroyCursor(m_pCursor);
 	m_pCursor = nullptr;
+	m_disposed = true;
 }
 
 Onyx::Window::Window()
@@ -580,6 +584,7 @@ void Onyx::Window::setFileDropCallback(void (*callback)(const char**, int))
 
 void Onyx::Window::dispose()
 {
+	if (m_disposed) return;
 	if (m_initialized)
 	{
 		glfwDestroyWindow(m_pGlfwWin);
@@ -588,6 +593,7 @@ void Onyx::Window::dispose()
 	m_pGlfwWin = nullptr;
 	m_bufferWidth = m_bufferHeight = 0;
 	m_initialized = false;
+	m_disposed = true;
 }
 
 

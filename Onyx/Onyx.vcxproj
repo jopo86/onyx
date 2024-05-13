@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Algo.cpp" />
     <ClCompile Include="src\Fog.cpp" />
     <ClCompile Include="src\Gamepad.cpp" />
     <ClCompile Include="src\CharRenderable.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="tests\WindowTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Algo.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\CharRenderable.h" />
     <ClInclude Include="src\Core.h" />

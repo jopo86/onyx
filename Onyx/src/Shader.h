@@ -306,10 +306,6 @@ namespace Onyx
 		 */
 		void setMat4(const char* varName, const Math::Mat4& val, bool normalize = false);
 
-		/*
-			@brief Default constructor, initializes member variables.
-			Using an object created with this constructor will result in undefined behavior.
-		 */
 		void dispose() override;
 
 	private:

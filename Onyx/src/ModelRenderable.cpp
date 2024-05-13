@@ -171,8 +171,10 @@ void Onyx::ModelRenderable::resetTransform()
 
 void Onyx::ModelRenderable::dispose()
 {
+	if (m_disposed) return;
 	for (std::pair<const std::string, Renderable>& r : m_renderableMap)
 	{
 		r.second.dispose();
 	}
+	m_disposed = true;
 }

@@ -155,11 +155,6 @@ namespace Onyx
 		 */
 		void resetTransform();
 
-		/*
-			@brief Destroys the object, freeing any used memory.
-			This also disposes all the renderables contained in the model renderable.
-			Do not use the object after this is called.
-		 */
 		void dispose() override;
 		
 	private:

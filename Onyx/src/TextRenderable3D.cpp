@@ -304,10 +304,12 @@ void Onyx::TextRenderable3D::resetTransform()
 
 void Onyx::TextRenderable3D::dispose()
 {
+	if (m_disposed) return;
 	for (CharRenderable& c : m_chars) c.dispose();
 	m_chars.clear();
 	m_shader.dispose();
 	m_pFont = nullptr;
+	m_disposed = true;
 }
 
 void Onyx::TextRenderable3D::updateModel()

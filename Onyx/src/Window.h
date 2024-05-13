@@ -142,11 +142,6 @@ namespace Onyx
 		 */
 		static WindowIcon Load(const std::initializer_list<std::string>& filepaths, bool* result = nullptr);
 
-		/*
-			@brief Destroys the object, freeing any used memory.
-			Do not use the object after this is called.
-			This can safely be called after the window's icon has been set.
-		 */
 		void dispose() override;
 
 	private:
@@ -194,10 +189,6 @@ namespace Onyx
 		 */
 		static Cursor Load(const std::string& filepath, Math::IVec2 hotspot = Math::IVec2(0, 0), bool* result = nullptr);
 
-		/*
-			@brief Destroys the object, freeing any used memory.
-			Do not use the object after this is called.
-		 */
 		void dispose() override;
 
 	private:
@@ -615,10 +606,6 @@ namespace Onyx
 		 */
 		void setFileDropCallback(void (*callback)(const char**, int));
 
-		/*
-			@brief Destroys the object, freeing any used memory.
-			Do not use the object after this is called.
-		 */
 		void dispose() override;
 
 	private:

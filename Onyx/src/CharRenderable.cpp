@@ -85,9 +85,11 @@ uint Onyx::CharRenderable::getTextureID() const
 
 void Onyx::CharRenderable::dispose()
 {
+	if (m_disposed) return;
 	if (m_vao) glDeleteVertexArrays(1, &m_vao);
 	if (m_vbo) glDeleteBuffers(1, &m_vbo);
 	m_vao = m_vbo = m_tex = 0;
+	m_disposed = true;
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();

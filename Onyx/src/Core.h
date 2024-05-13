@@ -543,6 +543,19 @@ namespace Onyx
 	class Disposable
 	{
 	public:
+		/*
+			@brief Gets whether the object has been disposed.
+			@return True if dispose() has been called, false otherwise.
+		 */
+		bool isDisposed() const;
+
+		/*
+			@brief Destroys the object, freeing any used memory.
+			Do not use the object after this is called.
+		 */
 		virtual void dispose() = 0;
+
+	protected:
+		bool m_disposed = false;
 	};
 }

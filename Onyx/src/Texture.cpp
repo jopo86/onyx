@@ -145,8 +145,10 @@ uint Onyx::Texture::getTextureID() const
 
 void Onyx::Texture::dispose()
 {
+	if (m_disposed) return;
 	if (m_tex) glDeleteTextures(1, &m_tex);
 	m_tex = 0;
+	m_disposed = true;
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();

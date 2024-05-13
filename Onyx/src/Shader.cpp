@@ -587,6 +587,18 @@ std::string trimAndToLower(const std::string& str)
 	return trimmed;
 }
 
+void Onyx::Shader::dispose()
+{
+	if (m_disposed) return;
+	if (m_prog) glDeleteProgram(m_prog);
+	m_prog = 0;
+	m_disposed = true;
+
+#if defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
+}
+
 std::pair<std::string, std::string> Onyx::Shader::ParseCombined(const std::string& combinedPath, bool* result)
 {
 	bool fileResult;
@@ -1157,14 +1169,4 @@ Onyx::Shader Onyx::Shader::Text()
 	shader.setMat4("u_view", Mat4::Identity());
 	shader.setMat4("u_projection", Mat4::Identity());
 	return shader;
-}
-
-void Onyx::Shader::dispose()
-{
-	if (m_prog) glDeleteProgram(m_prog);
-	m_prog = 0;
-
-#if defined(ONYX_GL_DEBUG_HIGH)
-	glCheckError();
-#endif
 }

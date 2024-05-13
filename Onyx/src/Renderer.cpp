@@ -374,7 +374,10 @@ float Onyx::Renderer::GetLineWidth()
 
 void Onyx::Renderer::dispose()
 {
+	if (m_disposed) return;
 	for (Renderable* r : m_renderables) r->dispose();
-	for (UiRenderable* r : m_uiRenderables) r->dispose();
-	for (TextRenderable* r : m_textRenderables) r->dispose();
+	for (UiRenderable* uir : m_uiRenderables) uir->dispose();
+	for (TextRenderable* tr : m_textRenderables) tr->dispose();
+	for (TextRenderable3D* tr : m_textRenderables3D) tr->dispose();
+	m_disposed = true;
 }

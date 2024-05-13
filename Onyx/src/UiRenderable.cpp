@@ -202,9 +202,11 @@ void Onyx::UiRenderable::resetTransform()
 
 void Onyx::UiRenderable::dispose()
 {
+	if (m_disposed) return;
 	m_mesh.dispose();
 	m_shader.dispose();
 	m_texture.dispose();
+	m_disposed = true;
 }
 
 void Onyx::UiRenderable::updateModel()

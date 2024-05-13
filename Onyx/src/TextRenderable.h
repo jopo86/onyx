@@ -206,10 +206,6 @@ namespace Onyx
 		 */
 		void resetTransform();
 
-		/*
-			@brief Destroys the object, freeing any used memory.
-			Do not use the object after this is called.
-		 */
 		void dispose() override;
 
 	private:

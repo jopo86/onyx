@@ -186,10 +186,12 @@ uint Onyx::Mesh::getIBO() const
 
 void Onyx::Mesh::dispose()
 {
+	if (m_disposed) return;
 	if (m_vao) glDeleteVertexArrays(1, &m_vao);
 	if (m_vbo) glDeleteBuffers(1, &m_vbo);
 	if (m_ibo) glDeleteBuffers(1, &m_ibo);
 	m_vao = m_vbo = m_ibo = 0;
+	m_disposed = true;
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();

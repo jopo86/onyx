@@ -497,3 +497,28 @@ Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 		texture
 	);
 }
+
+Onyx::Renderable Onyx::Renderable::ColoredRectPrism(float width, float height, float depth, Vec3 rgb)
+{
+	return Renderable(
+		Mesh::RectPrism(width, height, depth, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredRectPrism(float width, float height, float depth, Vec4 rgba)
+{
+	return Renderable(
+		Mesh::RectPrism(width, height, depth, true),
+		Shader::PN_Color(rgba)
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::TexturedRectPrism(float width, float height, float depth, Texture texture)
+{
+	return Renderable(
+		Mesh::RectPrism(width, height, depth, true, true),
+		Shader::PNT(),
+		texture
+	);
+}

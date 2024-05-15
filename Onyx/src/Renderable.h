@@ -485,5 +485,35 @@ namespace Onyx
 			@return The resulting mesh.
 		 */
 		static Renderable TexturedCube(float side, Texture texture);
+
+		/*
+			@brief Creates a rectangular prism renderable with the specified width, height, depth, and color.
+			@param width The width.
+			@param height The height.
+			@param depth The depth.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredRectPrism(float width, float height, float depth, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a rectangular prism renderable with the specified width, height, depth, and color.
+			@param width The width.
+			@param height The height.
+			@param depth The depth.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredRectPrism(float width, float height, float depth, Math::Vec4 rgba);
+
+		/*
+			@brief Creates a rectangular prism renderable with the specified width, height, depth, and texture.
+			@param width The width.
+			@param height The height.
+			@param depth The depth.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		static Renderable TexturedRectPrism(float width, float height, float depth, Texture texture);
 	};
 }

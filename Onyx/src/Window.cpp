@@ -13,6 +13,7 @@ GLFWvidmode* Onyx::Window::m_pPrimaryMonitorInfo = nullptr;
 
 void onyx_set_gl_init(bool);
 void onyx_err(const Onyx::Error&);
+void onyx_warn(const Onyx::Warning&);
 
 Onyx::WindowIcon::WindowIcon()
 {
@@ -135,6 +136,7 @@ Onyx::Window::Window()
 	m_frame = m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
 	m_fileDropCallback = nullptr;
+	m_numFramesCamNotUpdated = m_numFramesInputNotUpdated = 0;
 }
 
 Onyx::Window::Window(WindowProperties properties)
@@ -146,6 +148,7 @@ Onyx::Window::Window(WindowProperties properties)
 	m_frame = m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
 	m_fileDropCallback = nullptr;
+	m_numFramesCamNotUpdated = m_numFramesInputNotUpdated = 0;
 }
 
 void Onyx::Window::init(bool* result)
@@ -226,6 +229,8 @@ void Onyx::Window::startRender()
 	m_fps = (int)(1.0 / m_deltaTime);
 	m_lastFrameTime = GetTime();
 	m_frame++;
+	m_numFramesCamNotUpdated++;
+	m_numFramesInputNotUpdated++;
 
 	glClearColor(m_properties.backgroundColor.getX(), m_properties.backgroundColor.getY(), m_properties.backgroundColor.getZ(), 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -236,6 +241,21 @@ void Onyx::Window::startRender()
 void Onyx::Window::endRender()
 {
 	glfwSwapBuffers(m_pGlfwWin);
+	if (m_frame > 2 && m_numFramesCamNotUpdated > 2 && m_pCams.size() > 0) onyx_warn(Onyx::Warning{
+			.sourceFunction = "Onyx::Window::endRender()",
+			.message = "Camera was not updated this frame.",
+			.howToFix = "Be sure to update the camera with Camera::update() every frame for camera transformations to have any effect.",
+			.severity = Warning::Severity::Med
+		}
+	);
+
+	if (m_frame > 2 && m_numFramesInputNotUpdated > 2 && m_pInputHandlers.size() > 0) onyx_warn(Onyx::Warning{
+			.sourceFunction = "Onyx::Window::endRender()",
+			.message = "Input handler was not updated this frame.",
+			.howToFix = "Be sure to update the input handler with InputHandler::update() every frame.",
+			.severity = Warning::Severity::High
+		}
+	);
 }
 
 void Onyx::Window::close()

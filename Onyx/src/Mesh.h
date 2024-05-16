@@ -187,5 +187,9 @@ namespace Onyx
 		 */
 		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `RectPrism` overloads")]]
 		static Mesh RectPrism(Math::Vec3 a, Math::Vec3 b, Math::Vec3 c, Math::Vec3 d, Math::Vec3 e, Math::Vec3 f, Math::Vec3 g, Math::Vec3 h);
+
+		static Mesh Cylinder(float radius, float height, int nSegments, bool genNormals = false, bool genTexCoords = false);
+
+		static Mesh Cylinder(float radius, float height, float angleStep, bool genNormals = false, bool genTexCoords = false);
 	};
 }

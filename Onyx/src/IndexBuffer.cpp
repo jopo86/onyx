@@ -83,57 +83,45 @@ Onyx::IndexBuffer Onyx::IndexBuffer::Circle(int nSegments, bool normals)
 	return Circle(360.0f / nSegments, normals);
 }
 
-Onyx::IndexBuffer Onyx::IndexBuffer::Circle(float _angleStep, bool normals)
+Onyx::IndexBuffer Onyx::IndexBuffer::Circle(float angleStepDeg, bool normals)
 {
 	if (normals)
 	{
-		float angleStep = Math::Radians(_angleStep);
+		int nVertices = (int)(360.0f / angleStepDeg);
+		float angleStep = Math::Radians(angleStepDeg);
 
 		std::vector<uint>* indices = new std::vector<uint>;
 		onyx_add_malloc(indices, false);
 
-		int i = 0;
-		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		for (int i = 1; i < nVertices - 1; i++)
 		{
-			if (i == 0 || ang + angleStep >= Math::TAU)
-			{
-				i++;
-				continue;
-			}
+			indices->push_back(0);
 			indices->push_back(i);
 			indices->push_back(i + 1);
-			indices->push_back(0);
-			i++;
 		}
 
-		for (int j = i; j < 2 * i - 1; j++)
+		for (int i = nVertices + 1; i < 2 * nVertices - 1; i++)
 		{
-			indices->push_back(j);
-			indices->push_back(j + 1);
 			indices->push_back(i);
+			indices->push_back(i + 1);
+			indices->push_back(nVertices);
 		}
 
 		return IndexBuffer(indices->data(), indices->size() * sizeof(uint));
 	}
 	else
 	{
-		float angleStep = Math::Radians(_angleStep);
+		int nVertices = (int)(360.0f / angleStepDeg);
+		float angleStep = Math::Radians(angleStepDeg);
 
 		std::vector<uint>* indices = new std::vector<uint>;
 		onyx_add_malloc(indices, false);
 
-		int i = 0;
-		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		for (int i = 1; i < nVertices - 1; i++)
 		{
-			if (i == 0 || ang + angleStep >= Math::TAU)
-			{
-				i++;
-				continue;
-			}
+			indices->push_back(0);
 			indices->push_back(i);
 			indices->push_back(i + 1);
-			indices->push_back(0);
-			i++;
 		}
 
 		return IndexBuffer(indices->data(), indices->size() * sizeof(uint));
@@ -198,5 +186,98 @@ Onyx::IndexBuffer Onyx::IndexBuffer::RectPrism(bool normalsOrTexCoords)
 		IndexBuffer ib(indices, 36 * sizeof(uint));
 		ib.m_heap = true;
 		return ib;
+	}
+}
+
+Onyx::IndexBuffer Onyx::IndexBuffer::Cylinder(int nSegments, bool normalsOrTexCoords)
+{
+	return Cylinder(360.0f / nSegments, normalsOrTexCoords);
+}
+
+Onyx::IndexBuffer Onyx::IndexBuffer::Cylinder(float angleStepDeg, bool normalsOrTexCoords)
+{
+	if (normalsOrTexCoords)
+	{
+		int nVertices = (int)(360.0f / angleStepDeg);
+
+		std::vector<uint>* indices = new std::vector<uint>;
+		onyx_add_malloc(indices, false);
+
+		for (int i = 1; i < nVertices - 1; i++)
+		{
+			indices->push_back(0);
+			indices->push_back(i);
+			indices->push_back(i + 1);
+		}
+
+		for (int i = nVertices + 1; i < 2 * nVertices - 1; i++)
+		{
+			indices->push_back(nVertices);
+			indices->push_back(i);
+			indices->push_back(i + 1);
+		}
+
+		for (int i = 2 * nVertices, j = 3 * nVertices; i < 3 * nVertices - 1 || j < 4 * nVertices - 1; i++, j++)
+		{
+			indices->push_back(i);
+			indices->push_back(i + 1);
+			indices->push_back(j);
+
+			indices->push_back(i + 1);
+			indices->push_back(j + 1);
+			indices->push_back(j);
+		}
+
+		indices->push_back(3 * nVertices - 1);
+		indices->push_back(2 * nVertices);
+		indices->push_back(4 * nVertices - 1);
+
+		indices->push_back(2 * nVertices);
+		indices->push_back(3 * nVertices);
+		indices->push_back(4 * nVertices - 1);
+
+		return IndexBuffer(indices->data(), indices->size() * sizeof(uint));
+	}
+	else
+	{
+		int nVertices = (int)(360.0f / angleStepDeg);
+
+		std::vector<uint>* indices = new std::vector<uint>;
+		onyx_add_malloc(indices, false);
+		
+		for (int i = 1; i < nVertices - 1; i++)
+		{
+			indices->push_back(0);
+			indices->push_back(i);
+			indices->push_back(i + 1);
+		}
+
+		for (int i = nVertices + 1; i < 2 * nVertices - 1; i++)
+		{
+			indices->push_back(nVertices);
+			indices->push_back(i);
+			indices->push_back(i + 1);
+		}
+
+		for (int i = 0, j = nVertices; i < nVertices - 1 || j < 2 * nVertices - 1; i++, j++)
+		{
+			indices->push_back(i);
+			indices->push_back(i + 1);
+			indices->push_back(j);
+
+			indices->push_back(i + 1);
+			indices->push_back(j + 1);
+			indices->push_back(j);
+		}
+
+		indices->push_back(nVertices - 1);
+		indices->push_back(1);
+		indices->push_back(2 * nVertices - 1);
+
+		indices->push_back(1);
+		indices->push_back(nVertices);
+		indices->push_back(2 * nVertices - 1);
+
+		return IndexBuffer(indices->data(), indices->size() * sizeof(uint));
 	}
 }

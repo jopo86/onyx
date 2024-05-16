@@ -21,7 +21,7 @@
 
 //#define ONYX_GL_DEBUG_LOW
 //#define ONYX_GL_DEBUG_MED
-//#define ONYX_GL_DEBUG_HIGH
+#define ONYX_GL_DEBUG_HIGH
 
 /*
 	Definitions for system info.

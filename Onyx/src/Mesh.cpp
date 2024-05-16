@@ -260,7 +260,7 @@ Onyx::Mesh Onyx::Mesh::Cube(float side, bool genNormals, bool genTexCoords)
 {
 	return Mesh(
 		VertexBuffer::Cube(side, genNormals, genTexCoords),
-		IndexBuffer::Cube(genNormals)
+		IndexBuffer::Cube(genNormals || genTexCoords)
 	);
 }
 
@@ -268,11 +268,27 @@ Onyx::Mesh Onyx::Mesh::RectPrism(float width, float height, float depth, bool ge
 {
 	return Mesh(
 		VertexBuffer::RectPrism(width, height, depth, genNormals, genTexCoords),
-		IndexBuffer::RectPrism(genNormals)
+		IndexBuffer::RectPrism(genNormals || genTexCoords)
 	);
 }
 
 Onyx::Mesh Onyx::Mesh::RectPrism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, Vec3 f, Vec3 g, Vec3 h)
 {
 	return Mesh();
+}
+
+Onyx::Mesh Onyx::Mesh::Cylinder(float radius, float height, int nSegments, bool genNormals, bool genTexCoords)
+{
+	return Mesh(
+		VertexBuffer::Cylinder(radius, height, nSegments, genNormals, genTexCoords),
+		IndexBuffer::Cylinder(nSegments, genNormals || genTexCoords)
+	);
+}
+
+Onyx::Mesh Onyx::Mesh::Cylinder(float radius, float height, float angleStep, bool genNormals, bool genTexCoords)
+{
+	return Mesh(
+		VertexBuffer::Cylinder(radius, height, angleStep, genNormals, genTexCoords),
+		IndexBuffer::Cylinder(angleStep, genNormals || genTexCoords)
+	);
 }

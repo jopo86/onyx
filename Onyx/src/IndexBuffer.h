@@ -83,5 +83,21 @@ namespace Onyx
 			@return The generated index buffer.
 		 */
 		static IndexBuffer RectPrism(bool normalsOrTexCoords = false);
+
+		/*
+			@brief Generates an index buffer for a cylinder with the specified number of line segments for its circles.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param normals Whether the vertex buffer was generated with normals AND/OR texture coordinates (this is needed because it increases the number of vertices).
+			@return The generated index buffer.
+		 */
+		static IndexBuffer Cylinder(int nSegments, bool normalsOrTexCoords = false);
+
+		/*
+			@brief Generates an index buffer for a cylinder with the specified angle step for its circles.
+			@param angleStep The angle step, in degrees, between circle vertices.
+			@param normals Whether the vertex buffer was generated with normals AND/OR texture coordinates (this is needed because it increases the number of vertices).
+			@return The generated index buffer.
+		 */
+		static IndexBuffer Cylinder(float angleStep, bool normalsOrTexCoords = false);
 	};
 }

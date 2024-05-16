@@ -8,69 +8,41 @@
 
 std::string Onyx::Error::toString() const
 {
-	int maxLen = 0;
-	std::vector<std::string> lines;
-	lines.push_back("Onyx Error");
-	lines.push_back("Source Function: " + sourceFunction + "");
-	lines.push_back("Message:         " + message + "");
-	if (howToFix != "") lines.push_back("How to fix:      " + howToFix + "");
-	for (const std::string& line : lines)
-	{
-		if (line.length() > maxLen) maxLen = line.length();
-	}
-	std::string msg = lines[0] + "\n";
-	for (int i = 0; i < maxLen; i++) msg += "-";
-	for (int i = 1; i < lines.size(); i++) msg += "\n" + lines[i];
-	msg += "\n";
-	for (int i = 0; i < maxLen; i++) msg += "-";
+	std::string msg;
+	msg += "Onyx Error\n";
+	msg += "----------\n";
+	msg += "Source Function: " + sourceFunction + "\n";
+	msg += "Message:         " + message + "\n";
+	if (howToFix != "") msg += "How to fix:      " + howToFix + "\n";
 	return msg;
 }
 
 std::string Onyx::GLError::toString() const
 {
-	int maxLen = 0;
-	std::vector<std::string> lines;
-	lines.push_back("OpenGL Error");
-	lines.push_back("Source:  " + file + " (" + std::to_string(line) + ")");
-	lines.push_back("Error:   " + std::string(glErrorToString(code)));
-	for (const std::string& line : lines)
-	{
-		if (line.length() > maxLen) maxLen = line.length();
-	}
-	std::string msg = lines[0] + "\n";
-	for (int i = 0; i < maxLen; i++) msg += "-";
-	for (int i = 1; i < lines.size(); i++) msg += "\n" + lines[i];
-	msg += "\n";
-	for (int i = 0; i < maxLen; i++) msg += "-";
+	std::string msg;
+	msg += "OpenGL Error\n";
+	msg += "------------\n";
+	msg += "Source:  " + file + " (" + std::to_string(line) + ")\n";
+	msg += "Error:   " + std::string(glErrorToString(code)) + "\n";
 	return msg;
 }
 
 std::string Onyx::Warning::toString() const
 {
-	int maxLen = 0;
-	std::vector<std::string> lines;
-	lines.push_back("Onyx Warning");
-	lines.push_back("Source Function: " + sourceFunction + "");
-	lines.push_back("Message:         " + message + "");
+	std::string msg;
+	msg += "Onyx Warning\n";
+	msg += "------------\n";
+	msg += "Source Function: " + sourceFunction + "\n";
+	msg += "Message:         " + message + "\n";
 	std::string sev;
 	switch (severity)
 	{
-		case Severity::Null: sev = "Not Specified"; break;
-		case Severity::Low: sev = "Low"; break;
-		case Severity::Med: sev = "Med"; break;
-		case Severity::High: sev = "High"; break;
+		case Severity::Null: sev = "Not Specified\n"; break;
+		case Severity::Low: sev = "Low\n"; break;
+		case Severity::Med: sev = "Medium\n"; break;
+		case Severity::High: sev = "High\n"; break;
 	};
-	lines.push_back("Severity:        " + sev);
-	if (howToFix != "") lines.push_back("How to fix:      " + howToFix + "");
-	for (const std::string& line : lines)
-	{
-		if (line.length() > maxLen) maxLen = line.length();
-	}
-	std::string msg = lines[0] + "\n";
-	for (int i = 0; i < maxLen; i++) msg += "-";
-	for (int i = 1; i < lines.size(); i++) msg += "\n" + lines[i];
-	msg += "\n";
-	for (int i = 0; i < maxLen; i++) msg += "-";
+	msg += "Severity:        " + sev;
 	return msg;
 }
 

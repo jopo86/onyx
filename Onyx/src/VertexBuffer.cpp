@@ -23,6 +23,11 @@ Onyx::VertexBuffer::VertexBuffer(float *vertices, uint size, VertexFormat format
 	m_heap = false;
 }
 
+Onyx::VertexFormat Onyx::VertexBuffer::getFormat() const
+{
+	return m_format;
+}
+
 bool Onyx::VertexBuffer::HasNormals(Onyx::VertexFormat format)
 {
 	return format == VertexFormat::PN || format == VertexFormat::PNT || format == VertexFormat::PNC || format == VertexFormat::PNCT;
@@ -179,9 +184,9 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Circle(float r, int nSegments, bool genNo
 	return Circle(r, 360.0f / nSegments, genNormals, genTexCoords);
 }
 
-Onyx::VertexBuffer Onyx::VertexBuffer::Circle(float r, float _angleStep, bool genNormals, bool genTexCoords)
+Onyx::VertexBuffer Onyx::VertexBuffer::Circle(float r, float angleStepDeg, bool genNormals, bool genTexCoords)
 {
-	float angleStep = Math::Radians(_angleStep);
+	float angleStep = Math::Radians(angleStepDeg);
 
 	if (genNormals)
 	{
@@ -190,8 +195,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Circle(float r, float _angleStep, bool ge
 
 		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
 		{
-			float c = cosf(ang);
-			float s = sinf(ang);
+			float c = cosf(ang), s = sinf(ang);
 			vertices->push_back(c * r);
 			vertices->push_back(s * r);
 			vertices->push_back(0.001f)	;
@@ -207,8 +211,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Circle(float r, float _angleStep, bool ge
 
 		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
 		{
-			float c = cosf(ang);
-			float s = sinf(ang);
+			float c = cosf(ang), s = sinf(ang);
 			vertices->push_back(c * r);
 			vertices->push_back(s * r);
 			vertices->push_back(-0.001f)	;
@@ -231,8 +234,7 @@ Onyx::VertexBuffer Onyx::VertexBuffer::Circle(float r, float _angleStep, bool ge
 
 		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
 		{
-			float c = cosf(ang);
-			float s = sinf(ang);
+			float c = cosf(ang), s = sinf(ang);
 			vertices->push_back(c * r);
 			vertices->push_back(s * r);
 			vertices->push_back(0.0f);
@@ -385,5 +387,157 @@ Onyx::VertexBuffer Onyx::VertexBuffer::RectPrism(float width, float height, floa
 		VertexBuffer vb = VertexBuffer(vertices, 24 * sizeof(float), VertexFormat::P);
 		vb.m_heap = true;
 		return vb;
+	}
+}
+
+Onyx::VertexBuffer Onyx::VertexBuffer::Cylinder(float r, float height, int nSegments, bool genNormals, bool genTexCoords)
+{
+	return Cylinder(r, height, 360.0f / nSegments, genNormals, genTexCoords);
+}
+
+Onyx::VertexBuffer Onyx::VertexBuffer::Cylinder(float r, float height, float angleStepDeg, bool genNormals, bool genTexCoords)
+{
+	float angleStep = Math::Radians(angleStepDeg);
+
+	if (genNormals)
+	{
+		std::vector<float>* vertices = new std::vector<float>;
+		onyx_add_malloc(vertices, false);
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(height / 2.0f);
+			vertices->push_back(s * r);
+			vertices->push_back(0.0f);
+			vertices->push_back(1.0f);
+			vertices->push_back(0.0f);
+			if (genTexCoords)
+			{
+				vertices->push_back(Math::Remap(c, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+				vertices->push_back(Math::Remap(s, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+			}
+		}
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(-height / 2.0f);
+			vertices->push_back(s * r);
+			vertices->push_back(0.0f);
+			vertices->push_back(-1.0f);
+			vertices->push_back(0.0f);
+			if (genTexCoords)
+			{
+				vertices->push_back(Math::Remap(c, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+				vertices->push_back(Math::Remap(s, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+			}
+		}
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(height / 2.0f);
+			vertices->push_back(s * r);
+			vertices->push_back(c);
+			vertices->push_back(0.0f);
+			vertices->push_back(s);
+			if (genTexCoords)
+			{
+				vertices->push_back(Math::Remap(ang, Vec2(0.0f, Math::TAU), Vec2(0.0f, 1.0f)));
+				vertices->push_back(1.0f);
+			}
+		}
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(-height / 2.0f);
+			vertices->push_back(s * r);
+			vertices->push_back(c);
+			vertices->push_back(0.0f);
+			vertices->push_back(s);
+			if (genTexCoords)
+			{
+				vertices->push_back(Math::Remap(ang, Vec2(0.0f, Math::TAU), Vec2(0.0f, 1.0f)));
+				vertices->push_back(0.0f);
+			}
+		}
+
+		return VertexBuffer(vertices->data(), vertices->size() * sizeof(float), genTexCoords ? VertexFormat::PNT : VertexFormat::PN);
+	}
+	else if (genTexCoords)
+	{
+		std::vector<float>* vertices = new std::vector<float>;
+		onyx_add_malloc(vertices, false);
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(height / 2.0f);
+			vertices->push_back(s * r);
+			vertices->push_back(Math::Remap(c, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+			vertices->push_back(Math::Remap(s, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+		}
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(-height / 2.0f);
+			vertices->push_back(s * r);
+			vertices->push_back(Math::Remap(c, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+			vertices->push_back(Math::Remap(s, Vec2(-1.0f, 1.0f), Vec2(0.0f, 1.0f)));
+		}
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(height / 2.0f);
+			vertices->push_back(s * r);
+			vertices->push_back(Math::Remap(ang, Vec2(0.0f, Math::TAU), Vec2(0.0f, 1.0f)));
+			vertices->push_back(1.0f);
+		}
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(-height / 2.0f);
+			vertices->push_back(s * r);
+			vertices->push_back(Math::Remap(ang, Vec2(0.0f, Math::TAU), Vec2(0.0f, 1.0f)));
+			vertices->push_back(0.0f);
+		}
+
+		return VertexBuffer(vertices->data(), vertices->size() * sizeof(float), VertexFormat::PT);
+	}
+	else
+	{
+		std::vector<float>* vertices = new std::vector<float>;
+		onyx_add_malloc(vertices, false);
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(height / 2.0f);
+			vertices->push_back(s * r);
+		}
+
+		for (float ang = 0.0f; ang < Math::TAU; ang += angleStep)
+		{
+			float c = cosf(ang), s = sinf(ang);
+			vertices->push_back(c * r);
+			vertices->push_back(-height / 2.0f);
+			vertices->push_back(s * r);
+		}
+
+		return VertexBuffer(vertices->data(), vertices->size() * sizeof(float), VertexFormat::P);
 	}
 }

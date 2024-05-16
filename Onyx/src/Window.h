@@ -628,6 +628,9 @@ namespace Onyx
 		double m_lastFrameTime;
 		double m_deltaTime;
 
+		int m_numFramesCamNotUpdated;
+		int m_numFramesInputNotUpdated;
+
 		void (*m_fileDropCallback)(const char**, int);
 
 		static void framebufferSizeCallback(GLFWwindow* pGlfwWin, int width, int height);

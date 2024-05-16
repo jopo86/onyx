@@ -63,6 +63,7 @@ void Onyx::Camera::update()
 		return;
 	}
 	m_view = LookAt(m_pos, m_pos + m_front, m_up);
+	m_pWin->m_numFramesCamNotUpdated = 0;
 }
 
 void Onyx::Camera::translateLR(float dist)

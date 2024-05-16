@@ -74,6 +74,8 @@ void Onyx::InputHandler::update()
 	{
 		if (gp.isConnected()) gp.update();
 	}
+
+	m_pWin->m_numFramesInputNotUpdated = 0;
 }
 
 Onyx::KeyState Onyx::InputHandler::getKeyState(Onyx::Key key) const

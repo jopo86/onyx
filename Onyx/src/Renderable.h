@@ -485,5 +485,95 @@ namespace Onyx
 			@return The resulting mesh.
 		 */
 		static Renderable TexturedCube(float side, Texture texture);
+
+		/*
+			@brief Creates a rectangular prism renderable with the specified width, height, depth, and color.
+			@param width The width.
+			@param height The height.
+			@param depth The depth.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredRectPrism(float width, float height, float depth, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a rectangular prism renderable with the specified width, height, depth, and color.
+			@param width The width.
+			@param height The height.
+			@param depth The depth.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredRectPrism(float width, float height, float depth, Math::Vec4 rgba);
+
+		/*
+			@brief Creates a rectangular prism renderable with the specified width, height, depth, and texture.
+			@param width The width.
+			@param height The height.
+			@param depth The depth.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		static Renderable TexturedRectPrism(float width, float height, float depth, Texture texture);
+
+		/*
+			@brief Creates a cylinder renderable with the specified radius, height, number of segments, and color.
+			@param radius The radius.
+			@param height The height.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredCylinder(float radius, float height, int nSegments, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a cylinder renderable with the specified radius, height, number of segments, and color.
+			@param radius The radius.
+			@param height The height.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredCylinder(float radius, float height, int nSegments, Math::Vec4 rgba);
+
+		/*
+			@brief Creates a cylinder renderable with the specified radius, height, angle step, and color.
+			@param radius The radius.
+			@param height The height.
+			@param angleStep The angle step, in degrees, between circle vertices.
+			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredCylinder(float radius, float height, float angleStep, Math::Vec3 rgb);
+
+		/*
+			@brief Creates a cylinder renderable with the specified radius, height, angle step, and color.
+			@param radius The radius.
+			@param height The height.
+			@param angleStep The angle step, in degrees, between circle vertices.
+			@param rgba The color, specified as red, green blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting mesh.
+		 */
+		static Renderable ColoredCylinder(float radius, float height, float angleStep, Math::Vec4 rgba);
+
+		/*
+			@brief Creates a cylinder renderable with the specified radius, height, number of segments, and texture.
+			@param radius The radius.
+			@param height The height.
+			@param nSegments The number of line segments used to approximate the circle outline.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		static Renderable TexturedCylinder(float radius, float height, int nSegments, Texture texture);
+
+		/*
+			@brief Creates a cylinder renderable with the specified radius, height, angle step, and texture.
+			@param radius The radius.
+			@param height The height.
+			@param angleStep The angle step, in degrees, between circle vertices.
+			@param texture The texture to use.
+			@return The resulting mesh.
+		 */
+		static Renderable TexturedCylinder(float radius, float height, float angleStep, Texture texture);
 	};
 }

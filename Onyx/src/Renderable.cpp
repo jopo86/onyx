@@ -497,3 +497,78 @@ Onyx::Renderable Onyx::Renderable::TexturedCube(float side, Texture texture)
 		texture
 	);
 }
+
+Onyx::Renderable Onyx::Renderable::ColoredRectPrism(float width, float height, float depth, Vec3 rgb)
+{
+	return Renderable(
+		Mesh::RectPrism(width, height, depth, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredRectPrism(float width, float height, float depth, Vec4 rgba)
+{
+	return Renderable(
+		Mesh::RectPrism(width, height, depth, true),
+		Shader::PN_Color(rgba)
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::TexturedRectPrism(float width, float height, float depth, Texture texture)
+{
+	return Renderable(
+		Mesh::RectPrism(width, height, depth, true, true),
+		Shader::PNT(),
+		texture
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredCylinder(float radius, float height, int nSegments, Vec3 rgb)
+{
+	return Renderable(
+		Mesh::Cylinder(radius, height, nSegments, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredCylinder(float radius, float height, int nSegments, Vec4 rgba)
+{
+	return Renderable(
+		Mesh::Cylinder(radius, height, nSegments, true),
+		Shader::PN_Color(rgba)
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredCylinder(float radius, float height, float angleStep, Vec3 rgb)
+{
+	return Renderable(
+		Mesh::Cylinder(radius, height, angleStep, true),
+		Shader::PN_Color(Vec4(rgb, 1.0f))
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::ColoredCylinder(float radius, float height, float angleStep, Vec4 rgba)
+{
+	return Renderable(
+		Mesh::Cylinder(radius, height, angleStep, true),
+		Shader::PN_Color(rgba)
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::TexturedCylinder(float radius, float height, int nSegments, Texture texture)
+{
+	return Renderable(
+		Mesh::Cylinder(radius, height, nSegments, true, true),
+		Shader::PNT(),
+		texture
+	);
+}
+
+Onyx::Renderable Onyx::Renderable::TexturedCylinder(float radius, float height, float angleStep, Texture texture)
+{
+	return Renderable(
+		Mesh::Cylinder(radius, height, angleStep, true, true),
+		Shader::PNT(),
+		texture
+	);
+}

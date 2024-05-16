@@ -1,5 +1,5 @@
 # ![Onyx Logo](logo.png)
-Onyx is a high-level C++ library for rendering graphics to the screen using OpenGL 4.1 and GLFW 3.4.  
+Onyx is a high-level, cross-platform C++ rendering engine using OpenGL 4.1, with additional functionalities including window and input handling using GLFW.  
 
 The intuitive and well-structured codebase makes it simpler than ever to code games, apps, or any graphical interface using a language as complex as C++.  
 
@@ -18,7 +18,7 @@ There is also a [Guides](https://github.com/jopo86/onyx/wiki/guides) page, with 
 ## Features (Natively Supported)
 - Creating & Customizing Windows
 - Input Handling (keyboard, mouse, controllers/gamepads)
-- Can Render:
+- Rendering:
   - Hardcoded meshes
   - Loaded models (OBJ format)
   - GUI and Text

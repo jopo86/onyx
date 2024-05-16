@@ -223,9 +223,6 @@
     <ClInclude Include="tests\PresetTests.h" />
     <ClInclude Include="tests\WindowTest.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="tmp.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

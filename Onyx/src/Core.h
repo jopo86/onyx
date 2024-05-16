@@ -9,8 +9,8 @@
  */
 
 #define ONYX_VERSION_MAJOR		1
-#define ONYX_VERSION_MINOR		1
-#define ONYX_VERSION_PATCH		1
+#define ONYX_VERSION_MINOR		2
+#define ONYX_VERSION_PATCH		0
 
 #define ONYX_PRE_RELEASE_NUM	0
 
@@ -21,7 +21,7 @@
 
 //#define ONYX_GL_DEBUG_LOW
 //#define ONYX_GL_DEBUG_MED
-#define ONYX_GL_DEBUG_HIGH
+//#define ONYX_GL_DEBUG_HIGH
 
 /*
 	Definitions for system info.

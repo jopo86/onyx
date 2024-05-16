@@ -1,4 +1,4 @@
-#pragma warning(disable: 4267)
+#pragma warning(disable: 4267; disable: 4305)
 
 #include "VertexBuffer.h"
 #include "Math.h"

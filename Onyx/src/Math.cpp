@@ -455,6 +455,11 @@ Onyx::Math::Vec3 Onyx::Math::Vec3::Brown()
 	return Vec3(0.3f, 0.2f, 0.0f);
 }
 
+Onyx::Math::Vec3 Onyx::Math::Reflect(const Vec3& vec, const Vec3& normal)
+{
+	return Vec3(glm::reflect(vec.getMVec(), normal.getMVec()));
+}
+
 Onyx::Math::Vec4::Vec4()
 {
 	m_vec = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -1155,6 +1160,11 @@ Onyx::Math::DVec3 Onyx::Math::DVec3::operator*(const double& scalar) const
 void Onyx::Math::DVec3::operator*=(const double& scalar)
 {
 	m_vec *= scalar;
+}
+
+Onyx::Math::DVec3 Onyx::Math::Reflect(const DVec3& vec, const DVec3& normal)
+{
+	return DVec3(glm::reflect(vec.getMVec(), normal.getMVec()));
 }
 
 Onyx::Math::DVec4::DVec4()

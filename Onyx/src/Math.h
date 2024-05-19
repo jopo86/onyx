@@ -297,6 +297,14 @@ namespace Onyx
 		};
 
 		/*
+			@brief Calculates the reflection of a vector off a surface that has the specified normal.
+			@param vec The vector to reflect.
+			@param normal The normal of the surface.
+			@return The reflected vector.
+		 */
+		Vec3 Reflect(const Vec3& vec, const Vec3& normal);
+
+		/*
 			@brief A vector with four components.
 		 */
 		class Vec4 : public Vec
@@ -869,6 +877,14 @@ namespace Onyx
 		private:
 			glm::dvec3 m_vec;
 		};
+
+		/*
+			@brief Calculates the reflection of a vector off a surface that has the specified normal.
+			@param vec The vector to reflect.
+			@param normal The normal of the surface.
+			@return The reflected vector.
+		 */
+		DVec3 Reflect(const DVec3& vec, const DVec3& normal);
 
 		/*
 			@brief A double vector with four components.

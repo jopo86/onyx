@@ -34,6 +34,7 @@ void BouncingBallTest::Run()
 		}
 	);
 	window.init();
+	window.fullscreen();
 
 	Monitor monitor = Monitor::GetPrimary();
 	window.setPosition(IVec2(monitor.getWidth() / 2 - window.getWidth() / 2, monitor.getHeight() / 2 - window.getHeight() / 2));
@@ -55,12 +56,15 @@ void BouncingBallTest::Run()
 	const int GRAPH_SUBDIVISIONS = 100;
 
 	const bool ALLOW_SCENE_EXPLORE = false;
+	const bool DIRECTOR_MODE = true;
 
 	const float CAM_SPEED = 6.0f;
 	const float CAM_SENS = 30.0f;
 
 	const float GRAVITY = -9.81f;
-	const float BOUNCINESS = 0.8f;
+	const float BOUNCINESS = 0.7f;
+	const float BOUNDARY_OFFSET = 0.08f;
+	const float CORRECTION_OFFSET = 0.01f;
 
 	Mesh* mesh = generateSurface(GRAPH_WIDTH, GRAPH_WIDTH, DVec2(-GRAPH_RANGE / 2, GRAPH_RANGE / 2), DVec2(-GRAPH_RANGE / 2, GRAPH_RANGE / 2), GRAPH_SUBDIVISIONS, GRAPH_SUBDIVISIONS);
 	Renderable surface(*mesh, Shader::PN_Color(Vec4::Green()));
@@ -72,6 +76,8 @@ void BouncingBallTest::Run()
 	renderer.add(ball);
 
 	Vec3 ballVelocity(Rand(-3.0f, 3.0f), 0.0f, Rand(-3.0f, 3.0f));
+
+	float start = GetTime();
 
 	input.setCursorLock(true);
 
@@ -87,6 +93,12 @@ void BouncingBallTest::Run()
 		if (input.isKeyTapped(Key::F12)) window.toggleFullscreen(1280, 720, IVec2(monitor.getWidth() / 2 - window.getWidth() / 2, monitor.getHeight() / 2 - window.getHeight() / 2));
 		if (input.isKeyTapped(Key::F1)) Renderer::ToggleWireframe();
 		if (input.isKeyTapped(Key::F2)) renderer.toggleLightingEnabled();
+		if (input.isKeyTapped(Key::R))
+		{
+			ball.setPosition(Vec3(Rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2), 1.0f, Rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2)));
+			ballVelocity = Vec3(Rand(-3.0f, 3.0f), 0.0f, Rand(-3.0f, 3.0f));
+			start = GetTime();
+		}
 
 		if (ALLOW_SCENE_EXPLORE)
 		{
@@ -101,15 +113,23 @@ void BouncingBallTest::Run()
 		}
 		else
 		{
-			float dist = cam.getPosition().magnitude();
-			if (abs(dx) > 1.0) cam.translateLR(-CAM_SPEED * .002 * dx);
-			if (abs(dy) > 1.0) cam.translateUD(-CAM_SPEED * .002 * dy);
-			cam.lookAt(Vec3(0));
-			cam.setPosition(cam.getPosition().getNormalized() * dist);
+			if (!DIRECTOR_MODE)
+			{
+				float dist = cam.getPosition().magnitude();
+				if (abs(dx) > 1.0) cam.translateLR(-CAM_SPEED * .002 * dx);
+				if (abs(dy) > 1.0) cam.translateUD(-CAM_SPEED * .002 * dy);
+				cam.setPosition(cam.getPosition().getNormalized() * dist);
+				cam.lookAt(Vec3(0));
+			}
+			else
+			{
+				cam.setPosition(Vec3(sinf(GetTime() / 2.0f) * 5.0f, 4.0f, cosf(GetTime() / 2.0f) * 5.0f));
+				cam.lookAt(Vec3(0));
+			}
 		}
 		cam.update();
 
-		if (GetTime() > 2.0)
+		if (GetTime() - start > 1.0)
 		{
 			Vec3 ballPos = ball.getPosition();
 
@@ -118,10 +138,11 @@ void BouncingBallTest::Run()
 			float y = f(x, z);
 			if (ballPos.getY() < y + 0.12f)
 			{
-				ball.setPosition(Vec3(ballPos.getX(), y + 0.12f, ballPos.getZ()));
-
+				ball.setPosition(Vec3(ballPos.getX(), y + 0.13f, ballPos.getZ()));
+				std::cout << ballVelocity.toString() << " ---> ";
 				Vec3 norm = f_norm(x, z);
-				Vec3 reflected = ballVelocity - norm * (2.0f * Dot(ballVelocity, norm));
+				Vec3 reflected = Reflect(ballVelocity, norm);
+				std::cout << reflected.toString() << "\n";
 				ballVelocity = reflected * BOUNCINESS;
 				ballVelocity.setY(-ballVelocity.getY());
 				if (ballVelocity.getY() < 0.01f) ballVelocity.setY(0.0f);
@@ -136,29 +157,29 @@ void BouncingBallTest::Run()
 				ballVelocity -= grad;
 			}
 
-			if (ballVelocity.magnitude() < 0.01f) ballVelocity.set(0.0f, 0.0f, 0.0f);
+			if (GetTime() - start > 5.0 && ballVelocity.magnitude() < 0.2f) ballVelocity.set(0.0f, 0.0f, 0.0f);
 
 			ball.translate(ballVelocity * dt); 
 
-			if (ballPos.getX() < -GRAPH_WIDTH / 2 + 0.12f)
+			if (ballPos.getX() < -GRAPH_WIDTH / 2 + BOUNDARY_OFFSET)
 			{
-				ball.setPosition(Vec3(-GRAPH_WIDTH / 2 + 0.12f, ballPos.getY(), ballPos.getZ()));
 				ballVelocity.setX(-ballVelocity.getX());
+				ball.setPosition(Vec3(-GRAPH_WIDTH / 2 + BOUNDARY_OFFSET + CORRECTION_OFFSET, ballPos.getY(), ballPos.getZ()));
 			}
-			if (ballPos.getX() > GRAPH_WIDTH / 2 - 0.12f)
+			if (ballPos.getX() > GRAPH_WIDTH / 2 - BOUNDARY_OFFSET)
 			{
-				ball.setPosition(Vec3(GRAPH_WIDTH / 2 - 0.12f, ballPos.getY(), ballPos.getZ()));
 				ballVelocity.setX(-ballVelocity.getX());
+				ball.setPosition(Vec3(GRAPH_WIDTH / 2 - BOUNDARY_OFFSET - CORRECTION_OFFSET, ballPos.getY(), ballPos.getZ()));
 			}
-			if (ballPos.getZ() < -GRAPH_WIDTH / 2 + 0.12f)
+			if (ballPos.getZ() < -GRAPH_WIDTH / 2 + BOUNDARY_OFFSET)
 			{
-				ball.setPosition(Vec3(ballPos.getX(), ballPos.getY(), -GRAPH_WIDTH / 2 + 0.12f));
 				ballVelocity.setZ(-ballVelocity.getZ());
+				ball.setPosition(Vec3(ballPos.getX(), ballPos.getY(), -GRAPH_WIDTH / 2 + BOUNDARY_OFFSET + CORRECTION_OFFSET));
 			}
-			if (ballPos.getZ() > GRAPH_WIDTH / 2 - 0.12f)
+			if (ballPos.getZ() > GRAPH_WIDTH / 2 - BOUNDARY_OFFSET)
 			{
-				ball.setPosition(Vec3(ballPos.getX(), ballPos.getY(), GRAPH_WIDTH / 2 - 0.12f));
 				ballVelocity.setZ(-ballVelocity.getZ());
+				ball.setPosition(Vec3(ballPos.getX(), ballPos.getY(), GRAPH_WIDTH / 2 - BOUNDARY_OFFSET - CORRECTION_OFFSET));
 			}
 		}
 
@@ -175,10 +196,10 @@ void BouncingBallTest::Run()
 
 double f(double x, double y)
 {
-    return (sin(x) + sin(y) + cos(x / 2) + cos(y / 2) + sin(x / 4) + sin(y / 4) + cos(x / 6) + sin(sqrtf(x * x + y * y))) / 9;
-	//return (x + y) / 20 + sin(sqrt(x * x + y * y)) / 9;
+    //return (sin(x) + sin(y) + cos(x / 2) + cos(y / 2) + sin(x / 4) + sin(y / 4) + cos(x / 6) + sin(sqrtf(x * x + y * y))) / 9;
+	//return sin(sqrt(x * x + y * y)) / 5;
 	//return (x * x + y * y) / 75;
-	//return sin(x) + y/10;
+	return sin(x) / 5;
 }
 
 double df_dx(double x, double y, double h)

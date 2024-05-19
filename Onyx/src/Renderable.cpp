@@ -215,7 +215,7 @@ void Onyx::Renderable::resetTransform()
 	m_position = Vec3(0.0f);
 	m_rotation = Vec3(0.0f);
 	m_scale = Vec3(1.0f);
-	updateModel();
+	m_model = Mat4::Identity();
 }
 
 void Onyx::Renderable::dispose()

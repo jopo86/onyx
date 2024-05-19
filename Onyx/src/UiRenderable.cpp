@@ -197,6 +197,9 @@ void Onyx::UiRenderable::scale(float scalar)
 
 void Onyx::UiRenderable::resetTransform()
 {
+	m_position = Vec2(0.0f);
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 	m_model = Mat4::Identity();
 }
 

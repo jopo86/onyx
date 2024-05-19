@@ -35,6 +35,18 @@ namespace Onyx
 		const Math::IVec2& getDimensions() const;
 
 		/*
+			@brief Gets the width of the monitor.
+			@return The width of the monitor in pixels.
+		 */
+		int getWidth() const;
+
+		/*
+			@brief Gets the height of the monitor.
+			@return The height of the monitor in pixels.
+		 */
+		int getHeight() const;
+
+		/*
 			@brief Gets the bit depth of the monitor.
 			@return The bit depth of the monitor (red, green, blue).
 		 */

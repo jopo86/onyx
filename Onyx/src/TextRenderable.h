@@ -64,8 +64,7 @@ namespace Onyx
 		void show();
 
 		/*
-			@brief Gets the dimensions of the renderable.
-			@return The dimensions (width and height), in pixels.
+			@deprecated Use getDimensions(), getWidth(), or getHeight() instead.
 		 */
 		Math::Vec2 dimensions() const;
 
@@ -110,6 +109,24 @@ namespace Onyx
 			@return The color of the text.
 		 */
 		const Math::Vec4& getColor() const;
+
+		/*
+			@brief Gets the dimensions of the renderable.
+			@return The dimensions (width and height), in pixels.
+		 */
+		const Math::Vec2& getDimensions() const;
+
+		/*
+			@brief Gets the width of the renderable.
+			@return The width, in pixels.
+		 */
+		float getWidth() const;
+
+		/*
+			@brief Gets the height of the renderable.
+			@return The height, in pixels.
+		 */
+		float getHeight() const;
 
 		/*
 			@brief Gets whether the renderable is hidden.
@@ -219,6 +236,8 @@ namespace Onyx
 		Math::Vec2 m_position;
 		float m_rotation;
 		Math::Vec2 m_scale;
+
+		Math::Vec2 m_dimensions;
 
 		Font* m_pFont;
 

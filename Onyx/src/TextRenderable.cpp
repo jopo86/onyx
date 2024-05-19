@@ -5,7 +5,7 @@
 void onyx_err(const Onyx::Error&);
 void onyx_warn(const Onyx::Warning&);
 
-using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
+using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4, Onyx::Math::IVec2;
 
 Onyx::TextRenderable::TextRenderable()
 {
@@ -25,6 +25,7 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 c
 	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
+	m_dimensions = font.getStringDimensions(text);
 
 	if (font.getGlyphs().size() == 0)
 	{
@@ -71,6 +72,7 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 c
 	m_model = Mat4::Identity();
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
+	m_dimensions = font.getStringDimensions(text);
 
 	if (font.getGlyphs().size() == 0)
 	{
@@ -186,6 +188,21 @@ const Vec4& Onyx::TextRenderable::getColor() const
 	return m_color;
 }
 
+const Vec2& Onyx::TextRenderable::getDimensions() const
+{
+	return m_dimensions;
+}
+
+float Onyx::TextRenderable::getWidth() const
+{
+	return m_dimensions.getX();
+}
+
+float Onyx::TextRenderable::getHeight() const
+{
+	return m_dimensions.getY();
+}
+
 bool Onyx::TextRenderable::isHidden() const
 {
 	return m_hidden;
@@ -246,6 +263,8 @@ void Onyx::TextRenderable::setRotation(float rotation)
 void Onyx::TextRenderable::setScale(const Vec2& scale)
 {
 	m_scale = scale;
+	IVec2 dims = m_pFont->getStringDimensions(m_text);
+	m_dimensions.set(dims.getX() * m_scale.getX(), dims.getY() * m_scale.getY());
 	updateModel();
 }
 
@@ -270,6 +289,8 @@ void Onyx::TextRenderable::scale(const Vec2& scalars)
 {
 	m_scale.setX(m_scale.getX() * scalars.getX());
 	m_scale.setY(m_scale.getY() * scalars.getY());
+	m_dimensions.setX(m_dimensions.getX() * scalars.getX());
+	m_dimensions.setY(m_dimensions.getY() * scalars.getY());
 	updateModel();
 }
 
@@ -277,11 +298,15 @@ void Onyx::TextRenderable::scale(float scalar)
 {
 	m_scale.setX(m_scale.getX() * scalar);
 	m_scale.setY(m_scale.getY() * scalar);
+	m_dimensions *= scalar;
 	updateModel();
 }
 
 void Onyx::TextRenderable::resetTransform()
 {
+	m_position = Vec2(0.0f);
+	m_rotation = 0.0f;
+	m_scale = Vec2(1.0f);
 	m_model = Mat4::Identity();
 }
 

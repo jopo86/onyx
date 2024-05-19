@@ -108,6 +108,9 @@
     <ClCompile Include="src\TextRenderable3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tests\BouncingBallTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Projection.h">
@@ -194,8 +197,8 @@
     <ClInclude Include="src\TextRenderable3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="tmp.txt" />
+    <ClInclude Include="tests\BouncingBallTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

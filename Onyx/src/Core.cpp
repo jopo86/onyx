@@ -29,6 +29,8 @@ std::vector<std::pair<void*, bool>> mallocs;
 void* oldUserPtr = nullptr;
 std::unordered_map<std::string, void*> userPtrs;
 
+void onyx_seed_random(uint seed);
+
 void onyx_set_gl_init(bool val)
 {
 	glInitialized = val;
@@ -111,6 +113,8 @@ void Onyx::Init()
 	{
 		glfwSetJoystickUserPointer(i, nullptr);
 	}
+
+	onyx_seed_random(time(nullptr));
 }
 
 void Onyx::Init(ErrorHandler& errorHandler)
@@ -165,6 +169,8 @@ void Onyx::Init(ErrorHandler& errorHandler)
 	{
 		glfwSetJoystickUserPointer(i, nullptr);
 	}
+
+	onyx_seed_random(time(nullptr));
 }
 
 int Onyx::GetVersionMajor()
@@ -324,9 +330,9 @@ void Onyx::Demo()
 	textRenderables.push_back(TextRenderable("FPS: 0", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
 	textRenderables.push_back(TextRenderable("FRAME 0", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
 	textRenderables.push_back(TextRenderable("Toggle Fullscreen: [F12]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
-	textRenderables.push_back(TextRenderable("Toggle Lighting: [3]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
-	textRenderables.push_back(TextRenderable("Toggle Car Visibility: [2]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
-	textRenderables.push_back(TextRenderable("Toggle Wireframe: [1]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Toggle Lighting: [F3]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Toggle Car Visibility: [F2]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
+	textRenderables.push_back(TextRenderable("Toggle Wireframe: [F1]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
 	textRenderables.push_back(TextRenderable("Mouse to look around", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
 	textRenderables.push_back(TextRenderable("Up/Down: [Space]/[C]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
 	textRenderables.push_back(TextRenderable("Forward/Left/Backward/Right: [W]/[A]/[S]/[D]", robotoReg, Vec3(1.0f, 1.0f, 1.0f)));
@@ -388,9 +394,9 @@ void Onyx::Demo()
 		if (input.isKeyDown(Onyx::Key::Space)) cam.translateUD(MOVE_SPEED * dt);
 		if (input.isKeyDown(Onyx::Key::C)) cam.translateUD(-MOVE_SPEED * dt);
 		if (input.isKeyTapped(Onyx::Key::F12)) window.toggleFullscreen(1280, 720, Math::IVec2(100, 100));
-		if (input.isKeyTapped(Onyx::Key::Num1)) Renderer::ToggleWireframe();
-		if (input.isKeyTapped(Onyx::Key::Num2)) car.toggleVisibility();
-		if (input.isKeyTapped(Onyx::Key::Num3)) renderer.toggleLightingEnabled();
+		if (input.isKeyTapped(Onyx::Key::F1)) Renderer::ToggleWireframe();
+		if (input.isKeyTapped(Onyx::Key::F2)) car.toggleVisibility();
+		if (input.isKeyTapped(Onyx::Key::F3)) renderer.toggleLightingEnabled();
 
 		car.rotate(Vec3(0.0f, 10.0f * dt, 0.0f));
 

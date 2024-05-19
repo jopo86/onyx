@@ -72,10 +72,27 @@ namespace Onyx
 
 		/*
 			@brief Gets the dimensions of a string if it were to be rendered with this font.
+			See getStringWidth() and getStringHeight() for specific information.
 			@param str The string.
-			@return The dimensions (width and height) of the string, in pixels.
+			@return The dimensions (width and height) of the string.
 		 */
 		Math::IVec2 getStringDimensions(const std::string& str) const;
+
+		/*
+			@brief Gets the width of a string if it were to be rendered with this font.
+			Specifically, this function sums up the advances of each character in the string excluding the last character, and then adds the width of the last character.
+			@param str The string.
+			@return The width of the string.
+		 */
+		int getStringWidth(const std::string& str) const;
+
+		/*
+			@brief Gets the height of a string if it were to be rendered with this font.
+			Specifically, this function returns the height of the tallest character in the string.
+			@param str The string.
+			@return The height of the string.
+		 */
+		int getStringHeight(const std::string& str) const;
 
 		/*
 			@brief Gets the path of the TrueType font file.

@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="tests\BouncingBallTest.cpp" />
     <ClCompile Include="src\Fog.cpp" />
     <ClCompile Include="src\Gamepad.cpp" />
     <ClCompile Include="src\CharRenderable.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="src\UiRenderable.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\Window.h" />
+    <ClInclude Include="tests\BouncingBallTest.h" />
     <ClInclude Include="tests\PresetTests.h" />
     <ClInclude Include="tests\WindowTest.h" />
   </ItemGroup>

@@ -122,6 +122,35 @@ Onyx::Math::IVec2 Onyx::Font::getStringDimensions(const std::string& str) const
 	return Math::IVec2(width, height);
 }
 
+int Onyx::Font::getStringWidth(const std::string& str) const
+{
+	int width = 0;
+
+	for (int i = 0; i < str.length(); i++)
+	{
+		char c = str[i];
+		Glyph glyph = m_glyphs.at(c);
+		if (i != str.length() - 1) width += glyph.advance >> 6;
+		else width += glyph.width;
+	}
+
+	return width;
+}
+
+int Onyx::Font::getStringHeight(const std::string& str) const
+{
+	int height = 0;
+
+	for (int i = 0; i < str.length(); i++)
+	{
+		char c = str[i];
+		Glyph glyph = m_glyphs.at(c);
+		height = std::max(height, glyph.height);
+	}
+
+	return height;
+}
+
 std::string Onyx::Font::getTtfFilePath() const
 {
 	return m_ttfFilePath;

@@ -27,6 +27,16 @@ const IVec2& Onyx::Monitor::getDimensions() const
 	return m_dimensions;
 }
 
+int Onyx::Monitor::getWidth() const
+{
+	return m_dimensions.getX();
+}
+
+int Onyx::Monitor::getHeight() const
+{
+	return m_dimensions.getY();
+}
+
 const IVec3& Onyx::Monitor::getBitDepth() const
 {
 	return m_bitDepth;

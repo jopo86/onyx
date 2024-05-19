@@ -112,6 +112,19 @@ namespace Onyx
 		double Remap(double val, DVec2 oldRange, DVec2 newRange);
 
 		/*
+			@brief Generates a random number, of type T, between a minimum and maximum value, inclusive.
+			@param min The minimum value.
+			@param max The maximum value.
+			@return The random number.
+		 */
+		template<typename T>
+		T Rand(T min, T max)
+		{
+			static_assert(std::is_arithmetic<T>::value, "Rand can only be used with integral or floating-point types.");
+			return min + static_cast<T>(rand()) / static_cast<T>(RAND_MAX) * (max - min);
+		}
+
+		/*
 			@brief A parent class for vectors.
 		 */
 		class Vec {};
@@ -126,10 +139,10 @@ namespace Onyx
 			Vec2();
 			Vec2(float xy);
 			Vec2(float x, float y);
-			Vec2(DVec2 vec);
-			Vec2(IVec2 vec);
-			Vec2(UVec2 vec);
-			Vec2(glm::vec2 vec);
+			Vec2(const DVec2& vec);
+			Vec2(const IVec2& vec);
+			Vec2(const UVec2& vec);
+			Vec2(const glm::vec2& vec);
 
 			float magnitude() const;
 			void normalize();
@@ -144,7 +157,7 @@ namespace Onyx
 
 			float getX() const;
 			float getY() const;
-			glm::vec2 getMVec() const;
+			const glm::vec2& getMVec() const;
 			Vec2 getNormalized() const;
 
 			void setX(float x);
@@ -181,12 +194,12 @@ namespace Onyx
 			Vec3();
 			Vec3(float xyz);
 			Vec3(float x, float y, float z);
-			Vec3(Vec2 vec, float z);
-			Vec3(float x, Vec2 vec);
-			Vec3(DVec3 vec);
-			Vec3(IVec3 vec);
-			Vec3(UVec3 vec);
-			Vec3(glm::vec3 vec);
+			Vec3(const Vec2& vec, float z);
+			Vec3(float x, const Vec2& vec);
+			Vec3(const DVec3& vec);
+			Vec3(const IVec3& vec);
+			Vec3(const UVec3& vec);
+			Vec3(const glm::vec3& vec);
 
 			float magnitude() const;
 			void normalize();
@@ -235,7 +248,7 @@ namespace Onyx
 			float getX() const;
 			float getY() const;
 			float getZ() const;
-			glm::vec3 getMVec() const;
+			const glm::vec3& getMVec() const;
 			Vec3 getNormalized() const;
 
 			void setX(float x);
@@ -292,16 +305,16 @@ namespace Onyx
 			Vec4();
 			Vec4(float xyzw);
 			Vec4(float x, float y, float z, float w);
-			Vec4(Vec2 vec, float z, float w);
-			Vec4(float x, Vec2 vec, float w);
-			Vec4(float x, float y, Vec2 vec);
-			Vec4(Vec3 vec, float w);
-			Vec4(float x, Vec3 vec);
-			Vec4(Vec2 vec1, Vec2 vec2);
-			Vec4(DVec4 vec);
-			Vec4(IVec4 vec);
-			Vec4(UVec4 vec);
-			Vec4(glm::vec4 vec);
+			Vec4(const Vec2& vec, float z, float w);
+			Vec4(float x, const Vec2& vec, float w);
+			Vec4(float x, float y, const Vec2& vec);
+			Vec4(const Vec3& vec, float w);
+			Vec4(float x, const Vec3& vec);
+			Vec4(const Vec2& vec1, const Vec2& vec2);
+			Vec4(const DVec4& vec);
+			Vec4(const IVec4& vec);
+			Vec4(const UVec4& vec);
+			Vec4(const glm::vec4& vec);
 
 			float magnitude() const;
 			void normalize();
@@ -652,7 +665,7 @@ namespace Onyx
 			float getY() const;
 			float getZ() const;
 			float getW() const;
-			glm::vec4 getMVec() const;
+			const glm::vec4& getMVec() const;
 			Vec4 getNormalized() const;
 
 			void setX(float x);
@@ -718,10 +731,10 @@ namespace Onyx
 			DVec2();
 			DVec2(double xy);
 			DVec2(double x, double y);
-			DVec2(Vec2 vec);
-			DVec2(IVec2 vec);
-			DVec2(UVec2 vec);
-			DVec2(glm::dvec2 vec);
+			DVec2(const Vec2& vec);
+			DVec2(const IVec2& vec);
+			DVec2(const UVec2& vec);
+			DVec2(const glm::dvec2& vec);
 
 			double magnitude() const;
 			void normalize();
@@ -736,7 +749,7 @@ namespace Onyx
 
 			double getX() const;
 			double getY() const;
-			glm::dvec2 getMVec() const;
+			const glm::dvec2& getMVec() const;
 			DVec2 getNormalized() const;
 
 			void setX(double x);
@@ -773,12 +786,12 @@ namespace Onyx
 			DVec3();
 			DVec3(double xyz);
 			DVec3(double x, double y, double z);
-			DVec3(DVec2 vec, double z);
-			DVec3(double x, DVec2 vec);
-			DVec3(Vec3 vec);
-			DVec3(IVec3 vec);
-			DVec3(UVec3 vec);
-			DVec3(glm::dvec3 vec);
+			DVec3(const DVec2& vec, double z);
+			DVec3(double x, const DVec2& vec);
+			DVec3(const Vec3& vec);
+			DVec3(const IVec3& vec);
+			DVec3(const UVec3& vec);
+			DVec3(const glm::dvec3& vec);
 
 			double magnitude() const;
 			void normalize();
@@ -827,7 +840,7 @@ namespace Onyx
 			double getX() const;
 			double getY() const;
 			double getZ() const;
-			glm::dvec3 getMVec() const;
+			const glm::dvec3& getMVec() const;
 			DVec3 getNormalized() const;
 
 			void setX(double x);
@@ -866,16 +879,16 @@ namespace Onyx
 			DVec4();
 			DVec4(double xyzw);
 			DVec4(double x, double y, double z, double w);
-			DVec4(DVec2 vec, double z, double w);
-			DVec4(double x, DVec2 vec, double w);
-			DVec4(double x, double y, DVec2 vec);
-			DVec4(DVec3 vec, double w);
-			DVec4(double x, DVec3 vec);
-			DVec4(DVec2 vec1, DVec2 vec2);
-			DVec4(Vec4 vec);
-			DVec4(IVec4 vec);
-			DVec4(UVec4 vec);
-			DVec4(glm::dvec4 vec);
+			DVec4(const DVec2& vec, double z, double w);
+			DVec4(double x, const DVec2& vec, double w);
+			DVec4(double x, double y, const DVec2& vec);
+			DVec4(const DVec3& vec, double w);
+			DVec4(double x, const DVec3& vec);
+			DVec4(const DVec2& vec1, const DVec2& vec2);
+			DVec4(const Vec4& vec);
+			DVec4(const IVec4& vec);
+			DVec4(const UVec4& vec);
+			DVec4(const glm::dvec4& vec);
 
 			double magnitude() const;
 			void normalize();
@@ -1226,7 +1239,7 @@ namespace Onyx
 			double getY() const;
 			double getZ() const;
 			double getW() const;
-			glm::dvec4 getMVec() const;
+			const glm::dvec4& getMVec() const;
 			DVec4 getNormalized() const;
 			void set(double x, double y, double z, double w);
 			void setMagnitude(double magnitude);
@@ -1274,10 +1287,10 @@ namespace Onyx
 			IVec2();
 			IVec2(int xy);
 			IVec2(int x, int y);
-			IVec2(Vec2 vec);
-			IVec2(DVec2 vec);
-			IVec2(UVec2 vec);
-			IVec2(glm::ivec2 vec);
+			IVec2(const Vec2& vec);
+			IVec2(const DVec2& vec);
+			IVec2(const UVec2& vec);
+			IVec2(const glm::ivec2& vec);
 
 			const int* data() const;
 			bool isZero() const;
@@ -1290,7 +1303,7 @@ namespace Onyx
 
 			int getX() const;
 			int getY() const;
-			glm::ivec2 getMVec() const;
+			const glm::ivec2& getMVec() const;
 
 			void setX(int x);
 			void setY(int y);
@@ -1323,12 +1336,12 @@ namespace Onyx
 			IVec3();
 			IVec3(int xyz);
 			IVec3(int x, int y, int z);
-			IVec3(IVec2 vec, int z);
-			IVec3(int x, IVec2 vec);
-			IVec3(Vec3 vec);
-			IVec3(DVec3 vec);
-			IVec3(UVec3 vec);
-			IVec3(glm::ivec3 vec);
+			IVec3(const IVec2& vec, int z);
+			IVec3(int x, const IVec2& vec);
+			IVec3(const Vec3& vec);
+			IVec3(const DVec3& vec);
+			IVec3(const UVec3& vec);
+			IVec3(const glm::ivec3& vec);
 
 			const int* data() const;
 			bool isZero() const;
@@ -1375,7 +1388,7 @@ namespace Onyx
 			int getX() const;
 			int getY() const;
 			int getZ() const;
-			glm::ivec3 getMVec() const;
+			const glm::ivec3& getMVec() const;
 
 			void setX(int x);
 			void setY(int y);
@@ -1409,16 +1422,16 @@ namespace Onyx
 			IVec4();
 			IVec4(int xyzw);
 			IVec4(int x, int y, int z, int w);
-			IVec4(IVec2 vec, int z, int w);
-			IVec4(int x, IVec2 vec, int w);
-			IVec4(int x, int y, IVec2 vec);
-			IVec4(IVec3 vec, int w);
-			IVec4(int x, IVec3 vec);
-			IVec4(IVec2 vec1, IVec2 vec2);
-			IVec4(Vec4 vec);
-			IVec4(DVec4 vec);
-			IVec4(UVec4 vec);
-			IVec4(glm::ivec4 vec);
+			IVec4(const IVec2& vec, int z, int w);
+			IVec4(int x, const IVec2& vec, int w);
+			IVec4(int x, int y, const IVec2& vec);
+			IVec4(const IVec3& vec, int w);
+			IVec4(int x, const IVec3& vec);
+			IVec4(const IVec2& vec1, const IVec2& vec2);
+			IVec4(const Vec4& vec);
+			IVec4(const DVec4& vec);
+			IVec4(const UVec4& vec);
+			IVec4(const glm::ivec4& vec);
 
 			const int* data() const;
 			bool isZero() const;
@@ -1767,7 +1780,7 @@ namespace Onyx
 			int getY() const;
 			int getZ() const;
 			int getW() const;
-			glm::ivec4 getMVec() const;
+			const glm::ivec4& getMVec() const;
 
 			void setX(int x);
 			void setY(int y);
@@ -1801,7 +1814,7 @@ namespace Onyx
 			UVec2();
 			UVec2(uint xy);
 			UVec2(uint x, uint y);
-			UVec2(glm::uvec2 vec);
+			UVec2(const glm::uvec2& vec);
 
 			const uint* data() const;
 			bool isZero() const;
@@ -1814,7 +1827,7 @@ namespace Onyx
 
 			uint getX() const;
 			uint getY() const;
-			glm::uvec2 getMVec() const;
+			const glm::uvec2& getMVec() const;
 
 			void setX(uint x);
 			void setY(uint y);
@@ -1843,9 +1856,9 @@ namespace Onyx
 			UVec3();
 			UVec3(uint xyz);
 			UVec3(uint x, uint y, uint z);
-			UVec3(UVec2 vec, uint z);
-			UVec3(uint x, UVec2 vec);
-			UVec3(glm::uvec3 vec);
+			UVec3(const UVec2& vec, uint z);
+			UVec3(uint x, const UVec2& vec);
+			UVec3(const glm::uvec3& vec);
 
 			const uint* data() const;
 			bool isZero() const;
@@ -1892,7 +1905,7 @@ namespace Onyx
 			uint getX() const;
 			uint getY() const;
 			uint getZ() const;
-			glm::uvec3 getMVec() const;
+			const glm::uvec3& getMVec() const;
 
 			void setX(uint x);
 			void setY(uint y);
@@ -1922,13 +1935,13 @@ namespace Onyx
 			UVec4();
 			UVec4(uint xyzw);
 			UVec4(uint x, uint y, uint z, uint w);
-			UVec4(UVec2 vec, uint z, uint w);
-			UVec4(uint x, UVec2 vec, uint w);
-			UVec4(uint x, uint y, UVec2 vec);
-			UVec4(UVec3 vec, uint w);
-			UVec4(uint x, UVec3 vec);
-			UVec4(UVec2 vec1, UVec2 vec2);
-			UVec4(glm::uvec4 vec);
+			UVec4(const UVec2& vec, uint z, uint w);
+			UVec4(uint x, const UVec2& vec, uint w);
+			UVec4(uint x, uint y, const UVec2& vec);
+			UVec4(const UVec3& vec, uint w);
+			UVec4(uint x, const UVec3& vec);
+			UVec4(const UVec2& vec1, const UVec2& vec2);
+			UVec4(const glm::uvec4& vec);
 
 			const uint* data() const;
 			bool isZero() const;
@@ -2277,7 +2290,7 @@ namespace Onyx
 			uint getY() const;
 			uint getZ() const;
 			uint getW() const;
-			glm::uvec4 getMVec() const;
+			const glm::uvec4& getMVec() const;
 
 			void setX(uint x);
 			void setY(uint y);

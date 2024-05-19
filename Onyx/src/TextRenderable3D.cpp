@@ -5,7 +5,7 @@
 void onyx_err(const Onyx::Error&);
 void onyx_warn(const Onyx::Warning&);
 
-using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4;
+using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4, Onyx::Math::Mat4, Onyx::Math::IVec2;
 
 Onyx::TextRenderable3D::TextRenderable3D()
 {
@@ -23,6 +23,7 @@ Onyx::TextRenderable3D::TextRenderable3D(const std::string& text, Font& font, Ve
 	m_color = Vec4(color, 1.0f);
 	m_model = Mat4::Identity();
 	m_scale = Vec3(1.0f);
+	m_dimensions = font.getStringDimensions(text);
 
 	if (font.getGlyphs().size() == 0)
 	{
@@ -68,6 +69,7 @@ Onyx::TextRenderable3D::TextRenderable3D(const std::string& text, Font& font, Ve
 	m_color = color;
 	m_model = Mat4::Identity();
 	m_scale = Vec3(1.0f);
+	m_dimensions = font.getStringDimensions(text);
 
 	if (font.getGlyphs().size() == 0)
 	{
@@ -249,6 +251,8 @@ void Onyx::TextRenderable3D::setRotation(const Vec3& rotations)
 void Onyx::TextRenderable3D::setScale(const Vec3& scales)
 {
 	m_scale = scales;
+	IVec2 dims = m_pFont->getStringDimensions(m_text);
+	m_dimensions.set(dims.getX() * m_scale.getX(), dims.getY() * m_scale.getY());
 	updateModel();
 }
 
@@ -283,6 +287,8 @@ void Onyx::TextRenderable3D::scale(const Vec3& scalars)
 	m_scale.setX(m_scale.getX() * scalars.getX());
 	m_scale.setY(m_scale.getY() * scalars.getY());
 	m_scale.setZ(m_scale.getZ() * scalars.getZ());
+	m_dimensions.setX(m_dimensions.getX() * scalars.getX());
+	m_dimensions.setY(m_dimensions.getY() * scalars.getY());
 	updateModel();
 }
 
@@ -291,6 +297,7 @@ void Onyx::TextRenderable3D::scale(float scalar)
 	m_scale.setX(m_scale.getX() * scalar);
 	m_scale.setY(m_scale.getY() * scalar);
 	m_scale.setZ(m_scale.getZ() * scalar);
+	m_dimensions *= scalar;
 	updateModel();
 }
 
@@ -299,7 +306,7 @@ void Onyx::TextRenderable3D::resetTransform()
 	m_position = Vec3(0.0f);
 	m_rotation = Vec3(0.0f);
 	m_scale = Vec3(1.0f);
-	updateModel();
+	m_model = Mat4::Identity();
 }
 
 void Onyx::TextRenderable3D::dispose()

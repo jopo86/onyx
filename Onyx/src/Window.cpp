@@ -133,7 +133,8 @@ Onyx::Window::Window()
 	m_pGlfwWin = nullptr;
 	m_bufferWidth = m_bufferHeight = 0;
 	m_initialized = false;
-	m_frame = m_fps = 0;
+	m_frame = 0L;
+	m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
 	m_fileDropCallback = nullptr;
 	m_numFramesCamNotUpdated = m_numFramesInputNotUpdated = 0;
@@ -145,7 +146,8 @@ Onyx::Window::Window(WindowProperties properties)
 	m_properties = properties;
 	m_bufferWidth = m_bufferHeight = 0;
 	m_initialized = false;
-	m_frame = m_fps = 0;
+	m_frame = 0L;
+	m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
 	m_fileDropCallback = nullptr;
 	m_numFramesCamNotUpdated = m_numFramesInputNotUpdated = 0;
@@ -181,6 +183,9 @@ void Onyx::Window::init(bool* result)
 	glfwGetFramebufferSize(m_pGlfwWin, &m_bufferWidth, &m_bufferHeight);
 	glfwSetWindowUserPointer(m_pGlfwWin, this);
 
+	glfwSetWindowOpacity(m_pGlfwWin, m_properties.opacity);
+	glfwSetWindowPos(m_pGlfwWin, m_properties.position.getX(), m_properties.position.getY());
+
 	glfwSetFramebufferSizeCallback(m_pGlfwWin, framebufferSizeCallback);
 	glfwSetWindowSizeCallback(m_pGlfwWin, windowSizeCallback);
 	glfwSetWindowPosCallback(m_pGlfwWin, windowPosCallback);
@@ -207,8 +212,6 @@ void Onyx::Window::init(bool* result)
 
 	onyx_set_gl_init(true);
 
-	glfwSetWindowOpacity(m_pGlfwWin, m_properties.opacity);
-	glfwSetWindowPos(m_pGlfwWin, m_properties.position.getX(), m_properties.position.getY());
 	if (m_properties.fullscreen) fullscreen();
 
 	if (glfwRawMouseMotionSupported()) glfwSetInputMode(m_pGlfwWin, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
@@ -320,7 +323,7 @@ const Onyx::Math::IVec2& Onyx::Window::getPosition() const
 	return m_properties.position;
 }
 
-int Onyx::Window::getFrame() const
+ulong Onyx::Window::getFrame() const
 {
 	return m_frame;
 }

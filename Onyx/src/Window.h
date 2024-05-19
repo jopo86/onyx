@@ -317,7 +317,7 @@ namespace Onyx
 			The frame number is increased every time startRender() is called.
 			@return The current frame number.
 		 */
-		int getFrame() const;
+		ulong getFrame() const;
 
 		/*
 			@brief Gets the current frames per second.
@@ -623,13 +623,13 @@ namespace Onyx
 
 		bool m_initialized;
 
-		int m_frame;
+		ulong m_frame;
 		int m_fps;
 		double m_lastFrameTime;
 		double m_deltaTime;
 
-		int m_numFramesCamNotUpdated;
-		int m_numFramesInputNotUpdated;
+		ulong m_numFramesCamNotUpdated;
+		ulong m_numFramesInputNotUpdated;
 
 		void (*m_fileDropCallback)(const char**, int);
 

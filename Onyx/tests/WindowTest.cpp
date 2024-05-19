@@ -137,7 +137,7 @@ void WindowTest::Run()
 	f11.setPosition(Onyx::Math::Vec2(10.0f, 30.0f));
 	f12.setPosition(Onyx::Math::Vec2(10.0f, 10.0f));
 
-	Onyx::UiRenderable logo(Onyx::Mesh(Onyx::VertexBuffer::Square(256.0f, true), Onyx::IndexBuffer::Square()), Onyx::Texture::Load(Onyx::Resources("textures/onyx.png")));
+	Onyx::UiRenderable logo = Onyx::UiRenderable::TexturedSquare(256.0f, Onyx::Texture::Load(Onyx::Resources("textures/onyx.png")));
 	logo.setPosition(Onyx::Math::Vec2(550.0f, 270.0f));
 	logo.scale(0.6f);
 

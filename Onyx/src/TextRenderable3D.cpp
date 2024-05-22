@@ -186,6 +186,21 @@ const Vec4& Onyx::TextRenderable3D::getColor() const
 	return m_color;
 }
 
+const Vec2& Onyx::TextRenderable3D::getDimensions() const
+{
+	return m_dimensions;
+}
+
+float Onyx::TextRenderable3D::getWidth() const
+{
+	return m_dimensions.getX();
+}
+
+float Onyx::TextRenderable3D::getHeight() const
+{
+	return m_dimensions.getY();
+}
+
 bool Onyx::TextRenderable3D::isHidden() const
 {
 	return m_hidden;

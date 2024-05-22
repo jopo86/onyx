@@ -297,14 +297,6 @@ namespace Onyx
 		};
 
 		/*
-			@brief Calculates the reflection of a vector off a surface that has the specified normal.
-			@param vec The vector to reflect.
-			@param normal The normal of the surface.
-			@return The reflected vector.
-		 */
-		Vec3 Reflect(const Vec3& vec, const Vec3& normal);
-
-		/*
 			@brief A vector with four components.
 		 */
 		class Vec4 : public Vec
@@ -724,6 +716,10 @@ namespace Onyx
 		Vec2 Rotate(const Vec2& vec, float angle);
 		Vec3 Rotate(const Vec3& vec, float angle, const Vec3& mask);
 		Vec3 Rotate(const Vec3& vec, const Vec3& angles);
+
+		Vec2 Reflect(const Vec2& vec, const Vec2& normal);
+		Vec3 Reflect(const Vec3& vec, const Vec3& normal);
+		Vec4 Reflect(const Vec4& vec, const Vec4& normal);
 
 		/*
 			@brief A parent class for double vectors.
@@ -1288,6 +1284,10 @@ namespace Onyx
 		DVec2 Rotate(const DVec2& vec, double angle);
 		DVec3 Rotate(const DVec3& vec, double angle, const DVec3& mask);
 		DVec3 Rotate(const DVec3& vec, const DVec3& angles);
+
+		DVec2 Reflect(const DVec2& vec, const DVec2& normal);
+		DVec3 Reflect(const DVec3& vec, const DVec3& normal);
+		DVec4 Reflect(const DVec4& vec, const DVec4& normal);
 
 		/*
 			@brief A parent class for integer vectors.

@@ -68,6 +68,7 @@ namespace Onyx
 		/*
 			@deprecated Use getDimensions(), getWidth(), or getHeight() instead.
 		 */
+		[[deprecated("This function is deprecated and will be removed in the next major release. Use getDimensions(), getWidth(), or getHeight() instead.")]]
 		Math::Vec2 dimensions() const;
 
 		/*

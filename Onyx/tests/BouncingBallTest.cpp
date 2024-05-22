@@ -196,10 +196,10 @@ void BouncingBallTest::Run()
 
 double f(double x, double y)
 {
-    //return (sin(x) + sin(y) + cos(x / 2) + cos(y / 2) + sin(x / 4) + sin(y / 4) + cos(x / 6) + sin(sqrtf(x * x + y * y))) / 9;
+    return (sin(x) + sin(y) + cos(x / 2) + cos(y / 2) + sin(x / 4) + sin(y / 4) + cos(x / 6) + sin(sqrtf(x * x + y * y))) / 9;
 	//return sin(sqrt(x * x + y * y)) / 5;
 	//return (x * x + y * y) / 75;
-	return sin(x) / 5;
+	//return sin(x) / 5;
 }
 
 double df_dx(double x, double y, double h)

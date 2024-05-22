@@ -455,11 +455,6 @@ Onyx::Math::Vec3 Onyx::Math::Vec3::Brown()
 	return Vec3(0.3f, 0.2f, 0.0f);
 }
 
-Onyx::Math::Vec3 Onyx::Math::Reflect(const Vec3& vec, const Vec3& normal)
-{
-	return Vec3(glm::reflect(vec.getMVec(), normal.getMVec()));
-}
-
 Onyx::Math::Vec4::Vec4()
 {
 	m_vec = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -1162,11 +1157,6 @@ void Onyx::Math::DVec3::operator*=(const double& scalar)
 	m_vec *= scalar;
 }
 
-Onyx::Math::DVec3 Onyx::Math::Reflect(const DVec3& vec, const DVec3& normal)
-{
-	return DVec3(glm::reflect(vec.getMVec(), normal.getMVec()));
-}
-
 Onyx::Math::DVec4::DVec4()
 {
 	m_vec = glm::dvec4(0.0, 0.0, 0.0, 0.0);
@@ -1464,6 +1454,36 @@ Onyx::Math::DVec3 Onyx::Math::Rotate(const DVec3& vec, const DVec3& angles)
 	}
 
 	return rotated;
+}
+
+Onyx::Math::DVec2 Onyx::Math::Reflect(const DVec2& vec, const DVec2& normal)
+{
+	return DVec2(glm::reflect(vec.getMVec(), normal.getMVec()));
+}
+
+Onyx::Math::DVec3 Onyx::Math::Reflect(const DVec3& vec, const DVec3& normal)
+{
+	return DVec3(glm::reflect(vec.getMVec(), normal.getMVec()));
+}
+
+Onyx::Math::DVec4 Onyx::Math::Reflect(const DVec4& vec, const DVec4& normal)
+{
+	return DVec4(glm::reflect(vec.getMVec(), normal.getMVec()));
+}
+
+Onyx::Math::Vec2 Onyx::Math::Reflect(const Vec2& vec, const Vec2& normal)
+{
+	return Vec2(glm::reflect(vec.getMVec(), normal.getMVec()));
+}
+
+Onyx::Math::Vec3 Onyx::Math::Reflect(const Vec3& vec, const Vec3& normal)
+{
+	return Vec3(glm::reflect(vec.getMVec(), normal.getMVec()));
+}
+
+Onyx::Math::Vec4 Onyx::Math::Reflect(const Vec4& vec, const Vec4& normal)
+{
+	return Vec4(glm::reflect(vec.getMVec(), normal.getMVec()));
 }
 
 Onyx::Math::IVec2::IVec2()

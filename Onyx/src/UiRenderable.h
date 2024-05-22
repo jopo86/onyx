@@ -26,24 +26,27 @@ namespace Onyx
 			@brief Creates a new UiRenderable object out of the specified mesh and color.
 			@param mesh The mesh to use.
 			@param rgba The color, specified as red, green, and blue values ranging from 0 to 1.
+			@param zIndex The z-index of the renderable.
 		 */
-		UiRenderable(Mesh mesh, Math::Vec3 rgb);
+		UiRenderable(Mesh mesh, Math::Vec3 rgb, uint zIndex = 0);
 
 		/*
 			@brief Creates a new UiRenderable object out of the specified mesh and color.
 			@param mesh The mesh to use.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@param zIndex The z-index of the renderable.
 		 */
-		UiRenderable(Mesh mesh, Math::Vec4 rgba);
+		UiRenderable(Mesh mesh, Math::Vec4 rgba, uint zIndex = 0);
 
 		/*
 			@brief Creates a new UiRenderable object out of the specified mesh and texture.
 			The mesh vertex array should be VT or TV format.
 			@param mesh The mesh to use.
 			@param texture The texture to use.
+			@param zIndex The z-index of the renderable.
 			@param result A pointer to a boolean that will be set to true if the renderable was created successfully, and false otherwise.
 		 */
-		UiRenderable(Mesh mesh, Texture texture, bool* result = nullptr);
+		UiRenderable(Mesh mesh, Texture texture, uint zIndex = 0, bool* result = nullptr);
 
 		/*
 			@brief Renders the object.
@@ -189,6 +192,7 @@ namespace Onyx
 		Math::Mat4 m_model;
 
 		Math::Vec2 m_position;
+		float m_z;
 		float m_rotation;
 		Math::Vec2 m_scale;
 

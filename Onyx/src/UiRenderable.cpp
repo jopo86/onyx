@@ -14,9 +14,10 @@ Onyx::UiRenderable::UiRenderable()
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 	m_hidden = false;
+	m_z = 0.0f;
 }
 
-Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb)
+Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb, uint zIndex)
 {
 	m_mesh = mesh;
 	m_shader = Shader::P_UI_Color(Vec4(rgb, 1.0f));
@@ -24,9 +25,10 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb)
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 	m_hidden = false;
+	m_z = zIndex / 1000.0f;
 }
 
-Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
+Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba, uint zIndex)
 {
 	m_mesh = mesh;
 	m_shader = Shader::P_UI_Color(rgba);
@@ -34,9 +36,11 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Math::Vec4 rgba)
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 	m_hidden = false;
+	m_z = zIndex / 1000.0f;
+
 }
 
-Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, bool* result) 
+Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, uint zIndex, bool* result) 
 {
 	m_mesh = mesh;
 	m_texture = texture;
@@ -45,6 +49,7 @@ Onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, bool* result)
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 	m_hidden = false;
+	m_z = zIndex / 1000.0f;
 
 	if (!VertexBuffer::HasTextureCoords(mesh.getVertexFormat()))
 	{
@@ -215,7 +220,7 @@ void Onyx::UiRenderable::dispose()
 void Onyx::UiRenderable::updateModel()
 {
 	m_model = Mat4::Identity();
-	m_model.translate(Vec3(m_position, 0.0f));
+	m_model.translate(Vec3(m_position, m_z));
 	m_model.rotate(m_rotation, Vec3(0.0f, 0.0f, 1.0f));
 	m_model.scale(Vec3(m_scale, 1.0f));
 }

@@ -316,14 +316,14 @@ void updatePositions()
 	isMaximized.setPosition(Onyx::Math::Vec2(760.0f, window.getBufferHeight() - 40));
 	isMinimized.setPosition(Onyx::Math::Vec2(760.0f, window.getBufferHeight() - 60));
 
-	monitorLabel.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorLabel.dimensions().getX(), window.getBufferHeight() - 160.0f));
-	monitorName.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorName.dimensions().getX(), window.getBufferHeight() - 180.0f));
-	monitorDimensions.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorDimensions.dimensions().getX(), window.getBufferHeight() - 200.0f));
-	monitorBitDepth.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorBitDepth.dimensions().getX(), window.getBufferHeight() - 220.0f));
-	monitorRefreshRate.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorRefreshRate.dimensions().getX(), window.getBufferHeight() - 240.0f));
-	monitorPhysicalSize.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorPhysicalSize.dimensions().getX(), window.getBufferHeight() - 260.0f));
-	monitorContentScale.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorContentScale.dimensions().getX(), window.getBufferHeight() - 280.0f));
-	monitorPosition.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorPosition.dimensions().getX(), window.getBufferHeight() - 300.0f));
-	monitorWorkArea.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorWorkArea.dimensions().getX(), window.getBufferHeight() - 320.0f));
-	monitorIsPrimary.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorIsPrimary.dimensions().getX(), window.getBufferHeight() - 340.0f));
+	monitorLabel.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorLabel.getWidth(), window.getBufferHeight() - 160.0f));
+	monitorName.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorName.getWidth(), window.getBufferHeight() - 180.0f));
+	monitorDimensions.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorDimensions.getWidth(), window.getBufferHeight() - 200.0f));
+	monitorBitDepth.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorBitDepth.getWidth(), window.getBufferHeight() - 220.0f));
+	monitorRefreshRate.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorRefreshRate.getWidth(), window.getBufferHeight() - 240.0f));
+	monitorPhysicalSize.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorPhysicalSize.getWidth(), window.getBufferHeight() - 260.0f));
+	monitorContentScale.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorContentScale.getWidth(), window.getBufferHeight() - 280.0f));
+	monitorPosition.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorPosition.getWidth(), window.getBufferHeight() - 300.0f));
+	monitorWorkArea.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorWorkArea.getWidth(), window.getBufferHeight() - 320.0f));
+	monitorIsPrimary.setPosition(Onyx::Math::Vec2(window.getBufferWidth() - 20.0f - monitorIsPrimary.getWidth(), window.getBufferHeight() - 340.0f));
 }

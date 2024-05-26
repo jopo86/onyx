@@ -52,6 +52,271 @@ double Onyx::Math::Remap(double val, DVec2 oldRange, DVec2 newRange)
 	return ((val - oldRange.getX()) / (oldRange.getY() - oldRange.getX())) * (newRange.getY() - newRange.getX()) + newRange.getX();
 }
 
+int Onyx::Math::Abs(int value)
+{
+	return abs(value);
+}
+
+float Onyx::Math::Abs(float value)
+{
+	return abs(value);
+}
+
+double Onyx::Math::Abs(double value)
+{
+	return abs(value);
+}
+
+float Onyx::Math::Sqrt(float value)
+{
+	return sqrt(value);
+}
+
+double Onyx::Math::Sqrt(double value)
+{
+	return sqrt(value);
+}
+
+float Onyx::Math::Pow(float base, float exponent)
+{
+	return pow(base, exponent);
+}
+
+double Onyx::Math::Pow(double base, double exponent)
+{
+	return pow(base, exponent);
+}
+
+float Onyx::Math::Sin(float val)
+{
+	return sinf(val);
+}
+
+float Onyx::Math::Cos(float val)
+{
+	return cosf(val);
+}
+
+float Onyx::Math::Tan(float val)
+{
+	return tanf(val);
+}
+
+float Onyx::Math::Asin(float value)
+{
+	return asinf(value);
+}
+
+float Onyx::Math::Acos(float value)
+{
+	return acosf(value);
+}
+
+float Onyx::Math::Atan(float value)
+{
+	return atanf(value);
+}
+
+float Onyx::Math::Atan2(float y, float x)
+{
+	return atan2f(y, x);
+}
+
+double Onyx::Math::Sin(double val)
+{
+	return sin(val);
+}
+
+double Onyx::Math::Cos(double val)
+{
+	return cos(val);
+}
+
+double Onyx::Math::Tan(double val)
+{
+	return tan(val);
+}
+
+double Onyx::Math::Asin(double value)
+{
+	return asin(value);
+}
+
+double Onyx::Math::Acos(double value)
+{
+	return acos(value);
+}
+
+double Onyx::Math::Atan(double value)
+{
+	return atan(value);
+}
+
+double Onyx::Math::Atan2(double y, double x)
+{
+	return atan2(y, x);
+}
+
+float Onyx::Math::Sinh(float val)
+{
+	return sinhf(val);
+}
+
+float Onyx::Math::Cosh(float val)
+{
+	return coshf(val);
+}
+
+float Onyx::Math::Tanh(float val)
+{
+	return tanhf(val);
+}
+
+float Onyx::Math::Asinh(float val)
+{
+	return asinhf(val);
+}
+
+float Onyx::Math::Acosh(float val)
+{
+	return acoshf(val);
+}
+
+float Onyx::Math::Atanh(float val)
+{
+	return atanhf(val);
+}
+
+double Onyx::Math::Sinh(double val)
+{
+	return sinh(val);
+}
+
+double Onyx::Math::Cosh(double val)
+{
+	return cosh(val);
+}
+
+double Onyx::Math::Tanh(double val)
+{
+	return tanh(val);
+}
+
+double Onyx::Math::Asinh(double val)
+{
+	return asinh(val);
+}
+
+double Onyx::Math::Acosh(double val)
+{
+	return acosh(val);
+}
+
+double Onyx::Math::Atanh(double val)
+{
+	return atanh(val);
+}
+
+float Onyx::Math::Floor(float val)
+{
+	return floorf(val);
+}
+
+double Onyx::Math::Floor(double val)
+{
+	return floor(val);
+}
+
+float Onyx::Math::Ceil(float val)
+{
+	return ceilf(val);
+}
+
+double Onyx::Math::Ceil(double val)
+{
+	return ceil(val);
+}
+
+float Onyx::Math::Round(float val)
+{
+	return roundf(val);
+}
+
+double Onyx::Math::Round(double val)
+{
+	return round(val);
+}
+
+float Onyx::Math::Trunc(float val)
+{
+	return truncf(val);
+}
+
+double Onyx::Math::Trunc(double val)
+{
+	return trunc(val);
+}
+
+float Onyx::Math::Fract(float val)
+{
+	return val - floorf(val);
+}
+
+double Onyx::Math::Fract(double val)
+{
+	return val - floor(val);
+}
+
+float Onyx::Math::Mod(float val, float divisor)
+{
+	return fmodf(val, divisor);
+}
+
+double Onyx::Math::Mod(double val, double divisor)
+{
+	return fmod(val, divisor);
+}
+
+int Onyx::Math::Min(int a, int b)
+{
+	return a < b ? a : b;
+}
+
+float Onyx::Math::Min(float a, float b)
+{
+	return a < b ? a : b;
+}
+
+double Onyx::Math::Min(double a, double b)
+{
+	return a < b ? a : b;
+}
+
+int Onyx::Math::Max(int a, int b)
+{
+	return a > b ? a : b;
+}
+
+float Onyx::Math::Max(float a, float b)
+{
+	return a > b ? a : b;
+}
+
+double Onyx::Math::Max(double a, double b)
+{
+	return a > b ? a : b;
+}
+
+float Onyx::Math::Lerp(float a, float b, float t)
+{
+	return a + (b - a) * t;
+}
+
+double Onyx::Math::Lerp(double a, double b, double t)
+{
+	return a + (b - a) * t;
+}
+
 Onyx::Math::Vec2::Vec2()
 {
 	m_vec = glm::vec2(0.0f, 0.0f);
@@ -3377,6 +3642,21 @@ Onyx::Math::Mat3x3 Onyx::Math::Inverse(const Mat3x3& mat)
 Onyx::Math::Mat4x4 Onyx::Math::Inverse(const Mat4x4& mat)
 {
 	return Mat4x4(glm::inverse(mat.getMMat()));
+}
+
+float Onyx::Math::Det(const Mat2x2& mat)
+{
+	return glm::determinant(mat.getMMat());
+}
+
+float Onyx::Math::Det(const Mat3x3& mat)
+{
+	return glm::determinant(mat.getMMat());
+}
+
+float Onyx::Math::Det(const Mat4x4& mat)
+{
+	return glm::determinant(mat.getMMat());
 }
 
 Onyx::Math::Mat4x4 Onyx::Math::LookAt(const Vec3& pos, const Vec3& target, const Vec3& up)

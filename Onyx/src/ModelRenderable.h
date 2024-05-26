@@ -26,6 +26,13 @@ namespace Onyx
 		ModelRenderable(Model& model);
 
 		/*
+			@brief Creates a ModelRenderable from the specified model, overriding the shader.
+			@param model The model to create the ModelRenderable from.
+			@param shaderOverride The shader to use instead of the model's shader.
+		 */
+		ModelRenderable(Model& model, Shader shaderOverride);
+
+		/*
 			@brief Renders the object.
 			This function, more technically, uses the shader, binds the texture, binds the VAO, draws, unbinds the VAO, unbinds the texture, and unuses the shader.
 		 */

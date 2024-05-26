@@ -21,6 +21,20 @@ Onyx::ModelRenderable::ModelRenderable(Model& model)
 	m_hidden = false;
 }
 
+Onyx::ModelRenderable::ModelRenderable(Model& model, Shader shaderOverride)
+{
+	for (ModelUnit& unit : model.m_data)
+	{
+		m_renderableMap.insert(
+			std::pair<std::string, Renderable>(
+				unit.name,
+				Renderable(unit.mesh, shaderOverride, unit.texture)
+			)
+		);
+	}
+	m_hidden = false;
+}
+
 void Onyx::ModelRenderable::render()
 {
 	for (std::pair<const std::string, Renderable>& renderable : m_renderableMap)

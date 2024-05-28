@@ -222,6 +222,7 @@ void Onyx::TextRenderable3D::setText(const std::string& text)
 		m_chars.push_back(CharRenderable(text[i], *m_pFont, advance));
 		advance += (*m_pFont)[text[i]].advance >> 6;
 	}
+	updateDimensions();
 }
 
 void Onyx::TextRenderable3D::setFont(Font& font)
@@ -235,6 +236,7 @@ void Onyx::TextRenderable3D::setFont(Font& font)
 		m_chars.push_back(CharRenderable(m_text[i], font, advance));
 		advance += font[m_text[i]].advance >> 6;
 	}
+	updateDimensions();
 }
 
 void Onyx::TextRenderable3D::setColor(Vec3 color)
@@ -266,8 +268,7 @@ void Onyx::TextRenderable3D::setRotation(const Vec3& rotations)
 void Onyx::TextRenderable3D::setScale(const Vec3& scales)
 {
 	m_scale = scales;
-	IVec2 dims = m_pFont->getStringDimensions(m_text);
-	m_dimensions.set(dims.getX() * m_scale.getX(), dims.getY() * m_scale.getY());
+	updateDimensions();
 	updateModel();
 }
 
@@ -342,4 +343,10 @@ void Onyx::TextRenderable3D::updateModel()
 	m_model.rotate(m_rotation.getY(), Vec3(0.0f, 1.0f, 0.0f));
 	m_model.rotate(m_rotation.getZ(), Vec3(0.0f, 0.0f, 1.0f));
 	m_model.scale(m_scale);
+}
+
+void Onyx::TextRenderable3D::updateDimensions()
+{
+	IVec2 dims = m_pFont->getStringDimensions(m_text);
+	m_dimensions.set(dims.getX() * m_scale.getX(), dims.getY() * m_scale.getY());
 }

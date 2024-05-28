@@ -261,5 +261,6 @@ namespace Onyx
 		bool m_hidden;
 
 		void updateModel();
+		void updateDimensions();
 	};
 }

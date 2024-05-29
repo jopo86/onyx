@@ -121,7 +121,13 @@ namespace Onyx
 		T Rand(T min, T max)
 		{
 			static_assert(std::is_arithmetic<T>::value, "Rand can only be used with integral or floating-point types.");
-			return min + static_cast<T>(rand()) / static_cast<T>(RAND_MAX) * (max - min);
+
+			if constexpr (std::is_integral<T>::value) {
+				return min + rand() % (max - min + 1);
+			}
+			else if constexpr (std::is_floating_point<T>::value) {
+				return min + static_cast<T>(rand()) / static_cast<T>(RAND_MAX) * (max - min);
+			}
 		}
 
 		int Abs(int val);

@@ -42,16 +42,9 @@ Onyx::InputHandler::InputHandler()
 
 void Onyx::InputHandler::update()
 {
-	if (m_pWin == nullptr)
-	{
-		onyx_err(Error{
-			.sourceFunction = "Onyx::InputHandler::update()",
-			.message = "Window pointer is null.",
-			.howToFix = "Make sure the input handler was linked to a window (Window::linkInputHandler())."
-			}
-		);
-		return;
-	}
+
+	for (bool& tapped : m_keysTapped) tapped = false;
+	for (bool& tapped : m_buttonsTapped) tapped = false;
 
 	m_scrollThisFrame = false;
 	glfwPollEvents();
@@ -59,6 +52,22 @@ void Onyx::InputHandler::update()
 	m_mouseDeltas.set(m_mousePos.getX() - m_lastMousePos.getX(), m_mousePos.getY() - m_lastMousePos.getY());
 	m_lastMousePos = m_mousePos;
 	if (!m_scrollThisFrame) m_scrollDeltas.set(0.0, 0.0);
+
+	for (Gamepad& gp : m_gamepads)
+	{
+		if (gp.isConnected()) gp.update();
+	}
+
+	if (m_pWin == nullptr)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::InputHandler::update()",
+				.message = "Window pointer is null.",
+				.howToFix = "Make sure the input handler was linked to a window (Window::linkInputHandler())."
+			}
+		);
+		return;
+	}
 
 	for (Onyx::Key key : m_activeKeyCooldowns)
 	{
@@ -68,11 +77,6 @@ void Onyx::InputHandler::update()
 	for (Onyx::MouseButton button : m_activeButtonCooldowns)
 	{
 		if (m_buttonCooldowns[(int)button] >= 0) m_buttonCooldowns[(int)button] -= m_pWin->m_deltaTime;
-	}
-
-	for (Gamepad& gp : m_gamepads)
-	{
-		if (gp.isConnected()) gp.update();
 	}
 
 	m_pWin->m_numFramesInputNotUpdated = 0;
@@ -92,13 +96,11 @@ bool Onyx::InputHandler::isKeyPressed(Onyx::Key _key)
 	return retval;
 }
 
-bool Onyx::InputHandler::isKeyTapped(Onyx::Key _key)
+bool Onyx::InputHandler::isKeyTapped(Onyx::Key _key) const
 {
 	int key = (int)_key;
 	if (key < 0) return false;
-	bool retval = m_keysTapped[key];
-	m_keysTapped[key] = false;
-	return retval;
+	return m_keysTapped[key];
 }
 
 bool Onyx::InputHandler::isKeyRepeated(Onyx::Key _key)
@@ -134,13 +136,11 @@ bool Onyx::InputHandler::isMouseButtonPressed(Onyx::MouseButton _button)
 	return retval;
 }
 
-bool Onyx::InputHandler::isMouseButtonTapped(Onyx::MouseButton _button)
+bool Onyx::InputHandler::isMouseButtonTapped(Onyx::MouseButton _button) const
 {
 	int button = (int)_button;
 	if (button < 0) return false;
-	bool retval = m_buttonsTapped[button];
-	m_buttonsTapped[button] = false;
-	return retval;
+	return m_buttonsTapped[button];
 }
 
 bool Onyx::InputHandler::isMouseButtonRepeated(Onyx::MouseButton _button)

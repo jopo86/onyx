@@ -60,7 +60,7 @@ namespace Onyx
 			@param button The button to check.
 			@return True if the button is tapped, false otherwise.
 		 */
-		bool isButtonTapped(GamepadButton button);
+		bool isButtonTapped(GamepadButton button) const;
 
 		/*
 			@brief Gets the value of an axis on the gamepad.

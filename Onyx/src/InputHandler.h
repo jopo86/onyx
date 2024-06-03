@@ -48,11 +48,11 @@ namespace Onyx
 		/*
 			@brief Gets whether the specified key was tapped.
 			Ignores key cooldowns.
-			This function will return true only once per key press.
+			This function will return true only if it was pressed in the same frame this function was called in.
 			@param key The key to check.
 			@return Whether the specified key was tapped.
 		 */
-		bool isKeyTapped(Onyx::Key key);
+		bool isKeyTapped(Onyx::Key key) const;
 
 		/*
 			@brief Gets whether the specified key has been pressed long enough to be repeating.
@@ -86,11 +86,11 @@ namespace Onyx
 		/*
 			@brief Gets whether the specified mouse button was tapped.
 			Ignores mouse button cooldowns.
-			This function will return true only once per mouse button press.
+			This function will return true only if it was pressed in the same frame this function was called in.
 			@param button The mouse button to check.
 			@return Whether the specified mouse button was tapped.
 		 */
-		bool isMouseButtonTapped(Onyx::MouseButton button);
+		bool isMouseButtonTapped(Onyx::MouseButton button) const;
 
 		/*
 			@brief Gets whether the specified mouse button has been pressed long enough to be repeating.

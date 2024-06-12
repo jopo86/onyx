@@ -160,6 +160,34 @@ void Onyx::Renderer::add(TextRenderable3D& textRenderable3D)
 	m_textRenderables3D.push_back(p_renderable);
 }
 
+void Onyx::Renderer::clear()
+{
+	m_renderables.clear();
+	m_uiRenderables.clear();
+	m_textRenderables.clear();
+	m_textRenderables3D.clear();
+}
+
+void Onyx::Renderer::clearRenderables()
+{
+	m_renderables.clear();
+}
+
+void Onyx::Renderer::clearUiRenderables()
+{
+	m_uiRenderables.clear();
+}
+
+void Onyx::Renderer::clearTextRenderables()
+{
+	m_textRenderables.clear();
+}
+
+void Onyx::Renderer::clearTextRenderables3D()
+{
+	m_textRenderables3D.clear();
+}
+
 bool Onyx::Renderer::isLightingEnabled() const
 {
 	return m_lightingEnabled;
@@ -318,6 +346,36 @@ void Onyx::Renderer::refreshFog()
 			shader->setFloat("u_fog.end", m_pFog->getEnd());
 		}
 	}
+}
+
+const std::vector<Onyx::Renderable*>& Onyx::Renderer::getRenderables() const
+{
+	return m_renderables;
+}
+
+const std::vector<Onyx::UiRenderable*>& Onyx::Renderer::getUiRenderables() const
+{
+	return m_uiRenderables;
+}
+
+const std::vector<Onyx::TextRenderable*>& Onyx::Renderer::getTextRenderables() const
+{
+	return m_textRenderables;
+}
+
+const std::vector<Onyx::TextRenderable3D*>& Onyx::Renderer::getTextRenderables3D() const
+{
+	return m_textRenderables3D;
+}
+
+const Onyx::Camera& Onyx::Renderer::getCamera() const
+{
+	return *m_pCam;
+}
+
+void Onyx::Renderer::setCamera(Camera& cam)
+{
+	m_pCam = &cam;
 }
 
 void Onyx::Renderer::SetWireframe(bool _wireframe)

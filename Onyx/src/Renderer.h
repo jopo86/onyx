@@ -113,6 +113,35 @@ namespace Onyx
 		void add(TextRenderable3D& textRenderable3D);
 
 		/*
+			@brief Clears (but does not dispose of) all types of renderables from the renderer.
+		 */
+		void clear();
+
+		/*
+			@brief Clears (but does not dispose of) all standard renderables from the renderer.
+			Does not clear UI renderables, text renderables, or 3D text renderables.
+		 */
+		void clearRenderables();
+
+		/*
+			@brief Clears (but does not dispose of) all UI renderables from the renderer.
+			Does not clear standard renderables, text renderables, or 3D text renderables.
+		 */
+		void clearUiRenderables();
+
+		/*
+			@brief Clears (but does not dispose of) all text renderables from the renderer.
+			Does not clear standard renderables, UI renderables, or 3D text renderables.
+		 */
+		void clearTextRenderables();
+
+		/*
+			@brief Clears (but does not dispose of) all 3D text renderables from the renderer.
+			Does not clear standard renderables, UI renderables, or text renderables.
+		 */
+		void clearTextRenderables3D();
+
+		/*
 			@brief Gets whether lighting is enabled for the renderer.
 			@return True if lighting is enabled, false if not.
 		 */
@@ -181,6 +210,42 @@ namespace Onyx
 			This needs to be called if the fog values are changed after an object has been added to the renderer.
 		 */
 		void refreshFog();
+
+		/*
+			@brief Gets the standard renderables contained in the renderer.
+			@return A vector containing pointers to all standard renderables.
+		 */
+		const std::vector<Renderable*>& getRenderables() const;
+
+		/*
+			@brief Gets the UI renderables contained in the renderer.
+			@return A vector containing pointers to all UI renderables.
+		 */
+		const std::vector<UiRenderable*>& getUiRenderables() const;
+
+		/*
+			@brief Gets the text renderables contained in the renderer.
+			@return A vector containing pointers to all text renderables.
+		 */
+		const std::vector<TextRenderable*>& getTextRenderables() const;
+
+		/*
+			@brief Gets the 3D text renderables contained in the renderer.
+			@return A vector containing pointers to all 3D text renderables.
+		 */
+		const std::vector<TextRenderable3D*>& getTextRenderables3D() const;
+
+		/*
+			@brief Gets the camera used by the renderer.
+			@return A reference to the camera.
+		 */
+		const Camera& getCamera() const;
+
+		/*
+			@brief Sets the camera used by the renderer.
+			@param cam The camera to use.
+		 */
+		void setCamera(Camera& cam);
 
 		/*
 			@brief Sets whether wireframe rendering mode is enabled.

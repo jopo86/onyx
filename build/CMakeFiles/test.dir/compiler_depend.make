@@ -153,11 +153,6 @@ CMakeFiles/test.dir/tests/BouncingBallTest.cpp.obj: D:/dev/onyx/tests/BouncingBa
   C:/msys64/mingw64/include/c++/12.2.0/bits/stl_vector.h \
   C:/msys64/mingw64/include/c++/12.2.0/bits/stl_bvector.h \
   C:/msys64/mingw64/include/c++/12.2.0/bits/vector.tcc \
-  D:/dev/onyx/src/Renderer.h \
-  D:/dev/onyx/src/Window.h \
-  D:/dev/onyx/include/glad/glad.h \
-  D:/dev/onyx/include/KHR/khrplatform.h \
-  D:/dev/onyx/include/GLFW/glfw3.h \
   D:/dev/onyx/src/Math.h \
   D:/dev/onyx/include/glm/glm.hpp \
   D:/dev/onyx/include/glm/detail/_fixes.hpp \
@@ -317,9 +312,13 @@ CMakeFiles/test.dir/tests/BouncingBallTest.cpp.obj: D:/dev/onyx/tests/BouncingBa
   D:/dev/onyx/include/glm/detail/type_half.inl \
   D:/dev/onyx/include/glm/integer.hpp \
   D:/dev/onyx/include/glm/detail/func_integer.inl \
+  D:/dev/onyx/src/Window.h \
+  D:/dev/onyx/include/glad/glad.h \
+  D:/dev/onyx/include/KHR/khrplatform.h \
+  D:/dev/onyx/include/GLFW/glfw3.h \
   D:/dev/onyx/src/InputHandler.h \
   D:/dev/onyx/src/Gamepad.h \
-  D:/dev/onyx/src/Monitor.h \
+  D:/dev/onyx/src/Renderer.h \
   D:/dev/onyx/src/Lighting.h \
   D:/dev/onyx/src/Fog.h \
   D:/dev/onyx/src/Renderable.h \
@@ -365,6 +364,7 @@ CMakeFiles/test.dir/tests/BouncingBallTest.cpp.obj: D:/dev/onyx/tests/BouncingBa
   D:/dev/onyx/include/freetype/ftmoderr.h \
   D:/dev/onyx/include/freetype/fterrdef.h \
   D:/dev/onyx/src/TextRenderable3D.h \
+  D:/dev/onyx/src/Monitor.h \
   D:/dev/onyx/src/Camera.h \
   D:/dev/onyx/src/Projection.h
 
@@ -685,16 +685,15 @@ CMakeFiles/test.dir/tests/Main.cpp.obj: D:/dev/onyx/tests/Main.cpp \
   D:/dev/onyx/include/GLFW/glfw3.h \
   D:/dev/onyx/src/InputHandler.h \
   D:/dev/onyx/src/Gamepad.h \
-  D:/dev/onyx/src/Monitor.h \
-  D:/dev/onyx/src/IndexBuffer.h \
-  D:/dev/onyx/src/Texture.h \
-  D:/dev/onyx/src/Shader.h \
   D:/dev/onyx/src/Renderer.h \
   D:/dev/onyx/src/Lighting.h \
   D:/dev/onyx/src/Fog.h \
   D:/dev/onyx/src/Renderable.h \
   D:/dev/onyx/src/Mesh.h \
   D:/dev/onyx/src/VertexBuffer.h \
+  D:/dev/onyx/src/IndexBuffer.h \
+  D:/dev/onyx/src/Shader.h \
+  D:/dev/onyx/src/Texture.h \
   D:/dev/onyx/src/ModelRenderable.h \
   C:/msys64/mingw64/include/c++/12.2.0/map \
   C:/msys64/mingw64/include/c++/12.2.0/bits/stl_tree.h \
@@ -732,6 +731,7 @@ CMakeFiles/test.dir/tests/Main.cpp.obj: D:/dev/onyx/tests/Main.cpp \
   D:/dev/onyx/include/freetype/ftmoderr.h \
   D:/dev/onyx/include/freetype/fterrdef.h \
   D:/dev/onyx/src/TextRenderable3D.h \
+  D:/dev/onyx/src/Monitor.h \
   D:/dev/onyx/src/Projection.h \
   D:/dev/onyx/src/Camera.h \
   D:/dev/onyx/tests/WindowTest.h \
@@ -1054,16 +1054,15 @@ CMakeFiles/test.dir/tests/PresetTests.cpp.obj: D:/dev/onyx/tests/PresetTests.cpp
   D:/dev/onyx/include/glm/detail/func_integer.inl \
   D:/dev/onyx/src/InputHandler.h \
   D:/dev/onyx/src/Gamepad.h \
-  D:/dev/onyx/src/Monitor.h \
-  D:/dev/onyx/src/IndexBuffer.h \
-  D:/dev/onyx/src/Texture.h \
-  D:/dev/onyx/src/Shader.h \
   D:/dev/onyx/src/Renderer.h \
   D:/dev/onyx/src/Lighting.h \
   D:/dev/onyx/src/Fog.h \
   D:/dev/onyx/src/Renderable.h \
   D:/dev/onyx/src/Mesh.h \
   D:/dev/onyx/src/VertexBuffer.h \
+  D:/dev/onyx/src/IndexBuffer.h \
+  D:/dev/onyx/src/Shader.h \
+  D:/dev/onyx/src/Texture.h \
   D:/dev/onyx/src/ModelRenderable.h \
   C:/msys64/mingw64/include/c++/12.2.0/map \
   C:/msys64/mingw64/include/c++/12.2.0/bits/stl_tree.h \
@@ -1101,6 +1100,7 @@ CMakeFiles/test.dir/tests/PresetTests.cpp.obj: D:/dev/onyx/tests/PresetTests.cpp
   D:/dev/onyx/include/freetype/ftmoderr.h \
   D:/dev/onyx/include/freetype/fterrdef.h \
   D:/dev/onyx/src/TextRenderable3D.h \
+  D:/dev/onyx/src/Monitor.h \
   D:/dev/onyx/src/Projection.h \
   D:/dev/onyx/src/Camera.h
 
@@ -1421,7 +1421,6 @@ CMakeFiles/test.dir/tests/WindowTest.cpp.obj: D:/dev/onyx/tests/WindowTest.cpp \
   D:/dev/onyx/include/glm/detail/func_integer.inl \
   D:/dev/onyx/src/InputHandler.h \
   D:/dev/onyx/src/Gamepad.h \
-  D:/dev/onyx/src/Monitor.h \
   D:/dev/onyx/src/Renderer.h \
   D:/dev/onyx/src/Lighting.h \
   D:/dev/onyx/src/Fog.h \
@@ -1468,6 +1467,7 @@ CMakeFiles/test.dir/tests/WindowTest.cpp.obj: D:/dev/onyx/tests/WindowTest.cpp \
   D:/dev/onyx/include/freetype/ftmoderr.h \
   D:/dev/onyx/include/freetype/fterrdef.h \
   D:/dev/onyx/src/TextRenderable3D.h \
+  D:/dev/onyx/src/Monitor.h \
   D:/dev/onyx/src/Camera.h \
   D:/dev/onyx/src/Projection.h
 
@@ -1884,16 +1884,6 @@ C:/msys64/mingw64/include/c++/12.2.0/bits/stl_bvector.h:
 
 C:/msys64/mingw64/include/c++/12.2.0/bits/vector.tcc:
 
-D:/dev/onyx/src/Renderer.h:
-
-D:/dev/onyx/include/glad/glad.h:
-
-D:/dev/onyx/include/KHR/khrplatform.h:
-
-C:/msys64/mingw64/include/assert.h:
-
-D:/dev/onyx/include/GLFW/glfw3.h:
-
 D:/dev/onyx/src/Math.h:
 
 D:/dev/onyx/include/glm/glm.hpp:
@@ -1935,6 +1925,10 @@ D:/dev/onyx/include/glm/detail/setup.hpp:
 D:/dev/onyx/include/glm/ext/vector_uint4_sized.hpp:
 
 C:/msys64/mingw64/include/c++/12.2.0/cassert:
+
+D:/dev/onyx/include/GLFW/glfw3.h:
+
+C:/msys64/mingw64/include/assert.h:
 
 D:/dev/onyx/include/glm/ext/matrix_double3x2.hpp:
 
@@ -2150,7 +2144,13 @@ D:/dev/onyx/include/glm/detail/type_half.hpp:
 
 D:/dev/onyx/include/glm/detail/type_half.inl:
 
+D:/dev/onyx/include/glad/glad.h:
+
+D:/dev/onyx/include/KHR/khrplatform.h:
+
 D:/dev/onyx/src/Gamepad.h:
+
+D:/dev/onyx/src/Renderer.h:
 
 D:/dev/onyx/include/freetype/fterrors.h:
 

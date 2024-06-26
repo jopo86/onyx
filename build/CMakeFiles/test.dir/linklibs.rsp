@@ -1,0 +1,1 @@
+  -LD:/dev/onyx/lib  -LD:/dev/onyx/build  -lfreetype -lbz2 -lglfw3 -lzlib libonyx.a -lfreetype -lbz2 -lglfw3 -lzlib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

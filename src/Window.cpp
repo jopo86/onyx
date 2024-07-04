@@ -120,6 +120,8 @@ Onyx::Cursor Onyx::Cursor::Load(const std::string& filepath, Math::IVec2 hotspot
 	cursor.m_pCursor = glfwCreateCursor(&image, hotspot.getX(), hotspot.getY());
 
 	stbi_image_free(image.pixels);
+
+	return cursor;
 }
 
 void Onyx::Cursor::dispose()
@@ -266,7 +268,7 @@ void Onyx::Window::endRender()
 void Onyx::Window::close()
 {
 	glfwSetWindowShouldClose(m_pGlfwWin, GLFW_TRUE);
-	m_initialized = false;
+	glfwPollEvents();
 }
 
 void Onyx::Window::maximize()

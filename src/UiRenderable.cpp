@@ -151,6 +151,11 @@ bool Onyx::UiRenderable::isHidden() const
 	return m_hidden;
 }
 
+int Onyx::UiRenderable::getZIndex() const
+{
+	return m_z * 1000.0f;
+}
+
 void Onyx::UiRenderable::setPosition(const Vec2& position)
 {
 	m_position = position;
@@ -206,6 +211,39 @@ void Onyx::UiRenderable::resetTransform()
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 	m_model = Mat4::Identity();
+}
+
+void Onyx::UiRenderable::setMesh(Mesh mesh)
+{
+	m_mesh = mesh;
+}
+
+void Onyx::UiRenderable::setShader(Shader shader)
+{
+	m_shader = shader;
+}
+
+void Onyx::UiRenderable::setTexture(Texture texture)
+{
+	m_texture = texture;
+}
+
+void Onyx::UiRenderable::setColor(const Vec3& color)
+{
+	m_shader.use();
+	m_shader.setVec4("u_color", Vec4(color, 1.0f));
+}
+
+void Onyx::UiRenderable::setColor(const Vec4& color)
+{
+	m_shader.use();
+	m_shader.setVec4("u_color", color);
+}
+
+void Onyx::UiRenderable::setZIndex(int zIndex)
+{
+	m_z = zIndex / 1000.0f;
+	updateModel();
 }
 
 void Onyx::UiRenderable::dispose()

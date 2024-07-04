@@ -1,4 +1,4 @@
-CMakeFiles/test.dir/tests/Main.cpp.obj: D:/dev/onyx/tests/Main.cpp \
+CMakeFiles/test.dir/tests/Main.cpp.obj: D:\dev\onyx\tests\Main.cpp \
  C:/msys64/mingw64/include/c++/12.2.0/iostream \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
@@ -298,7 +298,7 @@ CMakeFiles/test.dir/tests/Main.cpp.obj: D:/dev/onyx/tests/Main.cpp \
  D:/dev/onyx/include/glm/detail/type_half.inl \
  D:/dev/onyx/include/glm/integer.hpp \
  D:/dev/onyx/include/glm/detail/func_integer.inl \
- D:/dev/onyx/tests/PresetTests.h D:/dev/onyx/src/Window.h \
+ D:\dev\onyx\tests\PresetTests.h D:/dev/onyx/src/Window.h \
  D:/dev/onyx/include/glad/glad.h D:/dev/onyx/include/KHR/khrplatform.h \
  D:/dev/onyx/include/GLFW/glfw3.h D:/dev/onyx/src/InputHandler.h \
  D:/dev/onyx/src/Gamepad.h D:/dev/onyx/src/Renderer.h \
@@ -341,4 +341,4 @@ CMakeFiles/test.dir/tests/Main.cpp.obj: D:/dev/onyx/tests/Main.cpp \
  D:/dev/onyx/include/freetype/fterrdef.h \
  D:/dev/onyx/src/TextRenderable3D.h D:/dev/onyx/src/Monitor.h \
  D:/dev/onyx/src/Projection.h D:/dev/onyx/src/Camera.h \
- D:/dev/onyx/tests/WindowTest.h D:/dev/onyx/tests/BouncingBallTest.h
+ D:\dev\onyx\tests\WindowTest.h D:\dev\onyx\tests\BouncingBallTest.h

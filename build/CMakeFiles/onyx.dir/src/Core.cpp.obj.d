@@ -1,5 +1,5 @@
-CMakeFiles/onyx.dir/src/Core.cpp.obj: D:/dev/onyx/src/Core.cpp \
- D:/dev/onyx/src/Core.h C:/msys64/mingw64/include/c++/12.2.0/iostream \
+CMakeFiles/onyx.dir/src/Core.cpp.obj: D:\dev\onyx\src\Core.cpp \
+ D:\dev\onyx\src\Core.h C:/msys64/mingw64/include/c++/12.2.0/iostream \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
@@ -136,7 +136,7 @@ CMakeFiles/onyx.dir/src/Core.cpp.obj: D:/dev/onyx/src/Core.cpp \
  C:/msys64/mingw64/include/c++/12.2.0/bits/ostream.tcc \
  C:/msys64/mingw64/include/c++/12.2.0/istream \
  C:/msys64/mingw64/include/c++/12.2.0/bits/istream.tcc \
- D:/dev/onyx/src/ErrorHandler.h \
+ D:\dev\onyx\src\ErrorHandler.h \
  C:/msys64/mingw64/include/c++/12.2.0/vector \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_uninitialized.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_vector.h \
@@ -195,7 +195,7 @@ CMakeFiles/onyx.dir/src/Core.cpp.obj: D:/dev/onyx/src/Core.cpp \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/emmintrin.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/xmmintrin.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/mmintrin.h \
- D:/dev/onyx/src/Math.h D:/dev/onyx/include/glm/glm.hpp \
+ D:\dev\onyx\src\Math.h D:/dev/onyx/include/glm/glm.hpp \
  D:/dev/onyx/include/glm/detail/_fixes.hpp \
  D:/dev/onyx/include/glm/detail/setup.hpp \
  C:/msys64/mingw64/include/c++/12.2.0/cassert \
@@ -333,21 +333,21 @@ CMakeFiles/onyx.dir/src/Core.cpp.obj: D:/dev/onyx/src/Core.cpp \
  D:/dev/onyx/include/glm/detail/type_half.hpp \
  D:/dev/onyx/include/glm/detail/type_half.inl \
  D:/dev/onyx/include/glm/integer.hpp \
- D:/dev/onyx/include/glm/detail/func_integer.inl D:/dev/onyx/src/Window.h \
+ D:/dev/onyx/include/glm/detail/func_integer.inl D:\dev\onyx\src\Window.h \
  D:/dev/onyx/include/glad/glad.h D:/dev/onyx/include/KHR/khrplatform.h \
- D:/dev/onyx/include/GLFW/glfw3.h D:/dev/onyx/src/InputHandler.h \
- D:/dev/onyx/src/Gamepad.h D:/dev/onyx/src/Renderer.h \
- D:/dev/onyx/src/Lighting.h D:/dev/onyx/src/Fog.h \
- D:/dev/onyx/src/Renderable.h D:/dev/onyx/src/Mesh.h \
- D:/dev/onyx/src/VertexBuffer.h D:/dev/onyx/src/IndexBuffer.h \
- D:/dev/onyx/src/Shader.h D:/dev/onyx/src/Texture.h \
- D:/dev/onyx/src/ModelRenderable.h \
+ D:/dev/onyx/include/GLFW/glfw3.h D:\dev\onyx\src\InputHandler.h \
+ D:\dev\onyx\src\Gamepad.h D:\dev\onyx\src\Renderer.h \
+ D:\dev\onyx\src\Lighting.h D:\dev\onyx\src\Fog.h \
+ D:\dev\onyx\src\Renderable.h D:\dev\onyx\src\Mesh.h \
+ D:\dev\onyx\src\VertexBuffer.h D:\dev\onyx\src\IndexBuffer.h \
+ D:\dev\onyx\src\Shader.h D:\dev\onyx\src\Texture.h \
+ D:\dev\onyx\src\ModelRenderable.h \
  C:/msys64/mingw64/include/c++/12.2.0/map \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_tree.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_map.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_multimap.h \
- D:/dev/onyx/src/Model.h D:/dev/onyx/src/UiRenderable.h \
- D:/dev/onyx/src/TextRenderable.h D:/dev/onyx/src/CharRenderable.h \
- D:/dev/onyx/src/Font.h D:/dev/onyx/src/TextRenderable3D.h \
- D:/dev/onyx/src/Monitor.h D:/dev/onyx/src/Camera.h \
- D:/dev/onyx/src/Projection.h
+ D:\dev\onyx\src\Model.h D:\dev\onyx\src\UiRenderable.h \
+ D:\dev\onyx\src\TextRenderable.h D:\dev\onyx\src\CharRenderable.h \
+ D:\dev\onyx\src\Font.h D:\dev\onyx\src\TextRenderable3D.h \
+ D:\dev\onyx\src\Monitor.h D:\dev\onyx\src\Camera.h \
+ D:\dev\onyx\src\Projection.h

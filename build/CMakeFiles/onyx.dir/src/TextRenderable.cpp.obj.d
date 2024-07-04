@@ -1,5 +1,5 @@
 CMakeFiles/onyx.dir/src/TextRenderable.cpp.obj: \
- D:/dev/onyx/src/TextRenderable.cpp D:/dev/onyx/src/TextRenderable.h \
+ D:\dev\onyx\src\TextRenderable.cpp D:\dev\onyx\src\TextRenderable.h \
  C:/msys64/mingw64/include/c++/12.2.0/vector \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_algobase.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -48,7 +48,7 @@ CMakeFiles/onyx.dir/src/TextRenderable.cpp.obj: \
  C:/msys64/mingw64/include/c++/12.2.0/backward/binders.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/range_access.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/vector.tcc \
- D:/dev/onyx/src/CharRenderable.h D:/dev/onyx/src/Core.h \
+ D:\dev\onyx\src\CharRenderable.h D:\dev\onyx\src\Core.h \
  C:/msys64/mingw64/include/c++/12.2.0/iostream \
  C:/msys64/mingw64/include/c++/12.2.0/ostream \
  C:/msys64/mingw64/include/c++/12.2.0/ios \
@@ -143,7 +143,7 @@ CMakeFiles/onyx.dir/src/TextRenderable.cpp.obj: \
  C:/msys64/mingw64/include/c++/12.2.0/bits/ostream.tcc \
  C:/msys64/mingw64/include/c++/12.2.0/istream \
  C:/msys64/mingw64/include/c++/12.2.0/bits/istream.tcc \
- D:/dev/onyx/src/ErrorHandler.h D:/dev/onyx/src/Font.h \
+ D:\dev\onyx\src\ErrorHandler.h D:\dev\onyx\src\Font.h \
  C:/msys64/mingw64/include/c++/12.2.0/map \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_tree.h \
  C:/msys64/mingw64/include/c++/12.2.0/ext/aligned_buffer.h \
@@ -173,7 +173,7 @@ CMakeFiles/onyx.dir/src/TextRenderable.cpp.obj: \
  D:/dev/onyx/include/freetype/ftimage.h \
  D:/dev/onyx/include/freetype/fterrors.h \
  D:/dev/onyx/include/freetype/ftmoderr.h \
- D:/dev/onyx/include/freetype/fterrdef.h D:/dev/onyx/src/Math.h \
+ D:/dev/onyx/include/freetype/fterrdef.h D:\dev\onyx\src\Math.h \
  D:/dev/onyx/include/glm/glm.hpp \
  D:/dev/onyx/include/glm/detail/_fixes.hpp \
  C:/msys64/mingw64/include/c++/12.2.0/cmath \
@@ -329,4 +329,4 @@ CMakeFiles/onyx.dir/src/TextRenderable.cpp.obj: \
  D:/dev/onyx/include/glm/detail/type_half.hpp \
  D:/dev/onyx/include/glm/detail/type_half.inl \
  D:/dev/onyx/include/glm/integer.hpp \
- D:/dev/onyx/include/glm/detail/func_integer.inl D:/dev/onyx/src/Shader.h
+ D:/dev/onyx/include/glm/detail/func_integer.inl D:\dev\onyx\src\Shader.h

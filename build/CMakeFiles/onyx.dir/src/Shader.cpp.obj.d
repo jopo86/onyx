@@ -1,5 +1,5 @@
-CMakeFiles/onyx.dir/src/Shader.cpp.obj: D:/dev/onyx/src/Shader.cpp \
- D:/dev/onyx/src/Shader.h C:/msys64/mingw64/include/c++/12.2.0/iostream \
+CMakeFiles/onyx.dir/src/Shader.cpp.obj: D:\dev\onyx\src\Shader.cpp \
+ D:\dev\onyx\src\Shader.h C:/msys64/mingw64/include/c++/12.2.0/iostream \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
@@ -136,13 +136,13 @@ CMakeFiles/onyx.dir/src/Shader.cpp.obj: D:/dev/onyx/src/Shader.cpp \
  C:/msys64/mingw64/include/c++/12.2.0/bits/ostream.tcc \
  C:/msys64/mingw64/include/c++/12.2.0/istream \
  C:/msys64/mingw64/include/c++/12.2.0/bits/istream.tcc \
- D:/dev/onyx/src/Core.h D:/dev/onyx/src/ErrorHandler.h \
+ D:\dev\onyx\src\Core.h D:\dev\onyx\src\ErrorHandler.h \
  C:/msys64/mingw64/include/c++/12.2.0/vector \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_uninitialized.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_vector.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_bvector.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/vector.tcc \
- D:/dev/onyx/src/Math.h D:/dev/onyx/include/glm/glm.hpp \
+ D:\dev\onyx\src\Math.h D:/dev/onyx/include/glm/glm.hpp \
  D:/dev/onyx/include/glm/detail/_fixes.hpp \
  C:/msys64/mingw64/include/c++/12.2.0/cmath \
  C:/msys64/mingw64/include/math.h \
@@ -334,4 +334,4 @@ CMakeFiles/onyx.dir/src/Shader.cpp.obj: D:/dev/onyx/src/Shader.cpp \
  C:/msys64/mingw64/include/c++/12.2.0/bits/fs_dir.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/fs_ops.h \
  D:/dev/onyx/include/glad/glad.h D:/dev/onyx/include/KHR/khrplatform.h \
- D:/dev/onyx/src/FileUtils.h
+ D:\dev\onyx\src\FileUtils.h

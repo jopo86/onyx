@@ -1,5 +1,5 @@
-CMakeFiles/onyx.dir/src/Font.cpp.obj: D:/dev/onyx/src/Font.cpp \
- D:/dev/onyx/src/Font.h C:/msys64/mingw64/include/c++/12.2.0/iostream \
+CMakeFiles/onyx.dir/src/Font.cpp.obj: D:\dev\onyx\src\Font.cpp \
+ D:\dev\onyx\src\Font.h C:/msys64/mingw64/include/c++/12.2.0/iostream \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
@@ -165,14 +165,14 @@ CMakeFiles/onyx.dir/src/Font.cpp.obj: D:/dev/onyx/src/Font.cpp \
  D:/dev/onyx/include/freetype/ftimage.h \
  D:/dev/onyx/include/freetype/fterrors.h \
  D:/dev/onyx/include/freetype/ftmoderr.h \
- D:/dev/onyx/include/freetype/fterrdef.h D:/dev/onyx/src/Core.h \
- D:/dev/onyx/src/ErrorHandler.h \
+ D:/dev/onyx/include/freetype/fterrdef.h D:\dev\onyx\src\Core.h \
+ D:\dev\onyx\src\ErrorHandler.h \
  C:/msys64/mingw64/include/c++/12.2.0/vector \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_uninitialized.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_vector.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_bvector.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/vector.tcc \
- D:/dev/onyx/src/Math.h D:/dev/onyx/include/glm/glm.hpp \
+ D:\dev\onyx\src\Math.h D:/dev/onyx/include/glm/glm.hpp \
  D:/dev/onyx/include/glm/detail/_fixes.hpp \
  C:/msys64/mingw64/include/c++/12.2.0/cmath \
  C:/msys64/mingw64/include/math.h \

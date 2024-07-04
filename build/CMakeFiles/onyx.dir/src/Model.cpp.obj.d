@@ -1,5 +1,5 @@
-CMakeFiles/onyx.dir/src/Model.cpp.obj: D:/dev/onyx/src/Model.cpp \
- D:/dev/onyx/src/Model.h D:/dev/onyx/src/Mesh.h D:/dev/onyx/src/Core.h \
+CMakeFiles/onyx.dir/src/Model.cpp.obj: D:\dev\onyx\src\Model.cpp \
+ D:\dev\onyx\src\Model.h D:\dev\onyx\src\Mesh.h D:\dev\onyx\src\Core.h \
  C:/msys64/mingw64/include/c++/12.2.0/iostream \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
@@ -137,14 +137,14 @@ CMakeFiles/onyx.dir/src/Model.cpp.obj: D:/dev/onyx/src/Model.cpp \
  C:/msys64/mingw64/include/c++/12.2.0/bits/ostream.tcc \
  C:/msys64/mingw64/include/c++/12.2.0/istream \
  C:/msys64/mingw64/include/c++/12.2.0/bits/istream.tcc \
- D:/dev/onyx/src/ErrorHandler.h \
+ D:\dev\onyx\src\ErrorHandler.h \
  C:/msys64/mingw64/include/c++/12.2.0/vector \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_uninitialized.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_vector.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_bvector.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/vector.tcc \
- D:/dev/onyx/src/VertexBuffer.h D:/dev/onyx/src/IndexBuffer.h \
- D:/dev/onyx/src/Math.h D:/dev/onyx/include/glm/glm.hpp \
+ D:\dev\onyx\src\VertexBuffer.h D:\dev\onyx\src\IndexBuffer.h \
+ D:\dev\onyx\src\Math.h D:/dev/onyx/include/glm/glm.hpp \
  D:/dev/onyx/include/glm/detail/_fixes.hpp \
  C:/msys64/mingw64/include/c++/12.2.0/cmath \
  C:/msys64/mingw64/include/math.h \
@@ -299,8 +299,8 @@ CMakeFiles/onyx.dir/src/Model.cpp.obj: D:/dev/onyx/src/Model.cpp \
  D:/dev/onyx/include/glm/detail/type_half.hpp \
  D:/dev/onyx/include/glm/detail/type_half.inl \
  D:/dev/onyx/include/glm/integer.hpp \
- D:/dev/onyx/include/glm/detail/func_integer.inl D:/dev/onyx/src/Shader.h \
- D:/dev/onyx/src/Texture.h C:/msys64/mingw64/include/c++/12.2.0/fstream \
+ D:/dev/onyx/include/glm/detail/func_integer.inl D:\dev\onyx\src\Shader.h \
+ D:\dev\onyx\src\Texture.h C:/msys64/mingw64/include/c++/12.2.0/fstream \
  C:/msys64/mingw64/include/c++/12.2.0/bits/codecvt.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/basic_file.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++io.h \

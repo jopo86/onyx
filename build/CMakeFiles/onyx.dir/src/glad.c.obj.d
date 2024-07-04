@@ -1,4 +1,4 @@
-CMakeFiles/onyx.dir/src/glad.c.obj: D:/dev/onyx/src/glad.c \
+CMakeFiles/onyx.dir/src/glad.c.obj: D:\dev\onyx\src\glad.c \
  C:/msys64/mingw64/include/stdio.h \
  C:/msys64/mingw64/include/corecrt_stdio_config.h \
  C:/msys64/mingw64/include/corecrt.h C:/msys64/mingw64/include/_mingw.h \

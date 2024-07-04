@@ -1,5 +1,5 @@
 CMakeFiles/onyx.dir/src/ErrorHandler.cpp.obj: \
- D:/dev/onyx/src/ErrorHandler.cpp D:/dev/onyx/src/ErrorHandler.h \
+ D:\dev\onyx\src\ErrorHandler.cpp D:\dev\onyx\src\ErrorHandler.h \
  C:/msys64/mingw64/include/c++/12.2.0/iostream \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
@@ -142,4 +142,4 @@ CMakeFiles/onyx.dir/src/ErrorHandler.cpp.obj: \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_vector.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_bvector.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/vector.tcc \
- D:/dev/onyx/src/Core.h
+ D:\dev\onyx\src\Core.h

@@ -190,6 +190,43 @@ namespace Onyx
 		 */
 		void resetTransform();
 
+		/*
+			@brief Sets the mesh of the renderable.
+		 !	Not recommended unless you know what you're doing.
+			@param mesh The new mesh.
+		 */
+		void setMesh(Mesh mesh);
+
+		/*
+			@brief Sets the shader of the renderable.
+		 !	Not recommended unless you know what you're doing.
+			@param shader The new shader.
+		 */
+		void setShader(Shader shader);
+
+		/*
+			@brief Sets the texture of the renderable.
+		 *	This will only take effect if the shader uses a texture to render.
+		 	@param texture The new texture.
+		 */
+		void setTexture(Texture texture);
+
+		/*
+			@brief Sets the color of the renderable.
+		 *	This will only take effect if the shader uses a color to render.
+		 *	All this function does is set a uniform variable in the shader.
+		 	@param color The new color, as a Vec3.
+		 */
+		void setColor(const Math::Vec3& color);
+
+		/*
+			@brief Sets the color of the renderable.
+		 *	This will only take effect if the shader uses a color to render.
+		 *	All this function does is set a uniform variable in the shader.
+		 	@param color The new color, as a Vec4.
+		 */
+		void setColor(const Math::Vec4& color);
+
 		void dispose() override;
 
 	private:

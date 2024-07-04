@@ -1,5 +1,5 @@
 CMakeFiles/onyx.dir/src/MathSwizzle.cpp.obj: \
- D:/dev/onyx/src/MathSwizzle.cpp D:/dev/onyx/src/Math.h \
+ D:\dev\onyx\src\MathSwizzle.cpp D:\dev\onyx\src\Math.h \
  C:/msys64/mingw64/include/c++/12.2.0/string \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \

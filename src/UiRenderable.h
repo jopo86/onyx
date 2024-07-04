@@ -26,7 +26,7 @@ namespace Onyx
 			@brief Creates a new UiRenderable object out of the specified mesh and color.
 			@param mesh The mesh to use.
 			@param rgba The color, specified as red, green, and blue values ranging from 0 to 1.
-			@param zIndex The z-index of the renderable.
+			@param zIndex The z-index of the renderable (should not be over 1000 or under -1000). Default: 0
 		 */
 		UiRenderable(Mesh mesh, Math::Vec3 rgb, uint zIndex = 0);
 
@@ -34,16 +34,16 @@ namespace Onyx
 			@brief Creates a new UiRenderable object out of the specified mesh and color.
 			@param mesh The mesh to use.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-			@param zIndex The z-index of the renderable.
+			@param zIndex The z-index of the renderable (should not be over 1000 or under -1000). Default: 0
 		 */
 		UiRenderable(Mesh mesh, Math::Vec4 rgba, uint zIndex = 0);
 
 		/*
 			@brief Creates a new UiRenderable object out of the specified mesh and texture.
-			The mesh vertex array should be VT or TV format.
+			The mesh vertex array should be VT format.
 			@param mesh The mesh to use.
 			@param texture The texture to use.
-			@param zIndex The z-index of the renderable.
+			@param zIndex The z-index of the renderable (should not be over 1000 or under -1000). Default: 0
 			@param result A pointer to a boolean that will be set to true if the renderable was created successfully, and false otherwise.
 		 */
 		UiRenderable(Mesh mesh, Texture texture, uint zIndex = 0, bool* result = nullptr);
@@ -123,6 +123,12 @@ namespace Onyx
 		bool isHidden() const;
 
 		/*
+			@brief Gets the z-index of the renderable.
+			@return The z-index of the renderable.
+		 */
+		int getZIndex() const;
+
+		/*
 			@brief Sets the position of the renderable.
 			@param position The new position.
 		 */
@@ -181,6 +187,49 @@ namespace Onyx
 			@brief Resets the renderable's transform.
 		 */
 		void resetTransform();
+
+		/*
+			@brief Sets the mesh of the renderable.
+		 !	Not recommended unless you know what you're doing.
+			@param mesh The new mesh.
+		 */
+		void setMesh(Mesh mesh);
+
+		/*
+			@brief Sets the shader of the renderable.
+		 !	Not recommended unless you know what you're doing.
+			@param shader The new shader.
+		 */
+		void setShader(Shader shader);
+
+		/*
+			@brief Sets the texture of the renderable.
+		 *	This will only take effect if the shader uses a texture to render.
+		 	@param texture The new texture.
+		 */
+		void setTexture(Texture texture);
+
+		/*
+			@brief Sets the color of the renderable.
+		 *	This will only take effect if the shader uses a color to render.
+		 *	All this function does is set a uniform variable in the shader.
+		 	@param color The new color, as a Vec3.
+		 */
+		void setColor(const Math::Vec3& color);
+
+		/*
+			@brief Sets the color of the renderable.
+		 *	This will only take effect if the shader uses a color to render.
+		 *	All this function does is set a uniform variable in the shader.
+		 	@param color The new color, as a Vec4.
+		 */
+		void setColor(const Math::Vec4& color);
+
+		/*
+			@brief Sets the z-index of the renderable.
+			@param zIndex The z-index (should not be over 1000 or under -1000).
+		 */
+		void setZIndex(int zIndex);
 
 		void dispose() override;
 

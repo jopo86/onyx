@@ -218,6 +218,33 @@ void Onyx::Renderable::resetTransform()
 	m_model = Mat4::Identity();
 }
 
+void Onyx::Renderable::setMesh(Mesh mesh)
+{
+	m_mesh = mesh;
+}
+
+void Onyx::Renderable::setShader(Shader shader)
+{
+	m_shader = shader;
+}
+
+void Onyx::Renderable::setTexture(Texture texture)
+{
+	m_texture = texture;
+}
+
+void Onyx::Renderable::setColor(const Vec3& color)
+{
+	m_shader.use();
+	m_shader.setVec4("u_color", Vec4(color, 1.0f));
+}
+
+void Onyx::Renderable::setColor(const Vec4& color)
+{
+	m_shader.use();
+	m_shader.setVec4("u_color", color);
+}
+
 void Onyx::Renderable::dispose()
 {
 	if (m_disposed) return;

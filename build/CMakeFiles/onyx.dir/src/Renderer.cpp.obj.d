@@ -1,5 +1,5 @@
-CMakeFiles/onyx.dir/src/Renderer.cpp.obj: D:/dev/onyx/src/Renderer.cpp \
- D:/dev/onyx/src/Renderer.h C:/msys64/mingw64/include/c++/12.2.0/vector \
+CMakeFiles/onyx.dir/src/Renderer.cpp.obj: D:\dev\onyx\src\Renderer.cpp \
+ D:\dev\onyx\src\Renderer.h C:/msys64/mingw64/include/c++/12.2.0/vector \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_algobase.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \
@@ -47,7 +47,7 @@ CMakeFiles/onyx.dir/src/Renderer.cpp.obj: D:/dev/onyx/src/Renderer.cpp \
  C:/msys64/mingw64/include/c++/12.2.0/backward/binders.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/range_access.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/vector.tcc \
- D:/dev/onyx/src/Core.h C:/msys64/mingw64/include/c++/12.2.0/iostream \
+ D:\dev\onyx\src\Core.h C:/msys64/mingw64/include/c++/12.2.0/iostream \
  C:/msys64/mingw64/include/c++/12.2.0/ostream \
  C:/msys64/mingw64/include/c++/12.2.0/ios \
  C:/msys64/mingw64/include/c++/12.2.0/iosfwd \
@@ -141,8 +141,8 @@ CMakeFiles/onyx.dir/src/Renderer.cpp.obj: D:/dev/onyx/src/Renderer.cpp \
  C:/msys64/mingw64/include/c++/12.2.0/bits/ostream.tcc \
  C:/msys64/mingw64/include/c++/12.2.0/istream \
  C:/msys64/mingw64/include/c++/12.2.0/bits/istream.tcc \
- D:/dev/onyx/src/ErrorHandler.h D:/dev/onyx/src/Lighting.h \
- D:/dev/onyx/src/Math.h D:/dev/onyx/include/glm/glm.hpp \
+ D:\dev\onyx\src\ErrorHandler.h D:\dev\onyx\src\Lighting.h \
+ D:\dev\onyx\src\Math.h D:/dev/onyx/include/glm/glm.hpp \
  D:/dev/onyx/include/glm/detail/_fixes.hpp \
  C:/msys64/mingw64/include/c++/12.2.0/cmath \
  C:/msys64/mingw64/include/math.h \
@@ -297,11 +297,11 @@ CMakeFiles/onyx.dir/src/Renderer.cpp.obj: D:/dev/onyx/src/Renderer.cpp \
  D:/dev/onyx/include/glm/detail/type_half.hpp \
  D:/dev/onyx/include/glm/detail/type_half.inl \
  D:/dev/onyx/include/glm/integer.hpp \
- D:/dev/onyx/include/glm/detail/func_integer.inl D:/dev/onyx/src/Fog.h \
- D:/dev/onyx/src/Renderable.h D:/dev/onyx/src/Mesh.h \
- D:/dev/onyx/src/VertexBuffer.h D:/dev/onyx/src/IndexBuffer.h \
- D:/dev/onyx/src/Shader.h D:/dev/onyx/src/Texture.h \
- D:/dev/onyx/src/ModelRenderable.h \
+ D:/dev/onyx/include/glm/detail/func_integer.inl D:\dev\onyx\src\Fog.h \
+ D:\dev\onyx\src\Renderable.h D:\dev\onyx\src\Mesh.h \
+ D:\dev\onyx\src\VertexBuffer.h D:\dev\onyx\src\IndexBuffer.h \
+ D:\dev\onyx\src\Shader.h D:\dev\onyx\src\Texture.h \
+ D:\dev\onyx\src\ModelRenderable.h \
  C:/msys64/mingw64/include/c++/12.2.0/map \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_tree.h \
  C:/msys64/mingw64/include/c++/12.2.0/ext/aligned_buffer.h \
@@ -311,9 +311,9 @@ CMakeFiles/onyx.dir/src/Renderer.cpp.obj: D:/dev/onyx/src/Renderer.cpp \
  C:/msys64/mingw64/include/c++/12.2.0/bits/uses_allocator.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/stl_multimap.h \
  C:/msys64/mingw64/include/c++/12.2.0/bits/erase_if.h \
- D:/dev/onyx/src/Model.h D:/dev/onyx/src/UiRenderable.h \
- D:/dev/onyx/src/TextRenderable.h D:/dev/onyx/src/CharRenderable.h \
- D:/dev/onyx/src/Font.h D:/dev/onyx/include/ft2build.h \
+ D:\dev\onyx\src\Model.h D:\dev\onyx\src\UiRenderable.h \
+ D:\dev\onyx\src\TextRenderable.h D:\dev\onyx\src\CharRenderable.h \
+ D:\dev\onyx\src\Font.h D:/dev/onyx/include/ft2build.h \
  D:/dev/onyx/include/freetype/config/ftheader.h \
  D:/dev/onyx/include/freetype/freetype.h \
  D:/dev/onyx/include/freetype/config/ftconfig.h \
@@ -334,8 +334,8 @@ CMakeFiles/onyx.dir/src/Renderer.cpp.obj: D:/dev/onyx/src/Renderer.cpp \
  D:/dev/onyx/include/freetype/fterrors.h \
  D:/dev/onyx/include/freetype/ftmoderr.h \
  D:/dev/onyx/include/freetype/fterrdef.h \
- D:/dev/onyx/src/TextRenderable3D.h D:/dev/onyx/src/Window.h \
+ D:\dev\onyx\src\TextRenderable3D.h D:\dev\onyx\src\Window.h \
  D:/dev/onyx/include/glad/glad.h D:/dev/onyx/include/KHR/khrplatform.h \
- D:/dev/onyx/include/GLFW/glfw3.h D:/dev/onyx/src/InputHandler.h \
- D:/dev/onyx/src/Gamepad.h D:/dev/onyx/src/Monitor.h \
- D:/dev/onyx/src/Camera.h D:/dev/onyx/src/Projection.h
+ D:/dev/onyx/include/GLFW/glfw3.h D:\dev\onyx\src\InputHandler.h \
+ D:\dev\onyx\src\Gamepad.h D:\dev\onyx\src\Monitor.h \
+ D:\dev\onyx\src\Camera.h D:\dev\onyx\src\Projection.h

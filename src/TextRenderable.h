@@ -137,6 +137,12 @@ namespace Onyx
 		bool isHidden() const;
 
 		/*
+			@brief Gets the z-index of the renderable.
+			@return The z-index of the renderable.
+		 */
+		int getZIndex() const;
+
+		/*
 			@brief Sets the text to render.
 			Please note that this is a very expensive operation, as the mesh needs to be completely regenerated.
 			This should not be called every frame unless necessary (FPS counters, etc).
@@ -224,6 +230,12 @@ namespace Onyx
 		 */
 		void resetTransform();
 
+		/*
+			@brief Sets the z-index of the renderable.
+			@param zIndex The z-index (should not be over 1000 or under -1000).
+		 */
+		void setZIndex(int zIndex);
+
 		void dispose() override;
 
 	private:
@@ -235,6 +247,7 @@ namespace Onyx
 		Math::Mat4 m_model;
 
 		Math::Vec2 m_position;
+		float m_z;
 		float m_rotation;
 		Math::Vec2 m_scale;
 

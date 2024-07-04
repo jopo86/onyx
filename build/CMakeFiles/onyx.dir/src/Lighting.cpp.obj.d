@@ -1,5 +1,5 @@
-CMakeFiles/onyx.dir/src/Lighting.cpp.obj: D:/dev/onyx/src/Lighting.cpp \
- D:/dev/onyx/src/Lighting.h D:/dev/onyx/src/Math.h \
+CMakeFiles/onyx.dir/src/Lighting.cpp.obj: D:\dev\onyx\src\Lighting.cpp \
+ D:\dev\onyx\src\Lighting.h D:\dev\onyx\src\Math.h \
  C:/msys64/mingw64/include/c++/12.2.0/string \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32/bits/os_defines.h \

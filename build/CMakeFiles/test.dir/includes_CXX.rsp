@@ -1,1 +1,1 @@
--IC:/dev/onyx/include -IC:/dev/onyx/src
+-isystem C:/dev/onyx/include -isystem C:/dev/onyx/src

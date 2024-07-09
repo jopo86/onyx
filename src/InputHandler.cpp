@@ -132,6 +132,11 @@ bool Onyx::InputHandler::isKeyDown(Onyx::Key _key)
 	return retval;
 }
 
+bool Onyx::InputHandler::isKeyTappedOrRepeated(Onyx::Key key)
+{
+	return isKeyTapped(key) || isKeyRepeated(key);
+}
+
 Onyx::KeyState Onyx::InputHandler::getMouseButtonState(Onyx::MouseButton _button) const
 {
 	int button = (int)_button;

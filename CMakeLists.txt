@@ -44,10 +44,10 @@ add_executable(test
     ${CMAKE_SOURCE_DIR}/tests/WindowTest.cpp
 )
 
-target_include_directories(onyx PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(onyx SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_link_directories(onyx PUBLIC ${CMAKE_SOURCE_DIR}/lib)
 target_link_libraries(onyx PUBLIC freetype bz2 glfw3 zlib opengl32)
 
-target_include_directories(test PUBLIC ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src)
+target_include_directories(test SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src)
 target_link_directories(test PUBLIC ${CMAKE_SOURCE_DIR}/lib ${CMAKE_SOURCE_DIR}/build)
 target_link_libraries(test PUBLIC freetype bz2 glfw3 zlib onyx opengl32)

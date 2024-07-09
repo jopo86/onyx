@@ -70,6 +70,14 @@ namespace Onyx
 		bool isKeyDown(Onyx::Key key);
 
 		/*
+			@brief Gets whether the specified key is currently tapped or repeated.
+			See `isKeyTapped` and `isKeyRepeating` for more info.
+			@param key The key to check.
+			@return Whether the specified key is tapped or repeated.
+		 */
+		bool isKeyTappedOrRepeated(Onyx::Key key);
+
+		/*
 			@brief Gets the keystate of the specified mouse button.
 			Ignores mouse button cooldowns.
 			@param button The mouse button to check.

@@ -4,6 +4,15 @@
 
 #include "Window.h"
 
+#ifdef ONYX_OS_WINDOWS
+	#include <windows.h>
+#elif defined(ONYX_OS_LINUX)
+	#include <X11/XKBlib.h>
+	#include <X11/Xlib.h>
+#elif defined(ONYX_OS_MAC)
+	#include <CoreGraphics/CGEventSource.h>
+#endif
+
 using Onyx::Math::DVec2;
 
 void onyx_err(const Onyx::Error&);
@@ -231,6 +240,87 @@ const std::vector<Onyx::Gamepad>& Onyx::InputHandler::getGamepads() const
 {
 	return m_gamepads;
 }
+
+#ifdef ONYX_OS_WINDOWS
+	bool Onyx::InputHandler::IsCapsLockOn()
+	{
+		return GetKeyState(VK_CAPITAL) & 1;
+	}
+
+	bool Onyx::InputHandler::IsNumLockOn()
+	{
+		return GetKeyState(VK_NUMLOCK) & 1;
+	}
+
+	bool Onyx::InputHandler::IsScrollLockOn()
+	{
+		return GetKeyState(VK_SCROLL) & 1;
+	}
+
+#elif defined(ONYX_OS_LINUX)
+	bool Onyx::InputHandler::IsCapsLockOn()
+	{
+		Display* d = XOpenDisplay(NULL);
+		if (!d) return false;
+		uint n;
+		XkbGetIndicatorState(d, XkbUseCoreKbd, &n);
+		XCloseDisplay(d);
+		return n & 0x01;
+	}
+
+	bool Onyx::InputHandler::IsNumLockOn()
+	{
+		Display* d = XOpenDisplay(NULL);
+		if (!d) return false;
+		uint n;
+		XkbGetIndicatorState(d, XkbUseCoreKbd, &n);
+		XCloseDisplay(d);
+		return n & 0x02;
+	}
+
+	bool Onyx::InputHandler::IsScrollLockOn()
+	{
+		Display* d = XOpenDisplay(NULL);
+		if (!d) return false;
+		uint n;
+		XkbGetIndicatorState(d, XkbUseCoreKbd, &n);
+		XCloseDisplay(d);
+		return n & 0x04;
+	}
+
+#elif defined(ONYX_OS_MAC)
+	bool Onyx::InputHandler::IsCapsLockOn()
+	{
+		return CGEventSourceKeyState(kCGEventSourceStateHIDSystemState, kVK_CapsLock);
+	}
+
+	bool Onyx::InputHandler::IsNumLockOn()
+	{
+		return false;
+	}
+
+	bool Onyx::InputHandler::IsScrollLockOn()
+	{
+		return false;
+	}
+
+#else
+	bool Onyx::InputHandler::IsCapsLockOn()
+	{
+		return false;
+	}
+
+	bool Onyx::InputHandler::IsNumLockOn()
+	{
+		return false;
+	}
+
+	bool Onyx::InputHandler::IsScrollLockOn()
+	{
+		return false;
+	}
+
+#endif
 
 void Onyx::InputHandler::keyCallback(int key, int scancode, int action, int mods)
 {

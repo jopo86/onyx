@@ -176,6 +176,27 @@ namespace Onyx
 		 */
 		const std::vector<Onyx::Gamepad>& getGamepads() const;
 
+		/*
+			@brief Checks whether caps lock is on.
+			This function uses platform-specific APIs, not Onyx key presses.
+			@return Whether caps lock is on.
+		 */
+		static bool IsCapsLockOn();
+
+		/*
+			@brief Checks whether num lock is on.
+			This function uses platform-specific APIs, not Onyx key presses.
+			@return Whether num lock is on.
+		 */
+		static bool IsNumLockOn();
+
+		/*
+			@brief Checks whether scroll lock is on.
+			This function uses platform-specific APIs, not Onyx key presses.
+			@return Whether scroll lock is on.
+		 */
+		static bool IsScrollLockOn();
+
 	private:
 		Window* m_pWin;
 

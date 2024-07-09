@@ -56,7 +56,6 @@
    Type definitions for convenience.
    These are used by the library, but can be used by the user as well.
    */
-typedef char								byte;
 typedef unsigned char						ubyte;
 typedef unsigned short						ushort;
 typedef unsigned int						uint;

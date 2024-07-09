@@ -114,8 +114,7 @@ Onyx::Math::IVec2 Onyx::Font::getStringDimensions(const std::string& str) const
 	{
 		char c = str[i];
 		Glyph glyph = m_glyphs.at(c);
-		if (i != str.length() - 1) width += glyph.advance >> 6;
-		else width += glyph.width;
+		width += glyph.advance >> 6;
 		height = std::max(height, glyph.height);
 	}
 
@@ -130,8 +129,7 @@ int Onyx::Font::getStringWidth(const std::string& str) const
 	{
 		char c = str[i];
 		Glyph glyph = m_glyphs.at(c);
-		if (i != str.length() - 1) width += glyph.advance >> 6;
-		else width += glyph.width;
+		width += glyph.advance >> 6;
 	}
 
 	return width;

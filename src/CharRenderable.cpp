@@ -17,7 +17,7 @@ Onyx::CharRenderable::CharRenderable(char c, const Font& font, uint advance)
 	Glyph glyph = font[c];
 	m_tex = glyph.tex;
 
-	float x = glyph.bearingX + advance;
+	float x = glyph.bearingX + (int)advance;
 	float y = glyph.bearingY - glyph.height;
 	float w = glyph.width;
 	float h = glyph.height;

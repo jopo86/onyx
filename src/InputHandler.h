@@ -15,6 +15,44 @@ namespace Onyx
 	{
 		friend class Window;
 
+		/*
+			@brief The key callback function signature.
+			@param key The GLFW key.
+			TODO: scancode param
+			@param action The GLFW action.
+			TODO: mods param
+		*/
+		typedef void(*KeyCallbackFn)(int key, int scancode, int action, int mods);
+
+		/*
+			@brief The mouse button callback function signature.
+			@param key The GLFW button.
+			@param action The GLFW action.
+			TODO: mods param
+		*/
+		typedef void(*MouseButtonCallbackFn)(int button, int action, int mods);
+
+		/*
+			@brief The mouse position callback function signature.
+			@param x The X position of the mouse as a window coordinate.
+			@param y The Y position of the mouse as a window coordinate.
+		*/
+		typedef void(*MousePosCallbackFn)(double x, double y);
+
+		/*
+			@brief The scroll callback function signature.
+			@param dx The change in scroll on the X axis.
+			@param dy The change in scroll on the Y axis (the only axis for mice).
+		*/
+		typedef void(*ScrollCallbackFn)(double dx, double dy);
+
+		/*
+			@brief The key callback function signature.
+			@param jid The GLFW joystick ID.
+			@param event The GLFW event.
+		*/
+		typedef void(*JoystickCallbackFn)(int jid, int event);
+
 	public:
 		/*
 			@brief Creates an InputHandler.
@@ -148,6 +186,41 @@ namespace Onyx
 		void toggleCursorLock();
 
 		/*
+			@brief Sets the key callback function.
+			@param callback The callback function.
+			See definition of `KeyCallbackFn` for parameter info.
+		 */
+		void setKeyCallback(KeyCallbackFn callback);
+
+		/*
+			@brief Sets the mouse button callback function.
+			@param callback The callback function.
+			See definition of `MouseButtonCallbackFn` for parameter info.
+		 */
+		void setMouseButtonCallback(MouseButtonCallbackFn callback);
+
+		/*
+			@brief Sets the mouse position callback function.
+			@param callback The callback function.
+			See definition of `MousePosCallbackFn` for parameter info.
+		 */
+		void setMousePosCallback(MousePosCallbackFn callback);
+
+		/*
+			@brief Sets the scroll callback function.
+			@param callback The callback function.
+			See definition of `ScrollCallbackFn` for parameter info.
+		 */
+		void setScrollCallback(ScrollCallbackFn callback);
+
+		/*
+			@brief Sets the joystick callback function.
+			@param callback The callback function.
+			See definition of `JoystickCallbackFn` for parameter info.
+		 */
+		void setJoystickCallback(JoystickCallbackFn callback);
+
+		/*
 			@brief Gets whether the cursor is locked.
 			@return Whether the cursor is locked.
 		 */
@@ -231,9 +304,15 @@ namespace Onyx
 
 		bool m_cursorLock;
 
+		KeyCallbackFn m_pKeyCallback;
+		MouseButtonCallbackFn m_pMouseButtonCallback;
+		MousePosCallbackFn m_pMousePosCallback;
+		ScrollCallbackFn m_pScrollCallback;
+		JoystickCallbackFn m_pJoystickCallback;
+
 		void keyCallback(int key, int scancode, int action, int mods);
 		void mouseButtonCallback(int button, int action, int mods);
-		void cursorPosCallback(double x, double y);
+		void mousePosCallback(double x, double y);
 		void scrollCallback(double dx, double dy);
 		void joystickCallback(int jid, int event);
 	};

@@ -140,7 +140,10 @@ Onyx::Window::Window()
 	m_frame = 0L;
 	m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
-	m_fileDropCallback = nullptr;
+	m_pFramebufferSizeCallback = nullptr;
+	m_pWindowSizeCallback = nullptr;
+	m_pWindowPosCallback = nullptr;
+	m_pFileDropCallback = nullptr;
 	m_numFramesCamNotUpdated = m_numFramesInputNotUpdated = 0;
 }
 
@@ -153,7 +156,10 @@ Onyx::Window::Window(WindowProperties properties)
 	m_frame = 0L;
 	m_fps = 0;
 	m_lastFrameTime = m_deltaTime = 0;
-	m_fileDropCallback = nullptr;
+	m_pFramebufferSizeCallback = nullptr;
+	m_pWindowSizeCallback = nullptr;
+	m_pWindowPosCallback = nullptr;
+	m_pFileDropCallback = nullptr;
 	m_numFramesCamNotUpdated = m_numFramesInputNotUpdated = 0;
 }
 
@@ -604,9 +610,24 @@ void Onyx::Window::linkRenderer(Renderer& renderer)
 	renderer.m_ortho = Projection::Orthographic(m_bufferWidth, m_bufferHeight).getMatrix();
 }
 
-void Onyx::Window::setFileDropCallback(void (*callback)(const char**, int))
+void Onyx::Window::setFramebufferSizeCallback(FramebufferSizeCallbackFn callback)
 {
-	m_fileDropCallback = callback;
+	m_pFramebufferSizeCallback = callback;
+}
+
+void Onyx::Window::setWindowSizeCallback(WindowSizeCallbackFn callback)
+{
+	m_pWindowSizeCallback = callback;
+}
+
+void Onyx::Window::setWindowPosCallback(WindowPosCallbackFn callback)
+{
+	m_pWindowPosCallback = callback;
+}
+
+void Onyx::Window::setFileDropCallback(FileDropCallbackFn callback)
+{
+	m_pFileDropCallback = callback;
 }
 
 void Onyx::Window::dispose()
@@ -650,6 +671,8 @@ void Onyx::Window::framebufferSizeCallback(GLFWwindow* pGlfwWin, int width, int 
 		pRenderer->m_ortho = Projection::Orthographic(width, height).getMatrix();
 	}
 
+	if (pWin->m_pFramebufferSizeCallback) pWin->m_pFramebufferSizeCallback(width, height);
+
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
 #endif
@@ -660,12 +683,16 @@ void Onyx::Window::windowSizeCallback(GLFWwindow* pGlfwWin, int width, int heigh
 	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	pWin->m_properties.width = width;
 	pWin->m_properties.height = height;
+
+	if (pWin->m_pWindowSizeCallback) pWin->m_pWindowSizeCallback(width, height);
 }
 
 void Onyx::Window::windowPosCallback(GLFWwindow* pGlfwWin, int x, int y)
 {
 	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	pWin->m_properties.position = Math::IVec2(x, y);
+
+	if (pWin->m_pWindowPosCallback) pWin->m_pWindowPosCallback(x, y);
 }
 
 void Onyx::Window::keyCallback(GLFWwindow* pGlfwWin, int key, int scancode, int action, int mods)
@@ -691,7 +718,7 @@ void Onyx::Window::cursorPosCallback(GLFWwindow* pGlfwWin, double x, double y)
 	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
 	{
-		pInputHandler->cursorPosCallback(x, ((Window*)glfwGetWindowUserPointer(pGlfwWin))->m_properties.height - y);
+		pInputHandler->mousePosCallback(x, ((Window*)glfwGetWindowUserPointer(pGlfwWin))->m_properties.height - y);
 	}
 }
 
@@ -716,5 +743,5 @@ void Onyx::Window::joystickCallback(int jid, int event)
 void Onyx::Window::fileDropCallback(GLFWwindow* pGlfwWin, int count, const char** paths)
 {
 	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
-	if (pWin->m_fileDropCallback != nullptr) pWin->m_fileDropCallback(paths, count);
+	if (pWin->m_pFileDropCallback) pWin->m_pFileDropCallback(paths, count);
 }

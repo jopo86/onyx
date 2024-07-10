@@ -27,7 +27,7 @@ namespace Onyx
 			@param color The color of the text.
 			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
 		 */
-		TextRenderable3D(const std::string& text, Font& font, Math::Vec3 color, bool* result = nullptr);
+		TextRenderable3D(const std::string& text, Font& font, const Math::Vec3& color, bool* result = nullptr);
 
 		/*
 			@brief Creates a TextRenderable3D from the specified text, font, and color.
@@ -36,7 +36,27 @@ namespace Onyx
 			@param color The color of the text.
 			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
 		 */
-		TextRenderable3D(const std::string& text, Font& font, Math::Vec4 color, bool* result = nullptr);
+		TextRenderable3D(const std::string& text, Font& font, const Math::Vec4& color, bool* result = nullptr);
+
+		/*
+			@brief Creates a TextRenderable3D from the specified text, font, and color.
+			@param text The text to render.
+			@param font The font to use.
+			@param color The color of the text.
+			@param shaderOverride The shader to use instead of the default 3D text shader.
+			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
+		 */
+		TextRenderable3D(const std::string& text, Font& font, const Math::Vec3& color, Shader shaderOverride, bool* result = nullptr);
+
+		/*
+			@brief Creates a TextRenderable3D from the specified text, font, and color.
+			@param text The text to render.
+			@param font The font to use.
+			@param color The color of the text.
+			@param shaderOverride The shader to use instead of the default 3D text shader.
+			@param result A pointer to a boolean that will be set to true if the object was created successfully, and false otherwise.
+		 */
+		TextRenderable3D(const std::string& text, Font& font, const Math::Vec4& color, Shader shaderOverride, bool* result = nullptr);
 
 		/*
 			@brief Renders the object.

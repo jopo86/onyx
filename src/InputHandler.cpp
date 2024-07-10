@@ -21,6 +21,11 @@ void onyx_warn(const Onyx::Warning&);
 Onyx::InputHandler::InputHandler()
 {
 	m_pWin = nullptr;
+	m_pKeyCallback = nullptr;
+	m_pMouseButtonCallback = nullptr;
+	m_pMousePosCallback = nullptr;
+	m_pScrollCallback = nullptr;
+	m_pJoystickCallback = nullptr;
 
 	for (int i = 0; i < (int)Onyx::Key::MaxKey; i++)
 	{
@@ -200,6 +205,31 @@ void Onyx::InputHandler::toggleCursorLock()
 	setCursorLock(!m_cursorLock);
 }
 
+void Onyx::InputHandler::setKeyCallback(KeyCallbackFn callback)
+{
+	m_pKeyCallback = callback;
+}
+
+void Onyx::InputHandler::setMouseButtonCallback(MouseButtonCallbackFn callback)
+{
+	m_pMouseButtonCallback = callback;
+}
+
+void Onyx::InputHandler::setMousePosCallback(MousePosCallbackFn callback)
+{
+	m_pMousePosCallback = callback;
+}
+
+void Onyx::InputHandler::setScrollCallback(ScrollCallbackFn callback)
+{
+	m_pScrollCallback = callback;
+}
+
+void Onyx::InputHandler::setJoystickCallback(JoystickCallbackFn callback)
+{
+	m_pJoystickCallback = callback;
+}
+
 bool Onyx::InputHandler::isCursorLocked() const
 {
 	return m_cursorLock;
@@ -331,28 +361,38 @@ void Onyx::InputHandler::keyCallback(int key, int scancode, int action, int mods
 {
 	m_keys[key] = (Onyx::KeyState)action;
 	if (action == GLFW_PRESS) m_keysTapped[key] = true;
+
+	if (m_pKeyCallback) m_pKeyCallback(key, scancode, action, mods);
 }
 
 void Onyx::InputHandler::mouseButtonCallback(int button, int action, int mods)
 {
 	m_buttons[button] = (Onyx::KeyState)action;
 	if (action == GLFW_PRESS) m_buttonsTapped[button] = true;
+
+	if (m_pMouseButtonCallback) m_pMouseButtonCallback(button, action, mods);
 }
 
-void Onyx::InputHandler::cursorPosCallback(double x, double y)
+void Onyx::InputHandler::mousePosCallback(double x, double y)
 {
 	m_mousePos.set(x, y);
+
+	if (m_pMousePosCallback) m_pMousePosCallback(x, y);
 }
 
 void Onyx::InputHandler::scrollCallback(double dx, double dy)
 {
 	m_scrollDeltas.set(dx, dy);
 	m_scrollThisFrame = true;
+
+	if (m_pScrollCallback) m_pScrollCallback(dx, dy);
 }
 
 void Onyx::InputHandler::joystickCallback(int jid, int event)
 {
 	if (!glfwJoystickIsGamepad(jid)) return;
+
+	if (m_pJoystickCallback != nullptr) m_pJoystickCallback(jid, event);
 
 	bool found = false;
 	for (Gamepad& gamepad : m_gamepads)

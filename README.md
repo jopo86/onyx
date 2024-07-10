@@ -4,9 +4,9 @@ Onyx is a high-level, cross-platform C++ rendering engine using OpenGL 4.1, with
 The intuitive and well-structured codebase makes it simpler than ever to code games, apps, or any graphical interface using a language as complex as C++.  
 
 ## Download
-There is a pre-compiled binary compiled on my system (WSL x64), but it is recommended to compile yourself using CMake. See [Build](https://github.com/jopo86/onyx/wiki/Build) for detailed download/build instructions.
+There is a pre-compiled binary compiled on my system (Windows x64), but it is recommended to compile yourself using CMake. See [Build](https://github.com/jopo86/onyx/wiki/Build) for detailed download/build instructions.
 
-[Latest Release (1.4.1)](https://github.com/jopo86/onyx/releases/tag/v1.4.1)  
+[Latest Release (1.5.0)](https://github.com/jopo86/onyx/releases/tag/v1.5.0)  
 [All Releases](https://github.com/jopo86/onyx/releases)  
 
 ## Get Started
@@ -28,3 +28,4 @@ There is also a [Guides](https://github.com/jopo86/onyx/wiki/guides) page, with 
 - Presets for Meshes, Shaders, and Renderables
 - Monitor info
 - Extensive Matrix & Vector Math
+- Various system functions (clipboard access, key states, and more)

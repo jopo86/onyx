@@ -209,6 +209,34 @@ namespace Onyx
 		friend class Camera;
 		friend class Renderer;
 
+		/*
+			@brief The framebuffer resize callback function signature.
+			@param width The new framebuffer width.
+			@param height The new framebuffer height.
+		*/
+		typedef void(*FramebufferSizeCallbackFn)(int width, int height);
+
+		/*
+			@brief The window resize callback function signature.
+			@param width The new window width.
+			@param height The new window height.
+		*/
+		typedef void(*WindowSizeCallbackFn)(int width, int height);
+
+		/*
+			@brief The window position callback function signature.
+			@param x The new X position of the window as a monitor coordinate.
+			@param y The new Y position of the window as a monitor coordinate.
+		*/
+		typedef void(*WindowPosCallbackFn)(int x, int y);
+
+		/*
+			@brief The file drop callback function signature.
+			@param paths An array of string literals representing each file path.
+			@param count The number of file paths in the array.
+		*/
+		typedef void(*FileDropCallbackFn)(const char** paths, int count);
+
 	public:
 		/*
 			@brief Default constructor, initializes member variables.
@@ -600,12 +628,32 @@ namespace Onyx
 		void linkRenderer(Renderer& renderer);
 
 		/*
-			@brief Sets the file drop callback.
-			This function receives an array of string literals representing filepaths, and the count of the filepaths.
-			You can do whatever you want with this.
-			@param callback The function to call when files are dropped onto the window.
+			@brief Sets the framebuffer resize callback function.
+			@param callback The callback function.
+			See the definition of `FramebufferSizeCallbackFn` for parameter info.
 		 */
-		void setFileDropCallback(void (*callback)(const char**, int));
+		void setFramebufferSizeCallback(FramebufferSizeCallbackFn callback);
+
+		/*
+			@brief Sets the window resize callback function.
+			@param callback The callback function.
+			See the definition of `WindowSizeCallbackFn` for parameter info.
+		 */
+		void setWindowSizeCallback(WindowSizeCallbackFn callback);
+
+		/*
+			@brief Sets the window position callback function.
+			@param callback The callback function.
+			See the definition of `WindowPosCallbackFn` for parameter info.
+		 */
+		void setWindowPosCallback(WindowPosCallbackFn callback);
+
+		/*
+			@brief Sets the file drop callback function.
+			@param callback The callback function.
+			See the definition of `FileDropCallbackFn` for parameter info.
+		 */
+		void setFileDropCallback(FileDropCallbackFn callback);
 
 		void dispose() override;
 
@@ -632,7 +680,10 @@ namespace Onyx
 		ulong m_numFramesCamNotUpdated;
 		ulong m_numFramesInputNotUpdated;
 
-		void (*m_fileDropCallback)(const char**, int);
+		FramebufferSizeCallbackFn m_pFramebufferSizeCallback;
+		WindowSizeCallbackFn m_pWindowSizeCallback;
+		WindowPosCallbackFn m_pWindowPosCallback;
+		FileDropCallbackFn m_pFileDropCallback;
 
 		static void framebufferSizeCallback(GLFWwindow* pGlfwWin, int width, int height);
 		static void windowSizeCallback(GLFWwindow* pGlfwWin, int width, int height);

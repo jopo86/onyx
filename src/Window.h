@@ -7,13 +7,13 @@
 
 #include "Core.h"
 #include "Math.h"
-#include "InputHandler.h"
 #include "Renderer.h"
 #include "Monitor.h"
 
 namespace Onyx
 {
 	class Camera;
+	class InputHandler;
 
 	struct WindowProperties
 	{

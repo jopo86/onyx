@@ -108,3 +108,9 @@ bool Onyx::FileUtils::FileExists(const std::string& path)
 	file.close();
 	return true;
 }
+
+std::string Onyx::FileUtils::GetDir(const std::string& filepath)
+{
+	size_t lastSlashPos = filepath.find_last_of("/\\");
+    return (std::string::npos == lastSlashPos)? "" : filepath.substr(0, lastSlashPos);
+}

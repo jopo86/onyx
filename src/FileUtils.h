@@ -45,5 +45,12 @@ namespace Onyx
 			@return True if the file exists, and false otherwise.
 		 */
 		bool FileExists(const std::string& path);
+
+		/*
+			@brief Gets the directory of a filepath.
+			@param filepath The filepath.
+			@return The directory the file is in.
+		 */
+		std::string GetDir(const std::string& filepath);
 	}
 }

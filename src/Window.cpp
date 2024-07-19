@@ -3,6 +3,7 @@
 #include "Window.h"
 
 #include "Camera.h"
+#include "InputHandler.h"
 
 #include <fstream>
 

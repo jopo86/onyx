@@ -13,11 +13,13 @@
 
 #include "Math.h"
 #include "Window.h"
+#include "InputHandler.h"
 #include "Camera.h"
 #include "Projection.h"
 #include "Model.h"
 #include "TextRenderable.h"
 #include "TextRenderable3D.h"
+#include "FileUtils.h"
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
@@ -96,7 +98,7 @@ uint _glCheckError(const std::string& file, int line)
 void Onyx::Init()
 {
 	initialized = true;
-	if (resourcePath == "") resourcePath = std::string(__FILE__) + "/../../resources/";
+	if (resourcePath == "") resourcePath = FileUtils::GetDir(std::string(__FILE__)) + "/../resources/";
 
 	stbi_set_flip_vertically_on_load(true);
 
@@ -136,7 +138,7 @@ void Onyx::Init(ErrorHandler& errorHandler)
 		return;
 	}
 	initialized = true;
-	if (resourcePath == "") resourcePath = std::string(__FILE__) + "/../../resources/";
+	if (resourcePath == "") resourcePath = FileUtils::GetDir(std::string(__FILE__)) + "/../resources/";
 
 	if (FT_Init_FreeType(&ft))
 	{

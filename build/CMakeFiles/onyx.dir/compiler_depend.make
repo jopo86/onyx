@@ -1167,6 +1167,7 @@ CMakeFiles/onyx.dir/src/Core.cpp.o: /home/jopo/dev/onyx/src/Core.cpp \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
   /usr/include/c++/13/bits/unordered_map.h \
+  /usr/include/c++/13/bits/unordered_set.h \
   /usr/include/c++/13/bits/uses_allocator.h \
   /usr/include/c++/13/bits/uses_allocator_args.h \
   /usr/include/c++/13/bits/utility.h \
@@ -1229,6 +1230,7 @@ CMakeFiles/onyx.dir/src/Core.cpp.o: /home/jopo/dev/onyx/src/Core.cpp \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
+  /usr/include/c++/13/unordered_set \
   /usr/include/c++/13/vector \
   /usr/include/c++/13/x86_64-redhat-linux/bits/atomic_word.h \
   /usr/include/c++/13/x86_64-redhat-linux/bits/c++allocator.h \
@@ -3294,6 +3296,7 @@ CMakeFiles/onyx.dir/src/InputHandler.cpp.o: /home/jopo/dev/onyx/src/InputHandler
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
   /usr/include/c++/13/bits/cxxabi_init_exception.h \
+  /usr/include/c++/13/bits/enable_special_members.h \
   /usr/include/c++/13/bits/erase_if.h \
   /usr/include/c++/13/bits/exception.h \
   /usr/include/c++/13/bits/exception_defines.h \
@@ -3301,6 +3304,8 @@ CMakeFiles/onyx.dir/src/InputHandler.cpp.o: /home/jopo/dev/onyx/src/InputHandler
   /usr/include/c++/13/bits/functexcept.h \
   /usr/include/c++/13/bits/functional_hash.h \
   /usr/include/c++/13/bits/hash_bytes.h \
+  /usr/include/c++/13/bits/hashtable.h \
+  /usr/include/c++/13/bits/hashtable_policy.h \
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
   /usr/include/c++/13/bits/istream.tcc \
@@ -3347,6 +3352,8 @@ CMakeFiles/onyx.dir/src/InputHandler.cpp.o: /home/jopo/dev/onyx/src/InputHandler
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
+  /usr/include/c++/13/bits/unordered_map.h \
+  /usr/include/c++/13/bits/unordered_set.h \
   /usr/include/c++/13/bits/uses_allocator.h \
   /usr/include/c++/13/bits/uses_allocator_args.h \
   /usr/include/c++/13/bits/utility.h \
@@ -3407,6 +3414,8 @@ CMakeFiles/onyx.dir/src/InputHandler.cpp.o: /home/jopo/dev/onyx/src/InputHandler
   /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
+  /usr/include/c++/13/unordered_map \
+  /usr/include/c++/13/unordered_set \
   /usr/include/c++/13/vector \
   /usr/include/c++/13/x86_64-redhat-linux/bits/atomic_word.h \
   /usr/include/c++/13/x86_64-redhat-linux/bits/c++allocator.h \
@@ -9721,6 +9730,7 @@ CMakeFiles/onyx.dir/src/Window.cpp.o: /home/jopo/dev/onyx/src/Window.cpp \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
   /usr/include/c++/13/bits/cxxabi_init_exception.h \
+  /usr/include/c++/13/bits/enable_special_members.h \
   /usr/include/c++/13/bits/erase_if.h \
   /usr/include/c++/13/bits/exception.h \
   /usr/include/c++/13/bits/exception_defines.h \
@@ -9729,6 +9739,8 @@ CMakeFiles/onyx.dir/src/Window.cpp.o: /home/jopo/dev/onyx/src/Window.cpp \
   /usr/include/c++/13/bits/functexcept.h \
   /usr/include/c++/13/bits/functional_hash.h \
   /usr/include/c++/13/bits/hash_bytes.h \
+  /usr/include/c++/13/bits/hashtable.h \
+  /usr/include/c++/13/bits/hashtable_policy.h \
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
   /usr/include/c++/13/bits/istream.tcc \
@@ -9775,6 +9787,8 @@ CMakeFiles/onyx.dir/src/Window.cpp.o: /home/jopo/dev/onyx/src/Window.cpp \
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
+  /usr/include/c++/13/bits/unordered_map.h \
+  /usr/include/c++/13/bits/unordered_set.h \
   /usr/include/c++/13/bits/uses_allocator.h \
   /usr/include/c++/13/bits/uses_allocator_args.h \
   /usr/include/c++/13/bits/utility.h \
@@ -9836,6 +9850,8 @@ CMakeFiles/onyx.dir/src/Window.cpp.o: /home/jopo/dev/onyx/src/Window.cpp \
   /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
+  /usr/include/c++/13/unordered_map \
+  /usr/include/c++/13/unordered_set \
   /usr/include/c++/13/vector \
   /usr/include/c++/13/x86_64-redhat-linux/bits/atomic_word.h \
   /usr/include/c++/13/x86_64-redhat-linux/bits/basic_file.h \
@@ -9985,6 +10001,10 @@ CMakeFiles/onyx.dir/src/glad.c.o: /home/jopo/dev/onyx/src/glad.c \
 /usr/include/c++/13/ctime:
 
 /usr/include/c++/13/codecvt:
+
+/usr/include/c++/13/bits/unique_ptr.h:
+
+/usr/include/c++/13/bits/sstream.tcc:
 
 /usr/include/bits/math-vector.h:
 
@@ -10431,6 +10451,8 @@ CMakeFiles/onyx.dir/src/glad.c.o: /home/jopo/dev/onyx/src/glad.c \
 /home/jopo/dev/onyx/include/glm/detail/type_vec4.inl:
 
 /home/jopo/dev/onyx/include/glm/geometric.hpp:
+
+/usr/include/c++/13/unordered_set:
 
 /home/jopo/dev/onyx/src/IndexBuffer.cpp:
 
@@ -10938,6 +10960,8 @@ CMakeFiles/onyx.dir/src/glad.c.o: /home/jopo/dev/onyx/src/glad.c \
 
 /usr/include/c++/13/bits/hashtable.h:
 
+/usr/include/c++/13/bits/unordered_set.h:
+
 /usr/include/c++/13/tr1/exp_integral.tcc:
 
 /usr/include/c++/13/math.h:
@@ -11071,7 +11095,3 @@ CMakeFiles/onyx.dir/src/glad.c.o: /home/jopo/dev/onyx/src/glad.c \
 /usr/include/c++/13/bits/fs_path.h:
 
 /usr/include/c++/13/bits/shared_ptr.h:
-
-/usr/include/c++/13/bits/sstream.tcc:
-
-/usr/include/c++/13/bits/unique_ptr.h:

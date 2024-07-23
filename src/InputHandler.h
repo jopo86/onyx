@@ -1,5 +1,8 @@
 #pragma once
 
+#include <unordered_map>
+#include <unordered_set>
+
 #include "Core.h"
 #include "Gamepad.h"
 #include "Math.h"
@@ -68,6 +71,48 @@ namespace Onyx
 			Cooldowns are updated using the delta time of the window this input handler was linked to.
 		 */
 		void update();
+
+		/*
+			@brief Gets the key associated with the specified character.
+			@param c The character to get the key of.
+			@return The key associated with the specified character.
+		 */
+		static Onyx::Key CharToKey(char c);
+
+		/*
+			@brief Gets the character associated with the specified key.
+			@param key The key to get the character of.
+			@return The character associated with the specified key.
+		 */
+		static char KeyToChar(Onyx::Key key);
+
+		/*
+			@brief Gets the key associated with the specified string.
+			@param str The string to get the key of.
+			@return The key associated with the specified string.
+		 */
+		static Onyx::Key StrToKey(const char* str);
+
+		/*
+			@brief Gets the string associated with the specified key.
+			@param key The key to get the string of.
+			@return The string associated with the specified key.
+		 */
+		static const char* KeyToStr(Onyx::Key key);
+
+		/*
+			@brief Gets the mouse button associated with the specified string.
+			@param str The string to get the mouse button of.
+			@return The mouse button associated with the specified string.
+		 */
+		static Onyx::MouseButton StrToMouseButton(const char* str);
+
+		/*
+			@brief Gets the string associated with the specified mouse button.
+			@param button The mouse button to get the string of.
+			@return The string associated with the specified mouse button.
+		 */
+		static const char* MouseButtonToStr(Onyx::MouseButton button);
 
 		/*
 			@brief Gets the keystate of the specified key.
@@ -293,6 +338,21 @@ namespace Onyx
 
 		std::vector<Onyx::Key> m_activeKeyCooldowns;
 		std::vector<Onyx::MouseButton> m_activeButtonCooldowns;
+
+		const static std::unordered_map<char, Onyx::Key> s_charToKeyMap;
+		const static std::unordered_map<Onyx::Key, char> s_keyToCharMap;
+
+		const static std::unordered_map<const char*, Onyx::Key> s_strToKeyMap;
+		const static std::unordered_map<Onyx::Key, const char*> s_keyToStrMap;
+
+		const static std::unordered_map<const char*, Onyx::MouseButton> s_strToButtonMap;
+		const static std::unordered_map<Onyx::MouseButton, const char*> s_buttonToStrMap;
+
+		std::unordered_set<Onyx::Key> m_keysTappedSet;
+		std::unordered_set<Onyx::Key> m_keysDownSet;
+
+		std::unordered_set<Onyx::MouseButton> m_buttonsTappedSet;
+		std::unordered_set<Onyx::MouseButton> m_buttonsDownSet;
 
 		Onyx::Math::DVec2 m_mousePos;
 		Onyx::Math::DVec2 m_lastMousePos;

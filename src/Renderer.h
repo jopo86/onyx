@@ -249,6 +249,22 @@ namespace Onyx
 		void setCamera(Camera& cam);
 
 		/*
+			@brief Sets whether to use the camera for UI elements.
+			By default, UI elements are rendered without regard to the camera, which is ideal for HUDs.
+			Note that, if true, part of the matrix multiplication will be done on the CPU for each UI element, not the GPU, which may be slow.
+			@param useCamForUi Whether to use the camera for UI elements.
+		 */
+		void setUseCameraForUi(bool useCamForUi);
+
+		/*
+			@brief Gets whether the camera is used for UI elements.
+			By default, UI elements are rendered without regard to the camera, which is ideal for HUDs.
+			Note that, if true, part of the matrix multiplication will be done on the CPU for each UI element, not the GPU, which may be slow.
+			@return True if the camera is used for UI elements, false if not.
+		 */
+		bool isUsingCameraForUi() const;
+
+		/*
 			@brief Sets whether wireframe rendering mode is enabled.
 			In wireframe mode, only the lines between vertices are drawn.
 			Change the with of the lines with SetLineWidth().
@@ -314,6 +330,8 @@ namespace Onyx
 		Lighting* m_pLighting;
 		Fog* m_pFog;
 		Math::Mat4 m_ortho;
+
+		bool m_useCamForUi;
 
 		bool m_lightingEnabled;
 		bool m_fogEnabled;

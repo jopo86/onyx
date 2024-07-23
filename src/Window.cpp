@@ -148,7 +148,7 @@ Onyx::Window::Window()
 	m_numFramesCamNotUpdated = m_numFramesInputNotUpdated = 0;
 }
 
-Onyx::Window::Window(WindowProperties properties)
+Onyx::Window::Window(const WindowProperties& properties)
 {
 	m_pGlfwWin = nullptr;
 	m_properties = properties;
@@ -235,6 +235,9 @@ void Onyx::Window::init(bool* result)
 
 	m_initialized = true;
 	if (result != nullptr) *result = true;
+
+	m_cursor = Cursor::Standard(CursorType::Arrow);
+	setCursor(m_cursor);
 }
 
 void Onyx::Window::startRender()
@@ -362,6 +365,11 @@ const Vec3& Onyx::Window::getBackgroundColor() const
 const Onyx::WindowIcon& Onyx::Window::getIcon() const
 {
 	return m_icon;
+}
+
+const Onyx::Cursor& Onyx::Window::getCursor() const
+{
+	return m_cursor;
 }
 
 GLFWwindow* Onyx::Window::getGlfwWindowPtr() const

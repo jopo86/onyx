@@ -67,7 +67,7 @@ void WindowTest::Run()
 	Onyx::InputHandler input;
 	window.linkInputHandler(input);
 
-	Onyx::Camera cam(Onyx::Projection::Orthographic(1280.0f, 600.0f));
+	Onyx::Camera cam(Onyx::Projection::Orthographic(950.0f, 600.0f));
 	window.linkCamera(cam);
 	Onyx::Renderer renderer(cam);
 	window.linkRenderer(renderer);

@@ -18,6 +18,7 @@ Onyx::Renderer::Renderer()
 {
 	m_pWin = nullptr;
 	m_pCam = nullptr;
+	m_useCamForUi = false;
 	m_lightingEnabled = false;
 	m_pLighting = nullptr;
 	m_fogEnabled = false;
@@ -28,6 +29,7 @@ Onyx::Renderer::Renderer(Camera& cam)
 {
 	m_pWin = nullptr;
 	m_pCam = &cam;
+	m_useCamForUi = false;
 	m_pLighting = nullptr;
 	m_lightingEnabled = false;
 	m_pFog = nullptr;
@@ -38,6 +40,7 @@ Onyx::Renderer::Renderer(Camera& cam, Lighting& lighting)
 {
 	m_pWin = nullptr;
 	m_pCam = &cam;
+	m_useCamForUi = false;
 	setLighting(lighting);
 	m_lightingEnabled = true;
 	m_fogEnabled = false;
@@ -48,6 +51,7 @@ Onyx::Renderer::Renderer(Camera& cam, Fog& fog)
 {
 	m_pWin = nullptr;
 	m_pCam = &cam;
+	m_useCamForUi = false;
 	setFog(fog);
 	m_fogEnabled = true;
 	m_lightingEnabled = false;
@@ -58,6 +62,7 @@ Onyx::Renderer::Renderer(Camera& cam, Lighting& lighting, Fog& fog)
 {
 	m_pWin = nullptr;
 	m_pCam = &cam;
+	m_useCamForUi = false;
 	setLighting(lighting);
 	setFog(fog);
 	m_lightingEnabled = true;
@@ -90,15 +95,33 @@ void Onyx::Renderer::render()
 
 	glDisable(GL_DEPTH_TEST);
 	if (sm_uiWireframeAllowed) {
-		for (UiRenderable* uir : m_uiRenderables) uir->render(m_ortho);
-		for (TextRenderable* tr : m_textRenderables) tr->render(m_ortho);
+		if (!m_useCamForUi)
+		{
+			for (UiRenderable* uir : m_uiRenderables) uir->render(m_ortho);
+			for (TextRenderable* tr : m_textRenderables) tr->render(m_ortho);
+		}
+		else
+		{
+			for (UiRenderable* uir : m_uiRenderables) uir->render(m_pCam->getProjectionMatrix() * m_pCam->getViewMatrix());
+			for (TextRenderable* tr : m_textRenderables) tr->render(m_pCam->getProjectionMatrix() * m_pCam->getViewMatrix());
+		}
 	}
 	else
 	{
 		bool _wireframe = sm_wireframe;
 		SetWireframe(false);
-		for (UiRenderable* uir : m_uiRenderables) uir->render(m_ortho);
-		for (TextRenderable* tr : m_textRenderables) tr->render(m_ortho);
+
+		if (!m_useCamForUi)
+		{
+			for (UiRenderable* uir : m_uiRenderables) uir->render(m_ortho);
+			for (TextRenderable* tr : m_textRenderables) tr->render(m_ortho);
+		}
+		else
+		{
+			for (UiRenderable* uir : m_uiRenderables) uir->render(m_pCam->getProjectionMatrix() * m_pCam->getViewMatrix());
+			for (TextRenderable* tr : m_textRenderables) tr->render(m_pCam->getProjectionMatrix() * m_pCam->getViewMatrix());
+		}
+
 		SetWireframe(_wireframe);
 	}
 	glEnable(GL_DEPTH_TEST);
@@ -379,6 +402,16 @@ const Onyx::Camera& Onyx::Renderer::getCamera() const
 void Onyx::Renderer::setCamera(Camera& cam)
 {
 	m_pCam = &cam;
+}
+
+void Onyx::Renderer::setUseCameraForUi(bool useCamForUi)
+{
+	m_useCamForUi = useCamForUi;
+}
+
+bool Onyx::Renderer::isUsingCameraForUi() const
+{
+	return m_useCamForUi;
 }
 
 void Onyx::Renderer::SetWireframe(bool _wireframe)

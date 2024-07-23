@@ -97,6 +97,8 @@ uint _glCheckError(const std::string& file, int line)
 
 void Onyx::Init()
 {
+	if (initialized) return;
+
 	initialized = true;
 	if (resourcePath == "") resourcePath = FileUtils::GetDir(std::string(__FILE__)) + "/../resources/";
 
@@ -122,6 +124,8 @@ void Onyx::Init()
 
 void Onyx::Init(ErrorHandler& errorHandler)
 {
+	if (initialized) return;
+
 	pErrorHandler = &errorHandler;
 
 	stbi_set_flip_vertically_on_load(true);
@@ -502,6 +506,12 @@ const std::string& Onyx::GetResourcePath()
 }
 
 std::string Onyx::Resources(const std::string& path)
+{
+	if (path.length() == 0) return resourcePath;
+	return resourcePath + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);
+}
+
+std::string Onyx::Res(const std::string& path)
 {
 	if (path.length() == 0) return resourcePath;
 	return resourcePath + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);

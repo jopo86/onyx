@@ -248,7 +248,7 @@ namespace Onyx
 			@brief Creates an uninitialized window from the specified window properties.
 			@param properties The window properties.
 		 */
-		Window(WindowProperties properties);
+		Window(const WindowProperties& properties);
 
 		/*
 			@brief Initializes the window.
@@ -377,6 +377,12 @@ namespace Onyx
 			@return The icon of the window.
 		 */
 		const WindowIcon& getIcon() const;
+
+		/*
+			@brief Gets the cursor of the window.
+			@return The cursor of the window.
+		 */
+		const Cursor& getCursor() const;
 
 		/*
 			@brief Gets the GLFW window pointer.
@@ -660,6 +666,7 @@ namespace Onyx
 	private:
 		WindowProperties m_properties;
 		WindowIcon m_icon;
+		Cursor m_cursor;
 
 		GLFWwindow* m_pGlfwWin;
 		static GLFWmonitor* m_pPrimaryMonitor;

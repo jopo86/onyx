@@ -201,6 +201,7 @@ bool PresetTests::MeshTest_Triangle1()
 	Window win(WindowProperties{ .title = "MeshTest_Triangle1", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunMeshTest(win, Mesh::Triangle(1.0f));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -212,6 +213,7 @@ bool PresetTests::MeshTest_Triangle2()
 	Window win(WindowProperties{ .title = "MeshTest_Triangle2", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Triangle(1.0f, 1.0f));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -223,6 +225,7 @@ bool PresetTests::MeshTest_Square()
 	Window win(WindowProperties{ .title = "MeshTest_Square", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Square(1.0f));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -234,6 +237,7 @@ bool PresetTests::MeshTest_Quad()
 	Window win(WindowProperties{ .title = "MeshTest_Quad1", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Quad(2.0f, 1.0f));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -247,6 +251,7 @@ bool PresetTests::MeshTest_Circle()
 	bool result = RunMeshTest(win, Mesh::Circle(
 		0.5f, 50
 	));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -258,6 +263,7 @@ bool PresetTests::MeshTest_Cube()
 	Window win(WindowProperties{ .title = "MeshTest_Cube", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::Cube(1.0f));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -269,6 +275,7 @@ bool PresetTests::MeshTest_RectPrism()
 	Window win(WindowProperties{ .title = "MeshTest_RectPrism", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
     bool result = RunMeshTest(win, Mesh::RectPrism(1.0f, 1.0f, 1.0f));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -280,6 +287,7 @@ bool PresetTests::MeshTest_Cylinder()
 	Window win(WindowProperties{ .title = "MeshTest_Cylinder", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunMeshTest(win, Mesh::Cylinder(0.2f, 2.0f, 50, false, false));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -291,6 +299,7 @@ bool PresetTests::RenderableTest_ColoredTriangle()
     Window win(WindowProperties{ .title = "RenderableTest_ColoredTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
 	bool result = RunRenderableTest(win, Renderable::ColoredTriangle(1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -302,6 +311,7 @@ bool PresetTests::RenderableTest_VertexColoredTriangle()
     Window win(WindowProperties{ .title = "RenderableTest_VertexColoredTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::VertexColoredTriangle(1.0f));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -313,6 +323,7 @@ bool PresetTests::RenderableTest_TexturedTriangle()
     Window win(WindowProperties{ .title = "RenderableTest_TexturedTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::TexturedTriangle(1.0f, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -324,6 +335,7 @@ bool PresetTests::RenderableTest_ColoredSquare()
     Window win(WindowProperties{ .title = "RenderableTest_ColoredSquare", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::ColoredSquare(1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -335,6 +347,7 @@ bool PresetTests::RenderableTest_ColoredQuad()
     Window win(WindowProperties{ .title = "RenderableTest_ColoredQuad", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::ColoredQuad(2.0f, 1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -346,6 +359,7 @@ bool PresetTests::RenderableTest_VertexColoredSquare()
     Window win(WindowProperties{ .title = "RenderableTest_VertexColoredSquare", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::VertexColoredSquare(1.0f));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -357,6 +371,7 @@ bool PresetTests::RenderableTest_VertexColoredQuad()
     Window win(WindowProperties{ .title = "RenderableTest_VertexColoredQuad", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::VertexColoredQuad(2.0f, 1.0f));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -368,6 +383,7 @@ bool PresetTests::RenderableTest_ColoredCircle()
 	Window win(WindowProperties{ .title = "RenderableTest_ColoredCircle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunRenderableTest(win, Renderable::ColoredCircle(0.5f, 50, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -379,6 +395,7 @@ bool PresetTests::RenderableTest_VertexColoredCircle()
 	Window win(WindowProperties{ .title = "RenderableTest_VertexColoredCircle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunRenderableTest(win, Renderable::VertexColoredCircle(0.5f, 50));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -390,6 +407,7 @@ bool PresetTests::RenderableTest_TexturedCircle()
 	Window win(WindowProperties{ .title = "RenderableTest_TexturedCircle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunRenderableTest(win, Renderable::TexturedCircle(0.5f, 50, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -401,6 +419,7 @@ bool PresetTests::RenderableTest_TexturedSquare()
     Window win(WindowProperties{ .title = "RenderableTest_TexturedSquare", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::TexturedSquare(1.0f, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -412,6 +431,7 @@ bool PresetTests::RenderableTest_TexturedQuad()
     Window win(WindowProperties{ .title = "RenderableTest_TexturedQuad", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::TexturedQuad(2.0f, 1.0f, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -423,6 +443,7 @@ bool PresetTests::RenderableTest_ColoredCube()
     Window win(WindowProperties{ .title = "RenderableTest_ColoredCube", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::ColoredCube(1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -434,6 +455,7 @@ bool PresetTests::RenderableTest_TexturedCube()
     Window win(WindowProperties{ .title = "RenderableTest_TexturedCube", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunRenderableTest(win, Renderable::TexturedCube(1.0f, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
     Terminate();
 	return result;
 }
@@ -445,6 +467,7 @@ bool PresetTests::RenderableTest_ColoredRectPrism()
 	Window win(WindowProperties{ .title = "RenderableTest_ColoredRectPrism", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunRenderableTest(win, Renderable::ColoredRectPrism(2.0f, 1.0f, 1.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -456,6 +479,7 @@ bool PresetTests::RenderableTest_TexturedRectPrism()
 	Window win(WindowProperties{ .title = "RenderableTest_TexturedRectPrism", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunRenderableTest(win, Renderable::TexturedRectPrism(2.0f, 1.0f, 1.0f, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -467,6 +491,7 @@ bool PresetTests::RenderableTest_ColoredCylinder()
 	Window win(WindowProperties{ .title = "RenderableTest_ColoredCylinder", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunRenderableTest(win, Renderable::ColoredCylinder(0.2f, 2.0f, 50, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -478,6 +503,7 @@ bool PresetTests::RenderableTest_TexturedCylinder()
 	Window win(WindowProperties{ .title = "RenderableTest_TexturedCylinder", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunRenderableTest(win, Renderable::TexturedCylinder(0.2f, 2.0f, 50, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -489,6 +515,7 @@ bool PresetTests::UiRenderableTest_ColoredTriangle()
     Window win(WindowProperties{ .title = "UiRenderableTest_ColoredTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::ColoredTriangle(100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
     Terminate();
     return result;
 }
@@ -500,6 +527,7 @@ bool PresetTests::UiRenderableTest_TexturedTriangle()
     Window win(WindowProperties{ .title = "UiRenderableTest_TexturedTriangle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::TexturedTriangle(100.0f, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
     Terminate();
     return result;
 }
@@ -511,6 +539,7 @@ bool PresetTests::UiRenderableTest_ColoredSquare()
     Window win(WindowProperties{ .title = "UiRenderableTest_ColoredSquare", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::ColoredSquare(100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
     Terminate();
     return result;
 }
@@ -522,6 +551,7 @@ bool PresetTests::UiRenderableTest_TexturedSquare()
     Window win(WindowProperties{ .title = "UiRenderableTest_TexturedSquare", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::TexturedSquare(100.0f, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
     Terminate();
     return result;
 }
@@ -533,6 +563,7 @@ bool PresetTests::UiRenderableTest_ColoredQuad()
     Window win(WindowProperties{ .title = "UiRenderableTest_ColoredQuad", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::ColoredQuad(200.0f, 100.0f, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
     Terminate();
     return result;
 }
@@ -544,6 +575,7 @@ bool PresetTests::UiRenderableTest_TexturedQuad()
     Window win(WindowProperties{ .title = "UiRenderableTest_TexturedQuad", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
     win.init();
     bool result = RunUiRenderableTest(win, UiRenderable::TexturedQuad(200.0f, 100.0f, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
     Terminate();
     return result;
 }
@@ -555,6 +587,7 @@ bool PresetTests::UiRenderableTest_ColoredCircle()
 	Window win(WindowProperties{ .title = "UiRenderableTest_ColoredCircle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunUiRenderableTest(win, UiRenderable::ColoredCircle(50.0f, 50, Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	win.dispose();
 	Terminate();
 	return result;
 }
@@ -566,6 +599,7 @@ bool PresetTests::UiRenderableTest_TexturedCircle()
 	Window win(WindowProperties{ .title = "UiRenderableTest_TexturedCircle", .width = 1280, .height = 720, .nSamplesMSAA = 16 });
 	win.init();
 	bool result = RunUiRenderableTest(win, UiRenderable::TexturedCircle(50.0f, 50, Texture::Load(Resources("textures/container.jpg"))));
+	win.dispose();
 	Terminate();
 	return result;
 }

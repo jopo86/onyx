@@ -9,8 +9,8 @@
  */
 
 #define ONYX_VERSION_MAJOR		1
-#define ONYX_VERSION_MINOR		5
-#define ONYX_VERSION_PATCH		2
+#define ONYX_VERSION_MINOR		6
+#define ONYX_VERSION_PATCH		0
 
 #define ONYX_PRE_RELEASE_NUM	0
 
@@ -501,9 +501,17 @@ namespace Onyx
 
 	/*
 		@brief Gets a file path relative to the resource path.
+		Identical to `Res(const std::string& path)`.
 		@param path The path relative to the resource path.
 	 */
 	std::string Resources(const std::string& path);
+
+	/*
+		@brief Gets a file path relative to the resource path.
+		Identical to `Resources(const std::string& path)`.
+		@param path The path relative to the resource path.
+	 */
+	std::string Res(const std::string& path);
 
 	/*
 		@deprecated Use the named user pointer system instead - `GetUserPtr(const std::string& name)`.

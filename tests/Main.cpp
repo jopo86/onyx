@@ -21,15 +21,9 @@ int main()
 
 	// PresetTests::RunAllTests();
 
-	// WindowTest::Run();
+	WindowTest::Run();
 
 	// BouncingBallTest::Run();
-
-	Onyx::ErrorHandler errorHandler(true, true);
-	Onyx::Init(errorHandler);
-	Onyx::Terminate();
-	Onyx::Init(errorHandler);
-	Onyx::Terminate();
 	
 	return 0;
 }

@@ -133,6 +133,8 @@ const std::unordered_map<Onyx::Key, char> Onyx::InputHandler::s_keyToCharMap = {
 };
 
 const std::unordered_map<const char*, Onyx::Key> Onyx::InputHandler::s_strToKeyMap = {
+	{ "Null", Onyx::Key::Null },
+	{ "Unknown", Onyx::Key::Unknown },
 	{ "Space", Onyx::Key::Space },
 	{ "Apostrophe", Onyx::Key::Apostrophe },
 	{ "Comma", Onyx::Key::Comma },
@@ -257,6 +259,8 @@ const std::unordered_map<const char*, Onyx::Key> Onyx::InputHandler::s_strToKeyM
 };
 
 const std::unordered_map<Onyx::Key, const char*> Onyx::InputHandler::s_keyToStrMap = {
+	{ Onyx::Key::Null, "Null" },
+	{ Onyx::Key::Unknown, "Unknown" },
 	{ Onyx::Key::Space, "Space" },
 	{ Onyx::Key::Apostrophe, "Apostrophe" },
 	{ Onyx::Key::Comma, "Comma" },
@@ -291,6 +295,22 @@ const std::unordered_map<Onyx::Key, const char*> Onyx::InputHandler::s_keyToStrM
 	{ Onyx::Key::N, "N" },
 	{ Onyx::Key::O, "O" },
 	{ Onyx::Key::P, "P" },
+	{ Onyx::Key::Q, "Q" },
+	{ Onyx::Key::R, "R" },
+	{ Onyx::Key::S, "S" },
+	{ Onyx::Key::T, "T" },
+	{ Onyx::Key::U, "U" },
+	{ Onyx::Key::V, "V" },
+	{ Onyx::Key::W, "W" },
+	{ Onyx::Key::X, "X" },
+	{ Onyx::Key::Y, "Y" },
+	{ Onyx::Key::Z, "Z" },
+	{ Onyx::Key::LeftBracket, "LeftBracket" },
+	{ Onyx::Key::Backslash, "Backslash" },
+	{ Onyx::Key::RightBracket, "RightBracket" },
+	{ Onyx::Key::GraveAccent, "GraveAccent" },
+	{ Onyx::Key::World1, "World1" },
+	{ Onyx::Key::World2, "World2" },
 	{ Onyx::Key::Escape, "Escape" },
 	{ Onyx::Key::Enter, "Enter" },
 	{ Onyx::Key::Tab, "Tab" },
@@ -365,6 +385,8 @@ const std::unordered_map<Onyx::Key, const char*> Onyx::InputHandler::s_keyToStrM
 };
 
 const std::unordered_map<const char*, Onyx::MouseButton> Onyx::InputHandler::s_strToButtonMap = {
+	{ "Null", Onyx::MouseButton::Null },
+	{ "Unknown", Onyx::MouseButton::Unknown },
 	{ "Button1", Onyx::MouseButton::Button1 },
 	{ "Button2", Onyx::MouseButton::Button2 },
 	{ "Button3", Onyx::MouseButton::Button3 },
@@ -382,6 +404,8 @@ const std::unordered_map<const char*, Onyx::MouseButton> Onyx::InputHandler::s_s
 };
 
 const std::unordered_map<Onyx::MouseButton, const char*> Onyx::InputHandler::s_buttonToStrMap = {
+	{ Onyx::MouseButton::Null, "Null" },
+	{ Onyx::MouseButton::Unknown, "Unknown" },
 	{ Onyx::MouseButton::Button1, "Button1" },
 	{ Onyx::MouseButton::Button2, "Button2" },
 	{ Onyx::MouseButton::Button3, "Button3" },
@@ -434,6 +458,8 @@ Onyx::InputHandler::InputHandler()
 	{
 		if (glfwJoystickIsGamepad(jid)) m_gamepads.push_back(Gamepad(jid));
 	}
+
+	m_repeatedKey = Onyx::Key::Null;
 }
 
 void Onyx::InputHandler::update()
@@ -568,6 +594,31 @@ const char* Onyx::InputHandler::MouseButtonToStr(Onyx::MouseButton button)
 		}
 	);
 	return "Unknown";
+}
+
+const std::unordered_set<Onyx::Key>& Onyx::InputHandler::getKeysTapped() const
+{
+	return m_keysTappedSet;
+}
+
+const std::unordered_set<Onyx::Key>& Onyx::InputHandler::getKeysDown() const
+{
+	return m_keysDownSet;
+}
+
+const std::unordered_set<Onyx::MouseButton>& Onyx::InputHandler::getMouseButtonsTapped() const
+{
+	return m_buttonsTappedSet;
+}
+
+const std::unordered_set<Onyx::MouseButton>& Onyx::InputHandler::getMouseButtonsDown() const
+{
+	return m_buttonsDownSet;
+}
+
+Onyx::Key Onyx::InputHandler::getRepeatedKey() const
+{
+	return m_repeatedKey;
 }
 
 Onyx::KeyState Onyx::InputHandler::getKeyState(Onyx::Key key) const
@@ -839,9 +890,14 @@ void Onyx::InputHandler::keyCallback(int key, int scancode, int action, int mods
 		m_keysTappedSet.insert((Onyx::Key)key);
 		m_keysDownSet.insert((Onyx::Key)key);
 	}
+	else if (action == GLFW_REPEAT)
+	{
+		m_repeatedKey = (Onyx::Key)key;
+	}
 	else if (action == GLFW_RELEASE)
 	{
 		m_keysDownSet.erase((Onyx::Key)key);
+		if (m_repeatedKey == (Onyx::Key)key) m_repeatedKey = Onyx::Key::Null;
 	}
 
 	if (m_pKeyCallback) m_pKeyCallback(key, scancode, action, mods);

@@ -141,6 +141,7 @@ namespace Onyx
 	 */
 	enum class Key
 	{
+		Null = 0,
 		Unknown = -1,
 		Space = 32,
 		Apostrophe = 39,
@@ -271,6 +272,7 @@ namespace Onyx
 	 */
 	enum class MouseButton
 	{
+		Null = -2,
 		Unknown = -1,
 		Button1 = 0,
 		Button2 = 1,

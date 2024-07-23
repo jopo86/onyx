@@ -115,6 +115,45 @@ namespace Onyx
 		static const char* MouseButtonToStr(Onyx::MouseButton button);
 
 		/*
+			@brief Gets the set of keys that are tapped.
+		 *	Please note that the set is in no particular order!
+			Ignores key cooldowns.
+			@return The set of keys that are tapped.
+		 */
+		const std::unordered_set<Onyx::Key>& getKeysTapped() const;
+
+		/*
+			@brief Gets the set of keys that are down.
+		 *	Please note that the set is in no particular order!
+			Ignores key cooldowns.
+			@return The set of keys that are down.
+		 */
+		const std::unordered_set<Onyx::Key>& getKeysDown() const;
+
+		/*
+			@brief Gets the set of mouse buttons that are tapped.
+		 *	Please note that the set is in no particular order!
+			Ignores mouse button cooldowns.
+			@return The set of mouse buttons that are tapped.
+		 */
+		const std::unordered_set<Onyx::MouseButton>& getMouseButtonsTapped() const;
+
+		/*
+			@brief Gets the set of mouse buttons that are down.
+		 *	Please note that the set is in no particular order!
+			Ignores mouse button cooldowns.
+			@return The set of mouse buttons that are down.
+		 */
+		const std::unordered_set<Onyx::MouseButton>& getMouseButtonsDown() const;
+
+		/*
+			@brief Gets the repeated key.
+			Will return `Onyx::Key::Null` if no key is being repeated.
+			@return The repeated key.
+		 */
+		Onyx::Key getRepeatedKey() const;
+
+		/*
 			@brief Gets the keystate of the specified key.
 			Ignores key cooldowns.
 			@param key The key to check.
@@ -353,6 +392,8 @@ namespace Onyx
 
 		std::unordered_set<Onyx::MouseButton> m_buttonsTappedSet;
 		std::unordered_set<Onyx::MouseButton> m_buttonsDownSet;
+
+		Onyx::Key m_repeatedKey;
 
 		Onyx::Math::DVec2 m_mousePos;
 		Onyx::Math::DVec2 m_lastMousePos;

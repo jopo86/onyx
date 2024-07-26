@@ -240,6 +240,82 @@ void Onyx::Window::init(bool* result)
 	setCursor(m_cursor);
 }
 
+void Onyx::Window::init(const Window& share, bool* result)
+{
+	glfwWindowHint(GLFW_RESIZABLE, m_properties.resizable);
+	glfwWindowHint(GLFW_VISIBLE, m_properties.visible);
+	glfwWindowHint(GLFW_FOCUSED, m_properties.focused);
+	glfwWindowHint(GLFW_DECORATED, m_properties.decorated);
+	glfwWindowHint(GLFW_FLOATING, m_properties.topmost);
+	glfwWindowHint(GLFW_FOCUS_ON_SHOW, m_properties.focusOnShow);
+	glfwWindowHint(GLFW_SAMPLES, m_properties.nSamplesMSAA);
+
+	if (m_pPrimaryMonitor == nullptr) m_pPrimaryMonitor = glfwGetPrimaryMonitor();
+	if (m_pPrimaryMonitorInfo == nullptr) m_pPrimaryMonitorInfo = (GLFWvidmode*)glfwGetVideoMode(m_pPrimaryMonitor);
+
+	m_pGlfwWin = glfwCreateWindow(m_properties.width, m_properties.height, m_properties.title.c_str(), nullptr, share.getGlfwWindowPtr());
+	if (m_pGlfwWin == nullptr)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Window::init()",
+				.message = "Failed to create GLFW window.",
+				.howToFix = "Ensure the window is not already initialized, and that the GLFW library is downloaded for your specific platform. If you are not running Windows x64, you will need to download GLFW for yourself, you can't just use the one from the Onyx download."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return;
+	}
+
+	glfwMakeContextCurrent(m_pGlfwWin);
+	glfwGetFramebufferSize(m_pGlfwWin, &m_bufferWidth, &m_bufferHeight);
+	glfwSetWindowUserPointer(m_pGlfwWin, this);
+
+	glfwSetWindowOpacity(m_pGlfwWin, m_properties.opacity);
+	glfwSetWindowPos(m_pGlfwWin, m_properties.position.getX(), m_properties.position.getY());
+
+	glfwSetFramebufferSizeCallback(m_pGlfwWin, framebufferSizeCallback);
+	glfwSetWindowSizeCallback(m_pGlfwWin, windowSizeCallback);
+	glfwSetWindowPosCallback(m_pGlfwWin, windowPosCallback);
+	glfwSetKeyCallback(m_pGlfwWin, keyCallback);
+	glfwSetMouseButtonCallback(m_pGlfwWin, mouseButtonCallback);
+	glfwSetCursorPosCallback(m_pGlfwWin, cursorPosCallback);
+	glfwSetScrollCallback(m_pGlfwWin, scrollCallback);
+	glfwSetJoystickCallback(joystickCallback);
+	glfwSetDropCallback(m_pGlfwWin, fileDropCallback);
+
+	glfwSwapInterval(1);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Window::init()",
+				.message = "Failed to initialize OpenGL.",
+				.howToFix = "Ensure that the window is not already initialized, and that the glad library is downloaded for your specific platofrm. If you are not running Windows x64, you will need to download glad for yourself, you can't just use the one from the Onyx download."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return;
+	}
+
+	onyx_set_gl_init(true);
+
+	if (m_properties.fullscreen) fullscreen();
+
+	if (glfwRawMouseMotionSupported()) glfwSetInputMode(m_pGlfwWin, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+
+	glViewport(0, 0, m_bufferWidth, m_bufferHeight);
+	glEnable(GL_DEPTH_TEST);
+	if (m_properties.nSamplesMSAA != 0) glEnable(GL_MULTISAMPLE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	m_initialized = true;
+	if (result != nullptr) *result = true;
+
+	m_cursor = Cursor::Standard(CursorType::Arrow);
+	setCursor(m_cursor);
+}
+
 void Onyx::Window::startRender()
 {
 	m_deltaTime = GetTime() - m_lastFrameTime;
@@ -475,7 +551,7 @@ void Onyx::Window::setCursor(const Cursor& cursor)
 void Onyx::Window::setOpacity(float opacity)
 {
 	m_properties.opacity = Math::Clamp(opacity, 0.0f, 1.0f);
-	glfwSetWindowOpacity(m_pGlfwWin, opacity);
+	glfwSetWindowOpacity(m_pGlfwWin, m_properties.opacity);
 }
 
 void Onyx::Window::fullscreen()

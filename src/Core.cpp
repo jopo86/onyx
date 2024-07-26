@@ -100,7 +100,7 @@ void Onyx::Init()
 	if (initialized) return;
 
 	initialized = true;
-	if (resourcePath == "") resourcePath = FileUtils::GetDir(std::string(__FILE__)) + "/../resources/";
+	if (resourcePath == "") resourcePath = "../resources/";
 
 	stbi_set_flip_vertically_on_load(true);
 

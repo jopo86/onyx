@@ -196,19 +196,6 @@ void WindowTest::Run()
 	bool title1 = true;
 	bool mousePosIsColor = false;
 
-	input.setKeyCooldown(Onyx::Key::F1, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F2, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F3, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F4, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F5, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F6, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F7, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F8, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F9, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F10, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F11, 0.5f);
-	input.setKeyCooldown(Onyx::Key::F12, 0.5f);
-
 	while (window.isOpen())
 	{
 		double dt = window.getDeltaTime();
@@ -223,10 +210,10 @@ void WindowTest::Run()
 			window.setBackgroundColor(Onyx::Math::Vec3(input.getMousePos().getX() / window.getWidth(), input.getMousePos().getY() / window.getHeight(), 1.0f));
 		}
 
-		if (input.isKeyDown(Onyx::Key::Escape)) window.close();
-		if (input.isKeyDown(Onyx::Key::ArrowUp)) window.setOpacity(window.getOpacity() + 0.5 * dt);
-		if (input.isKeyDown(Onyx::Key::ArrowDown)) window.setOpacity(window.getOpacity() - 0.5 * dt);
-		if (input.isKeyDown(Onyx::Key::F1))
+		if (input.isKeyTapped(Onyx::Key::Escape)) window.close();
+		if (input.isKeyTapped(Onyx::Key::ArrowUp)) window.setOpacity(window.getOpacity() + 0.5 * dt);
+		if (input.isKeyTapped(Onyx::Key::ArrowDown)) window.setOpacity(window.getOpacity() - 0.5 * dt);
+		if (input.isKeyTapped(Onyx::Key::F1))
 		{
 			if (title1)
 			{
@@ -239,17 +226,17 @@ void WindowTest::Run()
 				title1 = true;
 			}
 		}
-		if (input.isKeyDown(Onyx::Key::F2)) mousePosIsColor = !mousePosIsColor;
-		if (input.isKeyDown(Onyx::Key::F3)) window.focus();
-		if (input.isKeyDown(Onyx::Key::F4)) window.toggleResizable();
-		if (input.isKeyDown(Onyx::Key::F5)) window.toggleDecorated();
-		if (input.isKeyDown(Onyx::Key::F6)) window.toggleTopmost();
-		if (input.isKeyDown(Onyx::Key::F7)) window.toggleFocusOnShow();
-		if (input.isKeyDown(Onyx::Key::F8)) window.minimize();
-		if (input.isKeyDown(Onyx::Key::F9)) window.maximize();
-		if (input.isKeyDown(Onyx::Key::F10)) window.restore();
-		if (input.isKeyDown(Onyx::Key::F11)) window.requestAttention();
-		if (input.isKeyDown(Onyx::Key::F12)) window.toggleFullscreen(950, 600, Onyx::Math::IVec2(100, 100));
+		if (input.isKeyTapped(Onyx::Key::F2)) mousePosIsColor = !mousePosIsColor;
+		if (input.isKeyTapped(Onyx::Key::F3)) window.focus();
+		if (input.isKeyTapped(Onyx::Key::F4)) window.toggleResizable();
+		if (input.isKeyTapped(Onyx::Key::F5)) window.toggleDecorated();
+		if (input.isKeyTapped(Onyx::Key::F6)) window.toggleTopmost();
+		if (input.isKeyTapped(Onyx::Key::F7)) window.toggleFocusOnShow();
+		if (input.isKeyTapped(Onyx::Key::F8)) window.minimize();
+		if (input.isKeyTapped(Onyx::Key::F9)) window.maximize();
+		if (input.isKeyTapped(Onyx::Key::F10)) window.restore();
+		if (input.isKeyTapped(Onyx::Key::F11)) window.requestAttention();
+		if (input.isKeyTapped(Onyx::Key::F12)) window.toggleFullscreen(950, 600, Onyx::Math::IVec2(100, 100));
 
 		window.startRender();
 		renderer.render();

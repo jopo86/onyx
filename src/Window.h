@@ -258,6 +258,14 @@ namespace Onyx
 		void init(bool* result = nullptr);
 
 		/*
+			@brief Initializes the window, sharing OpenGL resources with another window.
+			This initializes OpenGL, so it must be called before any OpenGL functions.
+			@param share The window to share OpenGL resources with.
+			@param result A pointer to a boolean that will be set to true if the window was initialized successfully, false otherwise.
+		 */
+		void init(const Onyx::Window& share, bool* result = nullptr);
+
+		/*
 			@brief Prepares to render the current frame.
 			This function clears the window to the background color and updates the delta time / FPS / frame #.
 			It also polls events if no input handler has been linked to do so.

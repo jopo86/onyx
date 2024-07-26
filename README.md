@@ -6,7 +6,7 @@ The intuitive and well-structured codebase makes it simpler than ever to code ga
 ## Download
 There is a pre-compiled binary compiled on my system (Windows x64), but it is recommended to compile yourself using CMake. See [Build](https://github.com/jopo86/onyx/wiki/Build) for detailed download/build instructions.
 
-[Latest Release (1.6.1)](https://github.com/jopo86/onyx/releases/tag/v1.6.1)  
+[Latest Release (1.6.2)](https://github.com/jopo86/onyx/releases/tag/v1.6.2)  
 [All Releases](https://github.com/jopo86/onyx/releases)  
 
 ## Get Started

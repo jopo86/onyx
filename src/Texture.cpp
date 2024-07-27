@@ -18,6 +18,101 @@ Onyx::Texture::Texture(const Texture& other)
 	m_tex = other.m_tex;
 }
 
+Onyx::Texture::Texture(const ImageData& imageData, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)
+{
+	m_tex = 0;
+
+	if (textureWrap == Onyx::TextureWrap::Null)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::Texture::Texture(const ImageData& imageData, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+				.message = "Texture wrap option cannot be null",
+				.howToFix = "Enter a valid texture wrap option."
+			}
+		);
+		return;
+	}
+
+	if (minFilter == Onyx::TextureFilter::Null)
+	{
+		onyx_err(Error{
+			.sourceFunction = "Onyx::Texture::Texture(const ImageData& imageData, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+			.message = "Minification filter option cannot be null",
+			.howToFix = "Enter a valid minification filter option."
+			}
+		);
+		return;
+	}
+
+	if (magFilter == Onyx::TextureFilter::Null)
+	{
+		onyx_err(Error{
+			.sourceFunction = "Onyx::Texture::Texture(const ImageData& imageData, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+			.message = "Magnification filter option cannot be null",
+			.howToFix = "Enter a valid magnification filter option."
+			}
+		);
+		return;
+	}
+
+	if (imageData.getFormat() == ImageFormat::Null)
+	{
+		onyx_err(Error{
+			.sourceFunction = "Onyx::Texture::Texture(const ImageData& imageData, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+			.message = "Image data format cannot be null",
+			.howToFix = "Ensure the image data is valid."
+			}
+		);
+		return;
+	}
+
+	if (imageData.getFormat() != ImageFormat::RGB && imageData.getFormat() != ImageFormat::RGBA)
+	{
+		onyx_err(Error{
+			.sourceFunction = "Onyx::Texture::Texture(const ImageData& imageData, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)",
+			.message = "Image data format must be RGB or RGBA",
+			.howToFix = "Ensure the image data is in RGB or RGBA format."
+			}
+		);
+		return;
+	}
+
+	m_tex = 0;
+
+	glGenTextures(1, &m_tex);
+	glBindTexture(GL_TEXTURE_2D, m_tex);
+
+	switch (textureWrap)
+	{
+	case Onyx::TextureWrap::Repeat:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		break;
+
+	case Onyx::TextureWrap::MirroredRepeat:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+		break;
+
+	case Onyx::TextureWrap::ClampToEdge:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		break;
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter == Onyx::TextureFilter::Nearest ? GL_NEAREST : GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter == Onyx::TextureFilter::Nearest ? GL_NEAREST : GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, imageData.getFormat() == ImageFormat::RGBA ? GL_RGBA : GL_RGB, imageData.getWidth(), imageData.getHeight(), 0, imageData.getFormat() == ImageFormat::RGBA ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, imageData.getPixels());
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+#if defined(ONYX_GL_DEBUG_LOW) || defined(ONYX_GL_DEBUG_MED) || defined(ONYX_GL_DEBUG_HIGH)
+	glCheckError();
+#endif
+}
+
 Onyx::Texture Onyx::Texture::Load(const std::string& filepath, bool* result, Onyx::TextureWrap textureWrap, Onyx::TextureFilter minFilter, Onyx::TextureFilter magFilter)
 {
 	std::ifstream file(filepath);

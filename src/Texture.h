@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "ImageData.h"
 
 namespace Onyx
 {
@@ -25,6 +26,16 @@ namespace Onyx
 			@param other The other texture object.
 		*/
 		Texture(const Texture& other);
+
+		/*
+			@brief Creates a new Texture object from the specified image data.
+		 !	Please note that the image data is not disposed after the texture is created.
+			@param imageData The image data to create the texture from.
+			@param textureWrap The texture wrap option. Repeat by default.
+			@param minFilter The minification filter (applied when the texture is shrunk). Nearest by default.
+			@param magFilter The magnification filter (applied when the texture is enlarged). Linear by default.
+		 */
+		Texture(const ImageData& imageData, Onyx::TextureWrap textureWrap = Onyx::TextureWrap::Repeat, Onyx::TextureFilter minFilter = Onyx::TextureFilter::Nearest, Onyx::TextureFilter magFilter = Onyx::TextureFilter::Linear);
 
 		/*
 			@brief Creates a new Texture object from the specified image filepath.

@@ -9,8 +9,8 @@
  */
 
 #define ONYX_VERSION_MAJOR		1
-#define ONYX_VERSION_MINOR		6
-#define ONYX_VERSION_PATCH		2
+#define ONYX_VERSION_MINOR		7
+#define ONYX_VERSION_PATCH		0
 
 #define ONYX_PRE_RELEASE_NUM	0
 
@@ -433,7 +433,7 @@ namespace Onyx
 	/*
 		@brief Starts a little demo of the library.
 	 */
-	void Demo();
+	void Demo(bool logProgress = true);
 
 	/*
 		@brief Gets the contents of the system clipboard.

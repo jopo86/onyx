@@ -241,8 +241,17 @@ void Onyx::Terminate()
 	initialized = false;
 }
 
-void Onyx::Demo()
+void Onyx::Demo(bool logProgress)
 {
+	if (logProgress) std::cout << "\nOnyx v" << GetVersionString() << " Demo\n";
+	bool implicitInit = !initialized;
+	Onyx::ErrorHandler errorHandler(true, true);
+	if (implicitInit) 
+	{
+		Init(errorHandler);
+		if (logProgress) std::cout << " -- Onyx initialized\n";
+	}
+
 	Onyx::Monitor primaryMonitor = Onyx::Monitor::GetPrimary();
 
 	Window window(
@@ -255,7 +264,9 @@ void Onyx::Demo()
 			.backgroundColor = Vec3(0.0f, 0.7f, 1.0f)
 		}
 	);
+	if (logProgress) std::cout << " -- Window created\n";
 	window.init();
+	if (logProgress) std::cout << " -- Window initialized\n";
 
 	WindowIcon icon = WindowIcon::Load({
 		Resources("icons/icon-16x.png"),
@@ -267,9 +278,11 @@ void Onyx::Demo()
 	
 	window.setIcon(icon);
 	icon.dispose();
+	if (logProgress) std::cout << " -- Window icon loaded & set\n";
 
 	InputHandler input;
 	window.linkInputHandler(input);
+	if (logProgress) std::cout << " -- Input handler created & linked\n";
 	
 	float bgVertices[] = {
 		0.0f,   110.0f, 0.0f,
@@ -295,13 +308,34 @@ void Onyx::Demo()
 		2, 3, 0
 	};
 
+	Camera cam(Projection::Perspective(60.0f, 1280, 720));
+	window.linkCamera(cam);
+	cam.translateFB(-6.0f);
+	cam.translateUD(2.0f);
+	if (logProgress) std::cout << " -- Camera created & linked\n";
+
+	Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
+	Fog fog(window.getBackgroundColor(), 10.0f, 20.0f);
+
+	Renderer renderer(cam, lighting, fog);
+	window.linkRenderer(renderer);
+	if (logProgress) std::cout << " -- Renderer created & linked\n";
+
 	float start = GetTime();
+	Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
+	Font robotoBold = Font::Load(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
+	float duration = round((GetTime() - start) * 1000);
+	if (logProgress) std::cout << " -- Fonts loaded (" << duration << "ms)\n";
+
+	if (logProgress) std::cout << " -- Loading car model... (this might take a bit)\n";
+	start = GetTime();
 	ModelRenderable car(Model::LoadOBJ(Resources("models/Corvette C8.obj")));
 	car.rotate(Vec3(0.0f, -180.0f, 0.0f));
-	float duration = round((GetTime() - start) * 100) / 100;
+	duration = round((GetTime() - start) * 100) / 100;
 
-	std::cout << "Model loaded in " << duration << " sec\n";
+	if (logProgress) std::cout << " -- Car model loaded (" << duration << "s)\n";
 
+	start = GetTime();
 	UiRenderable textBg(
 		Mesh(VertexBuffer(bgVertices, sizeof(bgVertices), Onyx::VertexFormat::P), IndexBuffer(bgIndices, sizeof(bgIndices))),
 		Vec4(0.0f, 0.0f, 0.0f, 0.3f)
@@ -313,23 +347,6 @@ void Onyx::Demo()
 		Texture::Load(Resources("textures/onyx.png"))
 	);
 	logo.setPosition(Vec2(window.getBufferWidth() - 90.0f, window.getBufferHeight() - 90.0f));
-
-	Camera cam(Projection::Perspective(60.0f, 1280, 720));
-	window.linkCamera(cam);
-	cam.translateFB(-6.0f);
-	cam.translateUD(2.0f);
-
-	Lighting lighting(Vec3(1.0f, 1.0f, 1.0f), 0.3f, Vec3(-0.2f, -1.0f, -0.3f));
-	Fog fog(window.getBackgroundColor(), 10.0f, 20.0f);
-
-	Renderer renderer(cam, lighting, fog);
-	window.linkRenderer(renderer);
-	renderer.add(car);
-	renderer.add(textBg);
-	renderer.add(logo);
-
-	Font robotoReg = Font::Load(Resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
-	Font robotoBold = Font::Load(Resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
 
 	std::vector<TextRenderable> textRenderables;
 
@@ -367,6 +384,12 @@ void Onyx::Demo()
 	textRenderables[10].setPosition(Vec2(25.0f, 205.0f));
 	textRenderables[10].setScale(0.6f);
 
+	duration = round((GetTime() - start) * 1000);
+	if (logProgress) std::cout << " -- Created renderables (" << duration << "ms)\n";
+
+	renderer.add(car);
+	renderer.add(textBg);
+	renderer.add(logo);
 	for (TextRenderable& tr : textRenderables) renderer.add(tr);
 
 	const double MOVE_SPEED = 6.0;
@@ -381,6 +404,8 @@ void Onyx::Demo()
 	int fps = 0;
 
 	bool lookAtOrigin = false;
+
+	if (logProgress) std::cout << " -- Starting mainloop\n";
 
 	while (window.isOpen())
 	{
@@ -455,6 +480,14 @@ void Onyx::Demo()
 	window.dispose();
 	robotoReg.dispose();
 	robotoBold.dispose();
+
+	if (logProgress) std::cout << " -- Mainloop ended\n";
+
+	if (implicitInit) 
+	{
+		Terminate();
+		if (logProgress) std::cout << " -- Onyx terminated\n";
+	}
 }
 
 std::string Onyx::GetClipboardString()

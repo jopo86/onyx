@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <mutex>
 
 #include "Core.h"
 #include "Lighting.h"
@@ -335,8 +336,13 @@ namespace Onyx
 
 		bool m_lightingEnabled;
 		bool m_fogEnabled;
-		static bool sm_wireframe;
-		static bool sm_uiWireframeAllowed;
-		static float sm_lineWidth;
+
+		static bool s_wireframe;
+		static bool s_uiWireframeAllowed;
+		static float s_lineWidth;
+
+		static std::recursive_mutex s_mtx_wireframe;
+		static std::recursive_mutex s_mtx_uiWireframeAllowed;
+		static std::recursive_mutex s_mtx_lineWidth;
 	};
 }

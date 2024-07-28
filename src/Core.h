@@ -499,7 +499,7 @@ namespace Onyx
 		This function is used by the library when reading files.
 		@return The path of the resources folder.
 	 */
-	const std::string& GetResourcePath();
+	std::string GetResourcePath();
 
 	/*
 		@brief Gets a file path relative to the resource path.

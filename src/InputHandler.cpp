@@ -422,6 +422,13 @@ const std::unordered_map<Onyx::MouseButton, const char*> Onyx::InputHandler::s_b
 	{ Onyx::MouseButton::MaxButton, "MaxButton" }
 };
 
+std::mutex Onyx::InputHandler::s_mtx_charToKeyMap;
+std::mutex Onyx::InputHandler::s_mtx_keyToCharMap;
+std::mutex Onyx::InputHandler::s_mtx_strToKeyMap;
+std::mutex Onyx::InputHandler::s_mtx_keyToStrMap;
+std::mutex Onyx::InputHandler::s_mtx_strToButtonMap;
+std::mutex Onyx::InputHandler::s_mtx_buttonToStrMap;
+
 Onyx::InputHandler::InputHandler()
 {
 	m_pWin = nullptr;
@@ -508,8 +515,14 @@ void Onyx::InputHandler::update()
 
 Onyx::Key Onyx::InputHandler::CharToKey(char c)
 {
+	s_mtx_charToKeyMap.lock();
 	auto it = s_charToKeyMap.find(c);
-	if (it != s_charToKeyMap.end()) return it->second;
+	if (it != s_charToKeyMap.end())
+	{
+		s_mtx_charToKeyMap.unlock();
+		return it->second;
+	}
+	s_mtx_charToKeyMap.unlock();
 
 	onyx_warn(Warning{
 			.sourceFunction = "Onyx::InputHandler::CharToKey(char)",
@@ -523,8 +536,14 @@ Onyx::Key Onyx::InputHandler::CharToKey(char c)
 
 char Onyx::InputHandler::KeyToChar(Onyx::Key key)
 {
+	s_mtx_keyToCharMap.lock();
 	auto it = s_keyToCharMap.find(key);
-	if (it != s_keyToCharMap.end()) return it->second;
+	if (it != s_keyToCharMap.end()) 
+	{
+		s_mtx_keyToCharMap.unlock();
+		return it->second;
+	}
+	s_mtx_keyToCharMap.unlock();
 
 	onyx_warn(Warning{
 			.sourceFunction = "Onyx::InputHandler::KeyToChar(Onyx::Key)",
@@ -538,8 +557,14 @@ char Onyx::InputHandler::KeyToChar(Onyx::Key key)
 
 Onyx::Key Onyx::InputHandler::StrToKey(const char* str)
 {
+	s_mtx_strToKeyMap.lock();
 	auto it = s_strToKeyMap.find(str);
-	if (it != s_strToKeyMap.end()) return it->second;
+	if (it != s_strToKeyMap.end()) 
+	{
+		s_mtx_strToKeyMap.unlock();
+		return it->second;
+	}
+	s_mtx_strToKeyMap.unlock();
 
 	onyx_warn(Warning{
 			.sourceFunction = "Onyx::InputHandler::StrToKey(const char*)",
@@ -553,8 +578,14 @@ Onyx::Key Onyx::InputHandler::StrToKey(const char* str)
 
 const char* Onyx::InputHandler::KeyToStr(Onyx::Key key)
 {
+	s_mtx_keyToStrMap.lock();
 	auto it = s_keyToStrMap.find(key);
-	if (it != s_keyToStrMap.end()) return it->second;
+	if (it != s_keyToStrMap.end()) 
+	{
+		s_mtx_keyToStrMap.unlock();
+		return it->second;
+	}
+	s_mtx_keyToStrMap.unlock();
 
 	onyx_warn(Warning{
 			.sourceFunction = "Onyx::InputHandler::KeyToStr(Onyx::Key)",
@@ -568,8 +599,14 @@ const char* Onyx::InputHandler::KeyToStr(Onyx::Key key)
 
 Onyx::MouseButton Onyx::InputHandler::StrToMouseButton(const char* str)
 {
+	s_mtx_strToButtonMap.lock();
 	auto it = s_strToButtonMap.find(str);
-	if (it != s_strToButtonMap.end()) return it->second;
+	if (it != s_strToButtonMap.end()) 
+	{
+		s_mtx_strToButtonMap.unlock();
+		return it->second;
+	}
+	s_mtx_strToButtonMap.unlock();
 
 	onyx_warn(Warning{
 			.sourceFunction = "Onyx::InputHandler::StrToButton(const char*)",
@@ -583,8 +620,14 @@ Onyx::MouseButton Onyx::InputHandler::StrToMouseButton(const char* str)
 
 const char* Onyx::InputHandler::MouseButtonToStr(Onyx::MouseButton button)
 {
+	s_mtx_buttonToStrMap.lock();
 	auto it = s_buttonToStrMap.find(button);
-	if (it != s_buttonToStrMap.end()) return it->second;
+	if (it != s_buttonToStrMap.end()) 
+	{
+		s_mtx_buttonToStrMap.unlock();
+		return it->second;
+	}
+	s_mtx_buttonToStrMap.unlock();
 
 	onyx_warn(Warning{
 			.sourceFunction = "Onyx::InputHandler::MouseButtonToStr(Onyx::MouseButton)",

@@ -4,6 +4,8 @@
 
 #include <string>
 #include <unordered_map>
+#include <atomic>
+#include <mutex>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -23,14 +25,20 @@
 
 using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
-bool initialized = false;
-bool glInitialized = false;
-Onyx::ErrorHandler* pErrorHandler = nullptr;
+std::atomic<bool> initialized = false;
+std::atomic<bool> glInitialized = false;
+std::atomic<Onyx::ErrorHandler*> pErrorHandler = nullptr;
+std::atomic<void*> oldUserPtr = nullptr;
+
 std::string resourcePath;
 FT_Library ft;
 std::vector<std::pair<void*, bool>> mallocs;
-void* oldUserPtr = nullptr;
 std::unordered_map<std::string, void*> userPtrs;
+
+std::mutex mtx_resourcePath;
+std::mutex mtx_ft;
+std::mutex mtx_mallocs;
+std::mutex mtx_userPtrs;
 
 void onyx_seed_random(uint seed);
 
@@ -41,22 +49,27 @@ void onyx_set_gl_init(bool val)
 
 FT_Library* onyx_get_ft()
 {
-	return &ft;
+	mtx_ft.lock();
+	FT_Library* pFt = &ft;
+	mtx_ft.unlock();
+	return pFt;
 }
 
 void onyx_add_malloc(void* ptr, bool array)
 {
+	mtx_mallocs.lock();
 	mallocs.push_back(std::pair<void*, bool>(ptr, array));
+	mtx_mallocs.unlock();
 }
 
 void onyx_err(const Onyx::Error& error)
 {
-	if (pErrorHandler != nullptr) pErrorHandler->err(error);
+	if (pErrorHandler != nullptr) (*pErrorHandler).err(error);
 }
 
 void onyx_warn(const Onyx::Warning& warning)
 {
-	if (pErrorHandler != nullptr) pErrorHandler->warn(warning);
+	if (pErrorHandler != nullptr) (*pErrorHandler).warn(warning);
 }
 
 void onyx_glerr(const Onyx::GLError& error)
@@ -100,11 +113,15 @@ void Onyx::Init()
 	if (initialized) return;
 
 	initialized = true;
+	mtx_resourcePath.lock();
 	if (resourcePath == "") resourcePath = "../resources/";
+	mtx_resourcePath.unlock();
 
 	stbi_set_flip_vertically_on_load(true);
 
+	mtx_ft.lock();
 	FT_Init_FreeType(&ft);
+	mtx_ft.unlock();
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -142,8 +159,11 @@ void Onyx::Init(ErrorHandler& errorHandler)
 		return;
 	}
 	initialized = true;
+	mtx_resourcePath.lock();
 	if (resourcePath == "") resourcePath = FileUtils::GetDir(std::string(__FILE__)) + "/../resources/";
+	mtx_resourcePath.unlock();
 
+	mtx_ft.lock();
 	if (FT_Init_FreeType(&ft))
 	{
 		onyx_err(Error{
@@ -152,8 +172,10 @@ void Onyx::Init(ErrorHandler& errorHandler)
 			.howToFix = "Ensure the FreeType library is downloaded for your specific platform. If you are not running Windows x64, you will need to download FreeType for yourself, you can't just use the one from the Onyx download.",
 			}
 		);
+		mtx_ft.unlock();
 		return;
 	}
+	mtx_ft.unlock();
 
 	if (!glfwInit())
 	{
@@ -229,14 +251,21 @@ void Onyx::Terminate()
 {
 	if (!initialized) return;
 
+	mtx_ft.lock();
 	FT_Done_FreeType(ft);
+	mtx_ft.unlock();
 	glfwTerminate();
 
-	for (int i = mallocs.size() - 1; i >= 0; i--)
+	mtx_mallocs.lock();
+	int size = mallocs.size();
+	mtx_mallocs.unlock();
+	for (int i = size - 1; i >= 0; i--)
 	{
+		mtx_mallocs.lock();
 		if (mallocs[i].second && mallocs[i].first != nullptr) delete[] mallocs[i].first;
 		else if (mallocs[i].first != nullptr) delete mallocs[i].first;
 		mallocs.pop_back();
+		mtx_mallocs.unlock();
 	}
 	initialized = false;
 }
@@ -519,8 +548,10 @@ void Onyx::SetResourcePath(std::string path)
 {
 	if (path.length() == 0) return;
 	
+	mtx_resourcePath.lock();
 	if (path[path.length() - 1] != '/' && path[path.length() - 1] != '\\') resourcePath = path + "/";
 	else resourcePath = path;
+	mtx_resourcePath.unlock();
 }
 
 void Onyx::SetUserPtr(void* ptr)
@@ -530,24 +561,35 @@ void Onyx::SetUserPtr(void* ptr)
 
 void Onyx::SetUserPtr(const std::string& name, void* ptr)
 {
-	userPtrs[name] = ptr;
+	mtx_userPtrs.lock();
+	userPtrs.insert_or_assign(name, ptr);
+	mtx_userPtrs.unlock();
 }
 
-const std::string& Onyx::GetResourcePath()
+std::string Onyx::GetResourcePath()
 {
-	return resourcePath;
+	mtx_resourcePath.lock();
+	std::string resPath = resourcePath;
+	mtx_resourcePath.unlock();
+	return resPath;
 }
 
 std::string Onyx::Resources(const std::string& path)
 {
-	if (path.length() == 0) return resourcePath;
-	return resourcePath + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);
+	mtx_resourcePath.lock();
+	std::string resPath = resourcePath;
+	mtx_resourcePath.unlock();
+	if (path.length() == 0) return resPath;
+	return resPath + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);
 }
 
 std::string Onyx::Res(const std::string& path)
 {
-	if (path.length() == 0) return resourcePath;
-	return resourcePath + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);
+	mtx_resourcePath.lock();
+	std::string resPath = resourcePath;
+	mtx_resourcePath.unlock();
+	if (path.length() == 0) return resPath;
+	return resPath + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);
 }
 
 void* Onyx::GetUserPtr()
@@ -557,11 +599,13 @@ void* Onyx::GetUserPtr()
 
 void* Onyx::GetUserPtr(const std::string& name, bool* result)
 {
-	if (pErrorHandler != nullptr || result != nullptr)
+	if (pErrorHandler || result)
 	{
-		bool found = userPtrs.contains(name);
-		if (!found)
+		mtx_userPtrs.lock();
+		auto it = userPtrs.find(name);
+		if (it == userPtrs.end())
 		{
+			mtx_userPtrs.unlock();
 			if (pErrorHandler != nullptr) onyx_err(Error{
 					.sourceFunction = "Onyx::GetUserPtr(const std::string& name, bool* result)",
 					.message = "User pointer with name \"" + name + "\" not found.",
@@ -572,9 +616,17 @@ void* Onyx::GetUserPtr(const std::string& name, bool* result)
 			return nullptr;
 		}
 		if (result != nullptr) *result = true;
-		return userPtrs.at(name);
+		void* ptr = it->second;
+		mtx_userPtrs.unlock();
+		return ptr;
 	}
-	return userPtrs.at(name);
+	else
+	{
+		mtx_userPtrs.lock();
+		void* ptr = userPtrs.at(name);
+		mtx_userPtrs.unlock();
+		return ptr;
+	}
 }
 
 double Onyx::GetTime()

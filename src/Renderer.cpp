@@ -10,9 +10,13 @@
 void onyx_err(const Onyx::Error&);
 void onyx_warn(const Onyx::Warning&);
 
-bool Onyx::Renderer::sm_wireframe = false;
-bool Onyx::Renderer::sm_uiWireframeAllowed = false;
-float Onyx::Renderer::sm_lineWidth = 1.0f;
+bool Onyx::Renderer::s_wireframe = false;
+bool Onyx::Renderer::s_uiWireframeAllowed = false;
+float Onyx::Renderer::s_lineWidth = 1.0f;
+
+std::recursive_mutex Onyx::Renderer::s_mtx_wireframe;
+std::recursive_mutex Onyx::Renderer::s_mtx_uiWireframeAllowed;
+std::recursive_mutex Onyx::Renderer::s_mtx_lineWidth;
 
 Onyx::Renderer::Renderer()
 {
@@ -94,7 +98,9 @@ void Onyx::Renderer::render()
 	}
 
 	glDisable(GL_DEPTH_TEST);
-	if (sm_uiWireframeAllowed) {
+	s_mtx_uiWireframeAllowed.lock();
+	if (s_uiWireframeAllowed) {
+		s_mtx_uiWireframeAllowed.unlock();
 		if (!m_useCamForUi)
 		{
 			for (UiRenderable* uir : m_uiRenderables) uir->render(m_ortho);
@@ -108,7 +114,10 @@ void Onyx::Renderer::render()
 	}
 	else
 	{
-		bool _wireframe = sm_wireframe;
+		s_mtx_uiWireframeAllowed.unlock();
+		s_mtx_wireframe.lock();
+		bool _wireframe = s_wireframe;
+		s_mtx_wireframe.unlock();
 		SetWireframe(false);
 
 		if (!m_useCamForUi)
@@ -416,10 +425,16 @@ bool Onyx::Renderer::isUsingCameraForUi() const
 
 void Onyx::Renderer::SetWireframe(bool _wireframe)
 {
-	if (sm_wireframe == _wireframe) return;
+	s_mtx_wireframe.lock();
+	if (s_wireframe == _wireframe) 
+	{
+		s_mtx_wireframe.unlock();
+		return;
+	}
 
-	sm_wireframe = _wireframe;
-	glPolygonMode(GL_FRONT_AND_BACK, sm_wireframe ? GL_LINE : GL_FILL);
+	s_wireframe = _wireframe;
+	glPolygonMode(GL_FRONT_AND_BACK, s_wireframe ? GL_LINE : GL_FILL);
+	s_mtx_wireframe.unlock();
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
@@ -428,33 +443,47 @@ void Onyx::Renderer::SetWireframe(bool _wireframe)
 
 void Onyx::Renderer::SetUiWireframeAllowed(bool allowed)
 {
-	sm_uiWireframeAllowed = allowed;
+	s_mtx_uiWireframeAllowed.lock();
+	s_uiWireframeAllowed = allowed;
+	s_mtx_uiWireframeAllowed.unlock();
 }
 
 void Onyx::Renderer::ToggleWireframe()
 {
-	SetWireframe(!sm_wireframe);
+	s_mtx_wireframe.lock();
+	SetWireframe(!s_wireframe);
+	s_mtx_wireframe.unlock();
 }
 
 void Onyx::Renderer::ToggleUiWireframeAllowed()
 {
-	sm_uiWireframeAllowed = !sm_uiWireframeAllowed;
+	s_mtx_uiWireframeAllowed.lock();
+	s_uiWireframeAllowed = !s_uiWireframeAllowed;
+	s_mtx_uiWireframeAllowed.unlock();
 }
 
 bool Onyx::Renderer::IsWireframe()
 {
-	return sm_wireframe;
+	s_mtx_wireframe.lock();
+	bool _wireframe = s_wireframe;
+	s_mtx_wireframe.unlock();
+	return _wireframe;
 }
 
 bool Onyx::Renderer::IsUiWireframeAllowed()
 {
-	return sm_uiWireframeAllowed;
+	s_mtx_uiWireframeAllowed.lock();
+	bool allowed = s_uiWireframeAllowed;
+	s_mtx_uiWireframeAllowed.unlock();
+	return allowed;
 }
 
 void Onyx::Renderer::SetLineWidth(float width)
 {
 	glLineWidth(width);
-	sm_lineWidth = width;
+	s_mtx_lineWidth.lock();
+	s_lineWidth = width;
+	s_mtx_lineWidth.unlock();
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
@@ -463,7 +492,10 @@ void Onyx::Renderer::SetLineWidth(float width)
 
 float Onyx::Renderer::GetLineWidth()
 {
-	return sm_lineWidth;
+	s_mtx_lineWidth.lock();
+	float width = s_lineWidth;
+	s_mtx_lineWidth.unlock();
+	return width;
 }
 
 void Onyx::Renderer::dispose()

@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <mutex>
 
 #include "Core.h"
 #include "Gamepad.h"
@@ -386,6 +387,15 @@ namespace Onyx
 
 		const static std::unordered_map<const char*, Onyx::MouseButton> s_strToButtonMap;
 		const static std::unordered_map<Onyx::MouseButton, const char*> s_buttonToStrMap;
+
+		static std::mutex s_mtx_charToKeyMap;
+		static std::mutex s_mtx_keyToCharMap;
+
+		static std::mutex s_mtx_strToKeyMap;
+		static std::mutex s_mtx_keyToStrMap;
+
+		static std::mutex s_mtx_strToButtonMap;
+		static std::mutex s_mtx_buttonToStrMap;
 
 		std::unordered_set<Onyx::Key> m_keysTappedSet;
 		std::unordered_set<Onyx::Key> m_keysDownSet;

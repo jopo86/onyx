@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <mutex>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -679,6 +680,7 @@ namespace Onyx
 		GLFWwindow* m_pGlfwWin;
 		static GLFWmonitor* m_pPrimaryMonitor;
 		static GLFWvidmode* m_pPrimaryMonitorInfo;
+		static std::mutex s_mtx_primaryMonitor;
 		int m_bufferWidth, m_bufferHeight;
 
 		std::vector<InputHandler*> m_pInputHandlers;

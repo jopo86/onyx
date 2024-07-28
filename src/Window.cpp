@@ -13,6 +13,7 @@ using Onyx::Math::Vec3;
 
 GLFWmonitor* Onyx::Window::m_pPrimaryMonitor = nullptr;
 GLFWvidmode* Onyx::Window::m_pPrimaryMonitorInfo = nullptr;
+std::mutex Onyx::Window::s_mtx_primaryMonitor;
 
 void onyx_set_gl_init(bool);
 void onyx_err(const Onyx::Error&);
@@ -174,8 +175,10 @@ void Onyx::Window::init(bool* result)
 	glfwWindowHint(GLFW_FOCUS_ON_SHOW, m_properties.focusOnShow);
 	glfwWindowHint(GLFW_SAMPLES, m_properties.nSamplesMSAA);
 
+	s_mtx_primaryMonitor.lock();
 	if (m_pPrimaryMonitor == nullptr) m_pPrimaryMonitor = glfwGetPrimaryMonitor();
 	if (m_pPrimaryMonitorInfo == nullptr) m_pPrimaryMonitorInfo = (GLFWvidmode*)glfwGetVideoMode(m_pPrimaryMonitor);
+	s_mtx_primaryMonitor.unlock();
 
 	m_pGlfwWin = glfwCreateWindow(m_properties.width, m_properties.height, m_properties.title.c_str(), nullptr, nullptr);
 	if (m_pGlfwWin == nullptr)
@@ -250,8 +253,10 @@ void Onyx::Window::init(const Window& share, bool* result)
 	glfwWindowHint(GLFW_FOCUS_ON_SHOW, m_properties.focusOnShow);
 	glfwWindowHint(GLFW_SAMPLES, m_properties.nSamplesMSAA);
 
+	s_mtx_primaryMonitor.lock();
 	if (m_pPrimaryMonitor == nullptr) m_pPrimaryMonitor = glfwGetPrimaryMonitor();
 	if (m_pPrimaryMonitorInfo == nullptr) m_pPrimaryMonitorInfo = (GLFWvidmode*)glfwGetVideoMode(m_pPrimaryMonitor);
+	s_mtx_primaryMonitor.unlock();
 
 	m_pGlfwWin = glfwCreateWindow(m_properties.width, m_properties.height, m_properties.title.c_str(), nullptr, share.getGlfwWindowPtr());
 	if (m_pGlfwWin == nullptr)
@@ -557,7 +562,9 @@ void Onyx::Window::setOpacity(float opacity)
 void Onyx::Window::fullscreen()
 {
 	m_properties.fullscreen = true;
+	s_mtx_primaryMonitor.lock();
 	glfwSetWindowMonitor(m_pGlfwWin, m_pPrimaryMonitor, 0, 0, m_pPrimaryMonitorInfo->width, m_pPrimaryMonitorInfo->height, m_pPrimaryMonitorInfo->refreshRate);
+	s_mtx_primaryMonitor.unlock();
 	glfwSwapInterval(1);
 }
 

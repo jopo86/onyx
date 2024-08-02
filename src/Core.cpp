@@ -300,9 +300,6 @@ void Onyx::Demo(bool logProgress)
 	window.init();
 	if (logProgress) std::cout << " -- Window initialized\n";
 
-	Renderer::SetVSync(false);
-	Renderer::SetFPSLimit(true, 1500);
-
 	WindowIcon icon = WindowIcon::Load({
 		Resources("icons/icon-16x.png"),
 		Resources("icons/icon-24x.png"),

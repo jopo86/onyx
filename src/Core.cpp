@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <atomic>
+#include <thread>
 #include <mutex>
 
 #include <ft2build.h>
@@ -34,11 +35,13 @@ std::string resourcePath;
 FT_Library ft;
 std::vector<std::pair<void*, bool>> mallocs;
 std::unordered_map<std::string, void*> userPtrs;
+std::pair<bool, uint> vsync = { true, 1 };
 
 std::mutex mtx_resourcePath;
 std::mutex mtx_ft;
 std::mutex mtx_mallocs;
 std::mutex mtx_userPtrs;
+std::mutex mtx_vsync;
 
 void onyx_seed_random(uint seed);
 
@@ -296,6 +299,9 @@ void Onyx::Demo(bool logProgress)
 	if (logProgress) std::cout << " -- Window created\n";
 	window.init();
 	if (logProgress) std::cout << " -- Window initialized\n";
+
+	Renderer::SetVSync(false);
+	Renderer::SetFPSLimit(true, 1500);
 
 	WindowIcon icon = WindowIcon::Load({
 		Resources("icons/icon-16x.png"),
@@ -653,6 +659,29 @@ std::string Onyx::GetGraphicsName(bool* result)
 #if defined(ONYX_GL_DEBUG_HIGH)
 	glCheckError();
 #endif
+}
+
+bool Onyx::IsExtensionSupported(const std::string& ext, bool* result)
+{
+	if (!glInitialized)
+	{
+		onyx_err(Error{
+				.sourceFunction = "Onyx::IsExtensionSupported(const std::string& ext, bool* result)",
+				.message = "OpenGL is not initialized, extension support unknown.",
+				.howToFix = "Initialze OpenGL by initializing a window before this function is called."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return false;
+	}
+	if (result != nullptr) *result = true;
+	return glfwExtensionSupported(ext.c_str()) == GLFW_TRUE;
+}
+
+void Onyx::Sleep(double seconds)
+{
+	int ns = (int)(seconds * 1000000000);
+	std::this_thread::sleep_for(std::chrono::nanoseconds(ns));
 }
 
 bool Onyx::Disposable::isDisposed() const

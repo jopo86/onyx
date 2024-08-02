@@ -13,10 +13,14 @@ void onyx_warn(const Onyx::Warning&);
 bool Onyx::Renderer::s_wireframe = false;
 bool Onyx::Renderer::s_uiWireframeAllowed = false;
 float Onyx::Renderer::s_lineWidth = 1.0f;
+std::pair<bool, int> Onyx::Renderer::s_vsync = { true, 1 };
+std::pair<bool, int> Onyx::Renderer::s_fpsLimit = { false, 60 };
 
 std::recursive_mutex Onyx::Renderer::s_mtx_wireframe;
 std::recursive_mutex Onyx::Renderer::s_mtx_uiWireframeAllowed;
 std::recursive_mutex Onyx::Renderer::s_mtx_lineWidth;
+std::recursive_mutex Onyx::Renderer::s_mtx_vsync;
+std::recursive_mutex Onyx::Renderer::s_mtx_fpsLimit;
 
 Onyx::Renderer::Renderer()
 {
@@ -462,6 +466,36 @@ void Onyx::Renderer::ToggleUiWireframeAllowed()
 	s_mtx_uiWireframeAllowed.unlock();
 }
 
+void Onyx::Renderer::SetVSync(bool enabled, int interval)
+{
+	s_mtx_vsync.lock();
+	s_vsync = { enabled, interval };
+	glfwSwapInterval(s_vsync.first ? s_vsync.second : 0);
+	s_mtx_vsync.unlock();
+}
+
+void Onyx::Renderer::ToggleVSyncEnabled()
+{
+	s_mtx_vsync.lock();
+	s_vsync.first = !s_vsync.first;
+	glfwSwapInterval(s_vsync.first ? s_vsync.second : 0);
+	s_mtx_vsync.unlock();
+}
+
+void Onyx::Renderer::SetFPSLimit(bool enabled, int fps)
+{
+	s_mtx_fpsLimit.lock();
+	s_fpsLimit = { enabled, fps };
+	s_mtx_fpsLimit.unlock();
+}
+
+void Onyx::Renderer::ToggleFPSLimitEnabled()
+{
+	s_mtx_fpsLimit.lock();
+	s_fpsLimit.first = !s_fpsLimit.first;
+	s_mtx_fpsLimit.unlock();
+}
+
 bool Onyx::Renderer::IsWireframe()
 {
 	s_mtx_wireframe.lock();
@@ -476,6 +510,22 @@ bool Onyx::Renderer::IsUiWireframeAllowed()
 	bool allowed = s_uiWireframeAllowed;
 	s_mtx_uiWireframeAllowed.unlock();
 	return allowed;
+}
+
+std::pair<bool, int> Onyx::Renderer::GetVSync()
+{
+	s_mtx_vsync.lock();
+	std::pair<bool, int> vsync = s_vsync;
+	s_mtx_vsync.unlock();
+	return vsync;
+}
+
+std::pair<bool, int> Onyx::Renderer::GetFPSLimit()
+{
+	s_mtx_fpsLimit.lock();
+	std::pair<bool, int> fpsLimit = s_fpsLimit;
+	s_mtx_fpsLimit.unlock();
+	return fpsLimit;
 }
 
 void Onyx::Renderer::SetLineWidth(float width)

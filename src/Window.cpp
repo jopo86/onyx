@@ -324,7 +324,15 @@ void Onyx::Window::init(const Window& share, bool* result)
 void Onyx::Window::startRender()
 {
 	m_deltaTime = GetTime() - m_lastFrameTime;
-	m_fps = (int)(1.0 / m_deltaTime);
+	if (Renderer::GetFPSLimit().first)
+	{
+		while (m_deltaTime < 1.0 / Renderer::GetFPSLimit().second)
+		{
+			m_deltaTime = GetTime() - m_lastFrameTime;
+		}
+	}
+
+	m_fps = round(1.0 / m_deltaTime);
 	m_lastFrameTime = GetTime();
 	m_frame++;
 	m_numFramesCamNotUpdated++;

@@ -293,6 +293,45 @@ namespace Onyx
 		static void ToggleUiWireframeAllowed();
 
 		/*
+			@brief Sets the VSync (Vertical Synchronization) settings.
+			VSync helps prevent screen tearing by synchronizing the frame rate with the monitor's refresh rate.
+			However, it can increase input lag.
+		 *	It is recommended for VSync and FPS limit to be mutually exclusive, as they can conflict.
+			@param enabled Whether VSync is enabled.
+			@param interval The swap interval, default is 1.
+			1: VSync enabled, frame rate locked to monitor refresh rate.
+			2: VSync enabled, frame rate locked to 1/2 the monitor refresh rate.
+			3: VSync enabled, frame rate locked to 1/3 the monitor refresh rate.
+			4: VSync enabled, frame rate locked to 1/4 the monitor refresh rate.
+			You get the idea.
+		 */
+		static void SetVSync(bool enabled, int interval = 1);
+
+		/*
+			@brief Toggles whether VSync (Vertical Synchronization) is enabled.
+			VSync helps prevent screen tearing by synchronizing the frame rate with the monitor's refresh rate.
+			However, it can increase input lag.
+		 *	It is recommended for VSync and FPS limit to be mutually exclusive, as they can conflict.
+			See `SetVSync()` for more info.
+		 */
+		static void ToggleVSyncEnabled();
+
+		/*
+			@brief Sets the frame rate limit settings.
+		 *	It is recommended for VSync and FPS limit to be mutually exclusive, as they can conflict.
+			@param enabled Whether to limit the frame rate.
+			@param targetFPS The target frame rate to limit to. Default is 60.
+		 */
+		static void SetFPSLimit(bool enabled, int targetFPS = 60);
+
+		/*
+			@brief Toggles whether to limit the frame rate.
+		 *	It is recommended for VSync and FPS limit to be mutually exclusive, as they can conflict.
+			See `SetFPSLimit()` for more info.
+		 */
+		static void ToggleFPSLimitEnabled();
+
+		/*
 			@brief Gets whether wireframe rendering mode is enabled.
 			In wireframe mode, only the lines between vertices are drawn.
 			Change the with of the lines with SetLineWidth().
@@ -304,6 +343,21 @@ namespace Onyx
 			See SetUiWireframeAllowed() for more info.
 		 */
 		static bool IsUiWireframeAllowed();
+
+		/*
+			@brief Gets the VSync (Vertical Synchronization) settings.
+			VSync helps prevent screen tearing by synchronizing the frame rate with the monitor's refresh rate.
+			However, it can increase input lag.
+			@return A pair containing 1) whether VSync is enabled and 2) the swap interval.
+			See `SetVSync()` for swap interval info.
+		 */
+		static std::pair<bool, int> GetVSync();
+
+		/*
+			@brief Gets the frame rate limit settings.
+			@return A pair containing 1) whether the frame rate is limited and 2) the target frame rate.
+		 */
+		static std::pair<bool, int> GetFPSLimit();
 
 		/*
 			@brief Sets the width of lines rendered in wireframe mode.
@@ -340,9 +394,13 @@ namespace Onyx
 		static bool s_wireframe;
 		static bool s_uiWireframeAllowed;
 		static float s_lineWidth;
+		static std::pair<bool, int> s_vsync;
+		static std::pair<bool, int> s_fpsLimit;
 
 		static std::recursive_mutex s_mtx_wireframe;
 		static std::recursive_mutex s_mtx_uiWireframeAllowed;
 		static std::recursive_mutex s_mtx_lineWidth;
+		static std::recursive_mutex s_mtx_vsync;
+		static std::recursive_mutex s_mtx_fpsLimit;
 	};
 }

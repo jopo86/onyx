@@ -540,11 +540,27 @@ namespace Onyx
 
 	/*
 		@brief Returns the name of the Graphics Card / GPU.
-		This function cannot be called before the OpenGL context has been created, so a window needs to be initialized before calling it.
+	 !	This function cannot be called before an OpenGL context has been created, so a window needs to be initialized before calling it.
 		@param result A pointer to a boolean that will be set to true if the name was successfully retrieved, false otherwise.
 		@return The name of the GPU.
 	 */
 	std::string GetGraphicsName(bool* result = nullptr);
+
+	/*
+		@brief Checks whether the specified OpenGL extension is supported.
+	 !	This function cannot be called before an OpenGL context has been created, so a window needs to be initialized before calling it.
+		@param extension The name of the extension to check.
+		@param result A pointer to a boolean that will be set to true if this function executed without error, false otherwise.
+	 *	`result` is NOT the result of the extension check, only the return value is.
+		@return Whether the extension is supported.
+	 */
+	bool IsExtensionSupported(const std::string& extension, bool* result = nullptr);
+
+	/*
+		@brief Stops the calling thread for the specified number of seconds.
+		@param seconds The number of seconds to sleep for.
+	 */
+	void Sleep(double seconds);
 
 	/*
 		@brief Parent class for disposable objects.

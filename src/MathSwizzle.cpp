@@ -2,8 +2,8 @@
 
 /*
 	I would like to give a huge thanks to:
-		- ChatGPT
-		- Select all occurences keyboard shortcut
+	 - ChatGPT
+	 - Select all occurences keyboard shortcut
  */
 
 Onyx::Math::Vec2 Onyx::Math::Vec2::xx() const { return Vec2(m_vec.x, m_vec.x); }

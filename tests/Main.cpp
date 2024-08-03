@@ -14,7 +14,7 @@ using Onyx::Math::Vec2, Onyx::Math::Vec3, Onyx::Math::Vec4;
 
 int main()
 {
-	// Onyx::Demo();
+	Onyx::Demo();
 
 	// PresetTests::RunAllTests();
 
@@ -22,22 +22,24 @@ int main()
 
 	// BouncingBallTest::Run();
 
-	Onyx::Init();
-	Onyx::Window win;
-	win.init();
-	Onyx::InputHandler input;
-	win.linkInputHandler(input);
 
-	while (win.isOpen())
-	{
-		input.update();
 
-		win.startRender();
-		win.endRender();
-	}
+	// Onyx::Init();
+	// Onyx::Window win;
+	// win.init();
+	// Onyx::InputHandler input;
+	// win.linkInputHandler(input);
 
-	win.dispose();
-	Onyx::Terminate();
+	// while (win.isOpen())
+	// {
+	// 	input.update();
+
+	// 	win.startRender();
+	// 	win.endRender();
+	// }
+
+	// win.dispose();
+	// Onyx::Terminate();
 	
 	return 0;
 }

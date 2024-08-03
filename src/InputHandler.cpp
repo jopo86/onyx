@@ -515,7 +515,7 @@ void Onyx::InputHandler::update()
 	{
 		return;
 	}
-	m_pWin->m_numFramesInputNotUpdated = 0; // problem line
+	m_pWin->m_numFramesInputNotUpdated = 0;
 }
 
 Onyx::Key Onyx::InputHandler::CharToKey(char c)

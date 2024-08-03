@@ -471,7 +471,6 @@ Onyx::InputHandler::InputHandler()
 
 void Onyx::InputHandler::update()
 {
-
 	for (bool& tapped : m_keysTapped) tapped = false;
 	for (bool& tapped : m_buttonsTapped) tapped = false;
 	m_keysTappedSet.clear();
@@ -510,7 +509,13 @@ void Onyx::InputHandler::update()
 		if (m_buttonCooldowns[(int)button] >= 0) m_buttonCooldowns[(int)button] -= m_pWin->m_deltaTime;
 	}
 
-	m_pWin->m_numFramesInputNotUpdated = 0;
+	if (m_keys[(int)Key::F7] == KeyState::Press || m_keys[(int)Key::F7] == KeyState::Repeat ||
+		m_keys[(int)Key::F8] == KeyState::Press || m_keys[(int)Key::F8] == KeyState::Repeat ||
+		m_keys[(int)Key::F9] == KeyState::Press || m_keys[(int)Key::F9] == KeyState::Repeat)
+	{
+		return;
+	}
+	m_pWin->m_numFramesInputNotUpdated = 0; // problem line
 }
 
 Onyx::Key Onyx::InputHandler::CharToKey(char c)

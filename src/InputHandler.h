@@ -22,9 +22,9 @@ namespace Onyx
 		/*
 			@brief The key callback function signature.
 			@param key The GLFW key.
-			TODO: scancode param
+			@param The system-specific scancode of the key.
 			@param action The GLFW action.
-			TODO: mods param
+			@param mods A bitfield describing which modifier keys were held down (e.g. GLFW_MOD_SHIFT)
 		*/
 		typedef void(*KeyCallbackFn)(int key, int scancode, int action, int mods);
 
@@ -32,7 +32,7 @@ namespace Onyx
 			@brief The mouse button callback function signature.
 			@param key The GLFW button.
 			@param action The GLFW action.
-			TODO: mods param
+			@param mods A bitfield describing which modifier keys were held down (e.g. GLFW_MOD_SHIFT)
 		*/
 		typedef void(*MouseButtonCallbackFn)(int button, int action, int mods);
 

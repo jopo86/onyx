@@ -308,6 +308,8 @@ void Onyx::Demo(bool logProgress)
 		Resources("icons/icon-256x.png"),
 	});
 	
+	Renderer::SetVSync(false);
+
 	window.setIcon(icon);
 	icon.dispose();
 	if (logProgress) std::cout << " -- Window icon loaded & set\n";

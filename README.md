@@ -3,7 +3,7 @@ Onyx is a high-level, cross-platform C++ rendering engine using OpenGL 4.1, with
 
 The intuitive and well-structured codebase makes it simpler than ever to code games, apps, or any graphical interface using a language as complex as C++.  
 
-Now I will say that I am not very experienced and this library is by no means perfect. It is meant for making small graphics-related projects much easier. If you want to make a crazy game, look elsewhere.  
+Now I will say that I am just a high school student and this library is by no means perfect. It is meant for making small graphics-related projects much easier. If you want to make a crazy game, look elsewhere.  
 
 Feel free to email jopo86dev@gmail.com with any questions!  
 

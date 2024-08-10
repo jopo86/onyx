@@ -450,6 +450,9 @@ void Onyx::Demo(bool logProgress)
 		bool a = false, b = false, x = false, y = false, rs = false;
 		double dt = window.getDeltaTime();
 
+		if (input.isKeyDown(Onyx::Key::Menu)) std::cout << "menu\n";
+		if (input.isKeyDown(Onyx::Key::LWin)) std::cout << "win\n";
+
 		if (window.getFrame() % 100 == 0 || window.getFrame() == 2) fps = window.getFPS();
 
 		if (input.isKeyDown(Onyx::Key::Escape)) window.close();

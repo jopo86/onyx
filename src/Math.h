@@ -1413,8 +1413,8 @@ namespace Onyx
 			IVec2 operator-() const;
 			IVec2 operator-(const IVec2& vec) const;
 			void operator-=(const IVec2& vec);
-			IVec2 operator*(const int& scalar) const;
-			void operator*=(const int& scalar);
+			IVec2 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::ivec2 m_vec;
@@ -1499,8 +1499,8 @@ namespace Onyx
 			IVec3 operator-() const;
 			IVec3 operator-(const IVec3& vec) const;
 			void operator-=(const IVec3& vec);
-			IVec3 operator*(const int& scalar) const;
-			void operator*=(const int& scalar);
+			IVec3 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::ivec3 m_vec;
@@ -1892,8 +1892,8 @@ namespace Onyx
 			IVec4 operator-() const;
 			IVec4 operator-(const IVec4& vec) const;
 			void operator-=(const IVec4& vec);
-			IVec4 operator*(const int& scalar) const;
-			void operator*=(const int& scalar);
+			IVec4 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::ivec4 m_vec;
@@ -1936,8 +1936,8 @@ namespace Onyx
 			void operator+=(const UVec2& vec);
 			UVec2 operator-(const UVec2& vec) const;
 			void operator-=(const UVec2& vec);
-			UVec2 operator*(const uint& scalar) const;
-			void operator*=(const uint& scalar);
+			UVec2 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::uvec2 m_vec;
@@ -2015,8 +2015,8 @@ namespace Onyx
 			void operator+=(const UVec3& vec);
 			UVec3 operator-(const UVec3& vec) const;
 			void operator-=(const UVec3& vec);
-			UVec3 operator*(const uint& scalar) const;
-			void operator*=(const uint& scalar);
+			UVec3 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::uvec3 m_vec;
@@ -2401,8 +2401,8 @@ namespace Onyx
 			void operator+=(const UVec4& vec);
 			UVec4 operator-(const UVec4& vec) const;
 			void operator-=(const UVec4& vec);
-			UVec4 operator*(const uint& scalar) const;
-			void operator*=(const uint& scalar);
+			UVec4 operator*(const float& scalar) const;
+			void operator*=(const float& scalar);
 
 		private:
 			glm::uvec4 m_vec;

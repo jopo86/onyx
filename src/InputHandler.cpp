@@ -509,12 +509,6 @@ void Onyx::InputHandler::update()
 		if (m_buttonCooldowns[(int)button] >= 0) m_buttonCooldowns[(int)button] -= m_pWin->m_deltaTime;
 	}
 
-	if (m_keys[(int)Key::F7] == KeyState::Press || m_keys[(int)Key::F7] == KeyState::Repeat ||
-		m_keys[(int)Key::F8] == KeyState::Press || m_keys[(int)Key::F8] == KeyState::Repeat ||
-		m_keys[(int)Key::F9] == KeyState::Press || m_keys[(int)Key::F9] == KeyState::Repeat)
-	{
-		return;
-	}
 	m_pWin->m_numFramesInputNotUpdated = 0;
 }
 

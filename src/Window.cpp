@@ -347,6 +347,7 @@ void Onyx::Window::startRender()
 void Onyx::Window::endRender()
 {
 	glfwSwapBuffers(m_pGlfwWin);
+
 	if (m_frame > 2 && m_numFramesCamNotUpdated > 2 && m_pCams.size() > 0) onyx_warn(Onyx::Warning{
 			.sourceFunction = "Onyx::Window::endRender()",
 			.message = "Camera was not updated this frame.",
@@ -744,7 +745,6 @@ void Onyx::Window::dispose()
 	m_disposed = true;
 }
 
-
 void Onyx::Window::framebufferSizeCallback(GLFWwindow* pGlfwWin, int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -797,6 +797,8 @@ void Onyx::Window::windowPosCallback(GLFWwindow* pGlfwWin, int x, int y)
 
 void Onyx::Window::keyCallback(GLFWwindow* pGlfwWin, int key, int scancode, int action, int mods)
 {
+	if (key == GLFW_KEY_UNKNOWN) return;
+
 	Window* pWin = (Window*)glfwGetWindowUserPointer(pGlfwWin);
 	for (InputHandler* pInputHandler : pWin->m_pInputHandlers)
 	{

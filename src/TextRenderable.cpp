@@ -72,6 +72,7 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	m_text = text;
 	m_color = color;
 	m_model = Mat4::Identity();
+	m_z = 0.0f;
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 	m_dimensions = font.getStringDimensions(text);
@@ -177,6 +178,7 @@ Onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	m_text = text;
 	m_color = color;
 	m_model = Mat4::Identity();
+	m_z = 0.0f;
 	m_rotation = 0.0f;
 	m_scale = Vec2(1.0f);
 	m_dimensions = font.getStringDimensions(text);

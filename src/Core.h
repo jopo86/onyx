@@ -10,7 +10,7 @@
 
 #define ONYX_VERSION_MAJOR		1
 #define ONYX_VERSION_MINOR		7
-#define ONYX_VERSION_PATCH		0
+#define ONYX_VERSION_PATCH		1
 
 #define ONYX_PRE_RELEASE_NUM	0
 
@@ -263,7 +263,44 @@ namespace Onyx
 		RightAlt = 346,
 		RightSuper = 347,
 		Menu = 348,
-		MaxKey = Menu
+
+		Application = Menu, 			// @brief Alias for `Key::Menu`
+		App = Menu, 					// @brief Alias for `Key::Menu`
+
+		Esc = Escape, 					// @brief Alias for `Key::Escape`
+		Return = Enter, 				// @brief Alias for `Key::Enter`
+
+		LCtrl = LeftControl, 			// @brief Alias for `Key::LeftControl`
+		RCtrl = RightControl, 			// @brief Alias for `Key::RightControl`
+		LShift = LeftShift, 			// @brief Alias for `Key::LeftShift`
+		RShift = RightShift, 			// @brief Alias for `Key::RightShift`
+		LAlt = LeftAlt, 				// @brief Alias for `Key::LeftAlt`
+		RAlt = RightAlt, 				// @brief Alias for `Key::RightAlt`
+		LSuper = LeftSuper, 			// @brief Alias for `Key::LeftSuper`
+		RSuper = RightSuper, 			// @brief Alias for `Key::RightSuper`
+		LeftCommand = LeftSuper, 		// @brief Alias for `Key::LeftSuper`
+		RightCommand = RightSuper, 		// @brief Alias for `Key::RightSuper`
+		LCmd = LeftSuper, 				// @brief Alias for `Key::LeftSuper`
+		RCmd = RightSuper, 				// @brief Alias for `Key::RightSuper`
+		LeftWindows = LeftSuper, 		// @brief Alias for `Key::LeftSuper`
+		RightWindows = RightSuper, 		// @brief Alias for `Key::RightSuper`
+		LWin = LeftSuper, 				// @brief Alias for `Key::LeftSuper`
+		RWin = RightSuper, 				// @brief Alias for `Key::RightSuper`
+		Windows = LeftSuper, 			// @brief Alias for `Key::LeftSuper`
+		Win = LeftSuper, 				// @brief Alias for `Key::LeftSuper`
+
+		PrtSc = PrintScreen, 			// @brief Alias for `Key::PrintScreen`
+		Ins = Insert, 					// @brief Alias for `Key::Insert`
+		PgUp = PageUp, 					// @brief Alias for `Key::PageUp`
+		PgDn = PageDown, 				// @brief Alias for `Key::PageDown`
+		Del = Delete, 					// @brief Alias for `Key::Delete`
+
+		Up = ArrowUp, 					// @brief Alias for `Key::ArrowUp`
+		Down = ArrowDown, 				// @brief Alias for `Key::ArrowDown`
+		Left = ArrowLeft, 				// @brief Alias for `Key::ArrowLeft`
+		Right = ArrowRight, 			// @brief Alias for `Key::ArrowRight`
+
+		MaxKey = Menu,
 	};
 
 	/*
@@ -282,11 +319,13 @@ namespace Onyx
 		Button6 = 5,
 		Button7 = 6,
 		Button8 = 7,
-		Left = Button1, // @brief Identical to `MouseButton::Button1`
-		Right = Button2, // @brief Identical to `MouseButton::Button2`
-		Middle = Button3, // @brief Identical to `MouseButton::Button3`
-		SideBack = Button4, // @brief Identical to `MouseButton::Button4`
-		SideFront = Button5, // @brief Identical to `MouseButton::Button5`
+
+		Left = Button1, 				// @brief Alias for `MouseButton::Button1`
+		Right = Button2, 				// @brief Alias for `MouseButton::Button2`
+		Middle = Button3, 				// @brief Alias for `MouseButton::Button3`
+		SideBack = Button4, 			// @brief Alias for `MouseButton::Button4`
+		SideFront = Button5, 			// @brief Alias for `MouseButton::Button5`
+
 		MaxButton = Button8
 	};
 
@@ -301,10 +340,10 @@ namespace Onyx
 		B = 1,
 		X = 2,
 		Y = 3,
-		Cross = A, // @brief Identical to `GamepadButton::A`
-		Circle = B, // @brief Identical to `GamepadButton::B`
-		Square = X, // @brief Identical to `GamepadButton::X`
-		Triangle = Y, // @brief Identical to `GamepadButton::Y`
+		Cross = A, 						// @brief Alias for `GamepadButton::A`
+		Circle = B, 					// @brief Alias for `GamepadButton::B`
+		Square = X, 					// @brief Alias for `GamepadButton::X`
+		Triangle = Y, 					// @brief Alias for `GamepadButton::Y`
 		LeftBumper = 4,
 		RightBumper = 5,
 		Back = 6,
@@ -316,6 +355,7 @@ namespace Onyx
 		DpadRight = 11,
 		DpadDown = 13,
 		DpadLeft = 14,
+
 		MaxButton = DpadLeft
 	};
 
@@ -332,6 +372,7 @@ namespace Onyx
 		RightY = 3,
 		LeftTrigger = 4,
 		RightTrigger = 5,
+
 		MaxAxis = RightTrigger
 	};
 
@@ -342,14 +383,27 @@ namespace Onyx
 	{
 		Null = -1,
 		Custom = 0,
-		Arrow = 0x00036001,
-		Ibeam = 0x00036002,
-		Crosshair = 0x00036003,
-		Hand = 0x00036004,
-		HorizontalResize = 0x00036005,
-		VerticalResize = 0x00036006,
-		DiagonalResizeTLBR = HorizontalResize | VerticalResize, // @brief Top Left --> Bottom Right
-		DiagonalResizeBLTR = DiagonalResizeTLBR + 1 // @brief Bottom Left --> Top Right
+		Arrow = 0x00036001,					// @brief The regular arrowhead cursor.
+		Ibeam = 0x00036002,					// @brief The text input I-beam cursor.
+		Crosshair = 0x00036003,				// @brief The crosshair cursor.
+		Hand = 0x00036004,					// @brief The pointing hand cursor.
+		NotAllowed = 0x0003600A,			// @brief The not-allowed cursor. Usually a circle with a line through it.
+		HorizontalResize = 0x00036005,		// @brief The horizontal resize/move arrow cursor. Usually a horizontal double-headed arrow.
+		VerticalResize = 0x00036006,		// @brief The vertical resize/move arrow cursor. Usually a vertical double-headed arrow.
+		DiagonalResizeTLBR = 0x00036007, 	// @brief The top-left to bottom-right resize/move arrow cursor. Usually a diagonal double-headed arrow.
+		DiagonalResizeBLTR = 0x00036008, 	// @brief The bottom-left to top-right resize/move arrow cursor. Usually a diagonal double-headed arrow.
+		AllResize = 0x00036009,				// @brief The all-directions resize/move arrow cursor. Usually a combined horizontal and vertical double-headed arrow or a grabbing hand.
+
+		No = NotAllowed,					// @brief Alias for `CursorType::NotAllowed`
+		Move = AllResize,					// @brief Alias for `CursorType::AllResize`
+		Grab = AllResize,					// @brief Alias for `CursorType::AllResize`
+
+		ResizeH = HorizontalResize,			// @brief Alias for `CursorType::HorizontalResize`
+		ResizeV = VerticalResize,			// @brief Alias for `CursorType::VerticalResize`
+		ResizeTLBR = DiagonalResizeTLBR,	// @brief Alias for `CursorType::DiagonalResizeTLBR`
+		ResizeBLTR = DiagonalResizeBLTR,	// @brief Alias for `CursorType::DiagonalResizeBLTR`
+
+		MaxCursor = AllResize
 	};
 
 	struct GLError
@@ -503,14 +557,14 @@ namespace Onyx
 
 	/*
 		@brief Gets a file path relative to the resource path.
-		Identical to `Res(const std::string& path)`.
+		Alias for `Res(const std::string& path)`.
 		@param path The path relative to the resource path.
 	 */
 	std::string Resources(const std::string& path);
 
 	/*
 		@brief Gets a file path relative to the resource path.
-		Identical to `Resources(const std::string& path)`.
+		Alias for `Resources(const std::string& path)`.
 		@param path The path relative to the resource path.
 	 */
 	std::string Res(const std::string& path);

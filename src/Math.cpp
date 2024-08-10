@@ -1868,14 +1868,15 @@ void Onyx::Math::IVec2::operator-=(const IVec2& vec)
 	m_vec -= vec.m_vec;
 }
 
-Onyx::Math::IVec2 Onyx::Math::IVec2::operator*(const int& scalar) const
+Onyx::Math::IVec2 Onyx::Math::IVec2::operator*(const float& scalar) const
 {
-	return IVec2(m_vec * scalar);
+	return IVec2(m_vec.x * scalar, m_vec.y * scalar);
 }
 
-void Onyx::Math::IVec2::operator*=(const int& scalar)
+void Onyx::Math::IVec2::operator*=(const float& scalar)
 {
-	m_vec *= scalar;
+	m_vec.x *= scalar;
+	m_vec.y *= scalar;
 }
 
 Onyx::Math::IVec3::IVec3()
@@ -2017,14 +2018,16 @@ void Onyx::Math::IVec3::operator-=(const IVec3& vec)
 	m_vec -= vec.m_vec;
 }
 
-Onyx::Math::IVec3 Onyx::Math::IVec3::operator*(const int& scalar) const
+Onyx::Math::IVec3 Onyx::Math::IVec3::operator*(const float& scalar) const
 {
-	return IVec3(m_vec * scalar);
+	return IVec3(m_vec.x * scalar, m_vec.y * scalar, m_vec.z * scalar);
 }
 
-void Onyx::Math::IVec3::operator*=(const int& scalar)
+void Onyx::Math::IVec3::operator*=(const float& scalar)
 {
-	m_vec *= scalar;
+	m_vec.x *= scalar;
+	m_vec.y *= scalar;
+	m_vec.z *= scalar;
 }
 
 Onyx::Math::IVec4::IVec4()
@@ -2198,14 +2201,17 @@ void Onyx::Math::IVec4::operator-=(const IVec4& vec)
 	m_vec -= vec.m_vec;
 }
 
-Onyx::Math::IVec4 Onyx::Math::IVec4::operator*(const int& scalar) const
+Onyx::Math::IVec4 Onyx::Math::IVec4::operator*(const float& scalar) const
 {
-	return IVec4(m_vec * scalar);
+	return IVec4(m_vec.x * scalar, m_vec.y * scalar, m_vec.z * scalar, m_vec.w * scalar);
 }
 
-void Onyx::Math::IVec4::operator*=(const int& scalar)
+void Onyx::Math::IVec4::operator*=(const float& scalar)
 {
-	m_vec *= scalar;
+	m_vec.x *= scalar;
+	m_vec.y *= scalar;
+	m_vec.z *= scalar;
+	m_vec.w *= scalar;
 }
 
 Onyx::Math::UVec2::UVec2()
@@ -2305,14 +2311,17 @@ void Onyx::Math::UVec2::operator-=(const UVec2& vec)
 	m_vec -= vec.m_vec;
 }
 
-Onyx::Math::UVec2 Onyx::Math::UVec2::operator*(const uint& scalar) const
+Onyx::Math::UVec2 Onyx::Math::UVec2::operator*(const float& _scalar) const
 {
-	return UVec2(m_vec * scalar);
+	float scalar = abs(_scalar);
+	return UVec2(m_vec.x * scalar, m_vec.y * scalar);
 }
 
-void Onyx::Math::UVec2::operator*=(const uint& scalar)
+void Onyx::Math::UVec2::operator*=(const float& _scalar)
 {
-	m_vec *= scalar;
+	float scalar = abs(_scalar);
+	m_vec.x *= scalar;
+	m_vec.y *= scalar;
 }
 
 Onyx::Math::UVec3::UVec3()
@@ -2434,14 +2443,18 @@ void Onyx::Math::UVec3::operator-=(const UVec3& vec)
 	m_vec -= vec.m_vec;
 }
 
-Onyx::Math::UVec3 Onyx::Math::UVec3::operator*(const uint& scalar) const
+Onyx::Math::UVec3 Onyx::Math::UVec3::operator*(const float& _scalar) const
 {
-	return UVec3(m_vec * scalar);
+	float scalar = abs(_scalar);
+	return UVec3(m_vec.x * scalar, m_vec.y * scalar, m_vec.z * scalar);
 }
 
-void Onyx::Math::UVec3::operator*=(const uint& scalar)
+void Onyx::Math::UVec3::operator*=(const float& _scalar)
 {
-	m_vec *= scalar;
+	float scalar = abs(_scalar);
+	m_vec.x *= scalar;
+	m_vec.y *= scalar;
+	m_vec.z *= scalar;
 }
 
 Onyx::Math::UVec4::UVec4()
@@ -2595,14 +2608,19 @@ void Onyx::Math::UVec4::operator-=(const UVec4& vec)
 	m_vec -= vec.m_vec;
 }
 
-Onyx::Math::UVec4 Onyx::Math::UVec4::operator*(const uint& scalar) const
+Onyx::Math::UVec4 Onyx::Math::UVec4::operator*(const float& _scalar) const
 {
-	return UVec4(m_vec * scalar);
+	float scalar = abs(_scalar);
+	return UVec4(m_vec.x * scalar, m_vec.y * scalar, m_vec.z * scalar, m_vec.w * scalar);
 }
 
-void Onyx::Math::UVec4::operator*=(const uint& scalar)
+void Onyx::Math::UVec4::operator*=(const float& _scalar)
 {
-	m_vec *= scalar;
+	float scalar = abs(_scalar);
+	m_vec.x *= scalar;
+	m_vec.y *= scalar;
+	m_vec.z *= scalar;
+	m_vec.w *= scalar;
 }
 
 Onyx::Math::Vec3 Onyx::Math::Cross(const Vec3& vec1, const Vec3& vec2)

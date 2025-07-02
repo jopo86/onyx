@@ -5,8 +5,6 @@ The intuitive and well-structured codebase makes it simpler than ever to code ga
 
 Now I will say that I am just a high school student and this library is by no means perfect. It is meant for making small graphics-related projects much easier. If you want to make a crazy game, look elsewhere.  
 
-Feel free to email jopo86dev@gmail.com with any questions!  
-
 ## Download
 There are pre-compiled binaries for Windows MinGW64 and Linux, but they are not guaranteed to work, so if they don't for you, you can compile yourself using CMake. See [Build](https://github.com/jopo86/onyx/wiki/Build) for detailed download/build instructions.  
 

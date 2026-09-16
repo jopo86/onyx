@@ -16,7 +16,7 @@ using onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4;
 
 int main()
 {
-	demo::run();
+	// demo::run();
 
 	// preset_tests::run_all_tests();
 
@@ -24,7 +24,7 @@ int main()
 
 	// bouncing_ball_test::run();
 
-    // cubes_test::run();
+    cubes_test::run();
 	
 	return 0;
 }

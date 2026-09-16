@@ -20,8 +20,7 @@ namespace onyx
 	/*
 		@brief A class to represent a renderer.
 		This class contains renderables, and renders all of them when render() is called.
-		The benefits of this class are that renderables can be shown/hidden,
-		and there is also an optimization function that will significantly speed up rendering large scenes.
+		Use of this class is not necessary; by using it you lose some control over the scene.
 		This class is disposable.
 	 */
 	class Renderer : public Disposable

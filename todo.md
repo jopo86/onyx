@@ -1,6 +1,10 @@
+- permanently fix collision/qualification errors on MSVC build
+- change "tests" to "examples"
+- read/refactor
 - bugfix
 - fix interpretation of key states
 - add instancing
 - optimize text rendering (no vao/vbo per character)
 - look into reinit failing on linux
+- GitHub actions matrix
 - redo readme and tutorials

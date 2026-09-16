@@ -1,0 +1,6 @@
+- bugfix
+- fix interpretation of key states
+- add instancing
+- optimize text rendering (no vao/vbo per character)
+- look into reinit failing on linux
+- redo readme and tutorials

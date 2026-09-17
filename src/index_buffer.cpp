@@ -1,7 +1,7 @@
 #pragma warning(disable: 4267)
 
 #include "index_buffer.h"
-#include "math.h"
+#include "math_wrappers.h"
 
 void onyx_add_malloc(void*, bool);
 

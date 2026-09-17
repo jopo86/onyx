@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core.h"
-#include "math.h"
+#include "math_wrappers.h"
 #include "mesh.h"
 #include "texture.h"
 #include "shader.h"

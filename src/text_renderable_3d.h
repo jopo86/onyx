@@ -4,7 +4,7 @@
 
 #include "char_renderable.h"
 #include "shader.h"
-#include "math.h"
+#include "math_wrappers.h"
 
 namespace onyx
 {

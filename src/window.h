@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #include "core.h"
-#include "math.h"
+#include "math_wrappers.h"
 #include "renderer.h"
 #include "monitor.h"
 

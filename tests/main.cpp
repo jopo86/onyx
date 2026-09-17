@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "../src/core.h"
-#include "../src/math.h"
+#include "../src/math_wrappers.h"
 
 #include "demo.h"
 #include "preset_tests.h"

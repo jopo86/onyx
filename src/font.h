@@ -7,7 +7,7 @@
 #include FT_FREETYPE_H
 
 #include "core.h"
-#include "math.h"
+#include "math_wrappers.h"
 
 namespace onyx
 {

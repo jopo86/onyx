@@ -3,7 +3,7 @@
 #include "bouncing_ball_test.h"
 
 #include "../src/core.h"
-#include "../src/math.h"
+#include "../src/math_wrappers.h"
 #include "../src/window.h"
 #include "../src/monitor.h"
 #include "../src/input_handler.h"
@@ -193,7 +193,7 @@ void bouncing_ball_test::run()
 	window.dispose();
 	renderer.dispose();
 
-	onyx::terminate();
+	onyx::cleanup();
 }
 
 double f(double x, double y)

@@ -3,7 +3,7 @@
 #include "core.h"
 #include "vertex_buffer.h"
 #include "index_buffer.h"
-#include "math.h"
+#include "math_wrappers.h"
 
 namespace onyx
 {

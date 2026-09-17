@@ -245,7 +245,7 @@ void window_test::run()
 
 	renderer.dispose();
 	window.dispose();
-	onyx::terminate();
+	onyx::cleanup();
 }
 
 void update_text()

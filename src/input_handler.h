@@ -6,7 +6,7 @@
 
 #include "core.h"
 #include "gamepad.h"
-#include "math.h"
+#include "math_wrappers.h"
 
 namespace onyx
 {

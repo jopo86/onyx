@@ -3,7 +3,7 @@
 #include "window.h"
 #include "renderer.h"
 #include "projection.h"
-#include "math.h"
+#include "math_wrappers.h"
 
 namespace onyx
 {

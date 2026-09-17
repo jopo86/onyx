@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "core.h"
-#include "math.h"
+#include "math_wrappers.h"
 
 namespace onyx
 {

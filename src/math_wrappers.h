@@ -1,5 +1,6 @@
 /*
 	@file A header file containing wrapper classes for vector and matrix math.
+	Cannot just call 'math' because of MSVC naming conflict.
  */
 
 #pragma once

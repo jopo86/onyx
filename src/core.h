@@ -482,7 +482,7 @@ namespace onyx
 		Frees space used by FreeType.
 	 !  Does not dispose of any objects that may have been created.
 	 */
-	void terminate();
+	void cleanup();
 
 	/*
 		@brief Gets the contents of the system clipboard.

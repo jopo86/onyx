@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "../src/core.h"
-#include "../src/math.h"
+#include "../src/math_wrappers.h"
 #include "../src/window.h"
 #include "../src/monitor.h"
 #include "../src/input_handler.h"
@@ -288,7 +288,7 @@ void demo::run(bool log_progress)
 
 	if (implicit_init)
 	{
-		onyx::terminate();
+		onyx::cleanup();
 		if (log_progress) std::cout << " -- Onyx terminated\n";
 	}
 }

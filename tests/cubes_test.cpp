@@ -1,7 +1,7 @@
 #include "cubes_test.h"
 
 #include "../src/core.h"
-#include "../src/math.h"
+#include "../src/math_wrappers.h"
 #include "../src/window.h"
 #include "../src/input_handler.h"
 #include "../src/renderer.h"
@@ -85,5 +85,5 @@ void cubes_test::run()
 
 	win.dispose();
     renderer.dispose();
-	onyx::terminate();
+	onyx::cleanup();
 }

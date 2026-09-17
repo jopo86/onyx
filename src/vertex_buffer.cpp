@@ -1,7 +1,7 @@
 #pragma warning(disable: 4267; disable: 4305)
 
 #include "vertex_buffer.h"
-#include "math.h"
+#include "math_wrappers.h"
 
 using onyx::math::Vec2;
 

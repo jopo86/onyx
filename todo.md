@@ -1,6 +1,10 @@
-- permanently fix collision/qualification errors on MSVC build
-- change "tests" to "examples"
-- read/refactor
+- finish preset test
+- reorganize headers (+ change to hpp)
+- optimize cmake build with find_package and then FetchContent as fallback
+- sync freetype versions?
+- fix ambient lighting not working?
+- replace "link" methods with some environment class?
+- *
 - bugfix
 - fix interpretation of key states
 - add instancing

@@ -1,3 +1,4 @@
 - refactor to Rust conventions
 - refactor so ships w/o resources
 - change dependency structure to CMake FetchContent
+- migrate "tests" to examples

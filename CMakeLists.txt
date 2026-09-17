@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.14)
-project(Onyx VERSION 1.7.1 LANGUAGES C CXX)
+project(Onyx VERSION 2.0.0 LANGUAGES C CXX)
+set(ONYX_VERSION_SUFFIX "alpha")
 
 include(FetchContent)
+
+option(ONYX_BUILD_EXAMPLES "Build the Onyx example programs" ON)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -24,7 +27,6 @@ FetchContent_Declare(freetype
 FetchContent_MakeAvailable(glfw freetype)
 
 file(GLOB SRC_CPP_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-file(GLOB TEST_CPP_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
 
 add_library(onyx ${SRC_CPP_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/src/glad.c)
 target_compile_features(onyx PUBLIC cxx_std_20)
@@ -33,6 +35,14 @@ target_link_libraries(onyx PUBLIC glfw freetype)
 target_compile_options(onyx PRIVATE
     $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-Wno-volatile;-Wno-delete-incomplete>)
 
-add_executable(onyx_test ${TEST_CPP_FILES})
-target_include_directories(onyx_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(onyx_test PRIVATE onyx)
+if(ONYX_BUILD_EXAMPLES)
+    file(GLOB EXAMPLE_CPP_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/examples/*.cpp)
+    foreach(example_file ${EXAMPLE_CPP_FILES})
+        get_filename_component(example_name ${example_file} NAME_WE)
+        add_executable(onyx_example_${example_name} ${example_file})
+        target_link_libraries(onyx_example_${example_name} PRIVATE onyx)
+        set_target_properties(onyx_example_${example_name} PROPERTIES
+            OUTPUT_NAME ${example_name}
+            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/examples)
+    endforeach()
+endif()

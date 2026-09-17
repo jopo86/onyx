@@ -256,7 +256,7 @@ std::string onyx::get_version_string()
 	return ver;
 }
 
-void onyx::terminate()
+void onyx::cleanup()
 {
 	if (!initialized) return;
 

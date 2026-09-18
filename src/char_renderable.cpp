@@ -1,6 +1,6 @@
 #pragma warning(disable: 4244)
 
-#include "char_renderable.h"
+#include <onyx/char_renderable.hpp>
 
 #include <glad/glad.h>
 

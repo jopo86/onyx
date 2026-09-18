@@ -1,9 +1,9 @@
-#include "file_utils.h"
+#include <onyx/file_utils.hpp>
 
 #include <fstream>
 #include <string>
 
-#include "core.h"
+#include <onyx/core.hpp>
 
 void onyx_add_malloc(void*, bool);
 void onyx_err(const onyx::Error&);

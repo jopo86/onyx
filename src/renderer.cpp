@@ -1,9 +1,9 @@
 #pragma warning(disable: 4244)
 
-#include "renderer.h"
+#include <onyx/renderer.hpp>
 
-#include "window.h"
-#include "camera.h"
+#include <onyx/window.hpp>
+#include <onyx/camera.hpp>
 
 #include <map>
 

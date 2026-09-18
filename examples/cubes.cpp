@@ -2,18 +2,18 @@
 #include <iostream>
 #include <vector>
 
-#include "../src/core.h"
-#include "../src/math_wrappers.h"
-#include "../src/window.h"
-#include "../src/monitor.h"
-#include "../src/input_handler.h"
-#include "../src/camera.h"
-#include "../src/renderer.h"
-#include "../src/renderable.h"
-#include "../src/ui_renderable.h"
-#include "../src/text_renderable.h"
-#include "../src/font.h"
-#include "../src/texture.h"
+#include <onyx/core.hpp>
+#include <onyx/math_wrappers.hpp>
+#include <onyx/window.hpp>
+#include <onyx/monitor.hpp>
+#include <onyx/input_handler.hpp>
+#include <onyx/camera.hpp>
+#include <onyx/renderer.hpp>
+#include <onyx/renderable.hpp>
+#include <onyx/ui_renderable.hpp>
+#include <onyx/text_renderable.hpp>
+#include <onyx/font.hpp>
+#include <onyx/texture.hpp>
 
 using onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4;
 
@@ -48,7 +48,7 @@ int main()
 
 	onyx::Window window(
 		onyx::WindowProperties{
-			.title = "Onyx demo",
+			.title = "Example: Cubes",
 			.width = 1280,
 			.height = 720,
 			.position = onyx::math::IVec2(primary_monitor.get_dimensions().get_x() / 2 - 1280 / 2, primary_monitor.get_dimensions().get_y() / 2 - 720 / 2),
@@ -153,7 +153,7 @@ int main()
 
 	std::vector<onyx::TextRenderable> text_renderables;
 
-	text_renderables.push_back(onyx::TextRenderable("Onyx demo", roboto_bold, Vec3(1.0f, 1.0f, 1.0f)));
+	text_renderables.push_back(onyx::TextRenderable("Cubes", roboto_bold, Vec3(1.0f, 1.0f, 1.0f)));
 	text_renderables.push_back(onyx::TextRenderable("FPS: 0", roboto_reg, Vec3(1.0f, 1.0f, 1.0f)));
 	text_renderables.push_back(onyx::TextRenderable("FRAME 0", roboto_reg, Vec3(1.0f, 1.0f, 1.0f)));
 	text_renderables.push_back(onyx::TextRenderable("Toggle Fullscreen: [F12]", roboto_reg, Vec3(1.0f, 1.0f, 1.0f)));

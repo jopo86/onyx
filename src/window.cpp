@@ -1,13 +1,12 @@
 #pragma warning(disable: 4244; disable: 4267)
 
-#include "window.h"
-
-#include "camera.h"
-#include "input_handler.h"
-
 #include <fstream>
 
 #include <stbi/stb_image.h>
+
+#include <onyx/window.hpp>
+#include <onyx/camera.hpp>
+#include <onyx/input_handler.hpp>
 
 using onyx::math::Vec3;
 
@@ -91,11 +90,38 @@ onyx::CursorType onyx::Cursor::get_type() const
 	return this->type;
 }
 
-onyx::Cursor onyx::Cursor::standard(CursorType type)
+onyx::Cursor onyx::Cursor::standard(CursorType type, bool* result)
 {
+	if (type == CursorType::Null || type == CursorType::Custom)
+	{
+		onyx_err(Error{
+				.source_function = "onyx::Cursor::standard(CursorType type)",
+				.message = "CursorType::Null and CursorType::Custom are not standard cursor shapes.",
+				.how_to_fix = "Pass one of the standard shapes, such as CursorType::Arrow or CursorType::Hand. Use Cursor::load() to create a custom cursor from an image."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return Cursor();
+	}
+
+	GLFWcursor* p_cursor = glfwCreateStandardCursor((int)type);
+	if (p_cursor == nullptr)
+	{
+		onyx_err(Error{
+				.source_function = "onyx::Cursor::standard(CursorType type)",
+				.message = "Failed to create standard cursor.",
+				.how_to_fix = "Ensure onyx::init() has been called, and that the requested shape is supported by the platform and by the GLFW version Onyx was linked against (the resize and not-allowed shapes require GLFW 3.4)."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return Cursor();
+	}
+
 	Cursor cursor;
 	cursor.type = type;
-	cursor.p_cursor = glfwCreateStandardCursor((int)type);
+	cursor.p_cursor = p_cursor;
+
+	if (result != nullptr) *result = true;
 	return cursor;
 }
 
@@ -114,15 +140,40 @@ onyx::Cursor onyx::Cursor::load(const std::string& filepath, math::IVec2 hotspot
 		return Cursor();
 	}
 
-	Cursor cursor;
-	cursor.type = CursorType::Custom;
-
 	GLFWimage image;
 	image.pixels = stbi_load(filepath.c_str(), &image.width, &image.height, nullptr, 4);
-	cursor.p_cursor = glfwCreateCursor(&image, hotspot.get_x(), hotspot.get_y());
+	if (image.pixels == nullptr)
+	{
+		onyx_err(Error{
+				.source_function = "onyx::Cursor::load(const std::string& filepath)",
+				.message = "File found, but failed to load image data from it: \"" + filepath + "\"",
+				.how_to_fix = "Ensure the file is a valid image file. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
+			}
+		);
+		if (result != nullptr) *result = false;
+		return Cursor();
+	}
 
+	GLFWcursor* p_cursor = glfwCreateCursor(&image, hotspot.get_x(), hotspot.get_y());
 	stbi_image_free(image.pixels);
 
+	if (p_cursor == nullptr)
+	{
+		onyx_err(Error{
+				.source_function = "onyx::Cursor::load(const std::string& filepath)",
+				.message = "Image data loaded, but failed to create cursor from it: \"" + filepath + "\"",
+				.how_to_fix = "Ensure onyx::init() has been called, and that the hotspot lies within the bounds of the image."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return Cursor();
+	}
+
+	Cursor cursor;
+	cursor.type = CursorType::Custom;
+	cursor.p_cursor = p_cursor;
+
+	if (result != nullptr) *result = true;
 	return cursor;
 }
 

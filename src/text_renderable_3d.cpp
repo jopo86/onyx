@@ -1,6 +1,5 @@
-#include "text_renderable_3d.h"
-
-#include "shader.h"
+#include <onyx/text_renderable_3d.hpp>
+#include <onyx/shader.hpp>
 
 void onyx_err(const onyx::Error&);
 void onyx_warn(const onyx::Warning&);

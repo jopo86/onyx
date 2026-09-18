@@ -1,12 +1,8 @@
-- finish preset test
-- reorganize headers (+ change to hpp)
-- optimize cmake build with find_package and then FetchContent as fallback
-- sync freetype versions?
 - fix ambient lighting not working?
-- replace "link" methods with some environment class?
 - *
 - bugfix
 - fix interpretation of key states
+- replace "link" methods with some environment class?
 - add instancing
 - optimize text rendering (no vao/vbo per character)
 - look into reinit failing on linux

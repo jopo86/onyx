@@ -1,4 +1,4 @@
-#include "gamepad.h"
+#include <onyx/gamepad.hpp>
 
 #include <string>
 

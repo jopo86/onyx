@@ -1,4 +1,4 @@
-#include "math_wrappers.h"
+#include <onyx/math_wrappers.hpp>
 
 /*
 	I would like to give a huge thanks to:

@@ -1,4 +1,4 @@
-#include "math_wrappers.h"
+#include <onyx/math_wrappers.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>

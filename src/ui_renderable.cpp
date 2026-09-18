@@ -1,8 +1,7 @@
-#include "ui_renderable.h"
-
 #include <glad/glad.h>
 
-#include "shader.h"
+#include <onyx/ui_renderable.hpp>
+#include <onyx/shader.hpp>
 
 void onyx_err(const onyx::Error&);
 

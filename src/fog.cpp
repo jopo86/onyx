@@ -1,4 +1,4 @@
-#include "fog.h"
+#include <onyx/fog.hpp>
 
 using onyx::math::Vec3;
 

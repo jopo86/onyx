@@ -1,6 +1,6 @@
 #pragma warning(disable: 4267)
 
-#include "mesh.h"
+#include <onyx/mesh.hpp>
 
 #include <glad/glad.h>
 

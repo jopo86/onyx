@@ -1,6 +1,6 @@
 #pragma warning(disable : 4244; disable: 4267)
 
-#include "core.h"
+#include <onyx/core.hpp>
 
 #include <string>
 #include <unordered_map>
@@ -16,15 +16,15 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
 
-#include "math.h"
-#include "window.h"
-#include "input_handler.h"
-#include "camera.h"
-#include "projection.h"
-#include "model.h"
-#include "text_renderable.h"
-#include "text_renderable_3d.h"
-#include "file_utils.h"
+#include <onyx/math_wrappers.hpp>
+#include <onyx/window.hpp>
+#include <onyx/input_handler.hpp>
+#include <onyx/camera.hpp>
+#include <onyx/projection.hpp>
+#include <onyx/model.hpp>
+#include <onyx/text_renderable.hpp>
+#include <onyx/text_renderable_3d.hpp>
+#include <onyx/file_utils.hpp>
 
 using onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4;
 

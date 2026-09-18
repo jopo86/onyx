@@ -1,6 +1,5 @@
 #pragma warning (disable: 4267)
 
-#include "shader.h"
 
 #include <fstream>
 #include <sstream>
@@ -8,9 +7,9 @@
 
 #include <glad/glad.h>
 
-#include "file_utils.h"
-
-#include "builtin_shaders.h"
+#include <onyx/file_utils.hpp>
+#include <onyx/shader.hpp>
+#include <onyx/builtin_shaders.hpp>
 
 void onyx_err(const onyx::Error&);
 void onyx_warn(const onyx::Warning&);

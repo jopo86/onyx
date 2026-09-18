@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.24)
 project(Onyx VERSION 2.0.0 LANGUAGES C CXX)
 set(ONYX_VERSION_SUFFIX "alpha")
 
@@ -11,27 +11,45 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
-# strips FreeType's optional dependencies
+# strips FreeType's optional dependencies (only applies when built from source)
 set(FT_DISABLE_ZLIB ON CACHE BOOL "" FORCE)
 set(FT_DISABLE_BZIP2 ON CACHE BOOL "" FORCE)
 set(FT_DISABLE_PNG ON CACHE BOOL "" FORCE)
 set(FT_DISABLE_HARFBUZZ ON CACHE BOOL "" FORCE)
 set(FT_DISABLE_BROTLI ON CACHE BOOL "" FORCE)
 
+# FIND_PACKAGE_ARGS makes CMake quietly try find_package() first and only clone
+# if the dependency isn't already installed. Set FETCHCONTENT_TRY_FIND_PACKAGE_MODE=NEVER
+# to force building both from source.
 FetchContent_Declare(glfw
     GIT_REPOSITORY https://github.com/glfw/glfw.git
-    GIT_TAG 3.4  GIT_SHALLOW TRUE)
+    GIT_TAG 3.4  GIT_SHALLOW TRUE
+    # 3.4 floor, not 3.3: CursorType in core.hpp uses the standard cursor
+    # constants added in 3.4 (GLFW_RESIZE_*, GLFW_NOT_ALLOWED_CURSOR).
+    FIND_PACKAGE_ARGS 3.4 NAMES glfw3)
 FetchContent_Declare(freetype
     GIT_REPOSITORY https://github.com/freetype/freetype.git
-    GIT_TAG VER-2-13-3  GIT_SHALLOW TRUE)
+    GIT_TAG VER-2-13-3  GIT_SHALLOW TRUE
+    FIND_PACKAGE_ARGS 2.11 NAMES Freetype)
 FetchContent_MakeAvailable(glfw freetype)
+
+# FreeType's in-build target is `freetype`; find_package() instead provides
+# `Freetype::Freetype`. Normalize so the link line below works either way.
+if(NOT TARGET Freetype::Freetype)
+    add_library(Freetype::Freetype ALIAS freetype)
+endif()
 
 file(GLOB SRC_CPP_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 add_library(onyx ${SRC_CPP_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/src/glad.c)
 target_compile_features(onyx PUBLIC cxx_std_20)
-target_include_directories(onyx SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(onyx PUBLIC glfw freetype)
+target_include_directories(onyx
+    PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include>)
+target_include_directories(onyx SYSTEM
+    PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/extern)
+
+target_link_libraries(onyx PUBLIC glfw Freetype::Freetype)
 target_compile_options(onyx PRIVATE
     $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang>>:-Wno-volatile;-Wno-delete-incomplete>)
 

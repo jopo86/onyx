@@ -1,4 +1,4 @@
-#include "monitor.h"
+#include <onyx/monitor.hpp>
 
 using onyx::math::Vec2, onyx::math::IVec2, onyx::math::IVec3, onyx::math::IVec4;
 

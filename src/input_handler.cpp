@@ -1,8 +1,7 @@
 #pragma warning(disable : 4244; disable: 33011)
 
-#include "input_handler.h"
-
-#include "window.h"
+#include <onyx/input_handler.hpp>
+#include <onyx/window.hpp>
 
 #ifdef ONYX_OS_WINDOWS
 	#include <windows.h>

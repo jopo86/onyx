@@ -1,4 +1,4 @@
-#include "model_renderable.h"
+#include <onyx/model_renderable.hpp>
 
 using onyx::math::Vec3, onyx::math::Mat4;
 

@@ -1,10 +1,10 @@
 #pragma warning(disable: 4267)
 
-#include "error_handler.h"
+#include <onyx/error_handler.hpp>
 
 #include <string>
 
-#include "core.h"
+#include <onyx/core.hpp>
 
 std::string onyx::Error::to_string() const
 {

@@ -1,13 +1,13 @@
 #pragma warning(disable: 4267)
 
-#include "model.h"
+#include <onyx/model.hpp>
 
 #include <fstream>
 
 #include <OBJ_Loader.h>
 
-#include "shader.h"
-#include "math.h"
+#include <onyx/shader.hpp>
+#include <onyx/math_wrappers.hpp>
 
 using onyx::math::Vec4;
 

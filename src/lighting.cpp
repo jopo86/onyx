@@ -1,4 +1,4 @@
-#include "lighting.h"
+#include <onyx/lighting.hpp>
 
 using onyx::math::Vec3;
 

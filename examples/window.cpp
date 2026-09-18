@@ -1,10 +1,10 @@
 ﻿#pragma warning(disable: 4244)
 
-#include "../src/core.h"
-#include "../src/window.h"
-#include "../src/renderer.h"
-#include "../src/input_handler.h"
-#include "../src/camera.h"
+#include <onyx/core.hpp>
+#include <onyx/window.hpp>
+#include <onyx/renderer.hpp>
+#include <onyx/input_handler.hpp>
+#include <onyx/camera.hpp>
 
 static onyx::Window window;
 
@@ -52,7 +52,7 @@ int main()
 
 	window = onyx::Window(
 		onyx::WindowProperties{
-			.title = "Title 1",
+			.title = "Example: Window (1)",
 			.width = 950,
 			.height = 600,
 			.position = onyx::math::IVec2(100, 100),
@@ -215,12 +215,12 @@ int main()
 		{
 			if (title1)
 			{
-				window.set_title("Title 2");
+				window.set_title("Example: Window (2)");
 				title1 = false;
 			}
 			else
 			{
-				window.set_title("Title 1");
+				window.set_title("Example: Window (1)");
 				title1 = true;
 			}
 		}

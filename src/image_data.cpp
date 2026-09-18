@@ -1,4 +1,4 @@
-#include "image_data.h"
+#include <onyx/image_data.hpp>
 
 #include <fstream>
 

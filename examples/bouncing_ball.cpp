@@ -1,11 +1,11 @@
 #pragma warning(disable: 6386; disable: 4244; disable: 305 )
 
-#include "../src/core.h"
-#include "../src/math_wrappers.h"
-#include "../src/window.h"
-#include "../src/monitor.h"
-#include "../src/input_handler.h"
-#include "../src/camera.h"
+#include <onyx/core.hpp>
+#include <onyx/math_wrappers.hpp>
+#include <onyx/window.hpp>
+#include <onyx/monitor.hpp>
+#include <onyx/input_handler.hpp>
+#include <onyx/camera.hpp>
 
 using namespace onyx;
 using namespace onyx::math;
@@ -26,7 +26,7 @@ int main()
 	init(error_handler);
 
 	Window window(WindowProperties{
-			.title = "Bouncing Ball demo",
+			.title = "Example: Bouncing Ball",
 			.width = 1280,
 			.height = 720,
 			.n_samples_msaa = 16,

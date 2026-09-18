@@ -1,6 +1,6 @@
 #pragma warning(disable: 4244)
 
-#include "camera.h"
+#include <onyx/camera.hpp>
 
 using onyx::math::Vec3, onyx::math::Mat4, onyx::math::cross,
 onyx::math::look_at, onyx::math::radians, onyx::math::degrees;

@@ -1,6 +1,6 @@
 #pragma warning(disable: 26495; disable: 4838)
 
-#include "font.h"
+#include <onyx/font.hpp>
 
 #include <string>
 #include <fstream>

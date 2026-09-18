@@ -5,3 +5,5 @@
 - reorganize headers (+ change to hpp)
 - optimize cmake build with find_package and then FetchContent as fallback
 - fix dependency/code version mismatches
+- add prelude
+- fix ambient lighting not working

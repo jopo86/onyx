@@ -680,39 +680,23 @@ std::pair<std::string, std::string> onyx::Shader::split_combined_source(const st
 
 // Loads one of the library's built-in shaders.
 //
-// The GLSL is compiled into the binary (see builtin_shaders.h), so this never depends on
-// the resource path or on any file shipped next to the library. The linked program binary is
-// cached per-user only to skip recompiling on later runs -- if that cache is missing, stale
-// (e.g. after a driver update) or unwritable, the shader is simply rebuilt from the embedded
-// source, which is always available.
-static onyx::Shader load_builtin_shader(const std::string& name, const char* source)
+// The GLSL is compiled into the binary (see builtin_shaders.hpp), so this never depends on
+// the resource path or on any file shipped next to the library.
+//
+// These are compiled fresh every run rather than cached to disk. Only the shaders a program
+// actually asks for are ever compiled, and each is small enough that the cost is negligible --
+// not worth a cache that would have to be invalidated whenever the embedded GLSL changes.
+// Shader::save_binary()/load_binary() remain available for callers who want to cache their own
+// shaders explicitly, where the caller controls invalidation.
+static onyx::Shader load_builtin_shader(const char* source)
 {
-	const std::string bin_path = onyx::get_cache_path() + name + ".bin";
-
-	if (onyx::file_utils::file_exists(bin_path))
-	{
-		bool load_result = false;
-		onyx::Shader cached = onyx::Shader::load_binary(bin_path, &load_result);
-		if (load_result) return cached;
-
-		onyx_warn(onyx::Warning{
-				.source_function = "onyx::Shader::" + name + "()",
-				.message = "Failed to load cached shader binary, recompiling from built-in source instead.",
-				.severity = onyx::Warning::Severity::Low
-			}
-		);
-		cached.dispose();
-	}
-
-	onyx::Shader shader = onyx::Shader::from_source(source);
-	shader.save_binary(onyx::get_cache_path(), name);
-	return shader;
+	return onyx::Shader::from_source(source);
 }
 
 
 onyx::Shader onyx::Shader::p_color(Vec4 rgba)
 {
-	Shader shader = load_builtin_shader("p_color", builtin_shaders::p_color);
+	Shader shader = load_builtin_shader(builtin_shaders::p_color);
 	shader.use();
 	shader.set_vec4("u_color", rgba);
 	shader.set_mat4("u_model", Mat4::identity());
@@ -723,7 +707,7 @@ onyx::Shader onyx::Shader::p_color(Vec4 rgba)
 
 onyx::Shader onyx::Shader::p_xyz_to_rgb()
 {
-	Shader shader = load_builtin_shader("p_xyz_to_rgb", builtin_shaders::p_xyz_to_rgb);
+	Shader shader = load_builtin_shader(builtin_shaders::p_xyz_to_rgb);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -733,7 +717,7 @@ onyx::Shader onyx::Shader::p_xyz_to_rgb()
 
 onyx::Shader onyx::Shader::pc()
 {
-	Shader shader = load_builtin_shader("pc", builtin_shaders::pc);
+	Shader shader = load_builtin_shader(builtin_shaders::pc);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -743,7 +727,7 @@ onyx::Shader onyx::Shader::pc()
 
 onyx::Shader onyx::Shader::pt()
 {
-	Shader shader = load_builtin_shader("pt", builtin_shaders::pt);
+	Shader shader = load_builtin_shader(builtin_shaders::pt);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -753,7 +737,7 @@ onyx::Shader onyx::Shader::pt()
 
 onyx::Shader onyx::Shader::pct()
 {
-	Shader shader = load_builtin_shader("pct", builtin_shaders::pct);
+	Shader shader = load_builtin_shader(builtin_shaders::pct);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -763,7 +747,7 @@ onyx::Shader onyx::Shader::pct()
 
 onyx::Shader onyx::Shader::pnc()
 {
-	Shader shader = load_builtin_shader("pnc", builtin_shaders::pnc);
+	Shader shader = load_builtin_shader(builtin_shaders::pnc);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -773,7 +757,7 @@ onyx::Shader onyx::Shader::pnc()
 
 onyx::Shader onyx::Shader::pn_color(Vec4 rgba)
 {
-	Shader shader = load_builtin_shader("pn_color", builtin_shaders::pn_color);
+	Shader shader = load_builtin_shader(builtin_shaders::pn_color);
 	shader.use();
 	shader.set_vec4("u_color", rgba);
 	shader.set_mat4("u_model", Mat4::identity());
@@ -784,7 +768,7 @@ onyx::Shader onyx::Shader::pn_color(Vec4 rgba)
 
 onyx::Shader onyx::Shader::pn_xyz_to_rgb()
 {
-	Shader shader = load_builtin_shader("pn_xyz_to_rgb", builtin_shaders::pn_xyz_to_rgb);
+	Shader shader = load_builtin_shader(builtin_shaders::pn_xyz_to_rgb);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -794,7 +778,7 @@ onyx::Shader onyx::Shader::pn_xyz_to_rgb()
 
 onyx::Shader onyx::Shader::pnt()
 {
-	Shader shader = load_builtin_shader("pnt", builtin_shaders::pnt);
+	Shader shader = load_builtin_shader(builtin_shaders::pnt);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -804,7 +788,7 @@ onyx::Shader onyx::Shader::pnt()
 
 onyx::Shader onyx::Shader::pnct()
 {
-	Shader shader = load_builtin_shader("pnct", builtin_shaders::pnct);
+	Shader shader = load_builtin_shader(builtin_shaders::pnct);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -814,7 +798,7 @@ onyx::Shader onyx::Shader::pnct()
 
 onyx::Shader onyx::Shader::p_ui_color(Vec4 rgba)
 {
-	Shader shader = load_builtin_shader("p_ui_color", builtin_shaders::p_ui_color);
+	Shader shader = load_builtin_shader(builtin_shaders::p_ui_color);
 	shader.use();
 	shader.set_vec4("u_color", rgba);
 	shader.set_mat4("u_model", Mat4::identity());
@@ -825,7 +809,7 @@ onyx::Shader onyx::Shader::p_ui_color(Vec4 rgba)
 
 onyx::Shader onyx::Shader::pt_ui()
 {
-	Shader shader = load_builtin_shader("pt_ui", builtin_shaders::pt_ui);
+	Shader shader = load_builtin_shader(builtin_shaders::pt_ui);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -835,7 +819,7 @@ onyx::Shader onyx::Shader::pt_ui()
 
 onyx::Shader onyx::Shader::ui_text()
 {
-	Shader shader = load_builtin_shader("ui_text", builtin_shaders::ui_text);
+	Shader shader = load_builtin_shader(builtin_shaders::ui_text);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());
@@ -845,7 +829,7 @@ onyx::Shader onyx::Shader::ui_text()
 
 onyx::Shader onyx::Shader::text()
 {
-	Shader shader = load_builtin_shader("text", builtin_shaders::text);
+	Shader shader = load_builtin_shader(builtin_shaders::text);
 	shader.use();
 	shader.set_mat4("u_model", Mat4::identity());
 	shader.set_mat4("u_view", Mat4::identity());

@@ -62,7 +62,7 @@ void onyx::Renderable::render()
 	this->shader.use();
 	this->texture.bind();
 	this->shader.set_mat4("u_model", this->model);
-	this->shader.set_mat4("u_inverseModel", this->inverse_model);
+	this->shader.set_mat4("u_inverse_model", this->inverse_model);
 	glBindVertexArray(this->mesh.get_vao());
 	glDrawElements(GL_TRIANGLES, this->mesh.get_indices_size() / sizeof(u32), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
@@ -80,10 +80,10 @@ void onyx::Renderable::render(const Mat4& view, const Mat4& proj, const Vec3& ca
 	this->shader.use();
 	this->texture.bind();
 	this->shader.set_mat4("u_model", this->model);
-	this->shader.set_mat4("u_inverseModel", this->inverse_model);
+	this->shader.set_mat4("u_inverse_model", this->inverse_model);
 	this->shader.set_mat4("u_view", view);
 	this->shader.set_mat4("u_projection", proj);
-	this->shader.set_vec3("u_camPos", cam_pos);
+	this->shader.set_vec3("u_cam_pos", cam_pos);
 	glBindVertexArray(this->mesh.get_vao());
 	glDrawElements(GL_TRIANGLES, this->mesh.get_indices_size() / sizeof(u32), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);

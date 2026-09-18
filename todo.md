@@ -7,4 +7,5 @@
 - optimize text rendering (no vao/vbo per character)
 - look into reinit failing on linux
 - GitHub actions matrix
+- finalize prelude
 - redo readme and tutorials

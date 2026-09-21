@@ -43,6 +43,7 @@ int main()
 	bool implicit_init = !onyx::is_initialized();
 	onyx::ErrorHandler error_handler(true, true);
 	if (implicit_init) onyx::init(error_handler);
+	onyx::set_resource_path(ONYX_EXAMPLE_RESOURCES);
 
 	onyx::Monitor primary_monitor = onyx::Monitor::get_primary();
 

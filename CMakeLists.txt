@@ -4,6 +4,11 @@ set(ONYX_VERSION_SUFFIX "alpha")
 
 include(FetchContent)
 
+# Emits build/compile_commands.json so editors/tooling resolve the real include
+# paths and compile definitions (e.g. ONYX_EXAMPLE_RESOURCES) instead of guessing.
+# Honored by the Makefile and Ninja generators.
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 option(ONYX_BUILD_EXAMPLES "Build the Onyx example programs" ON)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -59,6 +64,11 @@ if(ONYX_BUILD_EXAMPLES)
         get_filename_component(example_name ${example_file} NAME_WE)
         add_executable(onyx_example_${example_name} ${example_file})
         target_link_libraries(onyx_example_${example_name} PRIVATE onyx)
+        # Absolute so the examples run from any working directory. The library's own
+        # default resource path is deliberately relative (see src/core.cpp), so the
+        # examples set theirs explicitly rather than depending on where they're launched.
+        target_compile_definitions(onyx_example_${example_name} PRIVATE
+            ONYX_EXAMPLE_RESOURCES="${CMAKE_CURRENT_SOURCE_DIR}/examples/resources")
         set_target_properties(onyx_example_${example_name} PROPERTIES
             OUTPUT_NAME ${example_name}
             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/examples)

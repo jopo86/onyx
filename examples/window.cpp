@@ -49,6 +49,7 @@ int main()
 {
 	onyx::ErrorHandler error_handler(true, true);
 	onyx::init(error_handler);
+	onyx::set_resource_path(ONYX_EXAMPLE_RESOURCES);
 
 	window = onyx::Window(
 		onyx::WindowProperties{

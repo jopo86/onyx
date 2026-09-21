@@ -7,3 +7,4 @@
 - fix dependency/code version mismatches
 - add prelude
 - fix ambient lighting not working
+- move resources/ into examples/, set example resource path explicitly

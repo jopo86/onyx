@@ -1,4 +1,3 @@
-- fix ambient lighting not working?
 - *
 - bugfix
 - fix interpretation of key states

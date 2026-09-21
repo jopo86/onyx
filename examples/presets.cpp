@@ -12,11 +12,12 @@ onyx::InputHandler, onyx::Mesh, onyx::Shader, onyx::Renderable, onyx::UiRenderab
 onyx::Camera, onyx::Projection, onyx::Renderer, onyx::VertexBuffer,
 onyx::IndexBuffer, onyx::Texture, onyx::Lighting, onyx::Key,
 onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4, onyx::math::IVec2,
-onyx::init, onyx::cleanup, onyx::resources;
+onyx::init, onyx::cleanup, onyx::resources, onyx::set_resource_path;
 
 int main() {
 	ErrorHandler error_handler(true, true);
 	init(error_handler);
+	set_resource_path(ONYX_EXAMPLE_RESOURCES);
 	Window window(WindowProperties{ .title = "Example: Presets", .width = 1280, .height = 720, .n_samples_msaa = 16 });
 	window.init();
 

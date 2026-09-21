@@ -24,6 +24,7 @@ int main()
 
 	ErrorHandler error_handler(true, true);
 	init(error_handler);
+	set_resource_path(ONYX_EXAMPLE_RESOURCES);
 
 	Window window(WindowProperties{
 			.title = "Example: Bouncing Ball",

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
+#include <string>
 #include <vector>
 
 #include <onyx/core.hpp>
@@ -89,7 +90,8 @@ namespace onyx
 		bool is_primary() const;
 
 		/*
-			@brief Gets whether the monitor is connected.
+			@brief Gets whether the monitor is (still) connected.
+			This is queried from GLFW each time it is called.
 			@return True if the monitor is connected, false otherwise.
 		 */
 		bool is_connected() const;
@@ -105,14 +107,14 @@ namespace onyx
 		math::IVec2 position;
 		math::IVec4 work_area;
 		bool primary;
-		bool connected;
 
 		Monitor(GLFWmonitor* p_glfw_monitor);
-		static void callback(GLFWmonitor* p_glfw_monitor, int event);
 
 	public:
 		/*
 			@brief Gets the primary monitor.
+			If there is no primary monitor (e.g. on a headless system), an error is passed to the error handler
+			and a default-constructed monitor (null GLFW monitor pointer, zero dimensions) is returned.
 			@return The primary monitor.
 		 */
 		static Monitor get_primary();

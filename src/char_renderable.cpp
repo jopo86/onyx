@@ -1,5 +1,3 @@
-#pragma warning(disable: 4244)
-
 #include <onyx/char_renderable.hpp>
 
 #include <glad/glad.h>
@@ -14,13 +12,13 @@ onyx::CharRenderable::CharRenderable(char c, const Font& font, u32 advance)
 {
 	this->char_ = c;
 	this->vao = this->vbo = this->tex = 0;
-	Glyph glyph = font[c];
+	const Glyph& glyph = font[c];
 	this->tex = glyph.tex;
 
-	float x = glyph.bearing_x + (int)advance;
-	float y = glyph.bearing_y - glyph.height;
-	float w = glyph.width;
-	float h = glyph.height;
+	float x = static_cast<float>(glyph.bearing_x + (int)advance);
+	float y = static_cast<float>(glyph.bearing_y - glyph.height);
+	float w = static_cast<float>(glyph.width);
+	float h = static_cast<float>(glyph.height);
 
 	float vertices[6][4] = {
 		{ x,     y + h,   0.0f, 0.0f },

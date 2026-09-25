@@ -1,8 +1,9 @@
 #include <onyx/text_renderable.hpp>
-#include <onyx/shader.hpp>
 
-void onyx_err(const onyx::Error&);
-void onyx_warn(const onyx::Warning&);
+#include <cmath>
+
+#include <onyx/shader.hpp>
+#include "internal.hpp"
 
 using onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4, onyx::math::Mat4, onyx::math::IVec2;
 
@@ -26,7 +27,6 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	this->z = 0.0f;
 	this->rotation = 0.0f;
 	this->scale_ = Vec2(1.0f);
-	this->dimensions_ = font.get_string_dimensions(text);
 
 	if (font.get_glyphs().size() == 0)
 	{
@@ -39,6 +39,7 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 		if (result != nullptr) *result = false;
 		return;
 	}
+	this->dimensions_ = font.get_string_dimensions(text);
 	if (text == "")
 	{
 		onyx_warn(Warning{
@@ -51,10 +52,12 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	}
 
 	u32 advance = 0;
-	for (int i = 0; i < text.size(); i++)
+	for (char c : text)
 	{
-		this->chars.push_back(CharRenderable(text[i], font, advance));
-		advance += font[text[i]].advance >> 6;
+		const Glyph* p_glyph = font.get_glyph(c);
+		if (p_glyph == nullptr) continue;
+		this->chars.push_back(CharRenderable(c, font, advance));
+		advance += p_glyph->advance >> 6;
 	}
 
 	this->shader = Shader::ui_text();
@@ -74,12 +77,11 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	this->z = 0.0f;
 	this->rotation = 0.0f;
 	this->scale_ = Vec2(1.0f);
-	this->dimensions_ = font.get_string_dimensions(text);
 
 	if (font.get_glyphs().size() == 0)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 color)",
 				.message = "Font has no glyphs loaded.",
 				.how_to_fix = "load a font from a TTF file before creating a TextRenderable with it."
 			}
@@ -87,10 +89,11 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 		if (result != nullptr) *result = false;
 		return;
 	}
+	this->dimensions_ = font.get_string_dimensions(text);
 	if (text == "")
 	{
 		onyx_warn(Warning{
-				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 color)",
 				.message = "text is empty.",
 				.how_to_fix = "Provide a non-empty string to render.",
 				.severity = Warning::Severity::Low
@@ -109,10 +112,12 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	}
 
 	u32 advance = 0;
-	for (int i = 0; i < text.size(); i++)
+	for (char c : text)
 	{
-		this->chars.push_back(CharRenderable(text[i], font, advance));
-		advance += font[text[i]].advance >> 6;
+		const Glyph* p_glyph = font.get_glyph(c);
+		if (p_glyph == nullptr) continue;
+		this->chars.push_back(CharRenderable(c, font, advance));
+		advance += p_glyph->advance >> 6;
 	}
 
 	this->shader = Shader::ui_text();
@@ -132,12 +137,11 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	this->z = 0.0f;
 	this->rotation = 0.0f;
 	this->scale_ = Vec2(1.0f);
-	this->dimensions_ = font.get_string_dimensions(text);
 
 	if (font.get_glyphs().size() == 0)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color, Shader shader_override)",
 				.message = "Font has no glyphs loaded.",
 				.how_to_fix = "load a font from a TTF file before creating a TextRenderable with it."
 			}
@@ -145,10 +149,11 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 		if (result != nullptr) *result = false;
 		return;
 	}
+	this->dimensions_ = font.get_string_dimensions(text);
 	if (text == "")
 	{
 		onyx_warn(Warning{
-				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color, Shader shader_override)",
 				.message = "text is empty.",
 				.how_to_fix = "Provide a non-empty string to render.",
 				.severity = Warning::Severity::Low
@@ -157,10 +162,12 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	}
 
 	u32 advance = 0;
-	for (int i = 0; i < text.size(); i++)
+	for (char c : text)
 	{
-		this->chars.push_back(CharRenderable(text[i], font, advance));
-		advance += font[text[i]].advance >> 6;
+		const Glyph* p_glyph = font.get_glyph(c);
+		if (p_glyph == nullptr) continue;
+		this->chars.push_back(CharRenderable(c, font, advance));
+		advance += p_glyph->advance >> 6;
 	}
 
 	this->shader = shader_override;
@@ -180,12 +187,11 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	this->z = 0.0f;
 	this->rotation = 0.0f;
 	this->scale_ = Vec2(1.0f);
-	this->dimensions_ = font.get_string_dimensions(text);
 
 	if (font.get_glyphs().size() == 0)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 color, Shader shader_override)",
 				.message = "Font has no glyphs loaded.",
 				.how_to_fix = "load a font from a TTF file before creating a TextRenderable with it."
 			}
@@ -193,10 +199,11 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 		if (result != nullptr) *result = false;
 		return;
 	}
+	this->dimensions_ = font.get_string_dimensions(text);
 	if (text == "")
 	{
 		onyx_warn(Warning{
-				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec3 color)",
+				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 color, Shader shader_override)",
 				.message = "text is empty.",
 				.how_to_fix = "Provide a non-empty string to render.",
 				.severity = Warning::Severity::Low
@@ -206,7 +213,7 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	if (color.get_w() == 0.0f)
 	{
 		onyx_warn(Warning{
-				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 color)",
+				.source_function = "onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, Vec4 color, Shader shader_override)",
 				.message = "Alpha value of text color is 0, text will not be visible.",
 				.how_to_fix = "Change the alpha value to be between 0 and 1, reflecting the text's opacity.",
 				.severity = Warning::Severity::Low
@@ -215,10 +222,12 @@ onyx::TextRenderable::TextRenderable(const std::string& text, Font& font, const 
 	}
 
 	u32 advance = 0;
-	for (int i = 0; i < text.size(); i++)
+	for (char c : text)
 	{
-		this->chars.push_back(CharRenderable(text[i], font, advance));
-		advance += font[text[i]].advance >> 6;
+		const Glyph* p_glyph = font.get_glyph(c);
+		if (p_glyph == nullptr) continue;
+		this->chars.push_back(CharRenderable(c, font, advance));
+		advance += p_glyph->advance >> 6;
 	}
 
 	this->shader = shader_override;
@@ -253,12 +262,6 @@ void onyx::TextRenderable::hide()
 void onyx::TextRenderable::show()
 {
 	this->hidden = false;
-}
-
-onyx::math::Vec2 onyx::TextRenderable::dimensions() const
-{
-	math::IVec2 str_dims = this->p_font->get_string_dimensions(this->text);
-	return math::Vec2(str_dims.get_x() * this->scale_.get_x(), str_dims.get_y() * this->scale_.get_y());
 }
 
 void onyx::TextRenderable::toggle_visibility()
@@ -318,19 +321,32 @@ bool onyx::TextRenderable::is_hidden() const
 
 int onyx::TextRenderable::get_z_index() const
 {
-	return this->z * 1000.0f;
+	return static_cast<int>(std::lround(this->z * 1000.0f));
 }
 
-void onyx::TextRenderable::set_text(const std::string& text)
+void onyx::TextRenderable::set_text(const std::string& new_text)
 {
-	this->text = text;
+	this->text = new_text;
 	for (CharRenderable& c : this->chars) c.dispose();
 	this->chars.clear();
-	u32 advance = 0;
-	for (int i = 0; i < text.size(); i++)
+	if (this->p_font == nullptr)
 	{
-		this->chars.push_back(CharRenderable(text[i], *this->p_font, advance));
-		advance += (*this->p_font)[text[i]].advance >> 6;
+		onyx_err(Error{
+				.source_function = "onyx::TextRenderable::set_text(const std::string& new_text)",
+				.message = "Font pointer is null (the renderable was default-constructed or disposed).",
+				.how_to_fix = "Set a font with set_font() before setting the text."
+			}
+		);
+		update_dimensions();
+		return;
+	}
+	u32 advance = 0;
+	for (char c : new_text)
+	{
+		const Glyph* p_glyph = this->p_font->get_glyph(c);
+		if (p_glyph == nullptr) continue;
+		this->chars.push_back(CharRenderable(c, *this->p_font, advance));
+		advance += p_glyph->advance >> 6;
 	}
 	update_dimensions();
 }
@@ -341,37 +357,39 @@ void onyx::TextRenderable::set_font(Font& font)
 	for (CharRenderable& c : this->chars) c.dispose();
 	this->chars.clear();
 	u32 advance = 0;
-	for (int i = 0; i < this->text.size(); i++)
+	for (char c : this->text)
 	{
-		this->chars.push_back(CharRenderable(this->text[i], font, advance));
-		advance += font[this->text[i]].advance >> 6;
+		const Glyph* p_glyph = font.get_glyph(c);
+		if (p_glyph == nullptr) continue;
+		this->chars.push_back(CharRenderable(c, font, advance));
+		advance += p_glyph->advance >> 6;
 	}
 	update_dimensions();
 }
 
-void onyx::TextRenderable::set_color(Vec3 color)
+void onyx::TextRenderable::set_color(Vec3 new_color)
 {
-	this->color = Vec4(color, 1.0f);
+	this->color = Vec4(new_color, 1.0f);
 	this->shader.use();
 	this->shader.set_vec4("u_color", this->color);
 }
 
-void onyx::TextRenderable::set_color(Vec4 color)
+void onyx::TextRenderable::set_color(Vec4 new_color)
 {
-	this->color = color;
+	this->color = new_color;
 	this->shader.use();
 	this->shader.set_vec4("u_color", this->color);
 }
 
-void onyx::TextRenderable::set_position(const Vec2& position)
+void onyx::TextRenderable::set_position(const Vec2& new_position)
 {
-	this->position = position;
+	this->position = new_position;
 	update_model();
 }
 
-void onyx::TextRenderable::set_rotation(float rotation)
+void onyx::TextRenderable::set_rotation(float new_rotation)
 {
-	this->rotation = rotation;
+	this->rotation = new_rotation;
 	update_model();
 }
 
@@ -393,9 +411,9 @@ void onyx::TextRenderable::translate_local(const Vec2& translation)
 	translate(math::rotate(translation, this->rotation));
 }
 
-void onyx::TextRenderable::rotate(float rotation)
+void onyx::TextRenderable::rotate(float angle)
 {
-	this->rotation += rotation;
+	this->rotation += angle;
 	update_model();
 }
 
@@ -421,7 +439,8 @@ void onyx::TextRenderable::reset_transform()
 	this->position = Vec2(0.0f);
 	this->rotation = 0.0f;
 	this->scale_ = Vec2(1.0f);
-	this->model = Mat4::identity();
+	update_dimensions();
+	update_model();
 }
 
 void onyx::TextRenderable::set_z_index(int z_index)
@@ -450,7 +469,11 @@ void onyx::TextRenderable::update_model()
 
 void onyx::TextRenderable::update_dimensions()
 {
-
+	if (this->p_font == nullptr)
+	{
+		this->dimensions_ = Vec2(0.0f);
+		return;
+	}
 	IVec2 dims = this->p_font->get_string_dimensions(this->text);
 	this->dimensions_.set(dims.get_x() * this->scale_.get_x(), dims.get_y() * this->scale_.get_y());
 }

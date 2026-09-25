@@ -1,7 +1,9 @@
 #pragma once
 
+#include <string>
 #include <vector>
 #include <mutex>
+#include <initializer_list>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -63,7 +65,7 @@ namespace onyx
 
 		/*
 			@brief Whether the window is focused.
-			This can be changed later with `focus()`, `unfocus()`, and `toggle_focus()`.
+			The window can be focused later with `focus()`.
 			Default: true
 		 */
 		bool focused = true;
@@ -211,6 +213,7 @@ namespace onyx
 		friend class Camera;
 		friend class Renderer;
 
+	public:
 		/*
 			@brief The framebuffer resize callback function signature.
 			@param width The new framebuffer width.
@@ -239,7 +242,6 @@ namespace onyx
 		*/
 		typedef void(*FileDropCallbackFn)(const char** paths, int count);
 
-	public:
 		/*
 			@brief Default constructor, initializes member variables.
 			Using an object created with this constructor will result in undefined behavior.
@@ -277,6 +279,7 @@ namespace onyx
 		/*
 			@brief Finishes rendering the current frame.
 			This function swaps the buffers of the window.
+			Warns (once per window) if a linked camera or input handler is not being updated each frame.
 		 */
 		void end_render();
 
@@ -415,6 +418,7 @@ namespace onyx
 
 		/*
 			@brief Gets whether the window is visible.
+			This is queried from the window system, so it reflects changes not made through Onyx.
 			@return Whether the window is visible.
 		 */
 		bool is_visible() const;
@@ -426,7 +430,8 @@ namespace onyx
 		bool is_hidden() const;
 
 		/*
-			@brief Gets whether the window is focused.
+			@brief Gets whether the window has input focus.
+			This is queried from the window system, so it reflects changes not made through Onyx.
 			@return Whether the window is focused.
 		 */
 		bool is_focused() const;
@@ -502,15 +507,16 @@ namespace onyx
 
 		/*
 			@brief Sets the icon of the window.
-			@param icon The icon of the window.
+			The image data is copied, so the icon may be disposed after this call.
+			@param new_icon The icon of the window.
 		 */
-		void set_icon(const WindowIcon& icon);
+		void set_icon(const WindowIcon& new_icon);
 
 		/*
 			@brief Sets the cursor of the window.
-			@param cursor The cursor to set.
+			@param new_cursor The cursor to set.
 		 */
-		void set_cursor(const Cursor& cursor);
+		void set_cursor(const Cursor& new_cursor);
 
 		/*
 			@brief Sets the opacity of the window, including decorations.
@@ -604,13 +610,13 @@ namespace onyx
 		void toggle_decorated();
 
 		/*
-			Sets whether the window is topmost (AKA floating, always on top).
+			@brief Sets whether the window is topmost (AKA floating, always on top).
 			@param topmost Whether the window should be topmost.
 		 */
 		void set_topmost(bool topmost);
 
 		/*
-			Toggles whether the window is topmost (AKA floating, always on top).
+			@brief Toggles whether the window is topmost (AKA floating, always on top).
 		 */
 		void toggle_topmost();
 
@@ -679,10 +685,10 @@ namespace onyx
 		Cursor cursor;
 
 		GLFWwindow* p_glfw_win;
-		static GLFWmonitor* p_primary_monitor;
-		static GLFWvidmode* p_primary_monitor_info;
-		static std::mutex mtx_primary_monitor;
 		int buffer_width, buffer_height;
+
+		static std::vector<Window*> p_windows;
+		static std::mutex mtx_windows;
 
 		std::vector<InputHandler*> p_input_handlers;
 		std::vector<Camera*> p_cams;
@@ -697,6 +703,8 @@ namespace onyx
 
 		usize num_frames_cam_not_updated;
 		usize num_frames_input_not_updated;
+		bool warned_cam_not_updated;
+		bool warned_input_not_updated;
 
 		FramebufferSizeCallbackFn p_framebuffer_size_callback;
 		WindowSizeCallbackFn p_window_size_callback;

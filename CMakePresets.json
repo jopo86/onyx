@@ -1,0 +1,44 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": { "major": 3, "minor": 25, "patch": 0 },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "ONYX_BUILD_EXAMPLES": "ON"
+            }
+        },
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "inherits": "base",
+            "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "inherits": "base",
+            "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+        },
+        {
+            "name": "asan",
+            "displayName": "Debug + AddressSanitizer/UBSan (GCC/Clang)",
+            "inherits": "debug",
+            "cacheVariables": { "ONYX_SANITIZE": "ON" }
+        },
+        {
+            "name": "ci",
+            "displayName": "CI (Release, warnings as errors)",
+            "inherits": "release",
+            "cacheVariables": { "ONYX_WARNINGS_AS_ERRORS": "ON" }
+        }
+    ],
+    "buildPresets": [
+        { "name": "debug", "configurePreset": "debug" },
+        { "name": "release", "configurePreset": "release" },
+        { "name": "asan", "configurePreset": "asan" },
+        { "name": "ci", "configurePreset": "ci", "configuration": "Release" }
+    ]
+}

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <iostream>
+#include <cstddef>
+#include <string>
 #include <vector>
 
 namespace onyx
@@ -91,7 +92,6 @@ namespace onyx
 			@brief Creates a new ErrorHandler object with the specified settings.
 			@param log_warnings Whether to log warnings.
 			@param log_errors Whether to log errors.
-			@param crash_on_error Whether to throw errors.
 		 */
 		ErrorHandler(bool log_warnings, bool log_errors);
 
@@ -99,7 +99,7 @@ namespace onyx
 			@brief Creates a new ErrorHandler object with the specified settings.
 			@param log_warnings Whether to log warnings.
 			@param log_errors Whether to log errors.
-			@param crash_on_error Whether to throw errors.
+			@param min_warning_severity The minimum severity a warning must have to be logged.
 		 */
 		ErrorHandler(bool log_warnings, bool log_errors, Warning::Severity min_warning_severity);
 
@@ -130,28 +130,36 @@ namespace onyx
 		bool logs_errors() const;
 
 		/*
+			@brief The maximum number of warnings and of errors the handler keeps in its history.
+			Once a list is full, the oldest entry is discarded to make room for the newest.
+		 */
+		static constexpr std::size_t max_history = 256;
+
+		/*
 			@brief Gets the list of warnings that have been passed to the handler.
+			Only the most recent `max_history` warnings are kept, oldest first.
 			@return The list of warnings that have been passed to the handler.
 		 */
 		const std::vector<Warning>& get_warning_list() const;
 
 		/*
 			@brief Gets the list of errors that have been passed to the handler.
+			Only the most recent `max_history` errors are kept, oldest first.
 			@return The list of errors that have been passed to the handler.
 		 */
 		const std::vector<Error>& get_error_list() const;
 
 		/*
 			@brief Sets whether the handler logs warnings.
-			@param log_warnings Whether the handler should log warnings.
+			@param new_log_warnings Whether the handler should log warnings.
 		 */
-		void set_log_warnings(bool log_warnings);
+		void set_log_warnings(bool new_log_warnings);
 
 		/*
 			@brief Sets whether the handler logs errors.
-			@param log_errors Whether the handler should log errors.
+			@param new_log_errors Whether the handler should log errors.
 		 */
-		void set_log_errors(bool log_errors);
+		void set_log_errors(bool new_log_errors);
 
 		/*
 			@brief Sets the callback function to call when an error is passed to the handler.

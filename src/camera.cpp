@@ -1,17 +1,27 @@
-#pragma warning(disable: 4244)
-
 #include <onyx/camera.hpp>
+
+#include <cmath>
+
+#include "internal.hpp"
 
 using onyx::math::Vec3, onyx::math::Mat4, onyx::math::cross,
 onyx::math::look_at, onyx::math::radians, onyx::math::degrees;
 
-void onyx_err(const onyx::Error&);
+// pitch clamps of 90 degrees or more make the front vector parallel to the up vector, producing a degenerate (NaN) view matrix
+static constexpr float MAX_PITCH_CLAMP = 89.9f;
 
 onyx::Camera::Camera()
 {
 	this->p_win = nullptr;
 
-	this->yaw_ = this->pitch_ = this->pitch_clamp = 0.0f;
+	this->pos = Vec3(0.0f, 0.0f, 0.0f);
+	this->front = Vec3(0.0f, 0.0f, -1.0f);
+	this->up = Vec3(0.0f, 1.0f, 0.0f);
+
+	// yaw of -90 degrees corresponds to the front vector (0, 0, -1) in update_front()
+	this->yaw_ = -90.0f;
+	this->pitch_ = 0.0f;
+	this->pitch_clamp = 88.0f;
 
 	this->view = math::look_at(this->pos, this->pos + this->front, this->up);
 }
@@ -24,11 +34,11 @@ onyx::Camera::Camera(const Projection& proj)
 	this->front = Vec3(0.0f, 0.0f, -1.0f);
 	this->up = Vec3(0.0f, 1.0f, 0.0f);
 
-	this->yaw_ = this->pitch_ = 0.0f;
+	// yaw of -90 degrees corresponds to the front vector (0, 0, -1) in update_front()
+	this->yaw_ = -90.0f;
+	this->pitch_ = 0.0f;
 	this->proj = proj;
 	this->pitch_clamp = 88.0f;
-
-	if (proj.get_type() == onyx::ProjectionType::Perspective) rotate(-90.0f, 0.0f);
 
 	this->view = math::look_at(this->pos, this->pos + this->front, this->up);
 }
@@ -41,11 +51,11 @@ onyx::Camera::Camera(const Projection& proj, float pitch_clamp)
 	this->front = Vec3(0.0f, 0.0f, -1.0f);
 	this->up = Vec3(0.0f, 1.0f, 0.0f);
 
-	this->yaw_ = this->pitch_ = 0.0f;
+	// yaw of -90 degrees corresponds to the front vector (0, 0, -1) in update_front()
+	this->yaw_ = -90.0f;
+	this->pitch_ = 0.0f;
 	this->proj = proj;
-	this->pitch_clamp = pitch_clamp;
-
-	if (proj.get_type() == onyx::ProjectionType::Perspective) rotate(-90.0f, 0.0f);
+	this->pitch_clamp = math::clamp(pitch_clamp, 0.0f, MAX_PITCH_CLAMP);
 
 	this->view = math::look_at(this->pos, this->pos + this->front, this->up);
 }
@@ -99,7 +109,8 @@ void onyx::Camera::translate_global(const Vec3& xyz)
 
 void onyx::Camera::rotate(float yaw, float pitch)
 {
-	if (this->p_win != nullptr) if (this->p_win->frame > 0L && this->p_win->frame < 5L || yaw == 0 && pitch == 0) return;
+	// TODO: replace the frame 1-4 hack with proper first-mouse handling (the first mouse deltas after window creation are huge)
+	if (this->p_win != nullptr) if ((this->p_win->frame > 0L && this->p_win->frame < 5L) || (yaw == 0 && pitch == 0)) return;
 
 	this->yaw_ += yaw;
 	this->pitch_ += pitch;
@@ -108,69 +119,34 @@ void onyx::Camera::rotate(float yaw, float pitch)
 	update_front();
 }
 
-//void onyx::Camera::rotate(float yaw, float pitch, const Vec3& origin)
-//{
-//	if (this->p_win != nullptr) if (this->p_win->frame > 0 && this->p_win->frame < 5 || yaw == 0 && pitch == 0) return;
-//
-//	if (this->pitch_ + pitch > this->pitch_clamp || this->pitch_ + pitch < -this->pitch_clamp) pitch = 0.0f;
-//
-//	this->yaw_ += yaw;
-//	this->pitch_ += pitch;
-//	update_front();
-//
-//	Vec3 diff = this->pos - origin;
-//	this->pos += diff;
-//	Vec3 left = cross(this->front, this->up).get_normalized();
-//	diff = math::rotate(diff, Vec3(-pitch * left.get_x(), yaw, -pitch * left.get_z()));
-//	this->pos -= diff;
-//}
-
 void onyx::Camera::pitch(float degrees)
 {
-	if (this->p_win != nullptr) if (this->p_win->frame > 0L && this->p_win->frame < 5L || degrees == 0) return;
+	// TODO: replace the frame 1-4 hack with proper first-mouse handling (see rotate())
+	if (this->p_win != nullptr) if ((this->p_win->frame > 0L && this->p_win->frame < 5L) || degrees == 0) return;
 	this->pitch_ += degrees;
 	if (this->pitch_ > this->pitch_clamp) this->pitch_ = this->pitch_clamp;
 	else if (this->pitch_ < -this->pitch_clamp) this->pitch_ = -this->pitch_clamp;
 	update_front();
 }
 
-//void onyx::Camera::pitch(float degrees, const math::Vec3& origin)
-//{
-//	if (this->p_win != nullptr) if (this->p_win->frame > 0 && this->p_win->frame < 5 || degrees == 0) return;
-//	if (this->pitch_ + degrees > this->pitch_clamp || this->pitch_ + degrees < -this->pitch_clamp) return;
-//	this->pitch_ += degrees;
-//	update_front();
-//	Vec3 diff = this->pos - origin;
-//	this->pos += diff;
-//	Vec3 left = cross(this->front, this->up).get_normalized();
-//	diff = math::rotate(diff, Vec3(-degrees * left.get_x(), 0.0f, -degrees * left.get_z()));
-//	this->pos -= diff;
-//}
-
 void onyx::Camera::yaw(float degrees)
 {
-	if (this->p_win != nullptr) if (this->p_win->frame > 0L && this->p_win->frame < 5L || degrees == 0) return;
+	// TODO: replace the frame 1-4 hack with proper first-mouse handling (see rotate())
+	if (this->p_win != nullptr) if ((this->p_win->frame > 0L && this->p_win->frame < 5L) || degrees == 0) return;
 	this->yaw_ += degrees;
 	update_front();
 }
 
-//void onyx::Camera::yaw(float degrees, const math::Vec3& origin)
-//{
-//	if (this->p_win != nullptr) if (this->p_win->frame > 0 && this->p_win->frame < 5 || degrees == 0) return;
-//	this->yaw_ += degrees;
-//	update_front();
-//	Vec3 diff = this->pos - origin;
-//	this->pos += diff;
-//	Vec3 left = cross(this->front, this->up).get_normalized();
-//	diff = math::rotate(diff, Vec3(0.0f, degrees, 0.0f));
-//	this->pos -= diff;
-//}
-
 void onyx::Camera::look_at(const Vec3& target)
 {
-	this->front = (target - this->pos).get_normalized();
-	this->yaw_ = degrees(atan2f(this->front.get_z(), this->front.get_x()));
-	this->pitch_ = degrees(asinf(this->front.get_y()));
+	Vec3 dir = target - this->pos;
+	if (dir.magnitude() < 1e-6f) return;
+	dir.normalize();
+
+	// keep the current yaw if looking (almost) straight up/down, where yaw is undefined
+	if (fabsf(dir.get_x()) > 1e-6f || fabsf(dir.get_z()) > 1e-6f) this->yaw_ = degrees(atan2f(dir.get_z(), dir.get_x()));
+	this->pitch_ = math::clamp(degrees(asinf(math::clamp(dir.get_y(), -1.0f, 1.0f))), -this->pitch_clamp, this->pitch_clamp);
+	update_front();
 }
 
 const Vec3& onyx::Camera::get_position() const
@@ -213,25 +189,26 @@ float onyx::Camera::get_pitch() const
 	return this->pitch_;
 }
 
-void onyx::Camera::set_position(const math::Vec3& pos)
+void onyx::Camera::set_position(const math::Vec3& new_pos)
 {
-	this->pos = pos;
+	this->pos = new_pos;
 }
 
-void onyx::Camera::set_pitch_clamp(float pitch_clamp)
+void onyx::Camera::set_pitch_clamp(float new_pitch_clamp)
 {
-	this->pitch_clamp = pitch_clamp;
+	this->pitch_clamp = math::clamp(new_pitch_clamp, 0.0f, MAX_PITCH_CLAMP);
+	set_pitch(this->pitch_);
 }
 
-void onyx::Camera::set_projection(const Projection& proj)
+void onyx::Camera::set_projection(const Projection& new_proj)
 {
-	this->proj = proj;
+	this->proj = new_proj;
 }
 
 void onyx::Camera::set_pitch(float pitch)
 {
-	if (this->pitch_ + pitch > this->pitch_clamp) this->pitch_ = this->pitch_clamp;
-	else if (this->pitch_ + pitch < -this->pitch_clamp) this->pitch_ = -this->pitch_clamp;
+	if (pitch > this->pitch_clamp) this->pitch_ = this->pitch_clamp;
+	else if (pitch < -this->pitch_clamp) this->pitch_ = -this->pitch_clamp;
 	else this->pitch_ = pitch;
 	update_front();
 }

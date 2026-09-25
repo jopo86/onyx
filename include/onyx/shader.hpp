@@ -1,6 +1,7 @@
 #pragma once
 
-#include <iostream>
+#include <string>
+#include <utility>
 
 #include <onyx/core.hpp>
 #include <onyx/math_wrappers.hpp>
@@ -27,21 +28,27 @@ namespace onyx
 		 */
 		Shader(const char* vert_source, const char* frag_source, bool* result = nullptr);
 
-		
-
 		/*
 			@brief Creates a new Shader object from another shader object.
 		 !	This function does not copy the shader data, rather the shader program ID.
 		 !	This means that the shader data is shared, and disposing of one shader will dispose of the other.
 		 !	This is used appropriately in the Renderable class, but should be used elsewhere with caution.
 			@param other The other shader object.
-		*/
+		 */
 		Shader(const Shader& other);
 
 		/*
+			@brief Assigns another shader object to this one.
+		 !	Like the copy constructor, this shares the shader program ID rather than copying the data.
+			@param other The other shader object.
+			@return A reference to this object.
+		 */
+		Shader& operator=(const Shader& other) = default;
+
+		/*
 			@brief Loads a new Shader object from the specified vertex and fragment shader source code file paths.
-			@param vert_source The vertex shader file path.
-			@param frag_source The fragment shader file path.
+			@param vert_path The vertex shader file path.
+			@param frag_path The fragment shader file path.
 			@param result A pointer to a boolean that will be set to true if the shader was successfully compiled, and false otherwise.
 			@return The loaded shader.
 		 */
@@ -50,7 +57,7 @@ namespace onyx
 		/*
 			@brief Loads a new Shader object from the combined shader source code.
 			See https://github.com/jopo86/onyx/wiki/guides#custom-shaders-guide for info on 'combining' shader types into one source file.
-			@param combined_source The combined shader source code.
+			@param combined_path The combined shader source file path.
 			@param result A pointer to a boolean that will be set to true if the shader was successfully compiled, and false otherwise.
 			@return The loaded shader.
 		 */
@@ -70,8 +77,9 @@ namespace onyx
 		/*
 			@brief Loads a new Shader object from the specified shader program binary (already compiled).
 			Please note that a binary file that was not saved by Onyx will likely not be successfully loaded with Onyx.
-			@param filename The filename, including the path. Extension must be .bin
+			@param filename The path of the binary file, as saved by save_binary().
 			@param result A pointer to a boolean that will be set to true if the shader was successfully loaded, and false otherwise.
+			@return The loaded shader.
 		 */
 		static Shader load_binary(const std::string& filename, bool* result = nullptr);
 
@@ -83,7 +91,7 @@ namespace onyx
 
 		/*
 			@brief Saves the compiled shader program binary to a file.
-			@param dir The directory to save the file to. A slash at the end will be ignored.
+			@param dir The directory to save the file to, created if it does not exist. A slash at the end will be ignored. May be empty to use the working directory.
 			@param filename The name of the file. Any extension at the end will be replaced with .bin
 			@param result A pointer to a boolean that will be set to true if the shader was successfully saved, and false otherwise.
 		 */
@@ -220,102 +228,102 @@ namespace onyx
 			This function is the exact same as set_mat2().
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat2x2(const char* var_name, const math::Mat2x2& val, bool normalize = false);
+		void set_mat2x2(const char* var_name, const math::Mat2x2& val, bool transpose = false);
 
 		/*
 			@brief Sets a 2x2 matrix uniform variable in the shader.
 			This function is the exact same as set_mat2x2().
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat2(const char* var_name, const math::Mat2& val, bool normalize = false);
+		void set_mat2(const char* var_name, const math::Mat2& val, bool transpose = false);
 
 		/*
 			@brief Sets a 2x3 matrix uniform variable in the shader.
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat2x3(const char* var_name, const math::Mat2x3& val, bool normalize = false);
+		void set_mat2x3(const char* var_name, const math::Mat2x3& val, bool transpose = false);
 
 		/*
 			@brief Sets a 2x4 matrix uniform variable in the shader.
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat2x4(const char* var_name, const math::Mat2x4& val, bool normalize = false);
+		void set_mat2x4(const char* var_name, const math::Mat2x4& val, bool transpose = false);
 
 		/*
 			@brief Sets a 3x2 matrix uniform variable in the shader.
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat3x2(const char* var_name, const math::Mat3x2& val, bool normalize = false);
+		void set_mat3x2(const char* var_name, const math::Mat3x2& val, bool transpose = false);
 
 		/*
 			@brief Sets a 3x3 matrix uniform variable in the shader.
 			This function is the exact same as set_mat3().
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat3x3(const char* var_name, const math::Mat3x3& val, bool normalize = false);
+		void set_mat3x3(const char* var_name, const math::Mat3x3& val, bool transpose = false);
 
 		/*
 			@brief Sets a 3x3 matrix uniform variable in the shader.
 			This function is the exact same as set_mat3x3().
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat3(const char* var_name, const math::Mat3& val, bool normalize = false);
+		void set_mat3(const char* var_name, const math::Mat3& val, bool transpose = false);
 
 		/*
 			@brief Sets a 3x4 matrix uniform variable in the shader.
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat3x4(const char* var_name, const math::Mat3x4& val, bool normalize = false);
+		void set_mat3x4(const char* var_name, const math::Mat3x4& val, bool transpose = false);
 
 		/*
 			@brief Sets a 4x2 matrix uniform variable in the shader.
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat4x2(const char* var_name, const math::Mat4x2& val, bool normalize = false);
+		void set_mat4x2(const char* var_name, const math::Mat4x2& val, bool transpose = false);
 
 		/*
 			@brief Sets a 4x3 matrix uniform variable in the shader.
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat4x3(const char* var_name, const math::Mat4x3& val, bool normalize = false);
+		void set_mat4x3(const char* var_name, const math::Mat4x3& val, bool transpose = false);
 
 		/*
 			@brief Sets a 4x4 matrix uniform variable in the shader.
 			This function is the exact same as set_mat4().
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat4x4(const char* var_name, const math::Mat4x4& val, bool normalize = false);
+		void set_mat4x4(const char* var_name, const math::Mat4x4& val, bool transpose = false);
 
 		/*
 			@brief Sets a 4x4 matrix uniform variable in the shader.
 			This function is the exact same as set_mat4x4().
 			@param var_name The name of the variable.
 			@param val The value to set the variable to.
-			@param normalize Whether or not to normalize the matrix.
+			@param transpose Whether OpenGL should transpose the matrix when uploading it (false for the library's column-major matrices).
 		 */
-		void set_mat4(const char* var_name, const math::Mat4& val, bool normalize = false);
+		void set_mat4(const char* var_name, const math::Mat4& val, bool transpose = false);
 
 		void dispose() override;
 

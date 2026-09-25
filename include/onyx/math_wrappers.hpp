@@ -5,7 +5,12 @@
 
 #pragma once
 
+#include <cmath>
+#include <limits>
+#include <random>
 #include <string>
+#include <type_traits>
+#include <utility>
 
 #include <glm/glm.hpp>
 
@@ -99,7 +104,7 @@ namespace onyx
 			@param val The value to remap.
 			@param old_range The old range (min, max).
 			@param new_range The new range (min, max).
-			@return The remapped value.
+			@return The remapped value. If the old range has zero width (min == max), new_range's min is returned.
 		 */
 		float remap(float val, Vec2 old_range, Vec2 new_range);
 
@@ -108,12 +113,23 @@ namespace onyx
 			@param val The value to remap.
 			@param old_range The old range (min, max).
 			@param new_range The new range (min, max).
-			@return The remapped value.
+			@return The remapped value. If the old range has zero width (min == max), new_range's min is returned.
 		 */
 		double remap(double val, DVec2 old_range, DVec2 new_range);
 
+		namespace detail
+		{
+			/*
+				@brief Returns the calling thread's random number engine.
+				Each thread has its own engine, (re)seeded from the library-wide seed whenever that seed changes.
+				Used by rand; not intended to be called directly.
+			 */
+			std::mt19937& random_engine();
+		}
+
 		/*
-			@brief Generates a random number, of type T, between a minimum and maximum value, inclusive.
+			@brief Generates a uniformly distributed random number, of type T, between a minimum and maximum value, inclusive.
+			If min > max, the bounds are swapped. Thread-safe (each thread uses its own engine).
 			@param min The minimum value.
 			@param max The maximum value.
 			@return The random number.
@@ -121,13 +137,21 @@ namespace onyx
 		template<typename T>
 		T rand(T min, T max)
 		{
-			static_assert(std::is_arithmetic<T>::value, "rand can only be used with integral or floating-point types.");
+			static_assert(std::is_arithmetic<T>::value && !std::is_same<T, bool>::value, "rand can only be used with integral or floating-point types.");
+
+			if (max < min) std::swap(min, max);
 
 			if constexpr (std::is_integral<T>::value) {
-				return min + ::rand() % (max - min + 1);
+				// uniform_int_distribution is not defined for char types, so generate with a wide type and narrow
+				typedef typename std::conditional<std::is_signed<T>::value, long long, unsigned long long>::type wide_t;
+				std::uniform_int_distribution<wide_t> dist(static_cast<wide_t>(min), static_cast<wide_t>(max));
+				return static_cast<T>(dist(detail::random_engine()));
 			}
-			else if constexpr (std::is_floating_point<T>::value) {
-				return min + static_cast<T>(::rand()) / static_cast<T>(RAND_MAX) * (max - min);
+			else {
+				// uniform_real_distribution samples [a, b), so extend b by one ulp to make max inclusive
+				std::uniform_real_distribution<T> dist(min, std::nextafter(max, std::numeric_limits<T>::max()));
+				T val = dist(detail::random_engine());
+				return val > max ? max : val;
 			}
 		}
 
@@ -221,6 +245,9 @@ namespace onyx
 			Vec2(const glm::vec2& vec);
 
 			float magnitude() const;
+			/*
+				@brief Normalizes this vector to unit length. A zero-length vector is left unchanged (stays zero) instead of becoming NaN.
+			 */
 			void normalize();
 			const float* data() const;
 			bool is_zero() const;
@@ -234,11 +261,17 @@ namespace onyx
 			float get_x() const;
 			float get_y() const;
 			const glm::vec2& get_mvec() const;
+			/*
+				@brief Returns a unit-length copy of this vector. A zero-length vector returns a zero vector instead of NaN.
+			 */
 			Vec2 get_normalized() const;
 
 			void set_x(float x);
 			void set_y(float y);
 			void set(float x, float y);
+			/*
+				@brief Scales this vector to the given magnitude, keeping its direction. A zero-length vector has no direction and is left unchanged.
+			 */
 			void set_magnitude(float magnitude);
 
 			friend float dot(const Vec2& vec1, const Vec2& vec2);
@@ -248,12 +281,11 @@ namespace onyx
 
 			float operator[](int index) const;
 
-			void operator=(const Vec2& vec);
-			Vec2 operator+(const Vec2& vec) const;
-			void operator+=(const Vec2& vec);
+			Vec2 operator+(const Vec2& other) const;
+			void operator+=(const Vec2& other);
 			Vec2 operator-() const;
-			Vec2 operator-(const Vec2& vec) const;
-			void operator-=(const Vec2& vec);
+			Vec2 operator-(const Vec2& other) const;
+			void operator-=(const Vec2& other);
 			Vec2 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -278,6 +310,9 @@ namespace onyx
 			Vec3(const glm::vec3& vec);
 
 			float magnitude() const;
+			/*
+				@brief Normalizes this vector to unit length. A zero-length vector is left unchanged (stays zero) instead of becoming NaN.
+			 */
 			void normalize();
 			const float* data() const;
 			bool is_zero() const;
@@ -325,12 +360,18 @@ namespace onyx
 			float get_y() const;
 			float get_z() const;
 			const glm::vec3& get_mvec() const;
+			/*
+				@brief Returns a unit-length copy of this vector. A zero-length vector returns a zero vector instead of NaN.
+			 */
 			Vec3 get_normalized() const;
 
 			void set_x(float x);
 			void set_y(float y);
 			void set_z(float z);
 			void set(float x, float y, float z);
+			/*
+				@brief Scales this vector to the given magnitude, keeping its direction. A zero-length vector has no direction and is left unchanged.
+			 */
 			void set_magnitude(float magnitude);
 
 			friend Vec3 cross(const Vec3& vec1, const Vec3& vec2);
@@ -341,12 +382,11 @@ namespace onyx
 
 			float operator[](int index) const;
 
-			void operator=(const Vec3& vec);
-			Vec3 operator+(const Vec3& vec) const;
-			void operator+=(const Vec3& vec);
+			Vec3 operator+(const Vec3& other) const;
+			void operator+=(const Vec3& other);
 			Vec3 operator-() const;
-			Vec3 operator-(const Vec3& vec) const;
-			void operator-=(const Vec3& vec);
+			Vec3 operator-(const Vec3& other) const;
+			void operator-=(const Vec3& other);
 			Vec3 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -393,6 +433,9 @@ namespace onyx
 			Vec4(const glm::vec4& vec);
 
 			float magnitude() const;
+			/*
+				@brief Normalizes this vector to unit length. A zero-length vector is left unchanged (stays zero) instead of becoming NaN.
+			 */
 			void normalize();
 			const float* data() const;
 			bool is_zero() const;
@@ -742,6 +785,9 @@ namespace onyx
 			float get_z() const;
 			float get_w() const;
 			const glm::vec4& get_mvec() const;
+			/*
+				@brief Returns a unit-length copy of this vector. A zero-length vector returns a zero vector instead of NaN.
+			 */
 			Vec4 get_normalized() const;
 
 			void set_x(float x);
@@ -749,6 +795,9 @@ namespace onyx
 			void set_z(float z);
 			void set_w(float w);
 			void set(float x, float y, float z, float w);
+			/*
+				@brief Scales this vector to the given magnitude, keeping its direction. A zero-length vector has no direction and is left unchanged.
+			 */
 			void set_magnitude(float magnitude);
 
 			friend float dot(const Vec4& vec1, const Vec4& vec2);
@@ -758,12 +807,11 @@ namespace onyx
 
 			float operator[](int index) const;
 
-			void operator=(const Vec4& vec);
-			Vec4 operator+(const Vec4& vec) const;
-			void operator+=(const Vec4& vec);
+			Vec4 operator+(const Vec4& other) const;
+			void operator+=(const Vec4& other);
 			Vec4 operator-() const;
-			Vec4 operator-(const Vec4& vec) const;
-			void operator-=(const Vec4& vec);
+			Vec4 operator-(const Vec4& other) const;
+			void operator-=(const Vec4& other);
 			Vec4 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -819,6 +867,9 @@ namespace onyx
 			DVec2(const glm::dvec2& vec);
 
 			double magnitude() const;
+			/*
+				@brief Normalizes this vector to unit length. A zero-length vector is left unchanged (stays zero) instead of becoming NaN.
+			 */
 			void normalize();
 			const double* data() const;
 			bool is_zero() const;
@@ -832,11 +883,17 @@ namespace onyx
 			double get_x() const;
 			double get_y() const;
 			const glm::dvec2& get_mvec() const;
+			/*
+				@brief Returns a unit-length copy of this vector. A zero-length vector returns a zero vector instead of NaN.
+			 */
 			DVec2 get_normalized() const;
 
 			void set_x(double x);
 			void set_y(double y);
 			void set(double x, double y);
+			/*
+				@brief Scales this vector to the given magnitude, keeping its direction. A zero-length vector has no direction and is left unchanged.
+			 */
 			void set_magnitude(double magnitude);
 
 			friend double dot(const DVec2& vec1, const DVec2& vec2);
@@ -846,12 +903,11 @@ namespace onyx
 
 			double operator[](int index) const;
 
-			void operator=(const DVec2& vec);
-			DVec2 operator+(const DVec2& vec) const;
-			void operator+=(const DVec2& vec);
+			DVec2 operator+(const DVec2& other) const;
+			void operator+=(const DVec2& other);
 			DVec2 operator-() const;
-			DVec2 operator-(const DVec2& vec) const;
-			void operator-=(const DVec2& vec);
+			DVec2 operator-(const DVec2& other) const;
+			void operator-=(const DVec2& other);
 			DVec2 operator*(const double& scalar) const;
 			void operator*=(const double& scalar);
 
@@ -876,6 +932,9 @@ namespace onyx
 			DVec3(const glm::dvec3& vec);
 
 			double magnitude() const;
+			/*
+				@brief Normalizes this vector to unit length. A zero-length vector is left unchanged (stays zero) instead of becoming NaN.
+			 */
 			void normalize();
 			const double* data() const;
 			bool is_zero() const;
@@ -923,12 +982,18 @@ namespace onyx
 			double get_y() const;
 			double get_z() const;
 			const glm::dvec3& get_mvec() const;
+			/*
+				@brief Returns a unit-length copy of this vector. A zero-length vector returns a zero vector instead of NaN.
+			 */
 			DVec3 get_normalized() const;
 
 			void set_x(double x);
 			void set_y(double y);
 			void set_z(double z);
 			void set(double x, double y, double z);
+			/*
+				@brief Scales this vector to the given magnitude, keeping its direction. A zero-length vector has no direction and is left unchanged.
+			 */
 			void set_magnitude(double magnitude);
 
 			friend DVec3 cross(const DVec3& vec1, const DVec3& vec2);
@@ -939,12 +1004,11 @@ namespace onyx
 
 			double operator[](int index) const;
 
-			void operator=(const DVec3& vec);
-			DVec3 operator+(const DVec3& vec) const;
-			void operator+=(const DVec3& vec);
+			DVec3 operator+(const DVec3& other) const;
+			void operator+=(const DVec3& other);
 			DVec3 operator-() const;
-			DVec3 operator-(const DVec3& vec) const;
-			void operator-=(const DVec3& vec);
+			DVec3 operator-(const DVec3& other) const;
+			void operator-=(const DVec3& other);
 			DVec3 operator*(const double& scalar) const;
 			void operator*=(const double& scalar);
 
@@ -981,6 +1045,9 @@ namespace onyx
 			DVec4(const glm::dvec4& vec);
 
 			double magnitude() const;
+			/*
+				@brief Normalizes this vector to unit length. A zero-length vector is left unchanged (stays zero) instead of becoming NaN.
+			 */
 			void normalize();
 			const double* data() const;
 			bool is_zero() const;
@@ -1330,8 +1397,14 @@ namespace onyx
 			double get_z() const;
 			double get_w() const;
 			const glm::dvec4& get_mvec() const;
+			/*
+				@brief Returns a unit-length copy of this vector. A zero-length vector returns a zero vector instead of NaN.
+			 */
 			DVec4 get_normalized() const;
 			void set(double x, double y, double z, double w);
+			/*
+				@brief Scales this vector to the given magnitude, keeping its direction. A zero-length vector has no direction and is left unchanged.
+			 */
 			void set_magnitude(double magnitude);
 
 			void set_x(double x);
@@ -1346,12 +1419,11 @@ namespace onyx
 
 			double operator[](int index) const;
 
-			void operator=(const DVec4& vec);
-			DVec4 operator+(const DVec4& vec) const;
-			void operator+=(const DVec4& vec);
+			DVec4 operator+(const DVec4& other) const;
+			void operator+=(const DVec4& other);
 			DVec4 operator-() const;
-			DVec4 operator-(const DVec4& vec) const;
-			void operator-=(const DVec4& vec);
+			DVec4 operator-(const DVec4& other) const;
+			void operator-=(const DVec4& other);
 			DVec4 operator*(const double& scalar) const;
 			void operator*=(const double& scalar);
 
@@ -1408,12 +1480,11 @@ namespace onyx
 
 			int operator[](int index) const;
 
-			void operator=(const IVec2& vec);
-			IVec2 operator+(const IVec2& vec) const;
-			void operator+=(const IVec2& vec);
+			IVec2 operator+(const IVec2& other) const;
+			void operator+=(const IVec2& other);
 			IVec2 operator-() const;
-			IVec2 operator-(const IVec2& vec) const;
-			void operator-=(const IVec2& vec);
+			IVec2 operator-(const IVec2& other) const;
+			void operator-=(const IVec2& other);
 			IVec2 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -1494,12 +1565,11 @@ namespace onyx
 
 			int operator[](int index) const;
 
-			void operator=(const IVec3& vec);
-			IVec3 operator+(const IVec3& vec) const;
-			void operator+=(const IVec3& vec);
+			IVec3 operator+(const IVec3& other) const;
+			void operator+=(const IVec3& other);
 			IVec3 operator-() const;
-			IVec3 operator-(const IVec3& vec) const;
-			void operator-=(const IVec3& vec);
+			IVec3 operator-(const IVec3& other) const;
+			void operator-=(const IVec3& other);
 			IVec3 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -1887,12 +1957,11 @@ namespace onyx
 
 			int operator[](int index) const;
 
-			void operator=(const IVec4& vec);
-			IVec4 operator+(const IVec4& vec) const;
-			void operator+=(const IVec4& vec);
+			IVec4 operator+(const IVec4& other) const;
+			void operator+=(const IVec4& other);
 			IVec4 operator-() const;
-			IVec4 operator-(const IVec4& vec) const;
-			void operator-=(const IVec4& vec);
+			IVec4 operator-(const IVec4& other) const;
+			void operator-=(const IVec4& other);
 			IVec4 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -1932,11 +2001,10 @@ namespace onyx
 
 			u32 operator[](int index) const;
 
-			void operator=(const UVec2& vec);
-			UVec2 operator+(const UVec2& vec) const;
-			void operator+=(const UVec2& vec);
-			UVec2 operator-(const UVec2& vec) const;
-			void operator-=(const UVec2& vec);
+			UVec2 operator+(const UVec2& other) const;
+			void operator+=(const UVec2& other);
+			UVec2 operator-(const UVec2& other) const;
+			void operator-=(const UVec2& other);
 			UVec2 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -2011,11 +2079,10 @@ namespace onyx
 
 			u32 operator[](int index) const;
 
-			void operator=(const UVec3& vec);
-			UVec3 operator+(const UVec3& vec) const;
-			void operator+=(const UVec3& vec);
-			UVec3 operator-(const UVec3& vec) const;
-			void operator-=(const UVec3& vec);
+			UVec3 operator+(const UVec3& other) const;
+			void operator+=(const UVec3& other);
+			UVec3 operator-(const UVec3& other) const;
+			void operator-=(const UVec3& other);
 			UVec3 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -2397,11 +2464,10 @@ namespace onyx
 
 			u32 operator[](int index) const;
 
-			void operator=(const UVec4& vec);
-			UVec4 operator+(const UVec4& vec) const;
-			void operator+=(const UVec4& vec);
-			UVec4 operator-(const UVec4& vec) const;
-			void operator-=(const UVec4& vec);
+			UVec4 operator+(const UVec4& other) const;
+			void operator+=(const UVec4& other);
+			UVec4 operator-(const UVec4& other) const;
+			void operator-=(const UVec4& other);
 			UVec4 operator*(const float& scalar) const;
 			void operator*=(const float& scalar);
 
@@ -2496,11 +2562,14 @@ namespace onyx
 
 		/*
 			@brief A parent class for matrices.
+			All matrix classes follow the GLM/GLSL convention: MatCxR has C columns and R rows,
+			and is stored column-major. operator[] returns a column (a vector with R components).
+			Consequently, MatCxR * VecC = VecR, and MatAxB * MatCxA = MatCxB.
 		 */
 		class Mat {};
 
 		/*
-			@brief A matrix with dimensions 2x2
+			@brief A matrix with dimensions 2x2 (2 columns x 2 rows). operator[] returns a column.
 		 */
 		class Mat2x2 : public Mat
 		{
@@ -2512,16 +2581,18 @@ namespace onyx
 			glm::mat2x2 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec2 operator[](int index) const;
 
-			void operator=(const Mat2x2& mat);
-			Mat2x2 operator+(const Mat2x2& mat) const;
-			void operator+=(const Mat2x2& mat);
+			Mat2x2 operator+(const Mat2x2& other) const;
+			void operator+=(const Mat2x2& other);
 			Mat2x2 operator-() const;
-			Mat2x2 operator-(const Mat2x2& mat) const;
-			void operator-=(const Mat2x2& mat);
+			Mat2x2 operator-(const Mat2x2& other) const;
+			void operator-=(const Mat2x2& other);
 
 			static Mat2x2 identity();
 
@@ -2530,7 +2601,7 @@ namespace onyx
 		};
 
 		/*
-			@brief A matrix with dimensions 2x3
+			@brief A matrix with dimensions 2x3 (2 columns x 3 rows). operator[] returns a column.
 		 */
 		class Mat2x3 : public Mat
 		{
@@ -2542,16 +2613,18 @@ namespace onyx
 			glm::mat2x3 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec3 operator[](int index) const;
 
-			void operator=(const Mat2x3& mat);
-			Mat2x3 operator+(const Mat2x3& mat) const;
-			void operator+=(const Mat2x3& mat);
+			Mat2x3 operator+(const Mat2x3& other) const;
+			void operator+=(const Mat2x3& other);
 			Mat2x3 operator-() const;
-			Mat2x3 operator-(const Mat2x3& mat) const;
-			void operator-=(const Mat2x3& mat);
+			Mat2x3 operator-(const Mat2x3& other) const;
+			void operator-=(const Mat2x3& other);
 
 			static Mat2x3 identity();
 
@@ -2560,7 +2633,7 @@ namespace onyx
 		};
 
 		/*
-			@brief A matrix with dimensions 2x4
+			@brief A matrix with dimensions 2x4 (2 columns x 4 rows). operator[] returns a column.
 		 */
 		class Mat2x4 : public Mat
 		{
@@ -2572,16 +2645,18 @@ namespace onyx
 			glm::mat2x4 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec4 operator[](int index) const;
 
-			void operator=(const Mat2x4& mat);
-			Mat2x4 operator+(const Mat2x4& mat) const;
-			void operator+=(const Mat2x4& mat);
+			Mat2x4 operator+(const Mat2x4& other) const;
+			void operator+=(const Mat2x4& other);
 			Mat2x4 operator-() const;
-			Mat2x4 operator-(const Mat2x4& mat) const;
-			void operator-=(const Mat2x4& mat);
+			Mat2x4 operator-(const Mat2x4& other) const;
+			void operator-=(const Mat2x4& other);
 
 			static Mat2x4 identity();
 
@@ -2590,7 +2665,7 @@ namespace onyx
 		};
 
 		/*
-			@brief A matrix with dimensions 3x2
+			@brief A matrix with dimensions 3x2 (3 columns x 2 rows). operator[] returns a column.
 		 */
 		class Mat3x2 : public Mat
 		{
@@ -2602,16 +2677,18 @@ namespace onyx
 			glm::mat3x2 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec2 operator[](int index) const;
 
-			void operator=(const Mat3x2& mat);
-			Mat3x2 operator+(const Mat3x2& mat) const;
-			void operator+=(const Mat3x2& mat);
+			Mat3x2 operator+(const Mat3x2& other) const;
+			void operator+=(const Mat3x2& other);
 			Mat3x2 operator-() const;
-			Mat3x2 operator-(const Mat3x2& mat) const;
-			void operator-=(const Mat3x2& mat);
+			Mat3x2 operator-(const Mat3x2& other) const;
+			void operator-=(const Mat3x2& other);
 
 			static Mat3x2 identity();
 
@@ -2620,7 +2697,7 @@ namespace onyx
 		};
 
 		/*
-			@brief A matrix with dimensions 3x3
+			@brief A matrix with dimensions 3x3 (3 columns x 3 rows). operator[] returns a column.
 		 */
 		class Mat3x3 : public Mat
 		{
@@ -2632,16 +2709,18 @@ namespace onyx
 			glm::mat3x3 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec3 operator[](int index) const;
 
-			void operator=(const Mat3x3& mat);
-			Mat3x3 operator+(const Mat3x3& mat) const;
-			void operator+=(const Mat3x3& mat);
+			Mat3x3 operator+(const Mat3x3& other) const;
+			void operator+=(const Mat3x3& other);
 			Mat3x3 operator-() const;
-			Mat3x3 operator-(const Mat3x3& mat) const;
-			void operator-=(const Mat3x3& mat);
+			Mat3x3 operator-(const Mat3x3& other) const;
+			void operator-=(const Mat3x3& other);
 
 			static Mat3x3 identity();
 
@@ -2650,7 +2729,7 @@ namespace onyx
 		};
 
 		/*
-			@brief A matrix with dimensions 3x4
+			@brief A matrix with dimensions 3x4 (3 columns x 4 rows). operator[] returns a column.
 		 */
 		class Mat3x4 : public Mat
 		{
@@ -2662,16 +2741,18 @@ namespace onyx
 			glm::mat3x4 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec4 operator[](int index) const;
 
-			void operator=(const Mat3x4& mat);
-			Mat3x4 operator+(const Mat3x4& mat) const;
-			void operator+=(const Mat3x4& mat);
+			Mat3x4 operator+(const Mat3x4& other) const;
+			void operator+=(const Mat3x4& other);
 			Mat3x4 operator-() const;
-			Mat3x4 operator-(const Mat3x4& mat) const;
-			void operator-=(const Mat3x4& mat);
+			Mat3x4 operator-(const Mat3x4& other) const;
+			void operator-=(const Mat3x4& other);
 
 			static Mat3x4 identity();
 
@@ -2680,7 +2761,7 @@ namespace onyx
 		};
 
 		/*
-			@brief A matrix with dimensions 4x2
+			@brief A matrix with dimensions 4x2 (4 columns x 2 rows). operator[] returns a column.
 		 */
 		class Mat4x2 : public Mat
 		{
@@ -2692,16 +2773,18 @@ namespace onyx
 			glm::mat4x2 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec2 operator[](int index) const;
 
-			void operator=(const Mat4x2& mat);
-			Mat4x2 operator+(const Mat4x2& mat) const;
-			void operator+=(const Mat4x2& mat);
+			Mat4x2 operator+(const Mat4x2& other) const;
+			void operator+=(const Mat4x2& other);
 			Mat4x2 operator-() const;
-			Mat4x2 operator-(const Mat4x2& mat) const;
-			void operator-=(const Mat4x2& mat);
+			Mat4x2 operator-(const Mat4x2& other) const;
+			void operator-=(const Mat4x2& other);
 
 			static Mat4x2 identity();
 
@@ -2710,7 +2793,7 @@ namespace onyx
 		};
 
 		/*
-			@brief A matrix with dimensions 4x3
+			@brief A matrix with dimensions 4x3 (4 columns x 3 rows). operator[] returns a column.
 		 */
 		class Mat4x3 : public Mat
 		{
@@ -2722,16 +2805,18 @@ namespace onyx
 			glm::mat4x3 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec3 operator[](int index) const;
 
-			void operator=(const Mat4x3& mat);
-			Mat4x3 operator+(const Mat4x3& mat) const;
-			void operator+=(const Mat4x3& mat);
+			Mat4x3 operator+(const Mat4x3& other) const;
+			void operator+=(const Mat4x3& other);
 			Mat4x3 operator-() const;
-			Mat4x3 operator-(const Mat4x3& mat) const;
-			void operator-=(const Mat4x3& mat);
+			Mat4x3 operator-(const Mat4x3& other) const;
+			void operator-=(const Mat4x3& other);
 
 			static Mat4x3 identity();
 
@@ -2740,7 +2825,7 @@ namespace onyx
 		};
 
 		/*
-			@brief A matrix with dimensions 4x4
+			@brief A matrix with dimensions 4x4 (4 columns x 4 rows). operator[] returns a column.
 		 */
 		class Mat4x4 : public Mat
 		{
@@ -2756,16 +2841,18 @@ namespace onyx
 			glm::mat4x4 get_mmat() const;
 
 			const float* data() const;
+			/*
+				@brief Returns a string representation of this matrix, printed row by row.
+			 */
 			std::string to_string() const;
 
 			Vec4 operator[](int index) const;
 
-			void operator=(const Mat4x4& mat);
-			Mat4x4 operator+(const Mat4x4& mat) const;
-			void operator+=(const Mat4x4& mat);
+			Mat4x4 operator+(const Mat4x4& other) const;
+			void operator+=(const Mat4x4& other);
 			Mat4x4 operator-() const;
-			Mat4x4 operator-(const Mat4x4& mat) const;
-			void operator-=(const Mat4x4& mat);
+			Mat4x4 operator-(const Mat4x4& other) const;
+			void operator-=(const Mat4x4& other);
 
 			static Mat4x4 identity();
 
@@ -2773,26 +2860,34 @@ namespace onyx
 			glm::mat4x4 mat;
 		};
 
+		/*
+			Matrix products follow GLM (C columns x R rows): MatAxB * MatCxA = MatCxB.
+		 */
 		Mat2x2 operator*(const Mat2x2& mat1, const Mat2x2& mat2);
-		Mat2x2 operator*(const Mat2x3& mat1, const Mat3x2& mat2);
-		Mat2x2 operator*(const Mat2x4& mat1, const Mat4x2& mat2);
+		Mat3x3 operator*(const Mat2x3& mat1, const Mat3x2& mat2);
+		Mat4x4 operator*(const Mat2x4& mat1, const Mat4x2& mat2);
 
-		Mat3x3 operator*(const Mat3x2& mat1, const Mat2x3& mat2);
+		Mat2x2 operator*(const Mat3x2& mat1, const Mat2x3& mat2);
 		Mat3x3 operator*(const Mat3x3& mat1, const Mat3x3& mat2);
-		Mat3x3 operator*(const Mat3x4& mat1, const Mat4x3& mat2);
+		Mat4x4 operator*(const Mat3x4& mat1, const Mat4x3& mat2);
 
-		Mat4x4 operator*(const Mat4x2& mat1, const Mat2x4& mat2);
-		Mat4x4 operator*(const Mat4x3& mat1, const Mat3x4& mat2);
+		Mat2x2 operator*(const Mat4x2& mat1, const Mat2x4& mat2);
+		Mat3x3 operator*(const Mat4x3& mat1, const Mat3x4& mat2);
 		Mat4x4 operator*(const Mat4x4& mat1, const Mat4x4& mat2);
 
-
+		/*
+			Matrix-vector products follow GLM (C columns x R rows): MatCxR * VecC = VecR.
+		 */
 		Vec2 operator*(const Mat2x2& mat, const Vec2& vec);
-		Vec2 operator*(const Mat2x3& mat, const Vec3& vec);
-		Vec2 operator*(const Mat2x4& mat, const Vec4& vec);
+		Vec3 operator*(const Mat2x3& mat, const Vec2& vec);
+		Vec4 operator*(const Mat2x4& mat, const Vec2& vec);
 
+		Vec2 operator*(const Mat3x2& mat, const Vec3& vec);
 		Vec3 operator*(const Mat3x3& mat, const Vec3& vec);
-		Vec3 operator*(const Mat3x4& mat, const Vec4& vec);
+		Vec4 operator*(const Mat3x4& mat, const Vec3& vec);
 
+		Vec2 operator*(const Mat4x2& mat, const Vec4& vec);
+		Vec3 operator*(const Mat4x3& mat, const Vec4& vec);
 		Vec4 operator*(const Mat4x4& mat, const Vec4& vec);
 
 
@@ -2803,7 +2898,7 @@ namespace onyx
 		Mat3x2 transpose(const Mat2x3& mat);
 		Mat3x3 transpose(const Mat3x3& mat);
 		Mat3x4 transpose(const Mat4x3& mat);
-		
+
 		Mat4x2 transpose(const Mat2x4& mat);
 		Mat4x3 transpose(const Mat3x4& mat);
 		Mat4x4 transpose(const Mat4x4& mat);

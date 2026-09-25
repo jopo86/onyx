@@ -1,10 +1,19 @@
 #include <onyx/projection.hpp>
 
-void onyx_warn(const onyx::Warning& warning);
+#include <cmath>
+
+#include "internal.hpp"
 
 using onyx::math::Mat4;
 using onyx::math::orthographic_projection;
 using onyx::math::perspective_projection;
+
+// returns 1 if either dimension is not positive (e.g. a minimized window), to avoid a NaN/infinite aspect ratio
+static float aspect_ratio_from(int screen_width, int screen_height)
+{
+	if (screen_width <= 0 || screen_height <= 0) return 1.0f;
+	return (float)screen_width / (float)screen_height;
+}
 
 onyx::Projection::Projection()
 {
@@ -18,8 +27,9 @@ onyx::Projection onyx::Projection::orthographic(float screen_width, float screen
 	Projection proj;
 	proj.type = ProjectionType::Orthographic;
 	proj.left = 0.0f;
-	proj.right = screen_width;
-	proj.top = screen_height;
+	// clamp to at least 1 to avoid a degenerate (NaN/infinite) matrix for 0-sized screens (e.g. a minimized window)
+	proj.right = screen_width > 1.0f ? screen_width : 1.0f;
+	proj.top = screen_height > 1.0f ? screen_height : 1.0f;
 	proj.bottom = 0.0f;
 	proj.update_matrix();
 	return proj;
@@ -30,7 +40,7 @@ onyx::Projection onyx::Projection::perspective(float fov, int screen_width, int 
 	Projection proj;
 	proj.type = ProjectionType::Perspective;
 	proj.fov = fov;
-	proj.aspect_ratio = (float)screen_width / (float)screen_height;
+	proj.aspect_ratio = aspect_ratio_from(screen_width, screen_height);
 	proj.near_plane = 0.1f;
 	proj.far_plane = 100.0f;
 	proj.update_matrix();
@@ -42,7 +52,7 @@ onyx::Projection onyx::Projection::perspective(float fov, int screen_width, int 
 	Projection proj;
 	proj.type = ProjectionType::Perspective;
 	proj.fov = fov;
-	proj.aspect_ratio = (float)screen_width / (float)screen_height;
+	proj.aspect_ratio = aspect_ratio_from(screen_width, screen_height);
 	proj.near_plane = near_plane;
 	proj.far_plane = far_plane;
 	proj.update_matrix();
@@ -256,6 +266,17 @@ void onyx::Projection::set_aspect_ratio(float val)
 				.severity = Warning::Severity::Med
 			}
 		);
+	}
+	if (!(val > 0.0f) || std::isinf(val))
+	{
+		onyx_warn(Warning{
+				.source_function = "onyx::Projection::set_aspect_ratio(float)",
+				.message = "Aspect ratio must be positive and finite, value ignored.",
+				.how_to_fix = "Ensure the screen width and height are both greater than 0 before calculating the aspect ratio.",
+				.severity = Warning::Severity::Med
+			}
+		);
+		return;
 	}
 	this->aspect_ratio = val;
 	update_matrix();

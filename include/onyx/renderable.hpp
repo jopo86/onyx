@@ -49,8 +49,8 @@ namespace onyx
 		/*
 			@brief Renders the object using the specified view and projection matrices.
 			This function, more technically, uses the shader, binds the texture, binds the VAO, draws, unbinds the VAO, unbinds the texture, and unuses the shader.
-			@param view The view matrix to use, generally from an Camera.
-			@param proj The projection matrix to use, generally from an Camera.
+			@param view The view matrix to use, generally from a Camera.
+			@param proj The projection matrix to use, generally from a Camera.
 			@param cam_pos The position of the camera.
 		 */
 		void render(const math::Mat4& view, const math::Mat4& proj, const math::Vec3& cam_pos);
@@ -124,9 +124,9 @@ namespace onyx
 
 		/*
 			@brief Sets the position of the renderable.
-			@param position The new position.
+			@param new_position The new position.
 		 */
-		void set_position(const math::Vec3& position);
+		void set_position(const math::Vec3& new_position);
 
 		/*
 			@brief Sets the rotation of the renderable.
@@ -193,23 +193,23 @@ namespace onyx
 		/*
 			@brief Sets the mesh of the renderable.
 		 !	Not recommended unless you know what you're doing.
-			@param mesh The new mesh.
+			@param new_mesh The new mesh.
 		 */
-		void set_mesh(Mesh mesh);
+		void set_mesh(Mesh new_mesh);
 
 		/*
 			@brief Sets the shader of the renderable.
 		 !	Not recommended unless you know what you're doing.
-			@param shader The new shader.
+			@param new_shader The new shader.
 		 */
-		void set_shader(Shader shader);
+		void set_shader(Shader new_shader);
 
 		/*
 			@brief Sets the texture of the renderable.
 		 *	This will only take effect if the shader uses a texture to render.
-		 	@param texture The new texture.
+		 	@param new_texture The new texture.
 		 */
-		void set_texture(Texture texture);
+		void set_texture(Texture new_texture);
 
 		/*
 			@brief Sets the color of the renderable.
@@ -282,18 +282,6 @@ namespace onyx
 		static Renderable colored_triangle(float base, float height, math::Vec4 rgba);
 
 		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `colored_triangle` overloads")]]
-		static Renderable colored_triangle(math::Vec2 a, math::Vec2 b, math::Vec2 c, math::Vec3 rgb);
-
-		/*
-			@deprecatd This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `colored_triangle` overloads")]]
-		static Renderable colored_triangle(math::Vec2 a, math::Vec2 b, math::Vec2 c, math::Vec4 rgba);
-
-		/*
 			@brief Creates an equilateral triangle renderable with the specified side length and uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
 			@param side The side length.
 			@return The resulting renderable.
@@ -307,12 +295,6 @@ namespace onyx
 			@return The resulting renderable.
 		 */
 		static Renderable vertex_colored_triangle(float base, float height);
-
-		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `vertex_colored_triangle` overloads")]]
-		static Renderable vertex_colored_triangle(math::Vec2 a, math::Vec2 b, math::Vec2 c);
 
 		/*
 			@brief Creates an equilateral triangle renderable with the specified side length and texture.
@@ -330,12 +312,6 @@ namespace onyx
 			@return The resulting renderable.
 		 */
 		static Renderable textured_triangle(float base, float height, Texture texture);
-
-		/*
-* 			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `textured_triangle` overloads")]]
-		static Renderable textured_triangle(math::Vec2 a, math::Vec2 b, math::Vec2 c, Texture texture);
 
 		/*
 			@brief Creates a square renderable with the specified side length and color.
@@ -372,18 +348,6 @@ namespace onyx
 		static Renderable colored_quad(float width, float height, math::Vec4 rgba);
 
 		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `colored_quad` overloads")]]
-		static Renderable colored_quad(math::Vec2 a, math::Vec2 b, math::Vec2 c, math::Vec2 d, math::Vec3 rgb);
-
-		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `colored_quad` overloads")]]
-		static Renderable colored_quad(math::Vec2 a, math::Vec2 b, math::Vec2 c, math::Vec2 d, math::Vec4 rgba);
-
-		/*
 			@brief Creates a square renderable with the specified side length and uses the XYZ position of each vertex as the RGB color of that vertex, and blends the colors in between vertices.
 			@param side The side length.
 			@return The resulting renderable.
@@ -397,12 +361,6 @@ namespace onyx
 			@return The resulting renderable.
 		 */
 		static Renderable vertex_colored_quad(float width, float height);
-
-		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `vertex_colored_quad` overloads")]]
-		static Renderable vertex_colored_quad(math::Vec2 a, math::Vec2 b, math::Vec2 c, math::Vec2 d);
 
 		/*
 			@brief Creates a square renderable with the specified side length and texture.
@@ -422,17 +380,11 @@ namespace onyx
 		static Renderable textured_quad(float width, float height, Texture texture);
 
 		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `textured_quad` overloads")]]
-		static Renderable textured_quad(math::Vec2 a, math::Vec2 b, math::Vec2 c, math::Vec2 d, Texture texture);
-
-		/*
 			@brief Creates a circle renderable with the specified radius, number of segments, and color.
 			@param radius The radius of the circle.
 			@param n_segments The number of line segments used to approximate the circle outline.
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_circle(float radius, int n_segments, math::Vec3 rgb);
 
@@ -441,7 +393,7 @@ namespace onyx
 			@param radius The radius of the circle.
 			@param n_segments The number of line segments used to approximate the circle outline.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_circle(float radius, int n_segments, math::Vec4 rgba);
 
@@ -450,7 +402,7 @@ namespace onyx
 			@param radius The radius of the circle.
 			@param angle_step The angle step, in degrees, between vertices.
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_circle(float radius, float angle_step, math::Vec3 rgb);
 
@@ -459,25 +411,23 @@ namespace onyx
 			@param radius The radius of the circle.
 			@param angle_step The angle step, in degrees, between vertices.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_circle(float radius, float angle_step, math::Vec4 rgba);
 
 		/*
-			@brief Creates a circle renderable with the specified radius, number of segments, and texture.
+			@brief Creates a circle renderable with the specified radius and number of segments, and uses the XYZ position of each vertex as the RGB color of that vertex.
 			@param radius The radius of the circle.
 			@param n_segments The number of line segments used to approximate the circle outline.
-			@param texture The texture to use.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable vertex_colored_circle(float radius, int n_segments);
 
 		/*
-			@brief Creates a circle renderable with the specified radius, angle step, and texture.
+			@brief Creates a circle renderable with the specified radius and angle step, and uses the XYZ position of each vertex as the RGB color of that vertex.
 			@param radius The radius of the circle.
 			@param angle_step The angle step, in degrees, between vertices.
-			@param texture The texture to use.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable vertex_colored_circle(float radius, float angle_step);
 
@@ -486,7 +436,7 @@ namespace onyx
 			@param radius The radius of the circle.
 			@param n_segments The number of line segments used to approximate the circle outline.
 			@param texture The texture to use.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable textured_circle(float radius, int n_segments, Texture texture);
 
@@ -495,7 +445,7 @@ namespace onyx
 			@param radius The radius of the circle.
 			@param angle_step The angle step, in degrees, between vertices.
 			@param texture The texture to use.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable textured_circle(float radius, float angle_step, Texture texture);
 
@@ -503,7 +453,7 @@ namespace onyx
 			@brief Creates a cube renderable with the specified side length and color.
 			@param side The side length.
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_cube(float side, math::Vec3 rgb);
 
@@ -511,7 +461,7 @@ namespace onyx
 			@brief Creates a cube renderable with the specified side length and color.
 			@param side The side length.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_cube(float side, math::Vec4 rgba);
 
@@ -519,7 +469,7 @@ namespace onyx
 			@brief Creates a cube renderable with the specified side length and texture.
 			@param side The side length.
 			@param texture The texture to use.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable textured_cube(float side, Texture texture);
 
@@ -529,7 +479,7 @@ namespace onyx
 			@param height The height.
 			@param depth The depth.
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_rect_prism(float width, float height, float depth, math::Vec3 rgb);
 
@@ -539,7 +489,7 @@ namespace onyx
 			@param height The height.
 			@param depth The depth.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_rect_prism(float width, float height, float depth, math::Vec4 rgba);
 
@@ -549,7 +499,7 @@ namespace onyx
 			@param height The height.
 			@param depth The depth.
 			@param texture The texture to use.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable textured_rect_prism(float width, float height, float depth, Texture texture);
 
@@ -559,7 +509,7 @@ namespace onyx
 			@param height The height.
 			@param n_segments The number of line segments used to approximate the circle outline.
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_cylinder(float radius, float height, int n_segments, math::Vec3 rgb);
 
@@ -569,7 +519,7 @@ namespace onyx
 			@param height The height.
 			@param n_segments The number of line segments used to approximate the circle outline.
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_cylinder(float radius, float height, int n_segments, math::Vec4 rgba);
 
@@ -579,7 +529,7 @@ namespace onyx
 			@param height The height.
 			@param angle_step The angle step, in degrees, between circle vertices.
 			@param rgb The color, specified as red, green, and blue values ranging from 0 to 1.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_cylinder(float radius, float height, float angle_step, math::Vec3 rgb);
 
@@ -588,8 +538,8 @@ namespace onyx
 			@param radius The radius.
 			@param height The height.
 			@param angle_step The angle step, in degrees, between circle vertices.
-			@param rgba The color, specified as red, green blue, and alpha (transparency) values ranging from 0 to 1.
-			@return The resulting mesh.
+			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
+			@return The resulting renderable.
 		 */
 		static Renderable colored_cylinder(float radius, float height, float angle_step, math::Vec4 rgba);
 
@@ -599,7 +549,7 @@ namespace onyx
 			@param height The height.
 			@param n_segments The number of line segments used to approximate the circle outline.
 			@param texture The texture to use.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable textured_cylinder(float radius, float height, int n_segments, Texture texture);
 
@@ -609,7 +559,7 @@ namespace onyx
 			@param height The height.
 			@param angle_step The angle step, in degrees, between circle vertices.
 			@param texture The texture to use.
-			@return The resulting mesh.
+			@return The resulting renderable.
 		 */
 		static Renderable textured_cylinder(float radius, float height, float angle_step, Texture texture);
 	};

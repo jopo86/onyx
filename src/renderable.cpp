@@ -1,10 +1,9 @@
-﻿#include <onyx/renderable.hpp>
+#include <onyx/renderable.hpp>
 
 #include <glad/glad.h>
+#include "internal.hpp"
 
-void onyx_warn(const onyx::Warning&);
-
-using onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4, 
+using onyx::math::Vec3, onyx::math::Vec4, 
 onyx::math::Mat4;
 
 onyx::Renderable::Renderable() 
@@ -150,9 +149,9 @@ bool onyx::Renderable::is_hidden() const
 	return this->hidden;
 }
 
-void onyx::Renderable::set_position(const Vec3& position)
+void onyx::Renderable::set_position(const Vec3& new_position)
 {
-	this->position = position;
+	this->position = new_position;
 	update_model();
 }
 
@@ -216,21 +215,22 @@ void onyx::Renderable::reset_transform()
 	this->rotation = Vec3(0.0f);
 	this->scale_ = Vec3(1.0f);
 	this->model = Mat4::identity();
+	this->inverse_model = Mat4::identity();
 }
 
-void onyx::Renderable::set_mesh(Mesh mesh)
+void onyx::Renderable::set_mesh(Mesh new_mesh)
 {
-	this->mesh = mesh;
+	this->mesh = new_mesh;
 }
 
-void onyx::Renderable::set_shader(Shader shader)
+void onyx::Renderable::set_shader(Shader new_shader)
 {
-	this->shader = shader;
+	this->shader = new_shader;
 }
 
-void onyx::Renderable::set_texture(Texture texture)
+void onyx::Renderable::set_texture(Texture new_texture)
 {
-	this->texture = texture;
+	this->texture = new_texture;
 }
 
 void onyx::Renderable::set_color(const Vec3& color)
@@ -297,16 +297,6 @@ onyx::Renderable onyx::Renderable::colored_triangle(float base, float height, Ve
 	);
 }
 
-onyx::Renderable onyx::Renderable::colored_triangle(Vec2 a, Vec2 b, Vec2 c, Vec3 rgb)
-{
-	return Renderable();
-}
-
-onyx::Renderable onyx::Renderable::colored_triangle(Vec2 a, Vec2 b, Vec2 c, Vec4 rgba)
-{
-	return Renderable();
-}
-
 onyx::Renderable onyx::Renderable::vertex_colored_triangle(float side)
 {
 	return Renderable(
@@ -321,11 +311,6 @@ onyx::Renderable onyx::Renderable::vertex_colored_triangle(float base, float hei
 		Mesh::triangle(base, height, true),
 		Shader::pn_xyz_to_rgb()
 	);
-}
-
-onyx::Renderable onyx::Renderable::vertex_colored_triangle(Vec2 a, Vec2 b, Vec2 c)
-{
-	return Renderable();
 }
 
 onyx::Renderable onyx::Renderable::textured_triangle(float side, Texture texture)
@@ -344,11 +329,6 @@ onyx::Renderable onyx::Renderable::textured_triangle(float base, float height, T
 		Shader::pnt(),
 		texture
 	);
-}
-
-onyx::Renderable onyx::Renderable::textured_triangle(Vec2 a, Vec2 b, Vec2 c, Texture texture)
-{
-	return Renderable();
 }
 
 onyx::Renderable onyx::Renderable::colored_square(float side, Vec3 rgb)
@@ -383,16 +363,6 @@ onyx::Renderable onyx::Renderable::colored_quad(float width, float height, Vec4 
 	);
 }
 
-onyx::Renderable onyx::Renderable::colored_quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Vec3 rgb)
-{
-	return Renderable();
-}
-
-onyx::Renderable onyx::Renderable::colored_quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Vec4 rgba)
-{
-	return Renderable();
-}
-
 onyx::Renderable onyx::Renderable::vertex_colored_square(float side)
 {
 	return vertex_colored_quad(side, side);
@@ -404,11 +374,6 @@ onyx::Renderable onyx::Renderable::vertex_colored_quad(float width, float height
 		Mesh::quad(width, height, true),
 		Shader::pn_xyz_to_rgb()
 	);
-}
-
-onyx::Renderable onyx::Renderable::vertex_colored_quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
-{
-	return Renderable();
 }
 
 onyx::Renderable onyx::Renderable::textured_square(float side, Texture texture)
@@ -427,11 +392,6 @@ onyx::Renderable onyx::Renderable::textured_quad(float width, float height, Text
 		Shader::pnt(),
 		texture
 	);
-}
-
-onyx::Renderable onyx::Renderable::textured_quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Texture texture)
-{
-	return Renderable();
 }
 
 onyx::Renderable onyx::Renderable::colored_circle(float radius, int n_segments, math::Vec3 rgb)

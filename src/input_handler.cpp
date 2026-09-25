@@ -1,7 +1,9 @@
-#pragma warning(disable : 4244; disable: 33011)
-
 #include <onyx/input_handler.hpp>
+
+#include <algorithm>
+
 #include <onyx/window.hpp>
+#include "internal.hpp"
 
 #ifdef ONYX_OS_WINDOWS
 	#include <windows.h>
@@ -17,13 +19,25 @@
 	#undef Button7
 	#undef Button8
 #elif defined(ONYX_OS_MAC)
-	#include <CoreGraphics/CGEventSource.h>
+	// CGEventSourceFlagsState() and kCGEventFlagMaskAlphaShift. Carbon is deliberately not included:
+	// its AssertMacros.h defines unprefixed `check`/`verify`/`require` macros.
+	#include <CoreGraphics/CoreGraphics.h>
 #endif
 
 using onyx::math::DVec2;
 
-void onyx_err(const onyx::Error&);
-void onyx_warn(const onyx::Warning&);
+namespace
+{
+	bool is_valid_key(int key)
+	{
+		return key >= 0 && key <= (int)onyx::Key::MaxKey;
+	}
+
+	bool is_valid_button(int button)
+	{
+		return button >= 0 && button <= (int)onyx::MouseButton::MaxButton;
+	}
+}
 
 const std::unordered_map<char, onyx::Key> onyx::InputHandler::char_to_key_map = {
 	{ ' ', onyx::Key::Space },
@@ -73,9 +87,7 @@ const std::unordered_map<char, onyx::Key> onyx::InputHandler::char_to_key_map = 
 	{ '[', onyx::Key::LeftBracket },
 	{ '\\', onyx::Key::Backslash },
 	{ ']', onyx::Key::RightBracket },
-	{ '`', onyx::Key::GraveAccent },
-	{ '!', onyx::Key::World1 },
-	{ '"', onyx::Key::World2 }
+	{ '`', onyx::Key::GraveAccent }
 };
 
 const std::unordered_map<onyx::Key, char> onyx::InputHandler::key_to_char_map = {
@@ -126,12 +138,10 @@ const std::unordered_map<onyx::Key, char> onyx::InputHandler::key_to_char_map = 
 	{ onyx::Key::LeftBracket, '[' },
 	{ onyx::Key::Backslash, '\\' },
 	{ onyx::Key::RightBracket, ']' },
-	{ onyx::Key::GraveAccent, '`' },
-	{ onyx::Key::World1, '!' },
-	{ onyx::Key::World2, '"' }
+	{ onyx::Key::GraveAccent, '`' }
 };
 
-const std::unordered_map<const char*, onyx::Key> onyx::InputHandler::str_to_key_map = {
+const std::unordered_map<std::string, onyx::Key> onyx::InputHandler::str_to_key_map = {
 	{ "Null", onyx::Key::Null },
 	{ "Unknown", onyx::Key::Unknown },
 	{ "Space", onyx::Key::Space },
@@ -383,7 +393,7 @@ const std::unordered_map<onyx::Key, const char*> onyx::InputHandler::key_to_str_
 	{ onyx::Key::MaxKey, "MaxKey" }
 };
 
-const std::unordered_map<const char*, onyx::MouseButton> onyx::InputHandler::str_to_button_map = {
+const std::unordered_map<std::string, onyx::MouseButton> onyx::InputHandler::str_to_button_map = {
 	{ "Null", onyx::MouseButton::Null },
 	{ "Unknown", onyx::MouseButton::Unknown },
 	{ "Button1", onyx::MouseButton::Button1 },
@@ -437,7 +447,7 @@ onyx::InputHandler::InputHandler()
 	this->p_scroll_callback = nullptr;
 	this->p_joystick_callback = nullptr;
 
-	for (int i = 0; i < (int)onyx::Key::MaxKey; i++)
+	for (int i = 0; i <= (int)onyx::Key::MaxKey; i++)
 	{
 		this->keys[i] = onyx::KeyState::Untouched;
 		this->keys_tapped[i] = false;
@@ -445,7 +455,7 @@ onyx::InputHandler::InputHandler()
 		this->set_key_cooldowns[i] = 0.0f;
 	}
 
-	for (int i = 0; i < (int)onyx::MouseButton::MaxButton; i++)
+	for (int i = 0; i <= (int)onyx::MouseButton::MaxButton; i++)
 	{
 		this->buttons[i] = onyx::KeyState::Untouched;
 		this->buttons_tapped[i] = false;
@@ -456,16 +466,36 @@ onyx::InputHandler::InputHandler()
 	this->mouse_pos = DVec2(0.0f);
 	this->last_mouse_pos = DVec2(0.0f);
 	this->mouse_deltas = DVec2(0.0f);
+	this->scroll_deltas = DVec2(0.0f);
 
 	this->cursor_lock = false;
 	this->scroll_this_frame = false;
 
-	for (int jid = GLFW_JOYSTICK_1; jid <= GLFW_JOYSTICK_16; jid++)
-	{
-		if (glfwJoystickIsGamepad(jid)) this->gamepads.push_back(Gamepad(jid));
-	}
+	// GLFW joystick functions require GLFW to be initialized. If it isn't yet,
+	// gamepads are picked up when the input handler is linked to a window instead.
+	if (onyx::is_initialized()) scan_gamepads();
 
 	this->repeated_key = onyx::Key::Null;
+}
+
+void onyx::InputHandler::scan_gamepads()
+{
+	for (int jid = GLFW_JOYSTICK_1; jid <= GLFW_JOYSTICK_LAST; jid++)
+	{
+		if (!glfwJoystickIsGamepad(jid)) continue;
+
+		bool found = false;
+		for (const Gamepad& gamepad : this->gamepads)
+		{
+			if (gamepad.get_glfw_id() == jid)
+			{
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) this->gamepads.push_back(Gamepad(jid));
+	}
 }
 
 void onyx::InputHandler::update()
@@ -500,12 +530,12 @@ void onyx::InputHandler::update()
 
 	for (onyx::Key key : this->active_key_cooldowns)
 	{
-		if (this->key_cooldowns[(int)key] >= 0) this->key_cooldowns[(int)key] -= this->p_win->delta_time;
+		if (this->key_cooldowns[(int)key] >= 0) this->key_cooldowns[(int)key] -= (float)this->p_win->delta_time;
 	}
 
 	for (onyx::MouseButton button : this->active_button_cooldowns)
 	{
-		if (this->button_cooldowns[(int)button] >= 0) this->button_cooldowns[(int)button] -= this->p_win->delta_time;
+		if (this->button_cooldowns[(int)button] >= 0) this->button_cooldowns[(int)button] -= (float)this->p_win->delta_time;
 	}
 
 	this->p_win->num_frames_input_not_updated = 0;
@@ -513,14 +543,13 @@ void onyx::InputHandler::update()
 
 onyx::Key onyx::InputHandler::char_to_key(char c)
 {
-	InputHandler::mtx_char_to_key_map.lock();
-	auto it = InputHandler::char_to_key_map.find(c);
-	if (it != InputHandler::char_to_key_map.end())
+	if (c >= 'a' && c <= 'z') c = (char)(c - 'a' + 'A');
+
 	{
-		InputHandler::mtx_char_to_key_map.unlock();
-		return it->second;
+		std::scoped_lock lock(InputHandler::mtx_char_to_key_map);
+		auto it = InputHandler::char_to_key_map.find(c);
+		if (it != InputHandler::char_to_key_map.end()) return it->second;
 	}
-	InputHandler::mtx_char_to_key_map.unlock();
 
 	onyx_warn(Warning{
 			.source_function = "onyx::InputHandler::char_to_key(char)",
@@ -534,14 +563,11 @@ onyx::Key onyx::InputHandler::char_to_key(char c)
 
 char onyx::InputHandler::key_to_char(onyx::Key key)
 {
-	InputHandler::mtx_key_to_char_map.lock();
-	auto it = InputHandler::key_to_char_map.find(key);
-	if (it != InputHandler::key_to_char_map.end()) 
 	{
-		InputHandler::mtx_key_to_char_map.unlock();
-		return it->second;
+		std::scoped_lock lock(InputHandler::mtx_key_to_char_map);
+		auto it = InputHandler::key_to_char_map.find(key);
+		if (it != InputHandler::key_to_char_map.end()) return it->second;
 	}
-	InputHandler::mtx_key_to_char_map.unlock();
 
 	onyx_warn(Warning{
 			.source_function = "onyx::InputHandler::key_to_char(onyx::Key)",
@@ -555,14 +581,12 @@ char onyx::InputHandler::key_to_char(onyx::Key key)
 
 onyx::Key onyx::InputHandler::str_to_key(const char* str)
 {
-	InputHandler::mtx_str_to_key_map.lock();
-	auto it = InputHandler::str_to_key_map.find(str);
-	if (it != InputHandler::str_to_key_map.end()) 
+	if (str != nullptr)
 	{
-		InputHandler::mtx_str_to_key_map.unlock();
-		return it->second;
+		std::scoped_lock lock(InputHandler::mtx_str_to_key_map);
+		auto it = InputHandler::str_to_key_map.find(str);
+		if (it != InputHandler::str_to_key_map.end()) return it->second;
 	}
-	InputHandler::mtx_str_to_key_map.unlock();
 
 	onyx_warn(Warning{
 			.source_function = "onyx::InputHandler::str_to_key(const char*)",
@@ -576,14 +600,11 @@ onyx::Key onyx::InputHandler::str_to_key(const char* str)
 
 const char* onyx::InputHandler::key_to_str(onyx::Key key)
 {
-	InputHandler::mtx_key_to_str_map.lock();
-	auto it = InputHandler::key_to_str_map.find(key);
-	if (it != InputHandler::key_to_str_map.end()) 
 	{
-		InputHandler::mtx_key_to_str_map.unlock();
-		return it->second;
+		std::scoped_lock lock(InputHandler::mtx_key_to_str_map);
+		auto it = InputHandler::key_to_str_map.find(key);
+		if (it != InputHandler::key_to_str_map.end()) return it->second;
 	}
-	InputHandler::mtx_key_to_str_map.unlock();
 
 	onyx_warn(Warning{
 			.source_function = "onyx::InputHandler::key_to_str(onyx::Key)",
@@ -597,14 +618,12 @@ const char* onyx::InputHandler::key_to_str(onyx::Key key)
 
 onyx::MouseButton onyx::InputHandler::str_to_mouse_button(const char* str)
 {
-	InputHandler::mtx_str_to_button_map.lock();
-	auto it = InputHandler::str_to_button_map.find(str);
-	if (it != InputHandler::str_to_button_map.end()) 
+	if (str != nullptr)
 	{
-		InputHandler::mtx_str_to_button_map.unlock();
-		return it->second;
+		std::scoped_lock lock(InputHandler::mtx_str_to_button_map);
+		auto it = InputHandler::str_to_button_map.find(str);
+		if (it != InputHandler::str_to_button_map.end()) return it->second;
 	}
-	InputHandler::mtx_str_to_button_map.unlock();
 
 	onyx_warn(Warning{
 			.source_function = "onyx::InputHandler::str_to_mouse_button(const char*)",
@@ -618,14 +637,11 @@ onyx::MouseButton onyx::InputHandler::str_to_mouse_button(const char* str)
 
 const char* onyx::InputHandler::mouse_button_to_str(onyx::MouseButton button)
 {
-	InputHandler::mtx_button_to_str_map.lock();
-	auto it = InputHandler::button_to_str_map.find(button);
-	if (it != InputHandler::button_to_str_map.end()) 
 	{
-		InputHandler::mtx_button_to_str_map.unlock();
-		return it->second;
+		std::scoped_lock lock(InputHandler::mtx_button_to_str_map);
+		auto it = InputHandler::button_to_str_map.find(button);
+		if (it != InputHandler::button_to_str_map.end()) return it->second;
 	}
-	InputHandler::mtx_button_to_str_map.unlock();
 
 	onyx_warn(Warning{
 			.source_function = "onyx::InputHandler::mouse_button_to_str(onyx::MouseButton)",
@@ -662,15 +678,17 @@ onyx::Key onyx::InputHandler::get_repeated_key() const
 	return this->repeated_key;
 }
 
-onyx::KeyState onyx::InputHandler::get_key_state(onyx::Key key) const
+onyx::KeyState onyx::InputHandler::get_key_state(onyx::Key _key) const
 {
-	return this->keys[(int)key];
+	int key = (int)_key;
+	if (!is_valid_key(key)) return onyx::KeyState::Untouched;
+	return this->keys[key];
 }
 
 bool onyx::InputHandler::is_key_pressed(onyx::Key _key)
 {
 	int key = (int)_key;
-	if (key < 0) return false;
+	if (!is_valid_key(key)) return false;
 	bool retval = this->key_cooldowns[key] <= 0 ? this->keys[key] == onyx::KeyState::Press : false;
 	if (retval) this->key_cooldowns[key] = this->set_key_cooldowns[key];
 	return retval;
@@ -679,14 +697,14 @@ bool onyx::InputHandler::is_key_pressed(onyx::Key _key)
 bool onyx::InputHandler::is_key_tapped(onyx::Key _key) const
 {
 	int key = (int)_key;
-	if (key < 0) return false;
+	if (!is_valid_key(key)) return false;
 	return this->keys_tapped[key];
 }
 
 bool onyx::InputHandler::is_key_repeated(onyx::Key _key)
 {
 	int key = (int)_key;
-	if (key < 0) return false;
+	if (!is_valid_key(key)) return false;
 	bool retval = this->key_cooldowns[key] <= 0 ? this->keys[key] == onyx::KeyState::Repeat : false;
 	if (retval) this->key_cooldowns[key] = this->set_key_cooldowns[key];
 	return retval;
@@ -695,7 +713,7 @@ bool onyx::InputHandler::is_key_repeated(onyx::Key _key)
 bool onyx::InputHandler::is_key_down(onyx::Key _key)
 {
 	int key = (int)_key;
-	if (key < 0) return false;
+	if (!is_valid_key(key)) return false;
 	bool retval = this->key_cooldowns[key] <= 0 ? this->keys[key] == onyx::KeyState::Press || this->keys[key] == onyx::KeyState::Repeat : false;
 	if (retval) this->key_cooldowns[key] = this->set_key_cooldowns[key];
 	return retval;
@@ -709,13 +727,14 @@ bool onyx::InputHandler::is_key_tapped_or_repeated(onyx::Key key)
 onyx::KeyState onyx::InputHandler::get_mouse_button_state(onyx::MouseButton _button) const
 {
 	int button = (int)_button;
+	if (!is_valid_button(button)) return onyx::KeyState::Untouched;
 	return this->buttons[button];
 }
 
 bool onyx::InputHandler::is_mouse_button_pressed(onyx::MouseButton _button)
 {
 	int button = (int)_button;
-	if (button < 0) return false;
+	if (!is_valid_button(button)) return false;
 	bool retval = this->button_cooldowns[button] <= 0 ? this->buttons[button] == onyx::KeyState::Press : false;
 	if (retval) this->button_cooldowns[button] = this->set_button_cooldowns[button];
 	return retval;
@@ -724,14 +743,14 @@ bool onyx::InputHandler::is_mouse_button_pressed(onyx::MouseButton _button)
 bool onyx::InputHandler::is_mouse_button_tapped(onyx::MouseButton _button) const
 {
 	int button = (int)_button;
-	if (button < 0) return false;
+	if (!is_valid_button(button)) return false;
 	return this->buttons_tapped[button];
 }
 
 bool onyx::InputHandler::is_mouse_button_repeated(onyx::MouseButton _button)
 {
 	int button = (int)_button;
-	if (button < 0) return false;
+	if (!is_valid_button(button)) return false;
 	bool retval = this->button_cooldowns[button] <= 0 ? this->buttons[button] == onyx::KeyState::Repeat : false;
 	if (retval) this->button_cooldowns[button] = this->set_button_cooldowns[button];
 	return retval;
@@ -740,7 +759,7 @@ bool onyx::InputHandler::is_mouse_button_repeated(onyx::MouseButton _button)
 bool onyx::InputHandler::is_mouse_button_down(onyx::MouseButton _button)
 {
 	int button = (int)_button;
-	if (button < 0) return false;
+	if (!is_valid_button(button)) return false;
 	bool retval = this->button_cooldowns[button] <= 0 ? this->buttons[button] == onyx::KeyState::Press || this->buttons[button] == onyx::KeyState::Repeat : false;
 	if (retval) this->button_cooldowns[button] = this->set_button_cooldowns[button];
 	return retval;
@@ -748,18 +767,57 @@ bool onyx::InputHandler::is_mouse_button_down(onyx::MouseButton _button)
 
 void onyx::InputHandler::set_key_cooldown(onyx::Key key, float cooldown)
 {
-	this->active_key_cooldowns.push_back(key);
+	if (!is_valid_key((int)key))
+	{
+		onyx_err(Error{
+				.source_function = "onyx::InputHandler::set_key_cooldown(onyx::Key key, float cooldown)",
+				.message = "Invalid key: " + std::to_string((int)key),
+				.how_to_fix = "Pass a real key, not onyx::Key::Null or onyx::Key::Unknown."
+			}
+		);
+		return;
+	}
+
+	if (std::find(this->active_key_cooldowns.begin(), this->active_key_cooldowns.end(), key) == this->active_key_cooldowns.end())
+	{
+		this->active_key_cooldowns.push_back(key);
+	}
 	this->set_key_cooldowns[(int)key] = cooldown;
 }
 
 void onyx::InputHandler::set_mouse_button_cooldown(onyx::MouseButton button, float cooldown)
 {
-	this->active_button_cooldowns.push_back(button);
+	if (!is_valid_button((int)button))
+	{
+		onyx_err(Error{
+				.source_function = "onyx::InputHandler::set_mouse_button_cooldown(onyx::MouseButton button, float cooldown)",
+				.message = "Invalid mouse button: " + std::to_string((int)button),
+				.how_to_fix = "Pass a real mouse button, not onyx::MouseButton::Null or onyx::MouseButton::Unknown."
+			}
+		);
+		return;
+	}
+
+	if (std::find(this->active_button_cooldowns.begin(), this->active_button_cooldowns.end(), button) == this->active_button_cooldowns.end())
+	{
+		this->active_button_cooldowns.push_back(button);
+	}
 	this->set_button_cooldowns[(int)button] = cooldown;
 }
 
 void onyx::InputHandler::set_cursor_lock(bool lock)
 {
+	if (this->p_win == nullptr || this->p_win->p_glfw_win == nullptr)
+	{
+		onyx_err(Error{
+				.source_function = "onyx::InputHandler::set_cursor_lock(bool lock)",
+				.message = "Window pointer is null.",
+				.how_to_fix = "Make sure the input handler was linked to an initialized window (Window::link_input_handler())."
+			}
+		);
+		return;
+	}
+
 	this->cursor_lock = lock;
 	glfwSetInputMode(this->p_win->p_glfw_win, GLFW_CURSOR, lock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
@@ -797,27 +855,6 @@ void onyx::InputHandler::set_joystick_callback(JoystickCallbackFn callback)
 bool onyx::InputHandler::is_cursor_locked() const
 {
 	return this->cursor_lock;
-}
-
-void onyx::InputHandler::refresh_gamepads()
-{
-	for (int jid = GLFW_JOYSTICK_1; jid <= GLFW_JOYSTICK_16; jid++)
-	{
-		if (glfwJoystickIsGamepad(jid))
-		{
-			bool found = false;
-			for (Gamepad& gamepad : this->gamepads)
-			{
-				if (gamepad.get_glfw_id() == jid)
-				{
-					found = true;
-					break;
-				}
-			}
-
-			if (!found) this->gamepads.push_back(Gamepad(jid));
-		}
-	}
 }
 
 const onyx::math::DVec2& onyx::InputHandler::get_mouse_pos() const
@@ -890,11 +927,14 @@ const std::vector<onyx::Gamepad>& onyx::InputHandler::get_gamepads() const
 #elif defined(ONYX_OS_MAC)
 	bool onyx::InputHandler::is_caps_lock_on()
 	{
-		return CGEventSourceKeyState(kCGEventSourceStateHIDSystemState, kVK_CapsLock);
+		// The caps lock toggle state is a modifier flag, not a key state
+		// (CGEventSourceKeyState would only report whether the key is physically held).
+		return (CGEventSourceFlagsState(kCGEventSourceStateHIDSystemState) & kCGEventFlagMaskAlphaShift) != 0;
 	}
 
 	bool onyx::InputHandler::is_num_lock_on()
 	{
+		// Mac keyboards have no num lock (the "Clear" key takes its place).
 		return false;
 	}
 
@@ -923,22 +963,25 @@ const std::vector<onyx::Gamepad>& onyx::InputHandler::get_gamepads() const
 
 void onyx::InputHandler::key_callback(int key, int scancode, int action, int mods)
 {
-	this->keys[key] = (onyx::KeyState)action;
-	if (action == GLFW_PRESS) 
+	if (is_valid_key(key))
 	{
-		this->keys_tapped[key] = true;
+		this->keys[key] = (onyx::KeyState)action;
+		if (action == GLFW_PRESS)
+		{
+			this->keys_tapped[key] = true;
 
-		this->keys_tapped_set.insert((onyx::Key)key);
-		this->keys_down_set.insert((onyx::Key)key);
-	}
-	else if (action == GLFW_REPEAT)
-	{
-		this->repeated_key = (onyx::Key)key;
-	}
-	else if (action == GLFW_RELEASE)
-	{
-		this->keys_down_set.erase((onyx::Key)key);
-		if (this->repeated_key == (onyx::Key)key) this->repeated_key = onyx::Key::Null;
+			this->keys_tapped_set.insert((onyx::Key)key);
+			this->keys_down_set.insert((onyx::Key)key);
+		}
+		else if (action == GLFW_REPEAT)
+		{
+			this->repeated_key = (onyx::Key)key;
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			this->keys_down_set.erase((onyx::Key)key);
+			if (this->repeated_key == (onyx::Key)key) this->repeated_key = onyx::Key::Null;
+		}
 	}
 
 	if (this->p_key_callback) this->p_key_callback(key, scancode, action, mods);
@@ -946,17 +989,20 @@ void onyx::InputHandler::key_callback(int key, int scancode, int action, int mod
 
 void onyx::InputHandler::mouse_button_callback(int button, int action, int mods)
 {
-	this->buttons[button] = (onyx::KeyState)action;
-	if (action == GLFW_PRESS) 
+	if (is_valid_button(button))
 	{
-		this->buttons_tapped[button] = true;
+		this->buttons[button] = (onyx::KeyState)action;
+		if (action == GLFW_PRESS)
+		{
+			this->buttons_tapped[button] = true;
 
-		this->buttons_tapped_set.insert((onyx::MouseButton)button);
-		this->buttons_down_set.insert((onyx::MouseButton)button);
-	}
-	else if (action == GLFW_RELEASE)
-	{
-		this->buttons_down_set.erase((onyx::MouseButton)button);
+			this->buttons_tapped_set.insert((onyx::MouseButton)button);
+			this->buttons_down_set.insert((onyx::MouseButton)button);
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			this->buttons_down_set.erase((onyx::MouseButton)button);
+		}
 	}
 
 	if (this->p_mouse_button_callback) this->p_mouse_button_callback(button, action, mods);
@@ -979,48 +1025,35 @@ void onyx::InputHandler::scroll_callback(double dx, double dy)
 
 void onyx::InputHandler::joystick_callback(int jid, int event)
 {
-	if (!glfwJoystickIsGamepad(jid)) return;
-
-	if (this->p_joystick_callback != nullptr) this->p_joystick_callback(jid, event);
-
-	bool found = false;
+	Gamepad* p_gp = nullptr;
 	for (Gamepad& gamepad : this->gamepads)
 	{
 		if (gamepad.get_glfw_id() == jid)
 		{
-			found = true;
+			p_gp = &gamepad;
 			break;
 		}
 	}
 
-	if (!found && event == GLFW_CONNECTED) this->gamepads.push_back(Gamepad(jid));
-	else if (found && event == GLFW_DISCONNECTED)
+	if (event == GLFW_CONNECTED)
 	{
-		Gamepad* p_gp = (Gamepad*)glfwGetJoystickUserPointer(jid);
-		if (p_gp != nullptr)
-		{
-			p_gp->state.buttons[(int)GamepadButton::A] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::B] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::X] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::Y] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::LeftBumper] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::RightBumper] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::Back] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::Start] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::Guide] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::LeftStick] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::RightStick] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::DpadUp] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::DpadRight] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::DpadDown] = GLFW_RELEASE;
-			p_gp->state.buttons[(int)GamepadButton::DpadLeft] = GLFW_RELEASE;
+		// Only gamepads (joysticks with a gamepad mapping) are tracked.
+		if (!glfwJoystickIsGamepad(jid)) return;
 
-			p_gp->state.axes[(int)GamepadAxis::LeftX] = 0.0f;
-			p_gp->state.axes[(int)GamepadAxis::LeftY] = 0.0f;
-			p_gp->state.axes[(int)GamepadAxis::RightX] = 0.0f;
-			p_gp->state.axes[(int)GamepadAxis::RightY] = 0.0f;
-			p_gp->state.axes[(int)GamepadAxis::LeftTrigger] = 0.0f;
-			p_gp->state.axes[(int)GamepadAxis::RightTrigger] = 0.0f;
+		if (p_gp == nullptr) this->gamepads.push_back(Gamepad(jid));
+		else
+		{
+			const char* p_name = glfwGetJoystickName(jid);
+			p_gp->name = p_name != nullptr ? p_name : "";
+			p_gp->reset_state();
 		}
 	}
+	else if (event == GLFW_DISCONNECTED)
+	{
+		// The joystick is already gone at this point, so glfwJoystickIsGamepad() would return false.
+		if (p_gp == nullptr) return;
+		p_gp->reset_state();
+	}
+
+	if (this->p_joystick_callback != nullptr) this->p_joystick_callback(jid, event);
 }

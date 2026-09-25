@@ -1,14 +1,10 @@
-#pragma warning(disable: 4244)
-
 #include <onyx/renderer.hpp>
 
 #include <onyx/window.hpp>
 #include <onyx/camera.hpp>
 
 #include <map>
-
-void onyx_err(const onyx::Error&);
-void onyx_warn(const onyx::Warning&);
+#include "internal.hpp"
 
 bool onyx::Renderer::wireframe = false;
 bool onyx::Renderer::ui_wireframe_allowed = false;
@@ -101,11 +97,24 @@ void onyx::Renderer::render()
 		for (TextRenderable3D* tr : this->text_renderables_3d) tr->render(this->p_cam->get_view_matrix(), this->p_cam->get_projection_matrix(), this->p_cam->get_position());
 	}
 
+	bool ui_uses_cam = this->use_cam_for_ui;
+	if (ui_uses_cam && this->p_cam == nullptr)
+	{
+		onyx_warn(Warning{
+			.source_function = "onyx::Renderer::render()",
+			.message = "The renderer is set to use the camera for UI elements, but no camera is set. UI elements will be rendered without the camera.",
+			.how_to_fix = "Set a camera for the renderer (Renderer::set_camera()) or disable Renderer::set_use_camera_for_ui().",
+			.severity = Warning::Severity::Med
+			}
+		);
+		ui_uses_cam = false;
+	}
+
 	glDisable(GL_DEPTH_TEST);
 	Renderer::mtx_ui_wireframe_allowed.lock();
 	if (Renderer::ui_wireframe_allowed) {
 		Renderer::mtx_ui_wireframe_allowed.unlock();
-		if (!this->use_cam_for_ui)
+		if (!ui_uses_cam)
 		{
 			for (UiRenderable* uir : this->ui_renderables) uir->render(this->ortho);
 			for (TextRenderable* tr : this->text_renderables) tr->render(this->ortho);
@@ -124,7 +133,7 @@ void onyx::Renderer::render()
 		Renderer::mtx_wireframe.unlock();
 		set_wireframe(false);
 
-		if (!this->use_cam_for_ui)
+		if (!ui_uses_cam)
 		{
 			for (UiRenderable* uir : this->ui_renderables) uir->render(this->ortho);
 			for (TextRenderable* tr : this->text_renderables) tr->render(this->ortho);
@@ -222,7 +231,7 @@ void onyx::Renderer::clear_text_renderables()
 	this->text_renderables.clear();
 }
 
-void onyx::Renderer::clear_text_renderables3_d()
+void onyx::Renderer::clear_text_renderables_3d()
 {
 	this->text_renderables_3d.clear();
 }
@@ -299,14 +308,14 @@ void onyx::Renderer::toggle_fog_enabled()
 	set_fog_enabled(!this->fog_enabled);
 }
 
-const onyx::Lighting& onyx::Renderer::get_lighting() const
+const onyx::Lighting* onyx::Renderer::get_lighting() const
 {
-	return *this->p_lighting;
+	return this->p_lighting;
 }
 
-const onyx::Fog& onyx::Renderer::get_fog() const
+const onyx::Fog* onyx::Renderer::get_fog() const
 {
-	return *this->p_fog;
+	return this->p_fog;
 }
 
 void onyx::Renderer::set_lighting(Lighting& lighting)
@@ -407,9 +416,9 @@ const std::vector<onyx::TextRenderable3D*>& onyx::Renderer::get_text_renderables
 	return this->text_renderables_3d;
 }
 
-const onyx::Camera& onyx::Renderer::get_camera() const
+const onyx::Camera* onyx::Renderer::get_camera() const
 {
-	return *this->p_cam;
+	return this->p_cam;
 }
 
 void onyx::Renderer::set_camera(Camera& cam)
@@ -417,9 +426,9 @@ void onyx::Renderer::set_camera(Camera& cam)
 	this->p_cam = &cam;
 }
 
-void onyx::Renderer::set_use_camera_for_ui(bool use_cam_for_ui)
+void onyx::Renderer::set_use_camera_for_ui(bool new_use_cam_for_ui)
 {
-	this->use_cam_for_ui = use_cam_for_ui;
+	this->use_cam_for_ui = new_use_cam_for_ui;
 }
 
 bool onyx::Renderer::is_using_camera_for_ui() const
@@ -515,21 +524,35 @@ bool onyx::Renderer::is_ui_wireframe_allowed()
 std::pair<bool, int> onyx::Renderer::get_vsync()
 {
 	Renderer::mtx_vsync.lock();
-	std::pair<bool, int> vsync = Renderer::vsync;
+	std::pair<bool, int> result = Renderer::vsync;
 	Renderer::mtx_vsync.unlock();
-	return vsync;
+	return result;
 }
 
 std::pair<bool, int> onyx::Renderer::get_fps_limit()
 {
 	Renderer::mtx_fps_limit.lock();
-	std::pair<bool, int> fps_limit = Renderer::fps_limit;
+	std::pair<bool, int> result = Renderer::fps_limit;
 	Renderer::mtx_fps_limit.unlock();
-	return fps_limit;
+	return result;
 }
 
 void onyx::Renderer::set_line_width(float width)
 {
+	GLint context_flags = 0;
+	glGetIntegerv(GL_CONTEXT_FLAGS, &context_flags);
+	if (width != 1.0f && (context_flags & GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT))
+	{
+		onyx_warn(Warning{
+			.source_function = "onyx::Renderer::set_line_width(float width)",
+			.message = "Line widths other than 1 are not supported by forward-compatible core profile contexts (e.g. on macOS). The line width will stay at 1.",
+			.how_to_fix = "Use a line width of 1, or draw thick lines as geometry.",
+			.severity = Warning::Severity::Low
+			}
+		);
+		width = 1.0f;
+	}
+
 	glLineWidth(width);
 	Renderer::mtx_line_width.lock();
 	Renderer::line_width = width;

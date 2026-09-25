@@ -1,8 +1,7 @@
-#pragma warning(disable: 4267)
-
 #include <onyx/error_handler.hpp>
 
 #include <string>
+#include <iostream>
 
 #include <onyx/core.hpp>
 
@@ -74,7 +73,8 @@ onyx::ErrorHandler::ErrorHandler(bool log_warnings, bool log_errors, Warning::Se
 
 void onyx::ErrorHandler::warn(const Warning& warning)
 {
-	if (this->log_warnings&& warning.severity >= this->min_severity) std::cout << warning.to_string() << "\n\n";
+	if (this->log_warnings && warning.severity >= this->min_severity) std::cout << warning.to_string() << "\n\n";
+	if (this->warning_list.size() >= ErrorHandler::max_history) this->warning_list.erase(this->warning_list.begin());
 	this->warning_list.push_back(warning);
 	if (this->warning_callback != nullptr) warning_callback(warning);
 }
@@ -82,6 +82,7 @@ void onyx::ErrorHandler::warn(const Warning& warning)
 void onyx::ErrorHandler::err(const Error& error)
 {
 	if (this->log_errors) std::cout << error.to_string() << "\n\n";
+	if (this->error_list.size() >= ErrorHandler::max_history) this->error_list.erase(this->error_list.begin());
 	this->error_list.push_back(error);
 	if (this->error_callback != nullptr) error_callback(error);
 }
@@ -106,14 +107,14 @@ const std::vector<onyx::Error>& onyx::ErrorHandler::get_error_list() const
 	return this->error_list;
 }
 
-void onyx::ErrorHandler::set_log_warnings(bool log_warnings)
+void onyx::ErrorHandler::set_log_warnings(bool new_log_warnings)
 {
-	this->log_warnings = log_warnings;
+	this->log_warnings = new_log_warnings;
 }
 
-void onyx::ErrorHandler::set_log_errors(bool log_errors)
+void onyx::ErrorHandler::set_log_errors(bool new_log_errors)
 {
-	this->log_errors = log_errors;
+	this->log_errors = new_log_errors;
 }
 
 void onyx::ErrorHandler::set_warning_callback(void (*callback)(const Warning&))

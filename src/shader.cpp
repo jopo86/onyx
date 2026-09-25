@@ -1,18 +1,20 @@
-#pragma warning (disable: 4267)
-
-
+#include <algorithm>
+#include <cctype>
+#include <exception>
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <string>
+#include <system_error>
+#include <utility>
+#include <vector>
 
 #include <glad/glad.h>
 
 #include <onyx/file_utils.hpp>
 #include <onyx/shader.hpp>
 #include <onyx/builtin_shaders.hpp>
-
-void onyx_err(const onyx::Error&);
-void onyx_warn(const onyx::Warning&);
+#include "internal.hpp"
 
 using onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4, onyx::math::DVec2,
 onyx::math::DVec3, onyx::math::DVec4, onyx::math::IVec2, onyx::math::IVec3,
@@ -20,7 +22,6 @@ onyx::math::IVec4, onyx::math::UVec2, onyx::math::UVec3, onyx::math::UVec4,
 onyx::math::Mat2x2, onyx::math::Mat2x3, onyx::math::Mat2x4, onyx::math::Mat3x2, 
 onyx::math::Mat3x3, onyx::math::Mat3x4, onyx::math::Mat4x2,
 onyx::math::Mat4x3, onyx::math::Mat4x4, onyx::math::Mat4;
-
 
 onyx::Shader::Shader()
 {
@@ -44,7 +45,7 @@ onyx::Shader::Shader(const char* vert_source, const char* frag_source, bool* res
 		char info_buffer[ONYX_BUFFER_SIZE];
 		glGetShaderInfoLog(vert, ONYX_BUFFER_SIZE, nullptr, info_buffer);
 		onyx_err(Error{
-				.source_function = "onyx::Shader::Shader(const char *vert_source, const char *frag_source) : vert_source(vert_source), frag_source(frag_source)",
+				.source_function = "onyx::Shader::Shader(const char* vert_source, const char* frag_source, bool* result)",
 				.message = "Failed to compile a vertex shader, shader has been disposed. OpenGL output shown below: \n" + std::string(info_buffer) + "\n"
 			}
 		);
@@ -62,7 +63,7 @@ onyx::Shader::Shader(const char* vert_source, const char* frag_source, bool* res
 		char info_buffer[ONYX_BUFFER_SIZE];
 		glGetShaderInfoLog(frag, ONYX_BUFFER_SIZE, nullptr, info_buffer);
 		onyx_err(Error{
-				.source_function = "onyx::Shader::Shader(const char *vert_source, const char *frag_source) : vert_source(vert_source), frag_source(frag_source)",
+				.source_function = "onyx::Shader::Shader(const char* vert_source, const char* frag_source, bool* result)",
 				.message = "Failed to compile a fragment shader, shader has been disposed. OpenGL output shown below: \n" + std::string(info_buffer) + "\n"
 			}
 		);
@@ -84,7 +85,7 @@ onyx::Shader::Shader(const char* vert_source, const char* frag_source, bool* res
 		char info_buffer[ONYX_BUFFER_SIZE];
 		glGetProgramInfoLog(this->prog, ONYX_BUFFER_SIZE, nullptr, info_buffer);
 		onyx_err(Error{
-				.source_function = "onyx::Shader::Shader(const char *vert_source, const char *frag_source) : vert_source(vert_source), frag_source(frag_source)",
+				.source_function = "onyx::Shader::Shader(const char* vert_source, const char* frag_source, bool* result)",
 				.message = "Failed to link a shader program, shader has been disposed. OpenGL output shown below: \n" + std::string(info_buffer) + "\n"
 			}
 		);
@@ -95,22 +96,21 @@ onyx::Shader::Shader(const char* vert_source, const char* frag_source, bool* res
 		return;
 	}
 
+	// Validation depends on the current GL state (e.g. it fails on macOS when no VAO is bound),
+	// so a failure here is only reported as a warning; the program linked successfully.
 	glValidateProgram(this->prog);
 	glGetProgramiv(this->prog, GL_VALIDATE_STATUS, &gl_result);
 	if (!gl_result)
 	{
 		char info_buffer[ONYX_BUFFER_SIZE];
 		glGetProgramInfoLog(this->prog, ONYX_BUFFER_SIZE, nullptr, info_buffer);
-		onyx_err(Error{
-				.source_function = "onyx::Shader::Shader(const char *vert_source, const char *frag_source) : vert_source(vert_source), frag_source(frag_source)",
-				.message = "Failed to validate a shader program, shader has been disposed. OpenGL output shown below: \n" + std::string(info_buffer) + "\n"
+		onyx_warn(Warning{
+				.source_function = "onyx::Shader::Shader(const char* vert_source, const char* frag_source, bool* result)",
+				.message = "Shader program validation failed against the current OpenGL state (the program itself linked successfully). OpenGL output shown below: \n" + std::string(info_buffer) + "\n",
+				.how_to_fix = "This can usually be ignored if the shader renders correctly; validation depends on the state bound at creation time.",
+				.severity = Warning::Severity::Low
 			}
 		);
-		if (vert) glDeleteShader(vert);
-		if (frag) glDeleteShader(frag);
-		dispose();
-		if (result != nullptr) *result = false;
-		return;
 	}
 
 	glDeleteShader(vert);
@@ -130,26 +130,24 @@ onyx::Shader::Shader(const Shader& other)
 
 onyx::Shader onyx::Shader::load_source(const std::string& vert_path, const std::string& frag_path, bool* result)
 {
-	bool vert_result, frag_result;
-	Shader shader(
-		file_utils::read_literal(vert_path, &vert_result),
-		file_utils::read_literal(frag_path, &frag_result)
-	);
+	bool vert_result = false, frag_result = false;
+	std::string vert_source = file_utils::read(vert_path, &vert_result);
+	std::string frag_source = file_utils::read(frag_path, &frag_result);
 
 	if (!vert_result)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::Shader::load_source(const std::string& vert_path, const std::string& frag_path)",
+				.source_function = "onyx::Shader::load_source(const std::string& vert_path, const std::string& frag_path, bool* result)",
 				.message = "Failed to read vertex shader source file: \"" + vert_path + "\"",
 				.how_to_fix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
 			}
 		);
 	}
 
-	else if (!frag_result)
+	if (!frag_result)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::Shader::load_source(const std::string& vert_path, const std::string& frag_path)",
+				.source_function = "onyx::Shader::load_source(const std::string& vert_path, const std::string& frag_path, bool* result)",
 				.message = "Failed to read fragment shader source file: \"" + frag_path + "\"",
 				.how_to_fix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
 			}
@@ -158,13 +156,11 @@ onyx::Shader onyx::Shader::load_source(const std::string& vert_path, const std::
 
 	if (!frag_result || !vert_result)
 	{
-		shader.dispose();
 		if (result != nullptr) *result = false;
-		return shader;
+		return Shader();
 	}
 
-	if (result != nullptr) *result = true;
-	return shader;
+	return Shader(vert_source.c_str(), frag_source.c_str(), result);
 }
 
 onyx::Shader onyx::Shader::load_source(const std::string& combined_path, bool* result)
@@ -175,7 +171,7 @@ onyx::Shader onyx::Shader::load_source(const std::string& combined_path, bool* r
 	if (!parse_result)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::Shader::load_source(const std::string& combined_path)",
+				.source_function = "onyx::Shader::load_source(const std::string& combined_path, bool* result)",
 				.message = "Failed to parse combined shader source file: \"" + combined_path + "\"",
 				.how_to_fix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
 			}
@@ -204,56 +200,70 @@ onyx::Shader onyx::Shader::from_source(const std::string& combined_source, bool*
 onyx::Shader onyx::Shader::load_binary(const std::string& bin_path, bool* result)
 {
 	Shader shader;
-	shader.prog = glCreateProgram();
+
+	auto fail = [&](const std::string& message, const std::string& how_to_fix) -> Shader
+	{
+		onyx_err(Error{
+				.source_function = "onyx::Shader::load_binary(const std::string& bin_path, bool* result)",
+				.message = message,
+				.how_to_fix = how_to_fix
+			}
+		);
+		shader.dispose();
+		if (result != nullptr) *result = false;
+		return shader;
+	};
 
 	std::ifstream file(bin_path, std::ios::binary);
 
 	if (!file.is_open())
 	{
-		onyx_err(Error{
-			   .source_function = "onyx::Shader::load_binary(const std::string& bin_path)",
-			   .message = "File not found (or access denied): \"" + bin_path + "\"",
-			   .how_to_fix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
-			}
-		);
-		file.close();
-		shader.dispose();
-		if (result != nullptr) *result = false;
-		return shader;
+		return fail("File not found (or access denied): \"" + bin_path + "\"", "Ensure the file exists, is not locked by another process, and does not explicitly deny access.");
 	}
 
 	std::istreambuf_iterator<char> start_it(file), end_it;
 	std::vector<char> buffer(start_it, end_it);
+	bool read_failed = file.bad();
 	file.close();
 
-	std::string format_str;
-	char cur = 0;
-	for (int i = 7; cur != '\n'; i++)
+	if (read_failed)
 	{
-		cur = buffer[i];
-		if (cur == '\n') continue;
-		format_str += cur;
+		return fail("Failed to read shader binary file: \"" + bin_path + "\"", "Ensure the file is not locked by another process.");
 	}
 
-	u32 format = std::stoi(format_str);
-	u32 start_index = 7 + format_str.length() + 1;
+	// Expected layout: "format:<GLenum>\n" followed by the raw program binary
+	const std::string prefix = "format:";
+	std::size_t newline_index = std::find(buffer.begin(), buffer.end(), '\n') - buffer.begin();
+	if (buffer.size() < prefix.length() || std::string(buffer.data(), prefix.length()) != prefix || newline_index >= buffer.size())
+	{
+		return fail("Invalid shader binary file (missing \"format:\" header): \"" + bin_path + "\"", "Only load binaries saved with Shader::save_binary().");
+	}
 
-	char* data = buffer.data() + start_index * sizeof(char);
+	std::string format_str(buffer.data() + prefix.length(), newline_index - prefix.length());
+	u32 format = 0;
+	try
+	{
+		format = (u32)std::stoul(format_str);
+	}
+	catch (const std::exception&)
+	{
+		return fail("Invalid shader binary format value \"" + format_str + "\" in file: \"" + bin_path + "\"", "Only load binaries saved with Shader::save_binary().");
+	}
 
-	glProgramBinary(shader.prog, format, data, buffer.size() - start_index);
+	std::size_t start_index = newline_index + 1;
+	if (start_index >= buffer.size())
+	{
+		return fail("Shader binary file contains no program data: \"" + bin_path + "\"", "Only load binaries saved with Shader::save_binary().");
+	}
+
+	shader.prog = glCreateProgram();
+	glProgramBinary(shader.prog, format, buffer.data() + start_index, (GLsizei)(buffer.size() - start_index));
 
 	int gl_result;
 	glGetProgramiv(shader.prog, GL_LINK_STATUS, &gl_result);
 	if (!gl_result)
 	{
-		onyx_err(Error{
-				.source_function = "onyx::Shader::load_binary(const std::string& bin_path)",
-				.message = "Failed to link loaded shader program.",
-			}
-		);
-		shader.dispose();
-		if (result != nullptr) *result = false;
-		return shader;
+		return fail("Failed to link loaded shader program.", "The binary may have been saved by a different driver or GPU; recompile the shader from source and save it again.");
 	}
 
 	if (result != nullptr) *result = true;
@@ -277,7 +287,7 @@ void onyx::Shader::save_binary(const std::string& dir, const std::string& filena
 	if (n_formats < 1)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::Shader::save_binary(const std::string& dir, const std::string& filename)",
+				.source_function = "onyx::Shader::save_binary(const std::string& dir, const std::string& filename, bool* result)",
 				.message = "Graphics driver does not support any shader binary formats.",
 				.how_to_fix = "Ensure your graphics drivers are up to date."
 			}
@@ -289,22 +299,61 @@ void onyx::Shader::save_binary(const std::string& dir, const std::string& filena
 	int len = 0;
 	glGetProgramiv(this->prog, GL_PROGRAM_BINARY_LENGTH, &len);
 
-	u8* buffer = new u8[len];
-	u32 format = 0;
-	glGetProgramBinary(this->prog, len, nullptr, &format, buffer);
+	if (len <= 0)
+	{
+		onyx_err(Error{
+				.source_function = "onyx::Shader::save_binary(const std::string& dir, const std::string& filename, bool* result)",
+				.message = "Failed to get the shader program binary (the program may be invalid or disposed).",
+				.how_to_fix = "Ensure the shader compiled and linked successfully before saving it."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return;
+	}
 
-	std::string path = dir.substr(0, dir[dir.length() - 1] == '/' || dir[dir.length() - 1] == '\\' ? dir.length() - 1 : dir.length()) + "/" + filename.substr(0, filename.find_last_of(".") != -1 ? filename.find_last_of(".") : filename.length()) + ".bin";
+	std::vector<u8> buffer((std::size_t)len);
+	u32 format = 0;
+	glGetProgramBinary(this->prog, len, nullptr, &format, buffer.data());
+
+	std::string dir_trimmed = dir;
+	if (!dir_trimmed.empty() && (dir_trimmed.back() == '/' || dir_trimmed.back() == '\\')) dir_trimmed.pop_back();
+
+	std::size_t ext_index = filename.find_last_of('.');
+	std::string path = (dir_trimmed.empty() ? "" : dir_trimmed + "/") + filename.substr(0, ext_index != std::string::npos ? ext_index : filename.length()) + ".bin";
 
 	std::string line1 = "format:" + std::to_string(format) + "\n";
 
-	if (!std::filesystem::exists(dir)) std::filesystem::create_directories(dir);
+	std::error_code ec;
+	if (!dir_trimmed.empty() && !std::filesystem::exists(dir_trimmed, ec)) std::filesystem::create_directories(dir_trimmed, ec);
 
 	std::ofstream file(path, std::ios::binary);
-	file.write(line1.c_str(), line1.length());
-	file.write(reinterpret_cast<char*>(buffer), len);
+	if (!file.is_open())
+	{
+		onyx_err(Error{
+				.source_function = "onyx::Shader::save_binary(const std::string& dir, const std::string& filename, bool* result)",
+				.message = "Failed to open file for writing: \"" + path + "\"",
+				.how_to_fix = "Ensure the directory exists or can be created, and that the file is not locked by another process."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return;
+	}
+
+	file.write(line1.c_str(), (std::streamsize)line1.length());
+	file.write(reinterpret_cast<const char*>(buffer.data()), len);
 	file.close();
 
-	delete[] buffer;
+	if (file.fail())
+	{
+		onyx_err(Error{
+				.source_function = "onyx::Shader::save_binary(const std::string& dir, const std::string& filename, bool* result)",
+				.message = "Failed to write shader binary file: \"" + path + "\"",
+				.how_to_fix = "Ensure there is enough disk space and the file is not locked by another process."
+			}
+		);
+		if (result != nullptr) *result = false;
+		return;
+	}
 
 	if (result != nullptr) *result = true;
 }
@@ -467,137 +516,124 @@ void onyx::Shader::set_uvec4(const char* var_name, const UVec4& val)
 #endif
 }
 
-void onyx::Shader::set_mat2x2(const char* var_name, const Mat2x2& val, bool normalize)
+void onyx::Shader::set_mat2x2(const char* var_name, const Mat2x2& val, bool transpose)
 {
-	glUniformMatrix2fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix2fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat2(const char* var_name, const Mat2x2& val, bool normalize)
+void onyx::Shader::set_mat2(const char* var_name, const Mat2x2& val, bool transpose)
 {
-	glUniformMatrix2fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix2fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat2x3(const char* var_name, const Mat2x3& val, bool normalize)
+void onyx::Shader::set_mat2x3(const char* var_name, const Mat2x3& val, bool transpose)
 {
-	glUniformMatrix2x3fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix2x3fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat2x4(const char* var_name, const Mat2x4& val, bool normalize)
+void onyx::Shader::set_mat2x4(const char* var_name, const Mat2x4& val, bool transpose)
 {
-	glUniformMatrix2x4fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix2x4fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat3x2(const char* var_name, const Mat3x2& val, bool normalize)
+void onyx::Shader::set_mat3x2(const char* var_name, const Mat3x2& val, bool transpose)
 {
-	glUniformMatrix3x2fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix3x2fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat3x3(const char* var_name, const Mat3x3& val, bool normalize)
+void onyx::Shader::set_mat3x3(const char* var_name, const Mat3x3& val, bool transpose)
 {
-	glUniformMatrix3fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix3fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat3(const char* var_name, const Mat3x3& val, bool normalize)
+void onyx::Shader::set_mat3(const char* var_name, const Mat3x3& val, bool transpose)
 {
-	glUniformMatrix3fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix3fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat3x4(const char* var_name, const Mat3x4& val, bool normalize)
+void onyx::Shader::set_mat3x4(const char* var_name, const Mat3x4& val, bool transpose)
 {
-	glUniformMatrix3x4fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix3x4fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat4x2(const char* var_name, const Mat4x2& val, bool normalize)
+void onyx::Shader::set_mat4x2(const char* var_name, const Mat4x2& val, bool transpose)
 {
-	glUniformMatrix4x2fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix4x2fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat4x3(const char* var_name, const Mat4x3& val, bool normalize)
+void onyx::Shader::set_mat4x3(const char* var_name, const Mat4x3& val, bool transpose)
 {
-	glUniformMatrix4x3fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix4x3fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat4x4(const char* var_name, const Mat4x4& val, bool normalize)
+void onyx::Shader::set_mat4x4(const char* var_name, const Mat4x4& val, bool transpose)
 {
-	glUniformMatrix4fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix4fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-void onyx::Shader::set_mat4(const char* var_name, const Mat4x4& val, bool normalize)
+void onyx::Shader::set_mat4(const char* var_name, const Mat4x4& val, bool transpose)
 {
-	glUniformMatrix4fv(glGetUniformLocation(this->prog, var_name), 1, normalize, val.data());
+	glUniformMatrix4fv(glGetUniformLocation(this->prog, var_name), 1, transpose, val.data());
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
 }
 
-std::string trim_and_to_lower(const std::string& str)
+static std::string trim_and_to_lower(const std::string& str)
 {
-	int start = 0, end = str.length();
-	for (int i = 0; i < str.length(); i++)
-	{
-		if (str[i] != ' ')
-		{
-			start = i;
-			break;
-		}
-	}
-	for (int i = str.length() - 1; i >= 0; i--)
-	{
-		if (str[i] != ' ')
-		{
-			end = i + 1;
-			break;
-		}
-	}
+	std::size_t start = str.find_first_not_of(' ');
+	if (start == std::string::npos) return "";
+	std::size_t end = str.find_last_not_of(' ') + 1;
+
 	std::string trimmed = str.substr(start, end - start);
-	for (int i = 0; i < trimmed.length(); i++)
+	for (char& c : trimmed)
 	{
-		trimmed[i] = std::tolower(trimmed[i]);
+		c = (char)std::tolower((unsigned char)c);
 	}
 
 	return trimmed;
@@ -623,7 +659,7 @@ std::pair<std::string, std::string> onyx::Shader::parse_combined(const std::stri
 	if (!file_result)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::Shader::parse_combined(const std::string& combined_path)",
+				.source_function = "onyx::Shader::parse_combined(const std::string& combined_path, bool* result)",
 				.message = "Failed to read combined shader source file: \"" + combined_path + "\"",
 				.how_to_fix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
 			}
@@ -665,7 +701,7 @@ std::pair<std::string, std::string> onyx::Shader::split_combined_source(const st
 	if (!switched)
 	{
 		onyx_err(Error{
-				.source_function = "onyx::Shader::split_combined_source(const std::string& source)",
+				.source_function = "onyx::Shader::split_combined_source(const std::string& source, const std::string& origin, bool* result)",
 				.message = "Failed to parse combined shader source: " + origin,
 				.how_to_fix = "No #switch statement found. Make sure you put #switch between the vertex and fragment code."
 			}
@@ -692,7 +728,6 @@ static onyx::Shader load_builtin_shader(const char* source)
 {
 	return onyx::Shader::from_source(source);
 }
-
 
 onyx::Shader onyx::Shader::p_color(Vec4 rgba)
 {

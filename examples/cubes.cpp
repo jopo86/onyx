@@ -111,12 +111,8 @@ int main()
 	onyx::Renderer renderer(cam, lighting, fog);
 	window.link_renderer(renderer);
 
-	float start = onyx::get_time();
 	onyx::Font roboto_reg = onyx::Font::load(onyx::resources("fonts/Roboto/Roboto-Regular.ttf"), 32);
 	onyx::Font roboto_bold = onyx::Font::load(onyx::resources("fonts/Roboto/Roboto-Bold.ttf"), 32);
-	float duration = std::round((onyx::get_time() - start) * 1000);
-
-	start = onyx::get_time();
 
 	const Vec4 colors[CUBE_COUNT] = {
 		Vec4::red(), Vec4::orange(), Vec4::yellow(), Vec4::green(),
@@ -177,15 +173,13 @@ int main()
 		text_renderables[i].set_scale(0.6f);
 	}
 
-	duration = std::round((onyx::get_time() - start) * 1000);
-
 	for (onyx::Renderable& cube : cubes) renderer.add(cube);
 	renderer.add(text_bg);
 	renderer.add(logo);
 	for (onyx::TextRenderable& tr : text_renderables) renderer.add(tr);
 
-	const double MOVE_SPEED = 6.0;
-	const double MOUSE_SENS = 30.0;
+	const float MOVE_SPEED = 6.0f;
+	const float MOUSE_SENS = 30.0f;
 
 	const float DEAD_ZONE_LEFT = 0.1f;
 	const float DEAD_ZONE_RIGHT = 0.1f;
@@ -197,11 +191,11 @@ int main()
 	while (window.is_open())
 	{
 		input.update();
-		double dx = input.get_mouse_deltas().get_x();
-		double dy = input.get_mouse_deltas().get_y();
+		float dx = static_cast<float>(input.get_mouse_deltas().get_x());
+		float dy = static_cast<float>(input.get_mouse_deltas().get_y());
 		float lsx = 0.0f, lsy = 0.0f, rsx = 0.0f, rsy = 0.0f;
 		bool a = false, b = false, rs = false;
-		double dt = window.get_delta_time();
+		float dt = static_cast<float>(window.get_delta_time());
 
 		if (window.get_frame() % 100 == 0 || window.get_frame() == 2) fps = window.get_fps();
 
@@ -217,17 +211,17 @@ int main()
 		if (input.is_key_tapped(onyx::Key::F2)) for (onyx::Renderable& cube : cubes) cube.toggle_visibility();
 		if (input.is_key_tapped(onyx::Key::F3)) renderer.toggle_lighting_enabled();
 
-		for (int i = 0; i < CUBE_COUNT; i++) cubes[i].rotate(SPINS[i] * (float)dt);
+		for (int i = 0; i < CUBE_COUNT; i++) cubes[i].rotate(SPINS[i] * dt);
 
-		cam.rotate(MOUSE_SENS * .005 * dx, MOUSE_SENS * .005 * dy);
-		cam.set_fov(cam.get_projection().get_fov() - input.get_scroll_deltas().get_y());
+		cam.rotate(MOUSE_SENS * .005f * dx, MOUSE_SENS * .005f * dy);
+		cam.set_fov(cam.get_projection().get_fov() - static_cast<float>(input.get_scroll_deltas().get_y()));
 
 		for (const onyx::Gamepad& gp : input.get_gamepads())
 		{
-			if (std::abs(gp.get_axis(onyx::GamepadAxis::LeftX)) > lsx) lsx = gp.get_axis(onyx::GamepadAxis::LeftX);
-			if (std::abs(gp.get_axis(onyx::GamepadAxis::LeftY)) > lsy) lsy = gp.get_axis(onyx::GamepadAxis::LeftY);
-			if (std::abs(gp.get_axis(onyx::GamepadAxis::RightX)) > rsx) rsx = gp.get_axis(onyx::GamepadAxis::RightX);
-			if (std::abs(gp.get_axis(onyx::GamepadAxis::RightY)) > rsy) rsy = gp.get_axis(onyx::GamepadAxis::RightY);
+			if (std::abs(gp.get_axis(onyx::GamepadAxis::LeftX)) > std::abs(lsx)) lsx = gp.get_axis(onyx::GamepadAxis::LeftX);
+			if (std::abs(gp.get_axis(onyx::GamepadAxis::LeftY)) > std::abs(lsy)) lsy = gp.get_axis(onyx::GamepadAxis::LeftY);
+			if (std::abs(gp.get_axis(onyx::GamepadAxis::RightX)) > std::abs(rsx)) rsx = gp.get_axis(onyx::GamepadAxis::RightX);
+			if (std::abs(gp.get_axis(onyx::GamepadAxis::RightY)) > std::abs(rsy)) rsy = gp.get_axis(onyx::GamepadAxis::RightY);
 			if (gp.is_button_down(onyx::GamepadButton::A)) a = true;
 			if (gp.is_button_down(onyx::GamepadButton::B)) b = true;
 			if (gp.is_button_down(onyx::GamepadButton::RightStick)) rs = true;

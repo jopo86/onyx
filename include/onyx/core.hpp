@@ -1,6 +1,7 @@
 #pragma once
 
-#include <iostream>
+#include <cstddef>
+#include <string>
 
 #include <onyx/error_handler.hpp>
 
@@ -8,20 +9,7 @@
 	@file A header file containing useful definitions used by the Onyx library as well as the user.
  */
 
-#define ONYX_VERSION_MAJOR		1
-#define ONYX_VERSION_MINOR		7
-#define ONYX_VERSION_PATCH		1
-
-#define ONYX_PRE_RELEASE_NUM	0
-
-#define ONYX_ALPHA              false
-#define ONYX_BETA				false
-#define ONYX_RELEASE_CANDIDATE	false
-#define ONYX_STABLE	            true
-
-//#define ONYX_GL_DEBUG_LOW
-//#define ONYX_GL_DEBUG_MED
-// #define ONYX_GL_DEBUG_HIGH
+#include <onyx/version.hpp>
 
 /*
 	Definitions for system info.
@@ -59,7 +47,7 @@
 typedef unsigned char						u8;
 typedef unsigned short						u16;
 typedef unsigned int						u32;
-typedef unsigned long						usize;
+typedef std::size_t						usize;
 typedef unsigned long long					u64;
 
 const char* gl_error_to_string(u32 error_code);
@@ -352,7 +340,7 @@ namespace onyx
 		LeftStick = 9,
 		RightStick = 10,
 		DpadUp = 11,
-		DpadRight = 11,
+		DpadRight = 12,
 		DpadDown = 13,
 		DpadLeft = 14,
 
@@ -502,7 +490,7 @@ namespace onyx
 
 	/*
 		@brief Gets whether the library has been initialized.
-		@return Whether init() has been called.
+		@return Whether init() has been called and succeeded (and cleanup() has not been called since).
 	 */
 	bool is_initialized();
 
@@ -525,12 +513,6 @@ namespace onyx
 		@param path The path of the resources folder. Doesn't matter if it has a slash at the end or not.
 	 */
 	void set_resource_path(std::string path);
-
-	/*
-		@deprecated Use the named user pointer system instead - `set_user_ptr(const std::string& name, void* ptr)`.
-	 */
-	[[deprecated("This function is deprecated and will be removed in the next major release. Use the named user pointer system instead - `set_user_ptr(const std::string& name, void* ptr)`.")]]
-	void set_user_ptr(void* ptr);
 
 	/*
 		@brief Sets a user pointer for the library with the specified name.
@@ -572,12 +554,6 @@ namespace onyx
 		@param path The path relative to the resource path.
 	 */
 	std::string res(const std::string& path);
-
-	/*
-		@deprecated Use the named user pointer system instead - `get_user_ptr(const std::string& name)`.
-	 */
-	[[deprecated("This function is deprecated and will be removed in the next major release. Use the named user pointer system instead - `get_user_ptr(const std::string& name)`.")]]
-	void* get_user_ptr();
 
 	/*
 		@brief Gets the user pointer for the library with the specified name.

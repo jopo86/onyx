@@ -1,5 +1,3 @@
-#pragma warning(disable : 4244; disable: 4267)
-
 #include <onyx/core.hpp>
 
 #include <string>
@@ -7,14 +5,16 @@
 #include <atomic>
 #include <thread>
 #include <mutex>
+#include <chrono>
+#include <ctime>
 #include <cstdlib>
+#include <iostream>
 #include <filesystem>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stbi/stb_image.h>
+#include <stb_image.h>
 
 #include <onyx/math_wrappers.hpp>
 #include <onyx/window.hpp>
@@ -25,27 +25,26 @@
 #include <onyx/text_renderable.hpp>
 #include <onyx/text_renderable_3d.hpp>
 #include <onyx/file_utils.hpp>
+#include "internal.hpp"
 
 using onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4;
 
-std::atomic<bool> initialized = false;
-std::atomic<bool> gl_initialized = false;
-std::atomic<onyx::ErrorHandler*> p_error_handler = nullptr;
-std::atomic<void*> old_user_ptr = nullptr;
+namespace
+{
+	std::atomic<bool> initialized = false;
+	std::atomic<bool> gl_initialized = false;
+	std::atomic<onyx::ErrorHandler*> p_error_handler = nullptr;
 
-std::string resource_path;
-FT_Library ft;
-std::vector<std::pair<void*, bool>> mallocs;
-std::unordered_map<std::string, void*> user_ptrs;
-std::pair<bool, u32> vsync = { true, 1 };
+	std::string resource_path;
+	FT_Library ft;
+	std::vector<std::pair<void*, void(*)(void*)>> mallocs;
+	std::unordered_map<std::string, void*> user_ptrs;
 
-std::mutex mtx_resource_path;
-std::mutex mtx_ft;
-std::mutex mtx_mallocs;
-std::mutex mtx_user_ptrs;
-std::mutex mtx_vsync;
-
-void onyx_seed_random(u32 seed);
+	std::mutex mtx_resource_path;
+	std::mutex mtx_ft;
+	std::mutex mtx_mallocs;
+	std::mutex mtx_user_ptrs;
+}
 
 void onyx_set_gl_init(bool val)
 {
@@ -54,17 +53,14 @@ void onyx_set_gl_init(bool val)
 
 FT_Library* onyx_get_ft()
 {
-	mtx_ft.lock();
-	FT_Library* p_ft = &ft;
-	mtx_ft.unlock();
-	return p_ft;
+	std::lock_guard lock(mtx_ft);
+	return &ft;
 }
 
-void onyx_add_malloc(void* ptr, bool array)
+void onyx_add_malloc_impl(void* ptr, void(*deleter)(void*))
 {
-	mtx_mallocs.lock();
-	mallocs.push_back(std::pair<void*, bool>(ptr, array));
-	mtx_mallocs.unlock();
+	std::lock_guard lock(mtx_mallocs);
+	mallocs.push_back(std::pair<void*, void(*)(void*)>(ptr, deleter));
 }
 
 void onyx_err(const onyx::Error& error)
@@ -89,8 +85,6 @@ const char* gl_error_to_string(u32 error_code)
 		case GL_INVALID_ENUM:					return "INVALID_ENUM";
 		case GL_INVALID_VALUE:					return "INVALID_VALUE";
 		case GL_INVALID_OPERATION:				return "INVALID_OPERATION";
-		case GL_STACK_OVERFLOW:					return "STACK_OVERFLOW";
-		case GL_STACK_UNDERFLOW:				return "STACK_UNDERFLOW";
 		case GL_OUT_OF_MEMORY:					return "OUT_OF_MEMORY";
 		case GL_INVALID_FRAMEBUFFER_OPERATION:	return "INVALID_FRAMEBUFFER_OPERATION";
 	}
@@ -100,35 +94,43 @@ const char* gl_error_to_string(u32 error_code)
 
 u32 gl_check_error(const std::string& file, int line)
 {
+	u32 first_error = GL_NO_ERROR;
 	u32 error_code;
 	while ((error_code = glGetError()) != GL_NO_ERROR)
 	{
+		if (first_error == GL_NO_ERROR) first_error = error_code;
 		onyx_glerr(onyx::GLError{
 			.code = error_code,
-			.file = file.substr(file.find_last_of("\\") + 1),
+			.file = std::filesystem::path(file).filename().string(),
 			.line = line
 			}
 		);
 	}
-	return error_code;
+	return first_error;
 }
 
 void onyx::init()
 {
 	if (initialized) return;
 
-	initialized = true;
-	mtx_resource_path.lock();
-	if (resource_path == "") resource_path = "../resources/";
-	mtx_resource_path.unlock();
+	{
+		std::lock_guard lock(mtx_resource_path);
+		if (resource_path == "") resource_path = "../resources/";
+	}
 
 	stbi_set_flip_vertically_on_load(true);
 
-	mtx_ft.lock();
-	FT_Init_FreeType(&ft);
-	mtx_ft.unlock();
+	{
+		std::lock_guard lock(mtx_ft);
+		if (FT_Init_FreeType(&ft)) return;
+	}
 
-	glfwInit();
+	if (!glfwInit())
+	{
+		std::lock_guard lock(mtx_ft);
+		FT_Done_FreeType(ft);
+		return;
+	}
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -136,25 +138,16 @@ void onyx::init()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 #endif
 
-	for (int i = GLFW_JOYSTICK_1; i <= GLFW_JOYSTICK_16; i++)
-	{
-		glfwSetJoystickUserPointer(i, nullptr);
-	}
+	onyx_seed_random((u32)time(nullptr));
 
-	onyx_seed_random(time(nullptr));
+	initialized = true;
 }
 
 void onyx::init(ErrorHandler& error_handler)
 {
-	if (initialized) return;
-
-	p_error_handler = &error_handler;
-
-	stbi_set_flip_vertically_on_load(true);
-
 	if (initialized)
 	{
-		onyx_warn(Warning{
+		error_handler.warn(Warning{
 				.source_function = "onyx::init(ErrorHandler& error_handler)",
 				.message = "Attempted to initialize library when it is already initialized. Initialization aborted.",
 				.how_to_fix = "If reinitialization was intentional, terminate the library first.",
@@ -163,37 +156,44 @@ void onyx::init(ErrorHandler& error_handler)
 		);
 		return;
 	}
-	initialized = true;
-	mtx_resource_path.lock();
-	// Must match the default in init() above. Deliberately relative rather than derived from
-	// __FILE__: baking the build machine's source path into the binary makes the default
-	// meaningless anywhere the library is actually shipped. Callers that load their own assets
-	// should set this explicitly with set_resource_path().
-	if (resource_path == "") resource_path = "../resources/";
-	mtx_resource_path.unlock();
 
-	mtx_ft.lock();
-	if (FT_Init_FreeType(&ft))
+	p_error_handler = &error_handler;
+
+	stbi_set_flip_vertically_on_load(true);
+
 	{
-		onyx_err(Error{
-			.source_function = "onyx::init(ErrorHandler& error_handler)",
-			.message = "Failed to initialize FreeType.",
-			.how_to_fix = "Ensure the FreeType library is downloaded for your specific platform. If you are not running Windows x64, you will need to download FreeType for yourself, you can't just use the one from the Onyx download.",
-			}
-		);
-		mtx_ft.unlock();
-		return;
+		std::lock_guard lock(mtx_resource_path);
+		// Must match the default in init() above. Deliberately relative rather than derived from
+		// __FILE__: baking the build machine's source path into the binary makes the default
+		// meaningless anywhere the library is actually shipped. Callers that load their own assets
+		// should set this explicitly with set_resource_path().
+		if (resource_path == "") resource_path = "../resources/";
 	}
-	mtx_ft.unlock();
+
+	{
+		std::lock_guard lock(mtx_ft);
+		if (FT_Init_FreeType(&ft))
+		{
+			onyx_err(Error{
+					.source_function = "onyx::init(ErrorHandler& error_handler)",
+					.message = "Failed to initialize FreeType.",
+					.how_to_fix = "Ensure FreeType was found and linked correctly when configuring the project with CMake.",
+				}
+			);
+			return;
+		}
+	}
 
 	if (!glfwInit())
 	{
 		onyx_err(Error{
 			   .source_function = "onyx::init(ErrorHandler& error_handler)",
 			   .message = "Failed to initialize GLFW.",
-			   .how_to_fix = "Ensure the GLFW library is downloaded for your specific platform. If you are not running Windows x64, you will need to download GLFW for yourself, you can't just use the one from the Onyx download.",
+			   .how_to_fix = "Ensure GLFW was found and linked correctly when configuring the project with CMake, and that a display is available.",
 			}
 		);
+		std::lock_guard lock(mtx_ft);
+		FT_Done_FreeType(ft);
 		return;
 	}
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -203,12 +203,9 @@ void onyx::init(ErrorHandler& error_handler)
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 #endif
 
-	for (int i = GLFW_JOYSTICK_1; i <= GLFW_JOYSTICK_16; i++)
-	{
-		glfwSetJoystickUserPointer(i, nullptr);
-	}
+	onyx_seed_random((u32)time(nullptr));
 
-	onyx_seed_random(time(nullptr));
+	initialized = true;
 }
 
 int onyx::get_version_major()
@@ -248,40 +245,36 @@ bool onyx::is_stable()
 
 std::string onyx::get_version_string()
 {
-	std::string ver = std::to_string(ONYX_VERSION_MAJOR) + "." + std::to_string(ONYX_VERSION_MINOR) + "." + std::to_string(ONYX_VERSION_PATCH);
-	if (ONYX_ALPHA) ver += "-alpha";
-	else if (ONYX_BETA) ver += "-beta";
-	else if (ONYX_RELEASE_CANDIDATE) ver += "-rc";
-	if (!ONYX_STABLE) ver += std::to_string(ONYX_PRE_RELEASE_NUM);
-	return ver;
+	return ONYX_VERSION_STRING;
 }
 
 void onyx::cleanup()
 {
 	if (!initialized) return;
 
-	mtx_ft.lock();
-	FT_Done_FreeType(ft);
-	mtx_ft.unlock();
+	{
+		std::lock_guard lock(mtx_ft);
+		FT_Done_FreeType(ft);
+	}
 	glfwTerminate();
 
-	mtx_mallocs.lock();
-	int size = mallocs.size();
-	mtx_mallocs.unlock();
-	for (int i = size - 1; i >= 0; i--)
 	{
-		mtx_mallocs.lock();
-		if (mallocs[i].second && mallocs[i].first != nullptr) delete[] mallocs[i].first;
-		else if (mallocs[i].first != nullptr) delete mallocs[i].first;
-		mallocs.pop_back();
-		mtx_mallocs.unlock();
+		std::lock_guard lock(mtx_mallocs);
+		for (auto it = mallocs.rbegin(); it != mallocs.rend(); ++it)
+		{
+			if (it->first != nullptr) it->second(it->first);
+		}
+		mallocs.clear();
 	}
+
+	gl_initialized = false;
 	initialized = false;
 }
 
 std::string onyx::get_clipboard_string()
 {
-	return glfwGetClipboardString(nullptr);
+	const char* str = glfwGetClipboardString(nullptr);
+	return str != nullptr ? std::string(str) : std::string();
 }
 
 void onyx::set_clipboard_string(const std::string& str)
@@ -307,31 +300,22 @@ void onyx::set_error_handler(ErrorHandler& error_handler)
 void onyx::set_resource_path(std::string path)
 {
 	if (path.length() == 0) return;
-	
-	mtx_resource_path.lock();
+
+	std::lock_guard lock(mtx_resource_path);
 	if (path[path.length() - 1] != '/' && path[path.length() - 1] != '\\') resource_path = path + "/";
 	else resource_path = path;
-	mtx_resource_path.unlock();
-}
-
-void onyx::set_user_ptr(void* ptr)
-{
-	old_user_ptr = ptr;
 }
 
 void onyx::set_user_ptr(const std::string& name, void* ptr)
 {
-	mtx_user_ptrs.lock();
+	std::lock_guard lock(mtx_user_ptrs);
 	user_ptrs.insert_or_assign(name, ptr);
-	mtx_user_ptrs.unlock();
 }
 
 std::string onyx::get_resource_path()
 {
-	mtx_resource_path.lock();
-	std::string res_path = resource_path;
-	mtx_resource_path.unlock();
-	return res_path;
+	std::lock_guard lock(mtx_resource_path);
+	return resource_path;
 }
 
 std::string onyx::get_cache_path()
@@ -340,7 +324,13 @@ std::string onyx::get_cache_path()
 	{
 		std::string base;
 
-#if defined(ONYX_OS_WINDOWS)
+#if defined(ONYX_OS_WINDOWS) && defined(_MSC_VER)
+		// MSVC deprecates getenv (C4996); MinGW's msvcrt does not provide _dupenv_s, so it uses getenv below
+		char* local_app_data = nullptr;
+		size_t local_app_data_len = 0;
+		if (_dupenv_s(&local_app_data, &local_app_data_len, "LOCALAPPDATA") == 0 && local_app_data != nullptr) base = local_app_data;
+		std::free(local_app_data);
+#elif defined(ONYX_OS_WINDOWS)
 		if (const char* local_app_data = std::getenv("LOCALAPPDATA")) base = local_app_data;
 #elif defined(ONYX_OS_MAC)
 		if (const char* home = std::getenv("HOME")) base = std::string(home) + "/Library/Caches";
@@ -366,37 +356,35 @@ std::string onyx::get_cache_path()
 
 std::string onyx::resources(const std::string& path)
 {
-	mtx_resource_path.lock();
-	std::string res_path = resource_path;
-	mtx_resource_path.unlock();
+	std::string res_path = get_resource_path();
 	if (path.length() == 0) return res_path;
 	return res_path + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);
 }
 
 std::string onyx::res(const std::string& path)
 {
-	mtx_resource_path.lock();
-	std::string res_path = resource_path;
-	mtx_resource_path.unlock();
-	if (path.length() == 0) return res_path;
-	return res_path + (path[0] == '/' || path[0] == '\\' ? path.substr(1) : path);
-}
-
-void* onyx::get_user_ptr()
-{
-	return old_user_ptr;
+	return resources(path);
 }
 
 void* onyx::get_user_ptr(const std::string& name, bool* result)
 {
 	if (p_error_handler || result)
 	{
-		mtx_user_ptrs.lock();
-		auto it = user_ptrs.find(name);
-		if (it == user_ptrs.end())
+		void* ptr = nullptr;
+		bool found = false;
 		{
-			mtx_user_ptrs.unlock();
-			if (p_error_handler != nullptr) onyx_err(Error{
+			std::lock_guard lock(mtx_user_ptrs);
+			auto it = user_ptrs.find(name);
+			if (it != user_ptrs.end())
+			{
+				found = true;
+				ptr = it->second;
+			}
+		}
+
+		if (!found)
+		{
+			onyx_err(Error{
 					.source_function = "onyx::get_user_ptr(const std::string& name, bool* result)",
 					.message = "User pointer with name \"" + name + "\" not found.",
 					.how_to_fix = "Ensure a user pointer with this name was set."
@@ -406,16 +394,12 @@ void* onyx::get_user_ptr(const std::string& name, bool* result)
 			return nullptr;
 		}
 		if (result != nullptr) *result = true;
-		void* ptr = it->second;
-		mtx_user_ptrs.unlock();
 		return ptr;
 	}
 	else
 	{
-		mtx_user_ptrs.lock();
-		void* ptr = user_ptrs.at(name);
-		mtx_user_ptrs.unlock();
-		return ptr;
+		std::lock_guard lock(mtx_user_ptrs);
+		return user_ptrs.at(name);
 	}
 }
 
@@ -437,12 +421,15 @@ std::string onyx::get_graphics_name(bool* result)
 		if (result != nullptr) *result = false;
 		return "";
 	}
-	if (result != nullptr) *result = true;
-	return std::string((const char*)glGetString(GL_RENDERER));
+
+	const GLubyte* p_name = glGetString(GL_RENDERER);
 
 #if defined(ONYX_GL_DEBUG_HIGH)
 	GL_CHECK_ERROR();
 #endif
+
+	if (result != nullptr) *result = p_name != nullptr;
+	return p_name != nullptr ? std::string((const char*)p_name) : std::string();
 }
 
 bool onyx::is_extension_supported(const std::string& ext, bool* result)
@@ -464,8 +451,8 @@ bool onyx::is_extension_supported(const std::string& ext, bool* result)
 
 void onyx::sleep(double seconds)
 {
-	int ns = (int)(seconds * 1000000000);
-	std::this_thread::sleep_for(std::chrono::nanoseconds(ns));
+	if (seconds <= 0.0) return;
+	std::this_thread::sleep_for(std::chrono::duration<double>(seconds));
 }
 
 bool onyx::Disposable::is_disposed() const

@@ -1,15 +1,9 @@
 #include <onyx/math_wrappers.hpp>
 
-/*
-	I would like to give a huge thanks to:
-	 - ChatGPT
-	 - Select all occurences keyboard shortcut
- */
-
 onyx::math::Vec2 onyx::math::Vec2::xx() const { return Vec2(this->vec.x, this->vec.x); }
-onyx::math::Vec2 onyx::math::Vec2::xy() const { return Vec2(this->vec.x, this->vec.x); }
-onyx::math::Vec2 onyx::math::Vec2::yx() const { return Vec2(this->vec.x, this->vec.x); }
-onyx::math::Vec2 onyx::math::Vec2::yy() const { return Vec2(this->vec.x, this->vec.x); }
+onyx::math::Vec2 onyx::math::Vec2::xy() const { return Vec2(this->vec.x, this->vec.y); }
+onyx::math::Vec2 onyx::math::Vec2::yx() const { return Vec2(this->vec.y, this->vec.x); }
+onyx::math::Vec2 onyx::math::Vec2::yy() const { return Vec2(this->vec.y, this->vec.y); }
 
 
 onyx::math::Vec2 onyx::math::Vec3::xx() const { return Vec2(this->vec.x, this->vec.x); }
@@ -395,9 +389,9 @@ onyx::math::Vec4 onyx::math::Vec4::wwww() const { return Vec4(this->vec.w, this-
 
 
 onyx::math::DVec2 onyx::math::DVec2::xx() const { return DVec2(this->vec.x, this->vec.x); }
-onyx::math::DVec2 onyx::math::DVec2::xy() const { return DVec2(this->vec.x, this->vec.x); }
-onyx::math::DVec2 onyx::math::DVec2::yx() const { return DVec2(this->vec.x, this->vec.x); }
-onyx::math::DVec2 onyx::math::DVec2::yy() const { return DVec2(this->vec.x, this->vec.x); }
+onyx::math::DVec2 onyx::math::DVec2::xy() const { return DVec2(this->vec.x, this->vec.y); }
+onyx::math::DVec2 onyx::math::DVec2::yx() const { return DVec2(this->vec.y, this->vec.x); }
+onyx::math::DVec2 onyx::math::DVec2::yy() const { return DVec2(this->vec.y, this->vec.y); }
 
 
 onyx::math::DVec2 onyx::math::DVec3::xx() const { return DVec2(this->vec.x, this->vec.x); }
@@ -783,9 +777,9 @@ onyx::math::DVec4 onyx::math::DVec4::wwww() const { return DVec4(this->vec.w, th
 
 
 onyx::math::IVec2 onyx::math::IVec2::xx() const { return IVec2(this->vec.x, this->vec.x); }
-onyx::math::IVec2 onyx::math::IVec2::xy() const { return IVec2(this->vec.x, this->vec.x); }
-onyx::math::IVec2 onyx::math::IVec2::yx() const { return IVec2(this->vec.x, this->vec.x); }
-onyx::math::IVec2 onyx::math::IVec2::yy() const { return IVec2(this->vec.x, this->vec.x); }
+onyx::math::IVec2 onyx::math::IVec2::xy() const { return IVec2(this->vec.x, this->vec.y); }
+onyx::math::IVec2 onyx::math::IVec2::yx() const { return IVec2(this->vec.y, this->vec.x); }
+onyx::math::IVec2 onyx::math::IVec2::yy() const { return IVec2(this->vec.y, this->vec.y); }
 
 
 onyx::math::IVec2 onyx::math::IVec3::xx() const { return IVec2(this->vec.x, this->vec.x); }
@@ -1171,9 +1165,9 @@ onyx::math::IVec4 onyx::math::IVec4::wwww() const { return IVec4(this->vec.w, th
 
 
 onyx::math::UVec2 onyx::math::UVec2::xx() const { return UVec2(this->vec.x, this->vec.x); }
-onyx::math::UVec2 onyx::math::UVec2::xy() const { return UVec2(this->vec.x, this->vec.x); }
-onyx::math::UVec2 onyx::math::UVec2::yx() const { return UVec2(this->vec.x, this->vec.x); }
-onyx::math::UVec2 onyx::math::UVec2::yy() const { return UVec2(this->vec.x, this->vec.x); }
+onyx::math::UVec2 onyx::math::UVec2::xy() const { return UVec2(this->vec.x, this->vec.y); }
+onyx::math::UVec2 onyx::math::UVec2::yx() const { return UVec2(this->vec.y, this->vec.x); }
+onyx::math::UVec2 onyx::math::UVec2::yy() const { return UVec2(this->vec.y, this->vec.y); }
 
 
 onyx::math::UVec2 onyx::math::UVec3::xx() const { return UVec2(this->vec.x, this->vec.x); }

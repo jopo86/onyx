@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include <onyx/core.hpp>
 #include <onyx/image_data.hpp>
 
@@ -24,8 +26,16 @@ namespace onyx
 		 !	This means that the texture data is shared, and disposing of one texture will dispose of the other.
 		 !	This is used appropriately in the Renderable class, but should be used elsewhere with caution.
 			@param other The other texture object.
-		*/
+		 */
 		Texture(const Texture& other);
+
+		/*
+			@brief Assigns another texture object to this one.
+		 !	Like the copy constructor, this shares the texture ID rather than copying the data.
+			@param other The other texture object.
+			@return A reference to this object.
+		 */
+		Texture& operator=(const Texture& other) = default;
 
 		/*
 			@brief Creates a new Texture object from the specified image data.
@@ -33,16 +43,19 @@ namespace onyx
 			@param image_data The image data to create the texture from.
 			@param texture_wrap The texture wrap option. Repeat by default.
 			@param min_filter The minification filter (applied when the texture is shrunk). Nearest by default.
+			Mipmaps are always generated, so this selects the filtering within a mipmap level; mipmap levels are blended linearly.
 			@param mag_filter The magnification filter (applied when the texture is enlarged). Linear by default.
 		 */
 		Texture(const ImageData& image_data, onyx::TextureWrap texture_wrap = onyx::TextureWrap::Repeat, onyx::TextureFilter min_filter = onyx::TextureFilter::Nearest, onyx::TextureFilter mag_filter = onyx::TextureFilter::Linear);
 
 		/*
 			@brief Creates a new Texture object from the specified image filepath.
+			The image is always uploaded as RGBA; grayscale images are expanded to RGB.
 			@param filepath The path of the image.
 			@param result A pointer to a boolean that will be set to true if the texture was loaded successfully, and false otherwise.
 			@param texture_wrap The texture wrap option. Repeat by default.
 			@param min_filter The minification filter (applied when the texture is shrunk). Nearest by default.
+			Mipmaps are always generated, so this selects the filtering within a mipmap level; mipmap levels are blended linearly.
 			@param mag_filter The magnification filter (applied when the texture is enlarged). Linear by default.
 		 */
 		static Texture load(const std::string& filepath, bool* result = nullptr, onyx::TextureWrap texture_wrap = onyx::TextureWrap::Repeat, onyx::TextureFilter min_filter = onyx::TextureFilter::Nearest, onyx::TextureFilter mag_filter = onyx::TextureFilter::Linear);

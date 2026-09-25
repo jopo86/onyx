@@ -20,6 +20,7 @@ namespace onyx
 	public:
 		/*
 			@brief Default constructor, initializes member variables.
+			The camera starts at (0, 0, 0) facing the negative (forward) z-axis, but has no projection.
 			Using an object created with this constructor will result in undefined behavior.
 		 */
 		Camera();
@@ -29,7 +30,7 @@ namespace onyx
 		 !  MUST BE LINKED TO A WINDOW FOR PROPER PROJECTION
 		 !  Use `Window::link_camera()`
 			Camera starts at (0, 0, 0) facing the negative (forward) z-axis.
-			Pitch clamp is set to 89 degrees by default.
+			Pitch clamp is set to 88 degrees by default.
 			@param proj The projection to use.
 		 */
 		Camera(const Projection& proj);
@@ -40,7 +41,7 @@ namespace onyx
 		 !  Use `Window::link_camera()`
 			Camera starts at (0, 0, 0) facing the negative (forward) z-axis.
 			@param proj The projection to use.
-			@param pitch_limit The pitch limit to use.
+			@param pitch_limit The pitch limit to use, in degrees (clamped to between 0 and 89.9).
 		 */
 		Camera(const Projection& proj, float pitch_limit);
 
@@ -90,6 +91,7 @@ namespace onyx
 
 		/*
 			@brief Rotates the camera the specified angles.
+			The resulting pitch is clamped to the pitch clamp (see set_pitch_clamp()).
 			@param yaw The angle around the local Y axis (horizontal angle), AKA yaw, in degrees.
 			@param pitch The angle around the local X axis (vertical angle), AKA pitch, in degrees.
 		 */
@@ -97,20 +99,22 @@ namespace onyx
 
 		/*
 			@brief Pitches the camera the specified degrees.
-		 !	Currently bugged - camera seems to slowly stray further from origin
+			The resulting pitch is clamped to the pitch clamp (see set_pitch_clamp()).
 			@param degrees The degrees to pitch the camera (around the local X axis).
-		*/
+		 */
 		void pitch(float degrees);
 
 		/*
 			@brief Yaws the camera the specified degrees.
-		 !	Currently bugged - camera seems to slowly stray further from origin
 			@param degrees The degrees to yaw the camera (around the local Y axis).
 		 */
 		void yaw(float degrees);
 
 		/*
 			@brief Faces the camera towards the target.
+			The resulting pitch is clamped to the pitch clamp (see set_pitch_clamp()).
+			If the target is (almost) straight above/below the camera, the current yaw is kept.
+			If the target is at the camera's position, this function does nothing.
 			@param target The target to look at.
 		 */
 		void look_at(const math::Vec3& target);
@@ -169,34 +173,37 @@ namespace onyx
 
 		/*
 			@brief Sets the position of the camera.
-			@param pos The desired position of the camera.
+			@param new_pos The desired position of the camera.
 		 */
-		void set_position(const math::Vec3& pos);
+		void set_position(const math::Vec3& new_pos);
 
 		/*
 			@brief Sets the pitch clamp of the camera.
 			The pitch clamp is the maximum angle the camera can look up/down.
-			90 degrees will allow the camera to look no further than straight up/down.
-			The default is 89 degrees.
-			@param pitch_clamp The desired pitch clamp, in degrees.
+			The value is clamped to between 0 and 89.9 degrees, as looking exactly straight up/down (90 degrees) results in a degenerate view matrix.
+			The current pitch is re-clamped to the new pitch clamp.
+			The default is 88 degrees.
+			@param new_pitch_clamp The desired pitch clamp, in degrees.
 		 */
-		void set_pitch_clamp(float pitch_clamp);
+		void set_pitch_clamp(float new_pitch_clamp);
 
 		/*
 			@brief Sets the projection of the camera.
-			@param proj The projection of the camera.
+			@param new_proj The projection of the camera.
 		 */
-		void set_projection(const Projection& proj);
+		void set_projection(const Projection& new_proj);
 
 		/*
 			@brief Sets the pitch of the camera.
-			@param pitch The desired pitch.
+			The pitch is clamped to the pitch clamp (see set_pitch_clamp()).
+			@param pitch The desired pitch, in degrees.
 		 */
 		void set_pitch(float pitch);
 
 		/*
 			@brief Sets the yaw of the camera.
-			@param yaw The desired yaw.
+			A yaw of -90 degrees faces the negative (forward) z-axis.
+			@param yaw The desired yaw, in degrees.
 		 */
 		void set_yaw(float yaw);
 

@@ -2,8 +2,7 @@
 
 #include <onyx/core.hpp>
 
-#include <iostream>
-#include <vector>
+#include <string>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -43,12 +42,6 @@ namespace onyx
 		int get_glfw_id() const;
 
 		/*
-			@deprecated Use is_button_down instead.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use is_button_down instead.")]]
-		bool is_button_pressed(GamepadButton button) const;
-
-		/*
 			@brief Checks if a button on the gamepad is down.
 			@param button The button to check.
 			@return True if the button is down, false otherwise.
@@ -80,8 +73,9 @@ namespace onyx
 		int joystick_id;
 		std::string name;
 		GLFWgamepadstate state;
-		bool buttons_tapped[(int)onyx::GamepadButton::MaxButton];
+		bool buttons_tapped[(int)onyx::GamepadButton::MaxButton + 1];
 
 		Gamepad(int joystick_id, bool* result = nullptr);
+		void reset_state();
 	};
 }

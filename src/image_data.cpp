@@ -1,10 +1,9 @@
 #include <onyx/image_data.hpp>
 
-#include <fstream>
+#include <string>
 
-#include <stbi/stb_image.h>
-
-void onyx_err(const onyx::Error&);
+#include <stb_image.h>
+#include "internal.hpp"
 
 onyx::ImageData::ImageData()
 {
@@ -17,27 +16,15 @@ onyx::ImageData onyx::ImageData::load(const std::string& filepath, bool* result)
 {
     ImageData retval;
 
-    std::ifstream file(filepath);
-    if (!file.is_open())
-    {
-        onyx_err(Error{
-            .source_function = "onyx::ImageData::load(const std::string& filepath, bool* result)",
-            .message = "File not found (or access denied): \"" + filepath + "\"",
-            .how_to_fix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
-        });
-        if (result) *result = false;
-        return retval;
-    }
-    file.close();
-
     int n_channels = 0;
     retval.pixels = stbi_load(filepath.c_str(), &retval.width, &retval.height, &n_channels, 0);
     if (!retval.pixels)
     {
+        const char* reason = stbi_failure_reason();
         onyx_err(Error{
             .source_function = "onyx::ImageData::load(const std::string& filepath, bool* result)",
-            .message = "Found file, but failed to load image data: \"" + filepath + "\"",
-            .how_to_fix = "Ensure the file is a valid image file. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
+            .message = "Failed to load image data from \"" + filepath + "\" (" + (reason != nullptr ? reason : "unknown reason") + ")",
+            .how_to_fix = "Ensure the file exists, is not locked by another process, and is a valid image file. Supported formats: .jpg/.jpeg, .png, .tga, .bmp, .psd, .gif, .hdr, .pic, .pnm"
         });
         if (result) *result = false;
         return retval;
@@ -72,7 +59,10 @@ onyx::ImageFormat onyx::ImageData::get_format() const
 
 void onyx::ImageData::dispose()
 {
-    stbi_image_free(this->pixels);
+    if (this->disposed) return;
+    if (this->pixels != nullptr) stbi_image_free(this->pixels);
+    this->pixels = nullptr;
     this->width = this->height = 0;
     this->format = ImageFormat::Null;
+    this->disposed = true;
 }

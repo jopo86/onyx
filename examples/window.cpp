@@ -1,49 +1,38 @@
-﻿#pragma warning(disable: 4244)
-
 #include <onyx/core.hpp>
 #include <onyx/window.hpp>
 #include <onyx/renderer.hpp>
 #include <onyx/input_handler.hpp>
 #include <onyx/camera.hpp>
+#include <onyx/monitor.hpp>
 
-static onyx::Window window;
+#include <functional>
+#include <string>
+#include <vector>
 
-static onyx::TextRenderable title;
-static onyx::TextRenderable dimensions;
-static onyx::TextRenderable buffer_dimensions;
-static onyx::TextRenderable position;
-static onyx::TextRenderable frame;
-static onyx::TextRenderable fps;
-static onyx::TextRenderable delta_time;
-static onyx::TextRenderable opacity;
-static onyx::TextRenderable background_color;
-static onyx::TextRenderable is_resizable;
-static onyx::TextRenderable is_visible;
-static onyx::TextRenderable is_hidden;
-static onyx::TextRenderable is_focused;
-static onyx::TextRenderable is_decorated;
-static onyx::TextRenderable is_topmost;
-static onyx::TextRenderable focuses_on_show;
-static onyx::TextRenderable n_samples_msaa;
-static onyx::TextRenderable is_fullscreen;
-static onyx::TextRenderable is_maximized;
-static onyx::TextRenderable is_minimized;
+/*
+	One line of live info text: `text` is rebuilt from `value()` every frame and placed with `place()`,
+	which gets the text's width and the window's framebuffer size so rows can anchor to any corner.
+ */
+struct InfoLine
+{
+	std::function<std::string()> value;
+	std::function<onyx::math::Vec2(float text_width, float buffer_width, float buffer_height)> place;
+	onyx::TextRenderable text = onyx::TextRenderable();
+};
 
-static onyx::TextRenderable monitor_label;
-static onyx::TextRenderable monitor_name;
-static onyx::TextRenderable monitor_dimensions;
-static onyx::TextRenderable monitor_bit_depth;
-static onyx::TextRenderable monitor_refresh_rate;
-static onyx::TextRenderable monitor_physical_size;
-static onyx::TextRenderable monitor_content_scale;
-static onyx::TextRenderable monitor_position;
-static onyx::TextRenderable monitor_work_area;
-static onyx::TextRenderable monitor_is_primary;
+static std::string bool_str(bool b) { return b ? "true" : "false"; }
 
-static onyx::Font roboto;
+// left-anchored, measured down from the top of the window
+static auto top_left(float x, float y_from_top)
+{
+	return [=](float, float, float h) { return onyx::math::Vec2(x, h - y_from_top); };
+}
 
-void update_text();
-void update_positions();
+// right-anchored, measured down from the top of the window
+static auto top_right(float margin, float y_from_top)
+{
+	return [=](float text_w, float w, float h) { return onyx::math::Vec2(w - margin - text_w, h - y_from_top); };
+}
 
 int main()
 {
@@ -51,7 +40,7 @@ int main()
 	onyx::init(error_handler);
 	onyx::set_resource_path(ONYX_EXAMPLE_RESOURCES);
 
-	window = onyx::Window(
+	onyx::Window window(
 		onyx::WindowProperties{
 			.title = "Example: Window (1)",
 			.width = 950,
@@ -73,39 +62,51 @@ int main()
 
 	onyx::Monitor monitor = onyx::Monitor::get_primary();
 
-	roboto = onyx::Font::load(onyx::resources("fonts/Roboto/Roboto-Regular.ttf"), 16);
+	onyx::Font roboto = onyx::Font::load(onyx::resources("fonts/Roboto/Roboto-Regular.ttf"), 16);
 
-	title =             onyx::TextRenderable("Title: " + window.get_title(), roboto, onyx::math::Vec4::black());
-	dimensions =        onyx::TextRenderable("Dimensions: " + std::to_string(window.get_width()) + "x" + std::to_string(window.get_height()), roboto, onyx::math::Vec4::black());
-	buffer_dimensions =  onyx::TextRenderable("Buffer Dimensions: " + std::to_string(window.get_buffer_width()) + "x" + std::to_string(window.get_buffer_height()), roboto, onyx::math::Vec4::black());
-	position =          onyx::TextRenderable("Position: " + window.get_position().to_string(), roboto, onyx::math::Vec4::black());
-	frame =             onyx::TextRenderable("Frame: " + std::to_string(window.get_frame()), roboto, onyx::math::Vec4::black());
-	fps =               onyx::TextRenderable("FPS: " + std::to_string(window.get_fps()), roboto, onyx::math::Vec4::black());
-	delta_time =         onyx::TextRenderable("Delta Time: " + std::to_string(window.get_delta_time()) + "s", roboto, onyx::math::Vec4::black());
-	opacity =			onyx::TextRenderable("Opacity: " + std::to_string(window.get_opacity()), roboto, onyx::math::Vec4::black());
-	background_color =	onyx::TextRenderable("Background Color: " + window.get_background_color().to_string(), roboto, onyx::math::Vec4::black());
-	is_resizable =		onyx::TextRenderable("Is Resizable: " + std::string(window.is_resizable() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	is_visible =			onyx::TextRenderable("Is Visible: " + std::string(window.is_visible() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	is_hidden =			onyx::TextRenderable("Is Hidden: " + std::string(window.is_hidden() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	is_focused =			onyx::TextRenderable("Is Focused: " + std::string(window.is_focused() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	is_decorated =		onyx::TextRenderable("Is Decorated: " + std::string(window.is_decorated() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	is_topmost =			onyx::TextRenderable("Is Topmost: " + std::string(window.is_topmost() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	focuses_on_show =		onyx::TextRenderable("Focuses On Show: " + std::string(window.focuses_on_show() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	n_samples_msaa =		onyx::TextRenderable("# MSAA Samples: " + std::to_string(window.get_n_samples_msaa()), roboto, onyx::math::Vec4::black());
-	is_fullscreen =		onyx::TextRenderable("Is Fullscreen: " + std::string(window.is_fullscreen() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	is_maximized =		onyx::TextRenderable("Is Maximized: " + std::string(window.is_maximized() ? "true" : "false"), roboto, onyx::math::Vec4::black());
-	is_minimized =		onyx::TextRenderable("Is Minimized: " + std::string(window.is_minimized() ? "true" : "false"), roboto, onyx::math::Vec4::black());
+	std::vector<InfoLine> lines = {
+		{ [&] { return "Title: " + window.get_title(); }, top_left(10.0f, 20.0f) },
+		{ [&] { return "Dimensions: " + std::to_string(window.get_width()) + "x" + std::to_string(window.get_height()); }, top_left(10.0f, 40.0f) },
+		{ [&] { return "Buffer Dimensions: " + std::to_string(window.get_buffer_width()) + "x" + std::to_string(window.get_buffer_height()); }, top_left(10.0f, 60.0f) },
+		{ [&] { return "Position: " + window.get_position().to_string(); }, top_left(10.0f, 80.0f) },
+		{ [&] { return "Frame: " + std::to_string(window.get_frame()); }, top_left(10.0f, 100.0f) },
+		{ [&] { return "FPS: " + std::to_string(window.get_fps()); }, top_left(10.0f, 120.0f) },
+		{ [&] { return "Background Color: " + window.get_background_color().to_string(); }, top_left(10.0f, 140.0f) },
 
-	monitor_label =		onyx::TextRenderable("MONITOR INFO", roboto, onyx::math::Vec4::black());
-	monitor_name =		onyx::TextRenderable("Name: " + monitor.get_name(), roboto, onyx::math::Vec4::black());
-	monitor_dimensions =	onyx::TextRenderable("Dimensions: " + monitor.get_dimensions().to_string(), roboto, onyx::math::Vec4::black());
-	monitor_bit_depth =	onyx::TextRenderable("Bit Depth: " + monitor.get_bit_depth().to_string(), roboto, onyx::math::Vec4::black());
-	monitor_refresh_rate = onyx::TextRenderable("Refresh Rate: " + std::to_string(monitor.get_refresh_rate()) + "Hz", roboto, onyx::math::Vec4::black());
-	monitor_physical_size = onyx::TextRenderable("Physical Size: " + monitor.get_physical_size().to_string(), roboto, onyx::math::Vec4::black());
-	monitor_content_scale = onyx::TextRenderable("Content Scale: " + monitor.get_content_scale().to_string(), roboto, onyx::math::Vec4::black());
-	monitor_position =	onyx::TextRenderable("Position: " + monitor.get_position().to_string(), roboto, onyx::math::Vec4::black());
-	monitor_work_area =	onyx::TextRenderable("Work Area: " + monitor.get_work_area().to_string(), roboto, onyx::math::Vec4::black());
-	monitor_is_primary =	onyx::TextRenderable("Is Primary: " + std::string(monitor.is_primary() ? "true" : "false"), roboto, onyx::math::Vec4::black());
+		{ [&] { return "Delta Time: " + std::to_string(window.get_delta_time()) + "s"; }, top_left(260.0f, 20.0f) },
+		{ [&] { return "Opacity: " + std::to_string(window.get_opacity()); }, top_left(260.0f, 40.0f) },
+		{ [&] { return "Is Resizable: " + bool_str(window.is_resizable()); }, top_left(260.0f, 60.0f) },
+		{ [&] { return "Is Visible: " + bool_str(window.is_visible()); }, top_left(260.0f, 80.0f) },
+		{ [&] { return "Is Hidden: " + bool_str(window.is_hidden()); }, top_left(260.0f, 100.0f) },
+
+		{ [&] { return "Is Focused: " + bool_str(window.is_focused()); }, top_left(510.0f, 20.0f) },
+		{ [&] { return "Is Decorated: " + bool_str(window.is_decorated()); }, top_left(510.0f, 40.0f) },
+		{ [&] { return "Is Topmost: " + bool_str(window.is_topmost()); }, top_left(510.0f, 60.0f) },
+		{ [&] { return "Focuses On Show: " + bool_str(window.focuses_on_show()); }, top_left(510.0f, 80.0f) },
+		{ [&] { return "# MSAA Samples: " + std::to_string(window.get_n_samples_msaa()); }, top_left(510.0f, 100.0f) },
+
+		{ [&] { return "Is Fullscreen: " + bool_str(window.is_fullscreen()); }, top_left(760.0f, 20.0f) },
+		{ [&] { return "Is Maximized: " + bool_str(window.is_maximized()); }, top_left(760.0f, 40.0f) },
+		{ [&] { return "Is Minimized: " + bool_str(window.is_minimized()); }, top_left(760.0f, 60.0f) },
+
+		{ [&] { return std::string("MONITOR INFO"); }, top_right(20.0f, 160.0f) },
+		{ [&] { return "Name: " + monitor.get_name(); }, top_right(20.0f, 180.0f) },
+		{ [&] { return "Dimensions: " + monitor.get_dimensions().to_string(); }, top_right(20.0f, 200.0f) },
+		{ [&] { return "Bit Depth: " + monitor.get_bit_depth().to_string(); }, top_right(20.0f, 220.0f) },
+		{ [&] { return "Refresh Rate: " + std::to_string(monitor.get_refresh_rate()) + "Hz"; }, top_right(20.0f, 240.0f) },
+		{ [&] { return "Physical Size: " + monitor.get_physical_size().to_string(); }, top_right(20.0f, 260.0f) },
+		{ [&] { return "Content Scale: " + monitor.get_content_scale().to_string(); }, top_right(20.0f, 280.0f) },
+		{ [&] { return "Position: " + monitor.get_position().to_string(); }, top_right(20.0f, 300.0f) },
+		{ [&] { return "Work Area: " + monitor.get_work_area().to_string(); }, top_right(20.0f, 320.0f) },
+		{ [&] { return "Is Primary: " + bool_str(monitor.is_primary()); }, top_right(20.0f, 340.0f) },
+	};
+
+	for (InfoLine& line : lines)
+	{
+		line.text = onyx::TextRenderable(line.value(), roboto, onyx::math::Vec4::black());
+	}
+	// added after construction is complete so the renderer's pointers into `lines` stay valid
+	for (InfoLine& line : lines) renderer.add(line.text);
 
 	onyx::TextRenderable esc("[ESC] Close Window", roboto, onyx::math::Vec4::black());
 	onyx::TextRenderable up("[UP] Increase Opacity", roboto, onyx::math::Vec4::black());
@@ -142,38 +143,6 @@ int main()
 	logo.set_position(onyx::math::Vec2(550.0f, 270.0f));
 	logo.scale(0.6f);
 
-	renderer.add(title);
-	renderer.add(dimensions);
-	renderer.add(buffer_dimensions);
-	renderer.add(position);
-	renderer.add(frame);
-	renderer.add(fps);
-	renderer.add(delta_time);
-	renderer.add(opacity);
-	renderer.add(background_color);
-	renderer.add(is_resizable);
-	renderer.add(is_visible);
-	renderer.add(is_hidden);
-	renderer.add(is_focused);
-	renderer.add(is_decorated);
-	renderer.add(is_topmost);
-	renderer.add(focuses_on_show);
-	renderer.add(n_samples_msaa);
-	renderer.add(is_fullscreen);
-	renderer.add(is_maximized);
-	renderer.add(is_minimized);
-
-	renderer.add(monitor_label);
-	renderer.add(monitor_name);
-	renderer.add(monitor_dimensions);
-	renderer.add(monitor_bit_depth);
-	renderer.add(monitor_refresh_rate);
-	renderer.add(monitor_physical_size);
-	renderer.add(monitor_content_scale);
-	renderer.add(monitor_position);
-	renderer.add(monitor_work_area);
-	renderer.add(monitor_is_primary);
-
 	renderer.add(esc);
 	renderer.add(up);
 	renderer.add(down);
@@ -197,21 +166,25 @@ int main()
 
 	while (window.is_open())
 	{
-		double dt = window.get_delta_time();
+		float dt = static_cast<float>(window.get_delta_time());
 
 		input.update();
 		cam.update();
-		update_text();
-		update_positions();
+		monitor = onyx::Monitor::get_primary();
+		for (InfoLine& line : lines)
+		{
+			line.text.set_text(line.value());
+			line.text.set_position(line.place(line.text.get_width(), (float)window.get_buffer_width(), (float)window.get_buffer_height()));
+		}
 
 		if (mouse_pos_is_color)
 		{
-			window.set_background_color(onyx::math::Vec3(input.get_mouse_pos().get_x() / window.get_width(), input.get_mouse_pos().get_y() / window.get_height(), 1.0f));
+			window.set_background_color(onyx::math::Vec3(static_cast<float>(input.get_mouse_pos().get_x() / window.get_width()), static_cast<float>(input.get_mouse_pos().get_y() / window.get_height()), 1.0f));
 		}
 
 		if (input.is_key_tapped(onyx::Key::Escape)) window.close();
-		if (input.is_key_tapped(onyx::Key::ArrowUp)) window.set_opacity(window.get_opacity() + 0.5 * dt);
-		if (input.is_key_tapped(onyx::Key::ArrowDown)) window.set_opacity(window.get_opacity() - 0.5 * dt);
+		if (input.is_key_down(onyx::Key::ArrowUp)) window.set_opacity(window.get_opacity() + 0.5f * dt);
+		if (input.is_key_down(onyx::Key::ArrowDown)) window.set_opacity(window.get_opacity() - 0.5f * dt);
 		if (input.is_key_tapped(onyx::Key::F1))
 		{
 			if (title1)
@@ -243,75 +216,7 @@ int main()
 	}
 
 	renderer.dispose();
+	roboto.dispose();
 	window.dispose();
 	onyx::cleanup();
-}
-
-void update_text()
-{
-	title.set_text("Title: " + window.get_title());
-	dimensions.set_text("Dimensions: " + std::to_string(window.get_width()) + "x" + std::to_string(window.get_height()));
-	buffer_dimensions.set_text("Buffer Dimensions: " + std::to_string(window.get_buffer_width()) + "x" + std::to_string(window.get_buffer_height()));
-	position.set_text("Position: " + window.get_position().to_string());
-	frame.set_text("Frame: " + std::to_string(window.get_frame()));
-	fps.set_text("FPS: " + std::to_string(window.get_fps()));
-	delta_time.set_text("Delta Time: " + std::to_string(window.get_delta_time()) + "s");
-	opacity.set_text("Opacity: " + std::to_string(window.get_opacity()));
-	background_color.set_text("Background Color: " + window.get_background_color().to_string());
-	is_resizable.set_text("Is Resizable: " + std::string(window.is_resizable() ? "true" : "false"));
-	is_visible.set_text("Is Visible: " + std::string(window.is_visible() ? "true" : "false"));
-	is_hidden.set_text("Is Hidden: " + std::string(window.is_hidden() ? "true" : "false"));
-	is_focused.set_text("Is Focused: " + std::string(window.is_focused() ? "true" : "false"));
-	is_decorated.set_text("Is Decorated: " + std::string(window.is_decorated() ? "true" : "false"));
-	is_topmost.set_text("Is Topmost: " + std::string(window.is_topmost() ? "true" : "false"));
-	focuses_on_show.set_text("Focuses On Show: " + std::string(window.focuses_on_show() ? "true" : "false"));
-	n_samples_msaa.set_text("# MSAA Samples: " + std::to_string(window.get_n_samples_msaa()));
-	is_fullscreen.set_text("Is Fullscreen: " + std::string(window.is_fullscreen() ? "true" : "false"));
-	is_maximized.set_text("Is Maximized: " + std::string(window.is_maximized() ? "true" : "false"));
-	is_minimized.set_text("Is Minimized: " + std::string(window.is_minimized() ? "true" : "false"));	
-
-	monitor_name.set_text("Name: " + onyx::Monitor::get_primary().get_name());
-	monitor_dimensions.set_text("Dimensions: " + onyx::Monitor::get_primary().get_dimensions().to_string());
-	monitor_bit_depth.set_text("Bit Depth: " + onyx::Monitor::get_primary().get_bit_depth().to_string());
-	monitor_refresh_rate.set_text("Refresh Rate: " + std::to_string(onyx::Monitor::get_primary().get_refresh_rate()) + "Hz");
-	monitor_physical_size.set_text("Physical Size: " + onyx::Monitor::get_primary().get_physical_size().to_string());
-	monitor_content_scale.set_text("Content Scale: " + onyx::Monitor::get_primary().get_content_scale().to_string());
-	monitor_position.set_text("Position: " + onyx::Monitor::get_primary().get_position().to_string());
-	monitor_work_area.set_text("Work Area: " + onyx::Monitor::get_primary().get_work_area().to_string());
-	monitor_is_primary.set_text("Is Primary: " + std::string(onyx::Monitor::get_primary().is_primary() ? "true" : "false"));
-}
-
-void update_positions()
-{
-	title.set_position(onyx::math::Vec2(10.0f, window.get_buffer_height() - 20.0f));
-	dimensions.set_position(onyx::math::Vec2(10.0f, window.get_buffer_height() - 40.0f));
-	buffer_dimensions.set_position(onyx::math::Vec2(10.0f, window.get_buffer_height() - 60.0f));
-	position.set_position(onyx::math::Vec2(10.0f, window.get_buffer_height() - 80.0f));
-	frame.set_position(onyx::math::Vec2(10.0f, window.get_buffer_height() - 100.0f));
-	fps.set_position(onyx::math::Vec2(10.0f, window.get_buffer_height() - 120.0f));
-	background_color.set_position(onyx::math::Vec2(10.0f, window.get_buffer_height() - 140.0f));
-	delta_time.set_position(onyx::math::Vec2(260.0f, window.get_buffer_height() - 20.0f));
-	opacity.set_position(onyx::math::Vec2(260.0f, window.get_buffer_height() - 40.0f));
-	is_resizable.set_position(onyx::math::Vec2(260.0f, window.get_buffer_height() - 60.0f));
-	is_visible.set_position(onyx::math::Vec2(260.0f, window.get_buffer_height() - 80.0f));
-	is_hidden.set_position(onyx::math::Vec2(260.0f, window.get_buffer_height() - 100.0f));
-	is_focused.set_position(onyx::math::Vec2(510.0f, window.get_buffer_height() - 20));
-	is_decorated.set_position(onyx::math::Vec2(510.0f, window.get_buffer_height() - 40));
-	is_topmost.set_position(onyx::math::Vec2(510.0f, window.get_buffer_height() - 60));
-	focuses_on_show.set_position(onyx::math::Vec2(510.0f, window.get_buffer_height() - 80));
-	n_samples_msaa.set_position(onyx::math::Vec2(510.0f, window.get_buffer_height() - 100));
-	is_fullscreen.set_position(onyx::math::Vec2(760.0f, window.get_buffer_height() - 20));
-	is_maximized.set_position(onyx::math::Vec2(760.0f, window.get_buffer_height() - 40));
-	is_minimized.set_position(onyx::math::Vec2(760.0f, window.get_buffer_height() - 60));
-
-	monitor_label.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_label.get_width(), window.get_buffer_height() - 160.0f));
-	monitor_name.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_name.get_width(), window.get_buffer_height() - 180.0f));
-	monitor_dimensions.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_dimensions.get_width(), window.get_buffer_height() - 200.0f));
-	monitor_bit_depth.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_bit_depth.get_width(), window.get_buffer_height() - 220.0f));
-	monitor_refresh_rate.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_refresh_rate.get_width(), window.get_buffer_height() - 240.0f));
-	monitor_physical_size.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_physical_size.get_width(), window.get_buffer_height() - 260.0f));
-	monitor_content_scale.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_content_scale.get_width(), window.get_buffer_height() - 280.0f));
-	monitor_position.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_position.get_width(), window.get_buffer_height() - 300.0f));
-	monitor_work_area.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_work_area.get_width(), window.get_buffer_height() - 320.0f));
-	monitor_is_primary.set_position(onyx::math::Vec2(window.get_buffer_width() - 20.0f - monitor_is_primary.get_width(), window.get_buffer_height() - 340.0f));
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <string>
 
 #include <onyx/core.hpp>
 #include <onyx/model.hpp>
@@ -8,7 +9,7 @@
 
 namespace onyx
 {
-	class ModelRenderable : Disposable
+	class ModelRenderable : public Disposable
 	{
 		friend class Renderer;
 	public:
@@ -41,8 +42,9 @@ namespace onyx
 		/*
 			@brief Renders the object using the specified view and projection matrices.
 			This function, more technically, uses the shader, binds the texture, binds the VAO, draws, unbinds the VAO, unbinds the texture, and unuses the shader.
-			@param view The view matrix to use, generally from an Camera.
-			@param proj The projection matrix to use, generally from an Camera.
+			@param view The view matrix to use, generally from a Camera.
+			@param proj The projection matrix to use, generally from a Camera.
+			@param cam_pos The position of the camera.
 		 */
 		void render(const math::Mat4& view, const math::Mat4& proj, const math::Vec3& cam_pos);
 
@@ -66,12 +68,16 @@ namespace onyx
 
 		/*
 			@brief Gets all of the model's renderables.
-			@return A vector of the model's renderables.
+			Renderables are keyed by their OBJ mesh name. Unnamed meshes are named "mesh_<index>",
+			and duplicate names get a "_<n>" suffix so that no mesh is lost.
+			@return A map of the model's renderables, keyed by name.
 		 */
 		const std::map<std::string, Renderable>& get_renderables() const;
 
 		/*
 			@brief Gets the renderable with the specified name.
+			Throws std::out_of_range if there is no renderable with that name.
+			@param name The name of the renderable (see get_renderables()).
 			@return The renderable, by reference.
 		 */
 		Renderable& get_renderable(std::string name);

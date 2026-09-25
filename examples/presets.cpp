@@ -1,4 +1,4 @@
-#pragma warning(disable: 4244)
+#include <iostream>
 
 #include <onyx/core.hpp>
 #include <onyx/math_wrappers.hpp>
@@ -117,8 +117,8 @@ int main() {
 	int i = 0;
 	set_preset_visible(i, true);
 
-	const double CAM_SPEED = 4.0;
-	const double CAM_SENS = 50.0;
+	const float CAM_SPEED = 4.0f;
+	const float CAM_SENS = 50.0f;
 
 	input.set_cursor_lock(true);
 
@@ -128,7 +128,7 @@ int main() {
 	{
 		input.update();
 
-		double dt = window.get_delta_time();
+		float dt = static_cast<float>(window.get_delta_time());
 
 		if (input.is_key_down(Key::Escape)) window.close();
 		if (input.is_key_tapped(Key::Num1)) Renderer::toggle_wireframe();
@@ -145,7 +145,7 @@ int main() {
 			else set_preset_visible(i, true);
 		}
 
-		cam.rotate(CAM_SENS / 200 * input.get_mouse_deltas().get_x(), CAM_SENS / 200 * input.get_mouse_deltas().get_y());
+		cam.rotate(CAM_SENS / 200 * static_cast<float>(input.get_mouse_deltas().get_x()), CAM_SENS / 200 * static_cast<float>(input.get_mouse_deltas().get_y()));
 		cam.update();
 
 		window.start_render();

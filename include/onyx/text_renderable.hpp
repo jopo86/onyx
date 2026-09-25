@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include <onyx/char_renderable.hpp>
@@ -11,7 +12,7 @@ namespace onyx
 	/*
 		@brief A class to represent a renderable string of text.
 	 */
-	class TextRenderable : Disposable
+	class TextRenderable : public Disposable
 	{
 	public:
 		/*
@@ -82,12 +83,6 @@ namespace onyx
 			This function simply makes render() do what it's supposed to.
 		 */
 		void show();
-
-		/*
-			@deprecated Use get_dimensions(), get_width(), or get_height() instead.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use get_dimensions(), get_width(), or get_height() instead.")]]
-		math::Vec2 dimensions() const;
 
 		/*
 			@brief Toggles the visibility of the renderable.
@@ -166,9 +161,9 @@ namespace onyx
 			@brief Sets the text to render.
 			Please note that this is a very expensive operation, as the mesh needs to be completely regenerated.
 			This should not be called every frame unless necessary (FPS counters, etc).
-			@param text The text to render.
+			@param new_text The text to render.
 		 */
-		void set_text(const std::string& text);
+		void set_text(const std::string& new_text);
 
 		/*
 			@brief Sets the font to use.
@@ -180,27 +175,27 @@ namespace onyx
 
 		/*
 			@brief Sets the color of the text.
-			@param color The color of the text.
+			@param new_color The color of the text.
 		 */
-		void set_color(math::Vec3 color);
+		void set_color(math::Vec3 new_color);
 
 		/*
 			@brief Sets the color of the text.
-			@param color The color of the text.
+			@param new_color The color of the text.
 		 */
-		void set_color(math::Vec4 color);
+		void set_color(math::Vec4 new_color);
 
 		/*
 			@brief Sets the position of the renderable.
-			@param position The new position.
+			@param new_position The new position.
 		 */
-		void set_position(const math::Vec2& position);
+		void set_position(const math::Vec2& new_position);
 
 		/*
 			@brief Sets the rotation of the renderable.
-			@param rotation The new rotation.
+			@param new_rotation The new rotation.
 		 */
-		void set_rotation(float rotation);
+		void set_rotation(float new_rotation);
 
 		/*
 			@brief Sets the scale of the renderable.
@@ -225,11 +220,11 @@ namespace onyx
 		void translate_local(const math::Vec2& translation);
 
 		/*
-			@brief Rotates the renderable by the specified rotation amounts.
+			@brief Rotates the renderable by the specified rotation amount.
 			This function does not set the rotation, it adds to it.
-			@param rotations The rotation amounts around each axis.
+			@param angle The rotation amount.
 		 */
-		void rotate(float rotation);
+		void rotate(float angle);
 
 		/*
 			@brief Scales the renderable by the specified scalar amounts.
@@ -246,7 +241,9 @@ namespace onyx
 		void scale(float scalar);
 
 		/*
-			@brief Resets the renderable's transform.
+			@brief Resets the renderable's transform (position, rotation, and scale).
+			The dimensions are recalculated for the reset scale.
+			The z-index is preserved.
 		 */
 		void reset_transform();
 

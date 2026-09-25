@@ -59,7 +59,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -145,7 +145,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -202,7 +202,7 @@ void main() {
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -268,7 +268,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -356,7 +356,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -393,7 +393,7 @@ void main()
 {
 	gl_Position = u_projection * u_view * u_model * vec4(i_pos, 1.0);
 	io_pos = vec3(u_model * vec4(i_pos, 1.0));
-	io_color = vec4(io_pos, 1.0);
+	io_color = vec4(i_pos, 1.0);
 	if (!u_lighting.enabled) return;
 
 	vec3 normal = normalize(mat3(transpose(u_inverse_model)) * i_normal);
@@ -438,7 +438,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -524,7 +524,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -626,12 +626,13 @@ void main()
 
 		if (cam_dist > u_fog.start)
 		{
-			float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+			float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 			fog_factor = clamp(fog_factor, 0.0, 1.0);
 			float a = o_color.a;
 			o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
 			o_color.a = a;
 		}
+		return;
 	}
 
 	vec3 color = u_lighting.color * io_color.rgb * texColor.rgb;
@@ -647,7 +648,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -744,10 +745,13 @@ void main()
 
 		if (cam_dist > u_fog.start)
 		{
-			float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+			float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 			fog_factor = clamp(fog_factor, 0.0, 1.0);
+			float a = o_color.a;
 			o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
+			o_color.a = a;
 		}
+		return;
 	}
 
 	vec3 color = u_lighting.color * texColor.rgb;
@@ -761,7 +765,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -822,7 +826,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);
@@ -918,7 +922,7 @@ void main()
 
 	if (cam_dist > u_fog.start)
 	{
-		float fog_factor = (cam_dist - u_fog.start) / (u_fog.end - u_fog.start);
+		float fog_factor = (cam_dist - u_fog.start) / max(u_fog.end - u_fog.start, 1e-5);
 		fog_factor = clamp(fog_factor, 0.0, 1.0);
 		float a = o_color.a;
 		o_color = mix(o_color, vec4(u_fog.color, 1.0), fog_factor);

@@ -22,7 +22,7 @@ namespace onyx
 		Mesh();
 
 		/*
-			@brief Creats a new Mesh object with the specified vertices and indices.
+			@brief Creates a new Mesh object with the specified vertices and indices.
 			@param vertex_buffer The vertex buffer object.
 			@param index_buffer The index buffer object.
 			@param result A pointer to a boolean that will be set to true if the mesh was created successfully, and false otherwise.
@@ -35,8 +35,16 @@ namespace onyx
 		 !	This means that the mesh data is shared, and disposing of one mesh will dispose of the other.
 		 !	This is used appropriately in the Renderable class, but should be used elsewhere with caution.
 			@param other The other mesh object.
-		*/
+		 */
 		Mesh(const Mesh& other);
+
+		/*
+			@brief Assigns another mesh object to this one.
+		 !	Like the copy constructor, this shares the IDs of the VAO, VBO, and IBO rather than copying the data.
+			@param other The other mesh object.
+			@return A reference to this object.
+		 */
+		Mesh& operator=(const Mesh& other) = default;
 
 		/*
 			@brief Renders the mesh.
@@ -112,14 +120,8 @@ namespace onyx
 		static Mesh triangle(float base, float height, bool gen_normals = false, bool gen_tex_coords = false);
 
 		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `triangle` overloads")]]
-		static Mesh triangle(math::Vec2 a, math::Vec2 b, math::Vec2 c);
-
-		/*
 			@brief Generates a square mesh with the specified side length.
-			@param The side length.
+			@param side The side length.
 			@param gen_normals Whether to generate normal vectors.
 			@param gen_tex_coords Whether to generate texture coordinates.
 			@return The generated mesh.
@@ -135,12 +137,6 @@ namespace onyx
 			@return The generated mesh.
 		 */
 		static Mesh quad(float width, float height, bool gen_normals = false, bool gen_tex_coords = false);
-
-		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `quad` overloads")]]
-		static Mesh quad(math::Vec2 a, math::Vec2 b, math::Vec2 c, math::Vec2 d);
 
 		/*
 			@brief Generates a circle mesh from the specified radius and number of segments.
@@ -183,13 +179,25 @@ namespace onyx
 		static Mesh rect_prism(float width, float height, float depth, bool gen_normals = false, bool gen_tex_coords = false);
 
 		/*
-			@deprecated This function is deprecated and will be removed in the next major release.
+			@brief Generates a cylinder mesh with the specified radius, height, and number of segments.
+			@param radius The radius of the cylinder.
+			@param height The height of the cylinder.
+			@param n_segments The number of line segments used to approximate the circle outline.
+			@param gen_normals Whether to generate normal vectors.
+			@param gen_tex_coords Whether to generate texture coordinates.
+			@return The generated mesh.
 		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. Use the other `rect_prism` overloads")]]
-		static Mesh rect_prism(math::Vec3 a, math::Vec3 b, math::Vec3 c, math::Vec3 d, math::Vec3 e, math::Vec3 f, math::Vec3 g, math::Vec3 h);
-
 		static Mesh cylinder(float radius, float height, int n_segments, bool gen_normals = false, bool gen_tex_coords = false);
 
+		/*
+			@brief Generates a cylinder mesh with the specified radius, height, and angle step.
+			@param radius The radius of the cylinder.
+			@param height The height of the cylinder.
+			@param angle_step The angle step, in degrees, between circle vertices.
+			@param gen_normals Whether to generate normal vectors.
+			@param gen_tex_coords Whether to generate texture coordinates.
+			@return The generated mesh.
+		 */
 		static Mesh cylinder(float radius, float height, float angle_step, bool gen_normals = false, bool gen_tex_coords = false);
 	};
 }

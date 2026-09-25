@@ -29,17 +29,17 @@ const Vec3& onyx::Lighting::get_direction() const
 	return this->direction;
 }
 
-void onyx::Lighting::set_color(const Vec3& color)
+void onyx::Lighting::set_color(const Vec3& new_color)
 {
-	this->color = color;
+	this->color = new_color;
 }
 
-void onyx::Lighting::set_ambient_strength(float ambient_strength)
+void onyx::Lighting::set_ambient_strength(float new_ambient_strength)
 {
-	this->ambient_strength = ambient_strength;
+	this->ambient_strength = new_ambient_strength;
 }
 
-void onyx::Lighting::set_direction(const Vec3& direction)
+void onyx::Lighting::set_direction(const Vec3& new_direction)
 {
-	this->direction = direction;
+	this->direction = new_direction;
 }

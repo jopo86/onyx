@@ -1,12 +1,7 @@
-#pragma warning(disable: 4267)
-
 #include <onyx/mesh.hpp>
 
 #include <glad/glad.h>
-
-void onyx_err(const onyx::Error&);
-
-using onyx::math::Vec2, onyx::math::Vec3;
+#include "internal.hpp"
 
 onyx::Mesh::Mesh()
 {
@@ -46,11 +41,16 @@ onyx::Mesh::Mesh(VertexBuffer vertex_buffer, IndexBuffer index_buffer, bool* res
 	{
 		case VertexFormat::Null:
 			onyx_err(Error{
-					.source_function = "onyx::Mesh::Mesh(VertexBuffer vertex_buffer, IndexBuffer index_buffer)",
+					.source_function = "onyx::Mesh::Mesh(VertexBuffer vertex_buffer, IndexBuffer index_buffer, bool* result)",
 					.message = "Vertex format cannot be null",
 					.how_to_fix = "Pass a valid vertex format to the VertexBuffer constructor"
 				}
 			);
+			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			if (vertex_buffer.heap) delete[] vertex_buffer.vertices;
+			if (index_buffer.heap) delete[] index_buffer.indices;
 			if (result != nullptr) *result = false;
 			return;
 
@@ -214,11 +214,6 @@ onyx::Mesh onyx::Mesh::triangle(float base, float height, bool gen_normals, bool
 	);
 }
 
-onyx::Mesh onyx::Mesh::triangle(Vec2 a, Vec2 b, Vec2 c)
-{
-	return Mesh();
-}
-
 onyx::Mesh onyx::Mesh::square(float side, bool gen_normals, bool gen_tex_coords)
 {
 	return Mesh(
@@ -233,11 +228,6 @@ onyx::Mesh onyx::Mesh::quad(float width, float height, bool gen_normals, bool ge
 		VertexBuffer::quad(width, height, gen_normals, gen_tex_coords),
 		IndexBuffer::quad(gen_normals)
 	);
-}
-
-onyx::Mesh onyx::Mesh::quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d)
-{
-	return Mesh();
 }
 
 onyx::Mesh onyx::Mesh::circle(float r, int n_segments, bool gen_normals, bool gen_tex_coords)
@@ -270,11 +260,6 @@ onyx::Mesh onyx::Mesh::rect_prism(float width, float height, float depth, bool g
 		VertexBuffer::rect_prism(width, height, depth, gen_normals, gen_tex_coords),
 		IndexBuffer::rect_prism(gen_normals || gen_tex_coords)
 	);
-}
-
-onyx::Mesh onyx::Mesh::rect_prism(Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec3 e, Vec3 f, Vec3 g, Vec3 h)
-{
-	return Mesh();
 }
 
 onyx::Mesh onyx::Mesh::cylinder(float radius, float height, int n_segments, bool gen_normals, bool gen_tex_coords)

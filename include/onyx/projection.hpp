@@ -22,6 +22,7 @@ namespace onyx
 			@brief Creates an orthographic projection with the specified left, right, top, and bottom distances.
 			@param screen_width The width of the screen to calculate the left and right values.
 			@param screen_height The height of the screen to calculate the top and bottom values.
+			Dimensions smaller than 1 (e.g. from a minimized window) are clamped to 1.
 			@return The resulting orthographic projection.
 		 */
 		static Projection orthographic(float screen_width, float screen_height);
@@ -29,6 +30,7 @@ namespace onyx
 		/*
 			@brief Creates a perspective projection with the specified FOV and aspect ratio from the width/height.
 			Near plane is set to 0.1, far plane to 100.
+			If the width or height is not positive (e.g. from a minimized window), the aspect ratio is set to 1.
 			@param fov The desired field of view, in degrees.
 			@param screen_width The width of the screen to calculate the aspect ratio.
 			@param screen_height The height of the screen to calculate the aspect ratio.
@@ -38,6 +40,7 @@ namespace onyx
 
 		/*
 			@brief Creates a perspective projection with the specified FOV, aspect ratio from the width/height, and near and far plane distances.
+			If the width or height is not positive (e.g. from a minimized window), the aspect ratio is set to 1.
 			@param fov The desired field of view, in degrees.
 			@param screen_width The width of the screen to calculate the aspect ratio.
 			@param screen_height The height of the screen to calculate the aspect ratio.
@@ -139,6 +142,7 @@ namespace onyx
 
 		/*
 			@brief Sets the aspect ratio.
+			Values that are not positive and finite are ignored (a warning is issued).
 			@param val The aspect ratio.
 		 */
 		void set_aspect_ratio(float val);

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <mutex>
+#include <utility>
 
 #include <onyx/core.hpp>
 #include <onyx/lighting.hpp>
@@ -41,7 +42,6 @@ namespace onyx
 			@brief Creates a new Renderer object containing no renderables and the specified camera.
 		 !  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
 		 !  Use `Window::link_renderer()`
-			@param window The window to link to.
 			@param cam The camera to use.
 		 */
 		Renderer(Camera& cam);
@@ -50,7 +50,6 @@ namespace onyx
 			@brief Creates a new Renderer object containing no renderables and the specified camera and lighting settings.
 		 !  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
 		 !  Use `Window::link_renderer()`
-			@param window The window to link to.
 			@param cam The camera to use.
 			@param lighting The lighting settings to use.
 		 */
@@ -60,7 +59,6 @@ namespace onyx
 			@brief Creates a new Renderer object containing no renderables and the specified camera and fog settings.
 		 !  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
 		 !	Use `Window::link_renderer()`
-			@param window The window to link to.
 			@param cam The camera to use.
 			@param fog The fog settings to use.
 		 */
@@ -70,7 +68,6 @@ namespace onyx
 			@brief Creates a new Renderer object containing no renderables and the specified camera, lighting settings, and fog settings.
 			!  MUST BE LINKED TO A WINDOW TO RENDER UI PROPERLY
 			!	Use `Window::link_renderer()`
-			@param window The window to link to.
 			@param cam The camera to use.
 			@param lighting The lighting settings to use.
 			@param fog The fog settings to use.
@@ -140,7 +137,7 @@ namespace onyx
 			@brief Clears (but does not dispose of) all 3D text renderables from the renderer.
 			Does not clear standard renderables, UI renderables, or text renderables.
 		 */
-		void clear_text_renderables3_d();
+		void clear_text_renderables_3d();
 
 		/*
 			@brief Gets whether lighting is enabled for the renderer.
@@ -178,15 +175,15 @@ namespace onyx
 
 		/*
 			@brief Gets the lighting settings for the renderer.
-			@return A pointer to the lighting settings.
+			@return A pointer to the lighting settings, or nullptr if no lighting has been set.
 		 */
-		const Lighting& get_lighting() const;
+		const Lighting* get_lighting() const;
 
 		/*
 			@brief Gets the fog settings for the renderer.
-			@return A pointer to the fog settings.
+			@return A pointer to the fog settings, or nullptr if no fog has been set.
 		 */
-		const Fog& get_fog() const;
+		const Fog* get_fog() const;
 
 		/*
 			@brief Sets the lighting settings for the renderer.
@@ -238,9 +235,9 @@ namespace onyx
 
 		/*
 			@brief Gets the camera used by the renderer.
-			@return A reference to the camera.
+			@return A pointer to the camera, or nullptr if no camera has been set.
 		 */
-		const Camera& get_camera() const;
+		const Camera* get_camera() const;
 
 		/*
 			@brief Sets the camera used by the renderer.
@@ -252,9 +249,10 @@ namespace onyx
 			@brief Sets whether to use the camera for UI elements.
 			By default, UI elements are rendered without regard to the camera, which is ideal for HUDs.
 			Note that, if true, part of the matrix multiplication will be done on the CPU for each UI element, not the GPU, which may be slow.
-			@param use_cam_for_ui Whether to use the camera for UI elements.
+			If no camera is set, UI elements are rendered without the camera regardless of this setting.
+			@param new_use_cam_for_ui Whether to use the camera for UI elements.
 		 */
-		void set_use_camera_for_ui(bool use_cam_for_ui);
+		void set_use_camera_for_ui(bool new_use_cam_for_ui);
 
 		/*
 			@brief Gets whether the camera is used for UI elements.
@@ -267,7 +265,7 @@ namespace onyx
 		/*
 			@brief Sets whether wireframe rendering mode is enabled.
 			In wireframe mode, only the lines between vertices are drawn.
-			Change the with of the lines with set_line_width().
+			Change the width of the lines with set_line_width().
 			@param wireframe True to enable wireframe mode, false to disable.
 		 */
 		static void set_wireframe(bool wireframe);
@@ -281,7 +279,7 @@ namespace onyx
 		/*
 			@brief Toggles wireframe rendering mode.
 			In wireframe mode, only the lines between vertices are drawn.
-			Change the with of the lines with set_line_width().
+			Change the width of the lines with set_line_width().
 		 */
 		static void toggle_wireframe();
 
@@ -333,7 +331,7 @@ namespace onyx
 		/*
 			@brief Gets whether wireframe rendering mode is enabled.
 			In wireframe mode, only the lines between vertices are drawn.
-			Change the with of the lines with set_line_width().
+			Change the width of the lines with set_line_width().
 		 */
 		static bool is_wireframe();
 
@@ -360,6 +358,8 @@ namespace onyx
 
 		/*
 			@brief Sets the width of lines rendered in wireframe mode.
+			Wide lines (width other than 1) are not supported by forward-compatible core profile contexts (e.g. on macOS);
+			on those, a warning is reported and the width stays at 1.
 			@param width The width of the lines in pixels. Set to 1 by default.
 		 */
 		static void set_line_width(float width);

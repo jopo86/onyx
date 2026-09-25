@@ -1,6 +1,22 @@
 #include <onyx/model_renderable.hpp>
 
+#include <string>
+#include <utility>
+
 using onyx::math::Vec3, onyx::math::Mat4;
+
+// OBJ files may contain unnamed meshes or several meshes with the same name.
+// Returns a name that is not yet used in the map so that no mesh is dropped on insertion.
+static std::string unique_mesh_name(const std::map<std::string, onyx::Renderable>& map, const std::string& name, std::size_t index)
+{
+	std::string base = name.empty() ? "mesh_" + std::to_string(index) : name;
+	std::string candidate = base;
+	for (std::size_t n = 1; map.find(candidate) != map.end(); n++)
+	{
+		candidate = base + "_" + std::to_string(n);
+	}
+	return candidate;
+}
 
 onyx::ModelRenderable::ModelRenderable() 
 {
@@ -9,11 +25,12 @@ onyx::ModelRenderable::ModelRenderable()
 
 onyx::ModelRenderable::ModelRenderable(Model& model)
 {
-	for (ModelUnit& unit : model.data)
+	for (std::size_t i = 0; i < model.data.size(); i++)
 	{
+		ModelUnit& unit = model.data[i];
 		this->renderable_map.insert(
 			std::pair<std::string, Renderable>(
-				unit.name,
+				unique_mesh_name(this->renderable_map, unit.name, i),
 				Renderable(unit.mesh, unit.shader, unit.texture)
 			)
 		);
@@ -23,11 +40,12 @@ onyx::ModelRenderable::ModelRenderable(Model& model)
 
 onyx::ModelRenderable::ModelRenderable(Model& model, Shader shader_override)
 {
-	for (ModelUnit& unit : model.data)
+	for (std::size_t i = 0; i < model.data.size(); i++)
 	{
+		ModelUnit& unit = model.data[i];
 		this->renderable_map.insert(
 			std::pair<std::string, Renderable>(
-				unit.name,
+				unique_mesh_name(this->renderable_map, unit.name, i),
 				Renderable(unit.mesh, shader_override, unit.texture)
 			)
 		);
@@ -90,16 +108,22 @@ onyx::Renderable& onyx::ModelRenderable::get_renderable(std::string name)
 
 const Vec3& onyx::ModelRenderable::get_position() const
 {
+	static const Vec3 default_position(0.0f);
+	if (this->renderable_map.empty()) return default_position;
 	return this->renderable_map.begin()->second.get_position();
 }
 
 const Vec3& onyx::ModelRenderable::get_rotation() const
 {
+	static const Vec3 default_rotation(0.0f);
+	if (this->renderable_map.empty()) return default_rotation;
 	return this->renderable_map.begin()->second.get_rotation();
 }
 
 const Vec3& onyx::ModelRenderable::get_scale() const
 {
+	static const Vec3 default_scale(1.0f);
+	if (this->renderable_map.empty()) return default_scale;
 	return this->renderable_map.begin()->second.get_scale();
 }
 

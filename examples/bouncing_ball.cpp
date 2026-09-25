@@ -1,5 +1,3 @@
-#pragma warning(disable: 6386; disable: 4244; disable: 305 )
-
 #include <onyx/core.hpp>
 #include <onyx/math_wrappers.hpp>
 #include <onyx/window.hpp>
@@ -7,17 +5,20 @@
 #include <onyx/input_handler.hpp>
 #include <onyx/camera.hpp>
 
+#include <cmath>
+
 using namespace onyx;
 using namespace onyx::math;
-
-void onyx_add_malloc(void*, bool);
 
 double f(double x, double y);
 double df_dx(double x, double y, double h = 0.0001);
 double df_dy(double x, double y, double h = 0.0001);
-DVec3 f_norm(double x, double y);
+DVec3 f_norm(double x, double y, double scale);
 DVec2 f_grad(double x, double y);
-Mesh* generate_surface(double width, double depth, const DVec2& domain_x, const DVec2& domain_y, int nX, int nY);
+Mesh generate_surface(double width, double depth, const DVec2& domain_x, const DVec2& domain_y, int nX, int nY);
+
+// Tab cycles through these
+enum class CameraMode { Director, Orbit, Explore };
 
 int main()
 {
@@ -56,8 +57,10 @@ int main()
 	const double GRAPH_RANGE = 30.0;
 	const int GRAPH_SUBDIVISIONS = 100;
 
-	const bool ALLOW_SCENE_EXPLORE = false;
-	const bool DIRECTOR_MODE = true;
+	// graph units per world unit; the surface is squashed horizontally but not vertically
+	const double GRAPH_SCALE = GRAPH_RANGE / GRAPH_WIDTH;
+
+	CameraMode cam_mode = CameraMode::Director;
 
 	const float CAM_SPEED = 6.0f;
 	const float CAM_SENS = 30.0f;
@@ -67,41 +70,42 @@ int main()
 	const float BOUNDARY_OFFSET = 0.08f;
 	const float CORRECTION_OFFSET = 0.01f;
 
-	Mesh* mesh = generate_surface(GRAPH_WIDTH, GRAPH_WIDTH, DVec2(-GRAPH_RANGE / 2, GRAPH_RANGE / 2), DVec2(-GRAPH_RANGE / 2, GRAPH_RANGE / 2), GRAPH_SUBDIVISIONS, GRAPH_SUBDIVISIONS);
-	Renderable surface(*mesh, Shader::pn_color(Vec4::green()));
+	Mesh mesh = generate_surface(GRAPH_WIDTH, GRAPH_WIDTH, DVec2(-GRAPH_RANGE / 2, GRAPH_RANGE / 2), DVec2(-GRAPH_RANGE / 2, GRAPH_RANGE / 2), GRAPH_SUBDIVISIONS, GRAPH_SUBDIVISIONS);
+	Renderable surface(mesh, Shader::pn_color(Vec4::green()));
 	renderer.add(surface);
 
 	ModelRenderable ball(Model::load_obj(resources("models/sphere.obj")));
 	ball.scale(0.001f);
-	ball.translate(Vec3(rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2), 1.0f, rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2)));
+	ball.translate(Vec3(static_cast<float>(rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2)), 1.0f, static_cast<float>(rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2))));
 	renderer.add(ball);
 
 	Vec3 ball_velocity(rand(-3.0f, 3.0f), 0.0f, rand(-3.0f, 3.0f));
 
-	float start = get_time();
+	double start = get_time();
 
 	input.set_cursor_lock(true);
 
 	while (window.is_open())
 	{
-		double dt = window.get_delta_time();
-		double dx = input.get_mouse_deltas().get_x();
-		double dy = input.get_mouse_deltas().get_y();
-
 		input.update();
+
+		float dt = static_cast<float>(window.get_delta_time());
+		float dx = static_cast<float>(input.get_mouse_deltas().get_x());
+		float dy = static_cast<float>(input.get_mouse_deltas().get_y());
 
 		if (input.is_key_tapped(Key::Escape)) window.close();
 		if (input.is_key_tapped(Key::F12)) window.toggle_fullscreen(1280, 720, IVec2(monitor.get_width() / 2 - window.get_width() / 2, monitor.get_height() / 2 - window.get_height() / 2));
 		if (input.is_key_tapped(Key::F1)) Renderer::toggle_wireframe();
 		if (input.is_key_tapped(Key::F2)) renderer.toggle_lighting_enabled();
+		if (input.is_key_tapped(Key::Tab)) cam_mode = CameraMode(((int)cam_mode + 1) % 3);
 		if (input.is_key_tapped(Key::R))
 		{
-			ball.set_position(Vec3(rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2), 1.0f, rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2)));
+			ball.set_position(Vec3(static_cast<float>(rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2)), 1.0f, static_cast<float>(rand(-(GRAPH_WIDTH * 0.9) / 2, (GRAPH_WIDTH * 0.9) / 2))));
 			ball_velocity = Vec3(rand(-3.0f, 3.0f), 0.0f, rand(-3.0f, 3.0f));
 			start = get_time();
 		}
 
-		if (ALLOW_SCENE_EXPLORE)
+		if (cam_mode == CameraMode::Explore)
 		{
 			if (input.is_key_down(Key::W)) cam.translate_fb( CAM_SPEED * dt);
 			if (input.is_key_down(Key::A)) cam.translate_lr(-CAM_SPEED * dt);
@@ -110,21 +114,21 @@ int main()
 			if (input.is_key_down(Key::C)) cam.translate_ud(-CAM_SPEED * dt);
 			if (input.is_key_down(Key::Space)) cam.translate_ud(CAM_SPEED * dt);
 
-			cam.rotate(CAM_SENS * .005 * dx, CAM_SENS * .005 * dy);
+			cam.rotate(CAM_SENS * .005f * dx, CAM_SENS * .005f * dy);
 		}
 		else
 		{
-			if (!DIRECTOR_MODE)
+			if (cam_mode == CameraMode::Orbit)
 			{
 				float dist = cam.get_position().magnitude();
-				if (::abs(dx) > 1.0) cam.translate_lr(-CAM_SPEED * .002 * dx);
-				if (::abs(dy) > 1.0) cam.translate_ud(-CAM_SPEED * .002 * dy);
+				if (std::abs(dx) > 1.0) cam.translate_lr(-CAM_SPEED * .002f * dx);
+				if (std::abs(dy) > 1.0) cam.translate_ud(-CAM_SPEED * .002f * dy);
 				cam.set_position(cam.get_position().get_normalized() * dist);
 				cam.look_at(Vec3(0));
 			}
 			else
 			{
-				cam.set_position(Vec3(sinf(get_time() / 2.0f) * 5.0f, 4.0f, cosf(get_time() / 2.0f) * 5.0f));
+				cam.set_position(Vec3(static_cast<float>(std::sin(get_time() / 2.0f) * 5.0f), 4.0f, static_cast<float>(std::cos(get_time() / 2.0f) * 5.0f)));
 				cam.look_at(Vec3(0));
 			}
 		}
@@ -136,14 +140,13 @@ int main()
 
 			float x = remap(ball_pos.get_x(), Vec2(-GRAPH_WIDTH / 2, GRAPH_WIDTH / 2), Vec2(-GRAPH_RANGE / 2, GRAPH_RANGE / 2));
 			float z = remap(ball_pos.get_z(), Vec2(-GRAPH_WIDTH / 2, GRAPH_WIDTH / 2), Vec2(-GRAPH_RANGE / 2, GRAPH_RANGE / 2));
-			float y = f(x, z);
+			float y = static_cast<float>(f(x, z));
 			if (ball_pos.get_y() < y + 0.12f)
 			{
 				ball.set_position(Vec3(ball_pos.get_x(), y + 0.13f, ball_pos.get_z()));
-				Vec3 norm = f_norm(x, z);
+				Vec3 norm = f_norm(x, z, GRAPH_SCALE);
 				Vec3 reflected = reflect(ball_velocity, norm);
 				ball_velocity = reflected * BOUNCINESS;
-				ball_velocity.set_y(-ball_velocity.get_y());
 				if (ball_velocity.get_y() < 0.01f) ball_velocity.set_y(0.0f);
 			}
 			else if (ball_pos.get_y() > y + 0.12f) ball_velocity.set_y(ball_velocity.get_y() + GRAVITY * dt);
@@ -151,7 +154,7 @@ int main()
 			if (ball_pos.get_y() <= y + 0.13f)
 			{
 				DVec2 grad_xy = f_grad(x, z);
-				Vec3 grad(grad_xy.get_x(), 0.0f, grad_xy.get_y());
+				Vec3 grad(static_cast<float>(grad_xy.get_x()), 0.0f, static_cast<float>(grad_xy.get_y()));
 				if (grad.magnitude() > 0.001f && grad.magnitude() < 0.05f) grad.set_magnitude(0.05f);
 				ball_velocity -= grad;
 			}
@@ -163,22 +166,22 @@ int main()
 			if (ball_pos.get_x() < -GRAPH_WIDTH / 2 + BOUNDARY_OFFSET)
 			{
 				ball_velocity.set_x(-ball_velocity.get_x());
-				ball.set_position(Vec3(-GRAPH_WIDTH / 2 + BOUNDARY_OFFSET + CORRECTION_OFFSET, ball_pos.get_y(), ball_pos.get_z()));
+				ball.set_position(Vec3(static_cast<float>(-GRAPH_WIDTH / 2 + BOUNDARY_OFFSET + CORRECTION_OFFSET), ball_pos.get_y(), ball_pos.get_z()));
 			}
 			if (ball_pos.get_x() > GRAPH_WIDTH / 2 - BOUNDARY_OFFSET)
 			{
 				ball_velocity.set_x(-ball_velocity.get_x());
-				ball.set_position(Vec3(GRAPH_WIDTH / 2 - BOUNDARY_OFFSET - CORRECTION_OFFSET, ball_pos.get_y(), ball_pos.get_z()));
+				ball.set_position(Vec3(static_cast<float>(GRAPH_WIDTH / 2 - BOUNDARY_OFFSET - CORRECTION_OFFSET), ball_pos.get_y(), ball_pos.get_z()));
 			}
 			if (ball_pos.get_z() < -GRAPH_WIDTH / 2 + BOUNDARY_OFFSET)
 			{
 				ball_velocity.set_z(-ball_velocity.get_z());
-				ball.set_position(Vec3(ball_pos.get_x(), ball_pos.get_y(), -GRAPH_WIDTH / 2 + BOUNDARY_OFFSET + CORRECTION_OFFSET));
+				ball.set_position(Vec3(ball_pos.get_x(), ball_pos.get_y(), static_cast<float>(-GRAPH_WIDTH / 2 + BOUNDARY_OFFSET + CORRECTION_OFFSET)));
 			}
 			if (ball_pos.get_z() > GRAPH_WIDTH / 2 - BOUNDARY_OFFSET)
 			{
 				ball_velocity.set_z(-ball_velocity.get_z());
-				ball.set_position(Vec3(ball_pos.get_x(), ball_pos.get_y(), GRAPH_WIDTH / 2 - BOUNDARY_OFFSET - CORRECTION_OFFSET));
+				ball.set_position(Vec3(ball_pos.get_x(), ball_pos.get_y(), static_cast<float>(GRAPH_WIDTH / 2 - BOUNDARY_OFFSET - CORRECTION_OFFSET)));
 			}
 		}
 
@@ -195,10 +198,7 @@ int main()
 
 double f(double x, double y)
 {
-    return (::sin(x) + ::sin(y) + ::cos(x / 2) + ::cos(y / 2) + ::sin(x / 4) + ::sin(y / 4) + ::cos(x / 6) + ::sin(sqrtf(x * x + y * y))) / 9;
-	//return sin(sqrt(x * x + y * y)) / 5;
-	//return (x * x + y * y) / 75;
-	//return sin(x) / 5;
+	return (std::sin(x) + std::sin(y) + std::cos(x / 2) + std::cos(y / 2) + std::sin(x / 4) + std::sin(y / 4) + std::cos(x / 6) + std::sin(std::sqrt(x * x + y * y))) / 9;
 }
 
 double df_dx(double x, double y, double h)
@@ -211,9 +211,13 @@ double df_dy(double x, double y, double h)
 	return (f(x, y + h) - f(x, y)) / h;
 }
 
-DVec3 f_norm(double x, double y)
+/*
+	Normal of the height field y = f(x, z) in world space. The graph is remapped so one world unit
+	covers `scale` graph units horizontally, which scales the world-space slopes by the same factor.
+ */
+DVec3 f_norm(double x, double y, double scale)
 {
-    return cross(DVec3(1, 0, df_dx(x, y)), DVec3(0, 1, df_dy(x, y))).get_normalized();
+	return DVec3(-df_dx(x, y) * scale, 1.0, -df_dy(x, y) * scale).get_normalized();
 }
 
 DVec2 f_grad(double x, double y)
@@ -221,8 +225,10 @@ DVec2 f_grad(double x, double y)
 	return DVec2(df_dx(x, y), df_dy(x, y));
 }
 
-Mesh* generate_surface(double width, double depth, const DVec2& domain_x, const DVec2& domain_y, int nX, int nY)
+Mesh generate_surface(double width, double depth, const DVec2& domain_x, const DVec2& domain_y, int nX, int nY)
 {
+    double scale = (domain_x.get_y() - domain_x.get_x()) / width;
+
     int vcount = nX * nY * 6;
     int icount = (nX - 1) * (nY - 1) * 6;
 
@@ -239,13 +245,13 @@ Mesh* generate_surface(double width, double depth, const DVec2& domain_x, const 
             double y = domain_y.get_x() + j * y_step;
             int vi = (i * nY + j) * 6;
             double z = f(x, y);
-            DVec3 norm = f_norm(x, y);
-            vertices[vi + 0] = remap(x, DVec2(domain_x.get_x(), domain_x.get_y()), DVec2(-width / 2, width / 2));
-			vertices[vi + 1] = z;
-            vertices[vi + 2] = remap(y, DVec2(domain_y.get_x(), domain_y.get_y()), DVec2(-depth / 2, depth / 2));
-            vertices[vi + 3] = norm.get_x();
-            vertices[vi + 4] = norm.get_y();
-            vertices[vi + 5] = norm.get_z();
+            DVec3 norm = f_norm(x, y, scale);
+            vertices[vi + 0] = static_cast<float>(remap(x, DVec2(domain_x.get_x(), domain_x.get_y()), DVec2(-width / 2, width / 2)));
+			vertices[vi + 1] = static_cast<float>(z);
+            vertices[vi + 2] = static_cast<float>(remap(y, DVec2(domain_y.get_x(), domain_y.get_y()), DVec2(-depth / 2, depth / 2)));
+            vertices[vi + 3] = static_cast<float>(norm.get_x());
+            vertices[vi + 4] = static_cast<float>(norm.get_y());
+            vertices[vi + 5] = static_cast<float>(norm.get_z());
         }
     }
 
@@ -270,8 +276,7 @@ Mesh* generate_surface(double width, double depth, const DVec2& domain_x, const 
 
     IndexBuffer ib(indices, icount * sizeof(u32));
 
-    Mesh* mesh = new Mesh(vb, ib);
-    onyx_add_malloc(mesh, false);
+    Mesh mesh(vb, ib);
 
     delete[] vertices;
     delete[] indices;

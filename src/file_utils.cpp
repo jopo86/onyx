@@ -1,16 +1,16 @@
 #include <onyx/file_utils.hpp>
 
 #include <fstream>
+#include <sstream>
 #include <string>
+#include <utility>
 
 #include <onyx/core.hpp>
-
-void onyx_add_malloc(void*, bool);
-void onyx_err(const onyx::Error&);
+#include "internal.hpp"
 
 std::string onyx::file_utils::read(const std::string& path, bool* result)
 {
-	std::ifstream file(path);
+	std::ifstream file(path, std::ios::binary);
 	if (!file.is_open())
 	{
 		onyx_err(Error{
@@ -19,45 +19,29 @@ std::string onyx::file_utils::read(const std::string& path, bool* result)
 				.how_to_fix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
 			}
 		);
-		file.close();
 		if (result != nullptr) *result = false;
 		return "";
 	}
 
-	std::string contents = "";
-	std::string line = "";
-
-	while (std::getline(file, line)) contents += line + "\n";
-
-	file.close();
+	std::ostringstream contents;
+	contents << file.rdbuf();
 
 	if (result != nullptr) *result = true;
-	return contents;
+	return contents.str();
 }
 
 const char* onyx::file_utils::read_literal(const std::string& path, bool* result)
 {
-	std::ifstream file(path);
-	if (!file.is_open())
+	bool read_result = false;
+	std::string text = read(path, &read_result);
+	if (!read_result)
 	{
-		onyx_err(Error{
-			.source_function = "onyx::file_utils::read_literal(const std::string& path)",
-			.message = "File not found (or access denied): \"" + path + "\"",
-			.how_to_fix = "Ensure the file exists, is not locked by another process, and does not explicitly deny access."
-			}
-		);
-		file.close();
 		if (result != nullptr) *result = false;
 		return "";
 	}
 
-	std::string* contents = new std::string("");
+	std::string* contents = new std::string(std::move(text));
 	onyx_add_malloc(contents, false);
-	std::string line = "";
-
-	while (std::getline(file, line)) *contents += line + "\n";
-
-	file.close();
 
 	if (result != nullptr) *result = true;
 	return contents->c_str();
@@ -96,9 +80,29 @@ void onyx::file_utils::write(const std::string& path, const std::string& text, b
 	if (append) file.open(path, std::ios::app);
 	else file.open(path);
 
-	file << text;
+	if (!file.is_open())
+	{
+		onyx_err(Error{
+				.source_function = "onyx::file_utils::write(const std::string& path, const std::string& text, bool append)",
+				.message = "Failed to open file for writing: \"" + path + "\"",
+				.how_to_fix = "Ensure the directory exists, the file is not locked by another process, and write access is not denied."
+			}
+		);
+		return;
+	}
 
+	file << text;
 	file.close();
+
+	if (file.fail())
+	{
+		onyx_err(Error{
+				.source_function = "onyx::file_utils::write(const std::string& path, const std::string& text, bool append)",
+				.message = "Failed to write to file: \"" + path + "\"",
+				.how_to_fix = "Ensure there is enough disk space and write access is not denied."
+			}
+		);
+	}
 }
 
 bool onyx::file_utils::file_exists(const std::string& path)

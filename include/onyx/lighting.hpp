@@ -44,21 +44,21 @@ namespace onyx
 
 		/*
 			@brief Sets the color of the light.
-			@param color The new color of the light.
+			@param new_color The new color of the light.
 		 */
-		void set_color(const math::Vec3& color);
+		void set_color(const math::Vec3& new_color);
 
 		/*
 			@brief Sets the strength of ambient light.
-			@param ambient_strength The new strength of ambient light.
+			@param new_ambient_strength The new strength of ambient light.
 		 */
-		void set_ambient_strength(float ambient_strength);
+		void set_ambient_strength(float new_ambient_strength);
 
 		/*
 			@brief Sets the direction of the light.
-			@param direction The new direction of the light.
+			@param new_direction The new direction of the light.
 		 */
-		void set_direction(const math::Vec3& direction);
+		void set_direction(const math::Vec3& new_direction);
 
 	private:
 		math::Vec3 color;

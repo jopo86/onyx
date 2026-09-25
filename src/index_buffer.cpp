@@ -1,9 +1,19 @@
-#pragma warning(disable: 4267)
-
 #include <onyx/index_buffer.hpp>
 #include <onyx/math_wrappers.hpp>
+#include "internal.hpp"
 
-void onyx_add_malloc(void*, bool);
+#include <cmath>
+#include <vector>
+
+// Converts an angle step (in degrees) to the number of circle segments, shared by the vertex and index buffer generators
+// so that both always agree on the vertex count.
+static int segment_count(float angle_step_deg)
+{
+	float n = roundf(360.0f / angle_step_deg);
+	if (!(n >= 3.0f)) return 3;
+	if (n > 1000000.0f) return 1000000;
+	return (int)n;
+}
 
 onyx::IndexBuffer::IndexBuffer()
 {
@@ -87,8 +97,7 @@ onyx::IndexBuffer onyx::IndexBuffer::circle(float angle_step_deg, bool normals)
 {
 	if (normals)
 	{
-		int n_vertices = (int)(360.0f / angle_step_deg);
-		float angle_step = math::radians(angle_step_deg);
+		int n_vertices = segment_count(angle_step_deg);
 
 		std::vector<u32>* indices = new std::vector<u32>;
 		onyx_add_malloc(indices, false);
@@ -107,12 +116,11 @@ onyx::IndexBuffer onyx::IndexBuffer::circle(float angle_step_deg, bool normals)
 			indices->push_back(n_vertices);
 		}
 
-		return IndexBuffer(indices->data(), indices->size() * sizeof(u32));
+		return IndexBuffer(indices->data(), static_cast<u32>(indices->size() * sizeof(u32)));
 	}
 	else
 	{
-		int n_vertices = (int)(360.0f / angle_step_deg);
-		float angle_step = math::radians(angle_step_deg);
+		int n_vertices = segment_count(angle_step_deg);
 
 		std::vector<u32>* indices = new std::vector<u32>;
 		onyx_add_malloc(indices, false);
@@ -124,7 +132,7 @@ onyx::IndexBuffer onyx::IndexBuffer::circle(float angle_step_deg, bool normals)
 			indices->push_back(i + 1);
 		}
 
-		return IndexBuffer(indices->data(), indices->size() * sizeof(u32));
+		return IndexBuffer(indices->data(), static_cast<u32>(indices->size() * sizeof(u32)));
 	}
 }
 
@@ -198,7 +206,7 @@ onyx::IndexBuffer onyx::IndexBuffer::cylinder(float angle_step_deg, bool normals
 {
 	if (normals_or_tex_coords)
 	{
-		int n_vertices = (int)(360.0f / angle_step_deg);
+		int n_vertices = segment_count(angle_step_deg);
 
 		std::vector<u32>* indices = new std::vector<u32>;
 		onyx_add_malloc(indices, false);
@@ -236,11 +244,11 @@ onyx::IndexBuffer onyx::IndexBuffer::cylinder(float angle_step_deg, bool normals
 		indices->push_back(3 * n_vertices);
 		indices->push_back(4 * n_vertices - 1);
 
-		return IndexBuffer(indices->data(), indices->size() * sizeof(u32));
+		return IndexBuffer(indices->data(), static_cast<u32>(indices->size() * sizeof(u32)));
 	}
 	else
 	{
-		int n_vertices = (int)(360.0f / angle_step_deg);
+		int n_vertices = segment_count(angle_step_deg);
 
 		std::vector<u32>* indices = new std::vector<u32>;
 		onyx_add_malloc(indices, false);
@@ -271,13 +279,13 @@ onyx::IndexBuffer onyx::IndexBuffer::cylinder(float angle_step_deg, bool normals
 		}
 
 		indices->push_back(n_vertices - 1);
-		indices->push_back(1);
+		indices->push_back(0);
 		indices->push_back(2 * n_vertices - 1);
 
-		indices->push_back(1);
+		indices->push_back(0);
 		indices->push_back(n_vertices);
 		indices->push_back(2 * n_vertices - 1);
 
-		return IndexBuffer(indices->data(), indices->size() * sizeof(u32));
+		return IndexBuffer(indices->data(), static_cast<u32>(indices->size() * sizeof(u32)));
 	}
 }

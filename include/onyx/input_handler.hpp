@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+#include <vector>
 #include <unordered_map>
 #include <unordered_set>
 #include <mutex>
@@ -19,6 +21,7 @@ namespace onyx
 	{
 		friend class Window;
 
+	public:
 		/*
 			@brief The key callback function signature.
 			@param key The GLFW key.
@@ -51,15 +54,16 @@ namespace onyx
 		typedef void(*ScrollCallbackFn)(double dx, double dy);
 
 		/*
-			@brief The key callback function signature.
+			@brief The joystick callback function signature.
 			@param jid The GLFW joystick ID.
 			@param event The GLFW event.
 		*/
 		typedef void(*JoystickCallbackFn)(int jid, int event);
 
-	public:
 		/*
 			@brief Creates an InputHandler.
+			Gamepads that are already connected are detected here if onyx::init() has been called,
+			and otherwise when the input handler is linked to a window.
 		 !  MUST BE LINKED TO A WINDOW TO USE MOST FUNCTIONS
 		 !  Use `Window::link_input_handler()`
 		 */
@@ -312,12 +316,6 @@ namespace onyx
 		bool is_cursor_locked() const;
 
 		/*
-			@deprecated There is no longer a need for this function, as newly connected gamepads are automatically added to the list.
-		 */
-		[[deprecated("This function is deprecated and will be removed in the next major release. There is no longer a need for this function, as newly connected gamepads are automatically added to the list.")]]
-		void refresh_gamepads();
-
-		/*
 			@brief Gets the position of the mouse.
 			This is independent of whether update() is called each frame.
 			@return The position of the mouse.
@@ -366,15 +364,15 @@ namespace onyx
 	private:
 		Window* p_win;
 
-		onyx::KeyState keys[(int)onyx::Key::MaxKey];
-		bool keys_tapped[(int)onyx::Key::MaxKey];
-		float key_cooldowns[(int)onyx::Key::MaxKey];
-		float set_key_cooldowns[(int)onyx::Key::MaxKey];
+		onyx::KeyState keys[(int)onyx::Key::MaxKey + 1];
+		bool keys_tapped[(int)onyx::Key::MaxKey + 1];
+		float key_cooldowns[(int)onyx::Key::MaxKey + 1];
+		float set_key_cooldowns[(int)onyx::Key::MaxKey + 1];
 
-		onyx::KeyState buttons[(int)onyx::MouseButton::MaxButton];
-		bool buttons_tapped[(int)onyx::MouseButton::MaxButton];
-		float button_cooldowns[(int)onyx::MouseButton::MaxButton];
-		float set_button_cooldowns[(int)onyx::MouseButton::MaxButton];
+		onyx::KeyState buttons[(int)onyx::MouseButton::MaxButton + 1];
+		bool buttons_tapped[(int)onyx::MouseButton::MaxButton + 1];
+		float button_cooldowns[(int)onyx::MouseButton::MaxButton + 1];
+		float set_button_cooldowns[(int)onyx::MouseButton::MaxButton + 1];
 
 		std::vector<onyx::Key> active_key_cooldowns;
 		std::vector<onyx::MouseButton> active_button_cooldowns;
@@ -382,10 +380,10 @@ namespace onyx
 		const static std::unordered_map<char, onyx::Key> char_to_key_map;
 		const static std::unordered_map<onyx::Key, char> key_to_char_map;
 
-		const static std::unordered_map<const char*, onyx::Key> str_to_key_map;
+		const static std::unordered_map<std::string, onyx::Key> str_to_key_map;
 		const static std::unordered_map<onyx::Key, const char*> key_to_str_map;
 
-		const static std::unordered_map<const char*, onyx::MouseButton> str_to_button_map;
+		const static std::unordered_map<std::string, onyx::MouseButton> str_to_button_map;
 		const static std::unordered_map<onyx::MouseButton, const char*> button_to_str_map;
 
 		static std::mutex mtx_char_to_key_map;
@@ -426,5 +424,7 @@ namespace onyx
 		void mouse_pos_callback(double x, double y);
 		void scroll_callback(double dx, double dy);
 		void joystick_callback(int jid, int event);
+
+		void scan_gamepads();
 	};
 }

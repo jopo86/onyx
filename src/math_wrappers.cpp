@@ -1,11 +1,39 @@
 #include <onyx/math_wrappers.hpp>
 
+#include <atomic>
+#include <cmath>
+#include <cstdlib>
+#include <random>
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "internal.hpp"
+
+namespace
+{
+	std::atomic<u32> random_seed{ std::random_device{}() };
+	std::atomic<u32> random_seed_generation{ 0 };
+}
 
 void onyx_seed_random(u32 seed)
 {
-	srand(seed);
+	random_seed.store(seed);
+	random_seed_generation.fetch_add(1);
+}
+
+std::mt19937& onyx::math::detail::random_engine()
+{
+	thread_local u32 generation = random_seed_generation.load();
+	thread_local std::mt19937 engine(random_seed.load());
+
+	u32 current = random_seed_generation.load();
+	if (generation != current)
+	{
+		generation = current;
+		engine.seed(random_seed.load());
+	}
+
+	return engine;
 }
 
 float onyx::math::radians(float degrees)
@@ -44,217 +72,219 @@ double onyx::math::clamp(double value, double min, double max)
 
 float onyx::math::remap(float val, Vec2 old_range, Vec2 new_range)
 {
+	if (old_range.get_x() == old_range.get_y()) return new_range.get_x();
 	return ((val - old_range.get_x()) / (old_range.get_y() - old_range.get_x())) * (new_range.get_y() - new_range.get_x()) + new_range.get_x();
 }
 
 double onyx::math::remap(double val, DVec2 old_range, DVec2 new_range)
 {
+	if (old_range.get_x() == old_range.get_y()) return new_range.get_x();
 	return ((val - old_range.get_x()) / (old_range.get_y() - old_range.get_x())) * (new_range.get_y() - new_range.get_x()) + new_range.get_x();
 }
 
 int onyx::math::abs(int value)
 {
-	return abs(value);
+	return std::abs(value);
 }
 
 float onyx::math::abs(float value)
 {
-	return abs(value);
+	return std::abs(value);
 }
 
 double onyx::math::abs(double value)
 {
-	return abs(value);
+	return std::abs(value);
 }
 
 float onyx::math::sqrt(float value)
 {
-	return sqrt(value);
+	return std::sqrt(value);
 }
 
 double onyx::math::sqrt(double value)
 {
-	return sqrt(value);
+	return std::sqrt(value);
 }
 
 float onyx::math::pow(float base, float exponent)
 {
-	return pow(base, exponent);
+	return std::pow(base, exponent);
 }
 
 double onyx::math::pow(double base, double exponent)
 {
-	return pow(base, exponent);
+	return std::pow(base, exponent);
 }
 
 float onyx::math::sin(float val)
 {
-	return sinf(val);
+	return std::sin(val);
 }
 
 float onyx::math::cos(float val)
 {
-	return cosf(val);
+	return std::cos(val);
 }
 
 float onyx::math::tan(float val)
 {
-	return tanf(val);
+	return std::tan(val);
 }
 
 float onyx::math::asin(float value)
 {
-	return asinf(value);
+	return std::asin(value);
 }
 
 float onyx::math::acos(float value)
 {
-	return acosf(value);
+	return std::acos(value);
 }
 
 float onyx::math::atan(float value)
 {
-	return atanf(value);
+	return std::atan(value);
 }
 
 float onyx::math::atan2(float y, float x)
 {
-	return atan2f(y, x);
+	return std::atan2(y, x);
 }
 
 double onyx::math::sin(double val)
 {
-	return sin(val);
+	return std::sin(val);
 }
 
 double onyx::math::cos(double val)
 {
-	return cos(val);
+	return std::cos(val);
 }
 
 double onyx::math::tan(double val)
 {
-	return tan(val);
+	return std::tan(val);
 }
 
 double onyx::math::asin(double value)
 {
-	return asin(value);
+	return std::asin(value);
 }
 
 double onyx::math::acos(double value)
 {
-	return acos(value);
+	return std::acos(value);
 }
 
 double onyx::math::atan(double value)
 {
-	return atan(value);
+	return std::atan(value);
 }
 
 double onyx::math::atan2(double y, double x)
 {
-	return atan2(y, x);
+	return std::atan2(y, x);
 }
 
 float onyx::math::sinh(float val)
 {
-	return sinhf(val);
+	return std::sinh(val);
 }
 
 float onyx::math::cosh(float val)
 {
-	return coshf(val);
+	return std::cosh(val);
 }
 
 float onyx::math::tanh(float val)
 {
-	return tanhf(val);
+	return std::tanh(val);
 }
 
 float onyx::math::asinh(float val)
 {
-	return asinhf(val);
+	return std::asinh(val);
 }
 
 float onyx::math::acosh(float val)
 {
-	return acoshf(val);
+	return std::acosh(val);
 }
 
 float onyx::math::atanh(float val)
 {
-	return atanhf(val);
+	return std::atanh(val);
 }
 
 double onyx::math::sinh(double val)
 {
-	return sinh(val);
+	return std::sinh(val);
 }
 
 double onyx::math::cosh(double val)
 {
-	return cosh(val);
+	return std::cosh(val);
 }
 
 double onyx::math::tanh(double val)
 {
-	return tanh(val);
+	return std::tanh(val);
 }
 
 double onyx::math::asinh(double val)
 {
-	return asinh(val);
+	return std::asinh(val);
 }
 
 double onyx::math::acosh(double val)
 {
-	return acosh(val);
+	return std::acosh(val);
 }
 
 double onyx::math::atanh(double val)
 {
-	return atanh(val);
+	return std::atanh(val);
 }
 
 float onyx::math::floor(float val)
 {
-	return floorf(val);
+	return std::floor(val);
 }
 
 double onyx::math::floor(double val)
 {
-	return floor(val);
+	return std::floor(val);
 }
 
 float onyx::math::ceil(float val)
 {
-	return ceilf(val);
+	return std::ceil(val);
 }
 
 double onyx::math::ceil(double val)
 {
-	return ceil(val);
+	return std::ceil(val);
 }
 
 float onyx::math::round(float val)
 {
-	return roundf(val);
+	return std::round(val);
 }
 
 double onyx::math::round(double val)
 {
-	return round(val);
+	return std::round(val);
 }
 
 float onyx::math::trunc(float val)
 {
-	return truncf(val);
+	return std::trunc(val);
 }
 
 double onyx::math::trunc(double val)
 {
-	return trunc(val);
+	return std::trunc(val);
 }
 
 float onyx::math::fract(float val)
@@ -359,7 +389,9 @@ float onyx::math::Vec2::magnitude() const
 
 void onyx::math::Vec2::normalize()
 {
-	this->vec = glm::normalize(this->vec);
+	float mag = magnitude();
+	if (mag == 0.0f) return;
+	this->vec /= mag;
 }
 
 const float* onyx::math::Vec2::data() const
@@ -394,7 +426,9 @@ const glm::vec2& onyx::math::Vec2::get_mvec() const
 
 onyx::math::Vec2 onyx::math::Vec2::get_normalized() const
 {
-	return Vec2(glm::normalize(this->vec));
+	Vec2 normalized = *this;
+	normalized.normalize();
+	return normalized;
 }
 
 void onyx::math::Vec2::set_x(float x)
@@ -424,20 +458,14 @@ float onyx::math::Vec2::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::Vec2::operator=(const Vec2& vec)
+onyx::math::Vec2 onyx::math::Vec2::operator+(const Vec2& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
+	return Vec2(this->vec + other.vec);
 }
 
-onyx::math::Vec2 onyx::math::Vec2::operator+(const Vec2& vec) const
+void onyx::math::Vec2::operator+=(const Vec2& other)
 {
-	return Vec2(this->vec + vec.vec);
-}
-
-void onyx::math::Vec2::operator+=(const Vec2& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::Vec2 onyx::math::Vec2::operator-() const
@@ -445,14 +473,14 @@ onyx::math::Vec2 onyx::math::Vec2::operator-() const
 	return Vec2(-this->vec);
 }
 
-onyx::math::Vec2 onyx::math::Vec2::operator-(const Vec2& vec) const
+onyx::math::Vec2 onyx::math::Vec2::operator-(const Vec2& other) const
 {
-	return Vec2(this->vec - vec.vec);
+	return Vec2(this->vec - other.vec);
 }
 
-void onyx::math::Vec2::operator-=(const Vec2& vec)
+void onyx::math::Vec2::operator-=(const Vec2& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::Vec2 onyx::math::Vec2::operator*(const float& scalar) const
@@ -517,7 +545,9 @@ float onyx::math::Vec3::magnitude() const
 
 void onyx::math::Vec3::normalize()
 {
-	this->vec = glm::normalize(this->vec);
+	float mag = magnitude();
+	if (mag == 0.0f) return;
+	this->vec /= mag;
 }
 
 const float* onyx::math::Vec3::data() const
@@ -557,7 +587,9 @@ const glm::vec3& onyx::math::Vec3::get_mvec() const
 
 onyx::math::Vec3 onyx::math::Vec3::get_normalized() const
 {
-	return Vec3(glm::normalize(this->vec));
+	Vec3 normalized = *this;
+	normalized.normalize();
+	return normalized;
 }
 
 void onyx::math::Vec3::set_x(float x)
@@ -593,21 +625,14 @@ float onyx::math::Vec3::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::Vec3::operator=(const Vec3& vec)
+onyx::math::Vec3 onyx::math::Vec3::operator+(const Vec3& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
-	this->vec.z = vec.get_z();
+	return Vec3(this->vec + other.vec);
 }
 
-onyx::math::Vec3 onyx::math::Vec3::operator+(const Vec3& vec) const
+void onyx::math::Vec3::operator+=(const Vec3& other)
 {
-	return Vec3(this->vec + vec.vec);
-}
-
-void onyx::math::Vec3::operator+=(const Vec3& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::Vec3 onyx::math::Vec3::operator-() const
@@ -615,14 +640,14 @@ onyx::math::Vec3 onyx::math::Vec3::operator-() const
 	return Vec3(-this->vec);
 }
 
-onyx::math::Vec3 onyx::math::Vec3::operator-(const Vec3& vec) const
+onyx::math::Vec3 onyx::math::Vec3::operator-(const Vec3& other) const
 {
-	return Vec3(this->vec - vec.vec);
+	return Vec3(this->vec - other.vec);
 }
 
-void onyx::math::Vec3::operator-=(const Vec3& vec)
+void onyx::math::Vec3::operator-=(const Vec3& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::Vec3 onyx::math::Vec3::operator*(const float& scalar) const
@@ -792,7 +817,9 @@ float onyx::math::Vec4::magnitude() const
 
 void onyx::math::Vec4::normalize()
 {
-	this->vec = glm::normalize(this->vec);
+	float mag = magnitude();
+	if (mag == 0.0f) return;
+	this->vec /= mag;
 }
 
 const float* onyx::math::Vec4::data() const
@@ -837,7 +864,9 @@ const glm::vec4& onyx::math::Vec4::get_mvec() const
 
 onyx::math::Vec4 onyx::math::Vec4::get_normalized() const
 {
-	return Vec4(glm::normalize(this->vec));
+	Vec4 normalized = *this;
+	normalized.normalize();
+	return normalized;
 }
 
 void onyx::math::Vec4::set_x(float x)
@@ -879,22 +908,14 @@ float onyx::math::Vec4::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::Vec4::operator=(const Vec4& vec)
+onyx::math::Vec4 onyx::math::Vec4::operator+(const Vec4& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
-	this->vec.z = vec.get_z();
-	this->vec.w = vec.get_w();
+	return Vec4(this->vec + other.vec);
 }
 
-onyx::math::Vec4 onyx::math::Vec4::operator+(const Vec4& vec) const
+void onyx::math::Vec4::operator+=(const Vec4& other)
 {
-	return Vec4(this->vec + vec.vec);
-}
-
-void onyx::math::Vec4::operator+=(const Vec4& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::Vec4 onyx::math::Vec4::operator-() const
@@ -902,14 +923,14 @@ onyx::math::Vec4 onyx::math::Vec4::operator-() const
 	return Vec4(-this->vec);
 }
 
-onyx::math::Vec4 onyx::math::Vec4::operator-(const Vec4& vec) const
+onyx::math::Vec4 onyx::math::Vec4::operator-(const Vec4& other) const
 {
-	return Vec4(this->vec - vec.vec);
+	return Vec4(this->vec - other.vec);
 }
 
-void onyx::math::Vec4::operator-=(const Vec4& vec)
+void onyx::math::Vec4::operator-=(const Vec4& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::Vec4 onyx::math::Vec4::operator*(const float& scalar) const
@@ -1146,7 +1167,9 @@ double onyx::math::DVec2::magnitude() const
 
 void onyx::math::DVec2::normalize()
 {
-	this->vec = glm::normalize(this->vec);
+	double mag = magnitude();
+	if (mag == 0.0) return;
+	this->vec /= mag;
 }
 
 const double* onyx::math::DVec2::data() const
@@ -1181,7 +1204,9 @@ const glm::dvec2& onyx::math::DVec2::get_mvec() const
 
 onyx::math::DVec2 onyx::math::DVec2::get_normalized() const
 {
-	return DVec2(glm::normalize(this->vec));
+	DVec2 normalized = *this;
+	normalized.normalize();
+	return normalized;
 }
 
 void onyx::math::DVec2::set_x(double x)
@@ -1211,20 +1236,14 @@ double onyx::math::DVec2::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::DVec2::operator=(const DVec2& vec)
+onyx::math::DVec2 onyx::math::DVec2::operator+(const DVec2& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
+	return DVec2(this->vec + other.vec);
 }
 
-onyx::math::DVec2 onyx::math::DVec2::operator+(const DVec2& vec) const
+void onyx::math::DVec2::operator+=(const DVec2& other)
 {
-	return DVec2(this->vec + vec.vec);
-}
-
-void onyx::math::DVec2::operator+=(const DVec2& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::DVec2 onyx::math::DVec2::operator-() const
@@ -1232,14 +1251,14 @@ onyx::math::DVec2 onyx::math::DVec2::operator-() const
 	return DVec2(-this->vec);
 }
 
-onyx::math::DVec2 onyx::math::DVec2::operator-(const DVec2& vec) const
+onyx::math::DVec2 onyx::math::DVec2::operator-(const DVec2& other) const
 {
-	return DVec2(this->vec - vec.vec);
+	return DVec2(this->vec - other.vec);
 }
 
-void onyx::math::DVec2::operator-=(const DVec2& vec)
+void onyx::math::DVec2::operator-=(const DVec2& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::DVec2 onyx::math::DVec2::operator*(const double& scalar) const
@@ -1304,7 +1323,9 @@ double onyx::math::DVec3::magnitude() const
 
 void onyx::math::DVec3::normalize()
 {
-	this->vec = glm::normalize(this->vec);
+	double mag = magnitude();
+	if (mag == 0.0) return;
+	this->vec /= mag;
 }
 
 const double* onyx::math::DVec3::data() const
@@ -1344,7 +1365,9 @@ const glm::dvec3& onyx::math::DVec3::get_mvec() const
 
 onyx::math::DVec3 onyx::math::DVec3::get_normalized() const
 {
-	return DVec3(glm::normalize(this->vec));
+	DVec3 normalized = *this;
+	normalized.normalize();
+	return normalized;
 }
 
 void onyx::math::DVec3::set_x(double x)
@@ -1380,21 +1403,14 @@ double onyx::math::DVec3::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::DVec3::operator=(const DVec3& vec)
+onyx::math::DVec3 onyx::math::DVec3::operator+(const DVec3& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
-	this->vec.z = vec.get_z();
+	return DVec3(this->vec + other.vec);
 }
 
-onyx::math::DVec3 onyx::math::DVec3::operator+(const DVec3& vec) const
+void onyx::math::DVec3::operator+=(const DVec3& other)
 {
-	return DVec3(this->vec + vec.vec);
-}
-
-void onyx::math::DVec3::operator+=(const DVec3& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::DVec3 onyx::math::DVec3::operator-() const
@@ -1402,14 +1418,14 @@ onyx::math::DVec3 onyx::math::DVec3::operator-() const
 	return DVec3(-this->vec);
 }
 
-onyx::math::DVec3 onyx::math::DVec3::operator-(const DVec3& vec) const
+onyx::math::DVec3 onyx::math::DVec3::operator-(const DVec3& other) const
 {
-	return DVec3(this->vec - vec.vec);
+	return DVec3(this->vec - other.vec);
 }
 
-void onyx::math::DVec3::operator-=(const DVec3& vec)
+void onyx::math::DVec3::operator-=(const DVec3& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::DVec3 onyx::math::DVec3::operator*(const double& scalar) const
@@ -1494,7 +1510,9 @@ double onyx::math::DVec4::magnitude() const
 
 void onyx::math::DVec4::normalize()
 {
-	this->vec = glm::normalize(this->vec);
+	double mag = magnitude();
+	if (mag == 0.0) return;
+	this->vec /= mag;
 }
 
 const double* onyx::math::DVec4::data() const
@@ -1539,7 +1557,9 @@ const glm::dvec4& onyx::math::DVec4::get_mvec() const
 
 onyx::math::DVec4 onyx::math::DVec4::get_normalized() const
 {
-	return DVec4(glm::normalize(this->vec));
+	DVec4 normalized = *this;
+	normalized.normalize();
+	return normalized;
 }
 
 void onyx::math::DVec4::set_x(double x)
@@ -1581,22 +1601,14 @@ double onyx::math::DVec4::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::DVec4::operator=(const DVec4& vec)
+onyx::math::DVec4 onyx::math::DVec4::operator+(const DVec4& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
-	this->vec.z = vec.get_z();
-	this->vec.w = vec.get_w();
+	return DVec4(this->vec + other.vec);
 }
 
-onyx::math::DVec4 onyx::math::DVec4::operator+(const DVec4& vec) const
+void onyx::math::DVec4::operator+=(const DVec4& other)
 {
-	return DVec4(this->vec + vec.vec);
-}
-
-void onyx::math::DVec4::operator+=(const DVec4& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::DVec4 onyx::math::DVec4::operator-() const
@@ -1604,14 +1616,14 @@ onyx::math::DVec4 onyx::math::DVec4::operator-() const
 	return DVec4(-this->vec);
 }
 
-onyx::math::DVec4 onyx::math::DVec4::operator-(const DVec4& vec) const
+onyx::math::DVec4 onyx::math::DVec4::operator-(const DVec4& other) const
 {
-	return DVec4(this->vec - vec.vec);
+	return DVec4(this->vec - other.vec);
 }
 
-void onyx::math::DVec4::operator-=(const DVec4& vec)
+void onyx::math::DVec4::operator-=(const DVec4& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::DVec4 onyx::math::DVec4::operator*(const double& scalar) const
@@ -1837,20 +1849,14 @@ int onyx::math::IVec2::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::IVec2::operator=(const IVec2& vec)
+onyx::math::IVec2 onyx::math::IVec2::operator+(const IVec2& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
+	return IVec2(this->vec + other.vec);
 }
 
-onyx::math::IVec2 onyx::math::IVec2::operator+(const IVec2& vec) const
+void onyx::math::IVec2::operator+=(const IVec2& other)
 {
-	return IVec2(this->vec + vec.vec);
-}
-
-void onyx::math::IVec2::operator+=(const IVec2& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::IVec2 onyx::math::IVec2::operator-() const
@@ -1858,25 +1864,25 @@ onyx::math::IVec2 onyx::math::IVec2::operator-() const
 	return IVec2(-this->vec);
 }
 
-onyx::math::IVec2 onyx::math::IVec2::operator-(const IVec2& vec) const
+onyx::math::IVec2 onyx::math::IVec2::operator-(const IVec2& other) const
 {
-	return IVec2(this->vec - vec.vec);
+	return IVec2(this->vec - other.vec);
 }
 
-void onyx::math::IVec2::operator-=(const IVec2& vec)
+void onyx::math::IVec2::operator-=(const IVec2& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::IVec2 onyx::math::IVec2::operator*(const float& scalar) const
 {
-	return IVec2(this->vec.x * scalar, this->vec.y * scalar);
+	return IVec2(static_cast<int>(this->vec.x * scalar), static_cast<int>(this->vec.y * scalar));
 }
 
 void onyx::math::IVec2::operator*=(const float& scalar)
 {
-	this->vec.x *= scalar;
-	this->vec.y *= scalar;
+	this->vec.x = static_cast<int>(this->vec.x * scalar);
+	this->vec.y = static_cast<int>(this->vec.y * scalar);
 }
 
 onyx::math::IVec3::IVec3()
@@ -1986,21 +1992,14 @@ int onyx::math::IVec3::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::IVec3::operator=(const IVec3& vec)
+onyx::math::IVec3 onyx::math::IVec3::operator+(const IVec3& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
-	this->vec.z = vec.get_z();
+	return IVec3(this->vec + other.vec);
 }
 
-onyx::math::IVec3 onyx::math::IVec3::operator+(const IVec3& vec) const
+void onyx::math::IVec3::operator+=(const IVec3& other)
 {
-	return IVec3(this->vec + vec.vec);
-}
-
-void onyx::math::IVec3::operator+=(const IVec3& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::IVec3 onyx::math::IVec3::operator-() const
@@ -2008,26 +2007,26 @@ onyx::math::IVec3 onyx::math::IVec3::operator-() const
 	return IVec3(-this->vec);
 }
 
-onyx::math::IVec3 onyx::math::IVec3::operator-(const IVec3& vec) const
+onyx::math::IVec3 onyx::math::IVec3::operator-(const IVec3& other) const
 {
-	return IVec3(this->vec - vec.vec);
+	return IVec3(this->vec - other.vec);
 }
 
-void onyx::math::IVec3::operator-=(const IVec3& vec)
+void onyx::math::IVec3::operator-=(const IVec3& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::IVec3 onyx::math::IVec3::operator*(const float& scalar) const
 {
-	return IVec3(this->vec.x * scalar, this->vec.y * scalar, this->vec.z * scalar);
+	return IVec3(static_cast<int>(this->vec.x * scalar), static_cast<int>(this->vec.y * scalar), static_cast<int>(this->vec.z * scalar));
 }
 
 void onyx::math::IVec3::operator*=(const float& scalar)
 {
-	this->vec.x *= scalar;
-	this->vec.y *= scalar;
-	this->vec.z *= scalar;
+	this->vec.x = static_cast<int>(this->vec.x * scalar);
+	this->vec.y = static_cast<int>(this->vec.y * scalar);
+	this->vec.z = static_cast<int>(this->vec.z * scalar);
 }
 
 onyx::math::IVec4::IVec4()
@@ -2168,22 +2167,14 @@ int onyx::math::IVec4::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::IVec4::operator=(const IVec4& vec)
+onyx::math::IVec4 onyx::math::IVec4::operator+(const IVec4& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
-	this->vec.z = vec.get_z();
-	this->vec.w = vec.get_w();
+	return IVec4(this->vec + other.vec);
 }
 
-onyx::math::IVec4 onyx::math::IVec4::operator+(const IVec4& vec) const
+void onyx::math::IVec4::operator+=(const IVec4& other)
 {
-	return IVec4(this->vec + vec.vec);
-}
-
-void onyx::math::IVec4::operator+=(const IVec4& vec)
-{
-	this->vec += vec.vec;
+	this->vec += other.vec;
 }
 
 onyx::math::IVec4 onyx::math::IVec4::operator-() const
@@ -2191,27 +2182,27 @@ onyx::math::IVec4 onyx::math::IVec4::operator-() const
 	return IVec4(-this->vec);
 }
 
-onyx::math::IVec4 onyx::math::IVec4::operator-(const IVec4& vec) const
+onyx::math::IVec4 onyx::math::IVec4::operator-(const IVec4& other) const
 {
-	return IVec4(this->vec - vec.vec);
+	return IVec4(this->vec - other.vec);
 }
 
-void onyx::math::IVec4::operator-=(const IVec4& vec)
+void onyx::math::IVec4::operator-=(const IVec4& other)
 {
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::IVec4 onyx::math::IVec4::operator*(const float& scalar) const
 {
-	return IVec4(this->vec.x * scalar, this->vec.y * scalar, this->vec.z * scalar, this->vec.w * scalar);
+	return IVec4(static_cast<int>(this->vec.x * scalar), static_cast<int>(this->vec.y * scalar), static_cast<int>(this->vec.z * scalar), static_cast<int>(this->vec.w * scalar));
 }
 
 void onyx::math::IVec4::operator*=(const float& scalar)
 {
-	this->vec.x *= scalar;
-	this->vec.y *= scalar;
-	this->vec.z *= scalar;
-	this->vec.w *= scalar;
+	this->vec.x = static_cast<int>(this->vec.x * scalar);
+	this->vec.y = static_cast<int>(this->vec.y * scalar);
+	this->vec.z = static_cast<int>(this->vec.z * scalar);
+	this->vec.w = static_cast<int>(this->vec.w * scalar);
 }
 
 onyx::math::UVec2::UVec2()
@@ -2285,43 +2276,37 @@ u32 onyx::math::UVec2::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::UVec2::operator=(const UVec2& vec)
+onyx::math::UVec2 onyx::math::UVec2::operator+(const UVec2& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
+	return UVec2(this->vec + other.vec);
 }
 
-onyx::math::UVec2 onyx::math::UVec2::operator+(const UVec2& vec) const
+void onyx::math::UVec2::operator+=(const UVec2& other)
 {
-	return UVec2(this->vec + vec.vec);
+	this->vec += other.vec;
 }
 
-void onyx::math::UVec2::operator+=(const UVec2& vec)
+onyx::math::UVec2 onyx::math::UVec2::operator-(const UVec2& other) const
 {
-	this->vec += vec.vec;
+	return UVec2(this->vec - other.vec);
 }
 
-onyx::math::UVec2 onyx::math::UVec2::operator-(const UVec2& vec) const
+void onyx::math::UVec2::operator-=(const UVec2& other)
 {
-	return UVec2(this->vec - vec.vec);
-}
-
-void onyx::math::UVec2::operator-=(const UVec2& vec)
-{
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::UVec2 onyx::math::UVec2::operator*(const float& _scalar) const
 {
 	float scalar = abs(_scalar);
-	return UVec2(this->vec.x * scalar, this->vec.y * scalar);
+	return UVec2(static_cast<u32>(this->vec.x * scalar), static_cast<u32>(this->vec.y * scalar));
 }
 
 void onyx::math::UVec2::operator*=(const float& _scalar)
 {
 	float scalar = abs(_scalar);
-	this->vec.x *= scalar;
-	this->vec.y *= scalar;
+	this->vec.x = static_cast<u32>(this->vec.x * scalar);
+	this->vec.y = static_cast<u32>(this->vec.y * scalar);
 }
 
 onyx::math::UVec3::UVec3()
@@ -2416,45 +2401,38 @@ u32 onyx::math::UVec3::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::UVec3::operator=(const UVec3& vec)
+onyx::math::UVec3 onyx::math::UVec3::operator+(const UVec3& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
-	this->vec.z = vec.get_z();
+	return UVec3(this->vec + other.vec);
 }
 
-onyx::math::UVec3 onyx::math::UVec3::operator+(const UVec3& vec) const
+void onyx::math::UVec3::operator+=(const UVec3& other)
 {
-	return UVec3(this->vec + vec.vec);
+	this->vec += other.vec;
 }
 
-void onyx::math::UVec3::operator+=(const UVec3& vec)
+onyx::math::UVec3 onyx::math::UVec3::operator-(const UVec3& other) const
 {
-	this->vec += vec.vec;
+	return UVec3(this->vec - other.vec);
 }
 
-onyx::math::UVec3 onyx::math::UVec3::operator-(const UVec3& vec) const
+void onyx::math::UVec3::operator-=(const UVec3& other)
 {
-	return UVec3(this->vec - vec.vec);
-}
-
-void onyx::math::UVec3::operator-=(const UVec3& vec)
-{
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::UVec3 onyx::math::UVec3::operator*(const float& _scalar) const
 {
 	float scalar = abs(_scalar);
-	return UVec3(this->vec.x * scalar, this->vec.y * scalar, this->vec.z * scalar);
+	return UVec3(static_cast<u32>(this->vec.x * scalar), static_cast<u32>(this->vec.y * scalar), static_cast<u32>(this->vec.z * scalar));
 }
 
 void onyx::math::UVec3::operator*=(const float& _scalar)
 {
 	float scalar = abs(_scalar);
-	this->vec.x *= scalar;
-	this->vec.y *= scalar;
-	this->vec.z *= scalar;
+	this->vec.x = static_cast<u32>(this->vec.x * scalar);
+	this->vec.y = static_cast<u32>(this->vec.y * scalar);
+	this->vec.z = static_cast<u32>(this->vec.z * scalar);
 }
 
 onyx::math::UVec4::UVec4()
@@ -2580,47 +2558,39 @@ u32 onyx::math::UVec4::operator[](int index) const
 	return this->vec[index];
 }
 
-void onyx::math::UVec4::operator=(const UVec4& vec)
+onyx::math::UVec4 onyx::math::UVec4::operator+(const UVec4& other) const
 {
-	this->vec.x = vec.get_x();
-	this->vec.y = vec.get_y();
-	this->vec.z = vec.get_z();
-	this->vec.w = vec.get_w();
+	return UVec4(this->vec + other.vec);
 }
 
-onyx::math::UVec4 onyx::math::UVec4::operator+(const UVec4& vec) const
+void onyx::math::UVec4::operator+=(const UVec4& other)
 {
-	return UVec4(this->vec + vec.vec);
+	this->vec += other.vec;
 }
 
-void onyx::math::UVec4::operator+=(const UVec4& vec)
+onyx::math::UVec4 onyx::math::UVec4::operator-(const UVec4& other) const
 {
-	this->vec += vec.vec;
+	return UVec4(this->vec - other.vec);
 }
 
-onyx::math::UVec4 onyx::math::UVec4::operator-(const UVec4& vec) const
+void onyx::math::UVec4::operator-=(const UVec4& other)
 {
-	return UVec4(this->vec - vec.vec);
-}
-
-void onyx::math::UVec4::operator-=(const UVec4& vec)
-{
-	this->vec -= vec.vec;
+	this->vec -= other.vec;
 }
 
 onyx::math::UVec4 onyx::math::UVec4::operator*(const float& _scalar) const
 {
 	float scalar = abs(_scalar);
-	return UVec4(this->vec.x * scalar, this->vec.y * scalar, this->vec.z * scalar, this->vec.w * scalar);
+	return UVec4(static_cast<u32>(this->vec.x * scalar), static_cast<u32>(this->vec.y * scalar), static_cast<u32>(this->vec.z * scalar), static_cast<u32>(this->vec.w * scalar));
 }
 
 void onyx::math::UVec4::operator*=(const float& _scalar)
 {
 	float scalar = abs(_scalar);
-	this->vec.x *= scalar;
-	this->vec.y *= scalar;
-	this->vec.z *= scalar;
-	this->vec.w *= scalar;
+	this->vec.x = static_cast<u32>(this->vec.x * scalar);
+	this->vec.y = static_cast<u32>(this->vec.y * scalar);
+	this->vec.z = static_cast<u32>(this->vec.z * scalar);
+	this->vec.w = static_cast<u32>(this->vec.w * scalar);
 }
 
 onyx::math::Vec3 onyx::math::cross(const Vec3& vec1, const Vec3& vec2)
@@ -2811,12 +2781,12 @@ const float* onyx::math::Mat2x2::data() const
 std::string onyx::math::Mat2x2::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 2; i++)
+	for (int row = 0; row < 2; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 2; j++)
+		for (int col = 0; col < 2; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -2829,19 +2799,14 @@ onyx::math::Vec2 onyx::math::Mat2x2::operator[](int index) const
 	return Vec2(this->mat[index]);
 }
 
-void onyx::math::Mat2x2::operator=(const Mat2x2& mat)
+onyx::math::Mat2x2 onyx::math::Mat2x2::operator+(const Mat2x2& other) const
 {
-	this->mat = mat.mat;
+	return Mat2x2(this->mat + other.mat);
 }
 
-onyx::math::Mat2x2 onyx::math::Mat2x2::operator+(const Mat2x2& mat) const
+void onyx::math::Mat2x2::operator+=(const Mat2x2& other)
 {
-	return Mat2x2(this->mat + mat.mat);
-}
-
-void onyx::math::Mat2x2::operator+=(const Mat2x2& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat2x2 onyx::math::Mat2x2::operator-() const
@@ -2849,14 +2814,14 @@ onyx::math::Mat2x2 onyx::math::Mat2x2::operator-() const
 	return Mat2x2(-this->mat);
 }
 
-onyx::math::Mat2x2 onyx::math::Mat2x2::operator-(const Mat2x2& mat) const
+onyx::math::Mat2x2 onyx::math::Mat2x2::operator-(const Mat2x2& other) const
 {
-	return Mat2x2(this->mat - mat.mat);
+	return Mat2x2(this->mat - other.mat);
 }
 
-void onyx::math::Mat2x2::operator-=(const Mat2x2& mat)
+void onyx::math::Mat2x2::operator-=(const Mat2x2& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat2x2 onyx::math::Mat2x2::identity()
@@ -2892,12 +2857,12 @@ const float* onyx::math::Mat2x3::data() const
 std::string onyx::math::Mat2x3::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 2; i++)
+	for (int row = 0; row < 3; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 3; j++)
+		for (int col = 0; col < 2; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -2910,19 +2875,14 @@ onyx::math::Vec3 onyx::math::Mat2x3::operator[](int index) const
 	return Vec3(this->mat[index]);
 }
 
-void onyx::math::Mat2x3::operator=(const Mat2x3& mat)
+onyx::math::Mat2x3 onyx::math::Mat2x3::operator+(const Mat2x3& other) const
 {
-	this->mat = mat.mat;
+	return Mat2x3(this->mat + other.mat);
 }
 
-onyx::math::Mat2x3 onyx::math::Mat2x3::operator+(const Mat2x3& mat) const
+void onyx::math::Mat2x3::operator+=(const Mat2x3& other)
 {
-	return Mat2x3(this->mat + mat.mat);
-}
-
-void onyx::math::Mat2x3::operator+=(const Mat2x3& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat2x3 onyx::math::Mat2x3::operator-() const
@@ -2930,14 +2890,14 @@ onyx::math::Mat2x3 onyx::math::Mat2x3::operator-() const
 	return Mat2x3(-this->mat);
 }
 
-onyx::math::Mat2x3 onyx::math::Mat2x3::operator-(const Mat2x3& mat) const
+onyx::math::Mat2x3 onyx::math::Mat2x3::operator-(const Mat2x3& other) const
 {
-	return Mat2x3(this->mat - mat.mat);
+	return Mat2x3(this->mat - other.mat);
 }
 
-void onyx::math::Mat2x3::operator-=(const Mat2x3& mat)
+void onyx::math::Mat2x3::operator-=(const Mat2x3& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat2x3 onyx::math::Mat2x3::identity()
@@ -2973,12 +2933,12 @@ const float* onyx::math::Mat2x4::data() const
 std::string onyx::math::Mat2x4::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 2; i++)
+	for (int row = 0; row < 4; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 4; j++)
+		for (int col = 0; col < 2; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -2991,19 +2951,14 @@ onyx::math::Vec4 onyx::math::Mat2x4::operator[](int index) const
 	return Vec4(this->mat[index]);
 }
 
-void onyx::math::Mat2x4::operator=(const Mat2x4& mat)
+onyx::math::Mat2x4 onyx::math::Mat2x4::operator+(const Mat2x4& other) const
 {
-	this->mat = mat.mat;
+	return Mat2x4(this->mat + other.mat);
 }
 
-onyx::math::Mat2x4 onyx::math::Mat2x4::operator+(const Mat2x4& mat) const
+void onyx::math::Mat2x4::operator+=(const Mat2x4& other)
 {
-	return Mat2x4(this->mat + mat.mat);
-}
-
-void onyx::math::Mat2x4::operator+=(const Mat2x4& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat2x4 onyx::math::Mat2x4::operator-() const
@@ -3011,14 +2966,14 @@ onyx::math::Mat2x4 onyx::math::Mat2x4::operator-() const
 	return Mat2x4(-this->mat);
 }
 
-onyx::math::Mat2x4 onyx::math::Mat2x4::operator-(const Mat2x4& mat) const
+onyx::math::Mat2x4 onyx::math::Mat2x4::operator-(const Mat2x4& other) const
 {
-	return Mat2x4(this->mat - mat.mat);
+	return Mat2x4(this->mat - other.mat);
 }
 
-void onyx::math::Mat2x4::operator-=(const Mat2x4& mat)
+void onyx::math::Mat2x4::operator-=(const Mat2x4& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat2x4 onyx::math::Mat2x4::identity()
@@ -3054,12 +3009,12 @@ const float* onyx::math::Mat3x2::data() const
 std::string onyx::math::Mat3x2::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 3; i++)
+	for (int row = 0; row < 2; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 2; j++)
+		for (int col = 0; col < 3; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -3072,19 +3027,14 @@ onyx::math::Vec2 onyx::math::Mat3x2::operator[](int index) const
 	return Vec2(this->mat[index]);
 }
 
-void onyx::math::Mat3x2::operator=(const Mat3x2& mat)
+onyx::math::Mat3x2 onyx::math::Mat3x2::operator+(const Mat3x2& other) const
 {
-	this->mat = mat.mat;
+	return Mat3x2(this->mat + other.mat);
 }
 
-onyx::math::Mat3x2 onyx::math::Mat3x2::operator+(const Mat3x2& mat) const
+void onyx::math::Mat3x2::operator+=(const Mat3x2& other)
 {
-	return Mat3x2(this->mat + mat.mat);
-}
-
-void onyx::math::Mat3x2::operator+=(const Mat3x2& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat3x2 onyx::math::Mat3x2::operator-() const
@@ -3092,14 +3042,14 @@ onyx::math::Mat3x2 onyx::math::Mat3x2::operator-() const
 	return Mat3x2(-this->mat);
 }
 
-onyx::math::Mat3x2 onyx::math::Mat3x2::operator-(const Mat3x2& mat) const
+onyx::math::Mat3x2 onyx::math::Mat3x2::operator-(const Mat3x2& other) const
 {
-	return Mat3x2(this->mat - mat.mat);
+	return Mat3x2(this->mat - other.mat);
 }
 
-void onyx::math::Mat3x2::operator-=(const Mat3x2& mat)
+void onyx::math::Mat3x2::operator-=(const Mat3x2& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat3x2 onyx::math::Mat3x2::identity()
@@ -3135,12 +3085,12 @@ const float* onyx::math::Mat3x3::data() const
 std::string onyx::math::Mat3x3::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 3; i++)
+	for (int row = 0; row < 3; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 3; j++)
+		for (int col = 0; col < 3; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -3153,19 +3103,14 @@ onyx::math::Vec3 onyx::math::Mat3x3::operator[](int index) const
 	return Vec3(this->mat[index]);
 }
 
-void onyx::math::Mat3x3::operator=(const Mat3x3& mat)
+onyx::math::Mat3x3 onyx::math::Mat3x3::operator+(const Mat3x3& other) const
 {
-	this->mat = mat.mat;
+	return Mat3x3(this->mat + other.mat);
 }
 
-onyx::math::Mat3x3 onyx::math::Mat3x3::operator+(const Mat3x3& mat) const
+void onyx::math::Mat3x3::operator+=(const Mat3x3& other)
 {
-	return Mat3x3(this->mat + mat.mat);
-}
-
-void onyx::math::Mat3x3::operator+=(const Mat3x3& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat3x3 onyx::math::Mat3x3::operator-() const
@@ -3173,14 +3118,14 @@ onyx::math::Mat3x3 onyx::math::Mat3x3::operator-() const
 	return Mat3x3(-this->mat);
 }
 
-onyx::math::Mat3x3 onyx::math::Mat3x3::operator-(const Mat3x3& mat) const
+onyx::math::Mat3x3 onyx::math::Mat3x3::operator-(const Mat3x3& other) const
 {
-	return Mat3x3(this->mat - mat.mat);
+	return Mat3x3(this->mat - other.mat);
 }
 
-void onyx::math::Mat3x3::operator-=(const Mat3x3& mat)
+void onyx::math::Mat3x3::operator-=(const Mat3x3& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat3x3 onyx::math::Mat3x3::identity()
@@ -3216,12 +3161,12 @@ const float* onyx::math::Mat3x4::data() const
 std::string onyx::math::Mat3x4::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 3; i++)
+	for (int row = 0; row < 4; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 4; j++)
+		for (int col = 0; col < 3; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -3234,19 +3179,14 @@ onyx::math::Vec4 onyx::math::Mat3x4::operator[](int index) const
 	return Vec4(this->mat[index]);
 }
 
-void onyx::math::Mat3x4::operator=(const Mat3x4& mat)
+onyx::math::Mat3x4 onyx::math::Mat3x4::operator+(const Mat3x4& other) const
 {
-	this->mat = mat.mat;
+	return Mat3x4(this->mat + other.mat);
 }
 
-onyx::math::Mat3x4 onyx::math::Mat3x4::operator+(const Mat3x4& mat) const
+void onyx::math::Mat3x4::operator+=(const Mat3x4& other)
 {
-	return Mat3x4(this->mat + mat.mat);
-}
-
-void onyx::math::Mat3x4::operator+=(const Mat3x4& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat3x4 onyx::math::Mat3x4::operator-() const
@@ -3254,14 +3194,14 @@ onyx::math::Mat3x4 onyx::math::Mat3x4::operator-() const
 	return Mat3x4(-this->mat);
 }
 
-onyx::math::Mat3x4 onyx::math::Mat3x4::operator-(const Mat3x4& mat) const
+onyx::math::Mat3x4 onyx::math::Mat3x4::operator-(const Mat3x4& other) const
 {
-	return Mat3x4(this->mat - mat.mat);
+	return Mat3x4(this->mat - other.mat);
 }
 
-void onyx::math::Mat3x4::operator-=(const Mat3x4& mat)
+void onyx::math::Mat3x4::operator-=(const Mat3x4& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat3x4 onyx::math::Mat3x4::identity()
@@ -3297,12 +3237,12 @@ const float* onyx::math::Mat4x2::data() const
 std::string onyx::math::Mat4x2::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 4; i++)
+	for (int row = 0; row < 2; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 2; j++)
+		for (int col = 0; col < 4; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -3315,19 +3255,14 @@ onyx::math::Vec2 onyx::math::Mat4x2::operator[](int index) const
 	return Vec2(this->mat[index]);
 }
 
-void onyx::math::Mat4x2::operator=(const Mat4x2& mat)
+onyx::math::Mat4x2 onyx::math::Mat4x2::operator+(const Mat4x2& other) const
 {
-	this->mat = mat.mat;
+	return Mat4x2(this->mat + other.mat);
 }
 
-onyx::math::Mat4x2 onyx::math::Mat4x2::operator+(const Mat4x2& mat) const
+void onyx::math::Mat4x2::operator+=(const Mat4x2& other)
 {
-	return Mat4x2(this->mat + mat.mat);
-}
-
-void onyx::math::Mat4x2::operator+=(const Mat4x2& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat4x2 onyx::math::Mat4x2::operator-() const
@@ -3335,14 +3270,14 @@ onyx::math::Mat4x2 onyx::math::Mat4x2::operator-() const
 	return Mat4x2(-this->mat);
 }
 
-onyx::math::Mat4x2 onyx::math::Mat4x2::operator-(const Mat4x2& mat) const
+onyx::math::Mat4x2 onyx::math::Mat4x2::operator-(const Mat4x2& other) const
 {
-	return Mat4x2(this->mat - mat.mat);
+	return Mat4x2(this->mat - other.mat);
 }
 
-void onyx::math::Mat4x2::operator-=(const Mat4x2& mat)
+void onyx::math::Mat4x2::operator-=(const Mat4x2& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat4x2 onyx::math::Mat4x2::identity()
@@ -3378,12 +3313,12 @@ const float* onyx::math::Mat4x3::data() const
 std::string onyx::math::Mat4x3::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 4; i++)
+	for (int row = 0; row < 3; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 3; j++)
+		for (int col = 0; col < 4; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -3396,19 +3331,14 @@ onyx::math::Vec3 onyx::math::Mat4x3::operator[](int index) const
 	return Vec3(this->mat[index]);
 }
 
-void onyx::math::Mat4x3::operator=(const Mat4x3& mat)
+onyx::math::Mat4x3 onyx::math::Mat4x3::operator+(const Mat4x3& other) const
 {
-	this->mat = mat.mat;
+	return Mat4x3(this->mat + other.mat);
 }
 
-onyx::math::Mat4x3 onyx::math::Mat4x3::operator+(const Mat4x3& mat) const
+void onyx::math::Mat4x3::operator+=(const Mat4x3& other)
 {
-	return Mat4x3(this->mat + mat.mat);
-}
-
-void onyx::math::Mat4x3::operator+=(const Mat4x3& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat4x3 onyx::math::Mat4x3::operator-() const
@@ -3416,14 +3346,14 @@ onyx::math::Mat4x3 onyx::math::Mat4x3::operator-() const
 	return Mat4x3(-this->mat);
 }
 
-onyx::math::Mat4x3 onyx::math::Mat4x3::operator-(const Mat4x3& mat) const
+onyx::math::Mat4x3 onyx::math::Mat4x3::operator-(const Mat4x3& other) const
 {
-	return Mat4x3(this->mat - mat.mat);
+	return Mat4x3(this->mat - other.mat);
 }
 
-void onyx::math::Mat4x3::operator-=(const Mat4x3& mat)
+void onyx::math::Mat4x3::operator-=(const Mat4x3& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat4x3 onyx::math::Mat4x3::identity()
@@ -3474,12 +3404,12 @@ const float* onyx::math::Mat4x4::data() const
 std::string onyx::math::Mat4x4::to_string() const
 {
 	std::string str;
-	for (int i = 0; i < 4; i++)
+	for (int row = 0; row < 4; row++)
 	{
 		str += "|";
-		for (int j = 0; j < 4; j++)
+		for (int col = 0; col < 4; col++)
 		{
-			str += std::string(this->mat[i][j] < 0 ? "" : " ") + std::to_string(this->mat[i][j]) + " ";
+			str += std::string(this->mat[col][row] < 0 ? "" : " ") + std::to_string(this->mat[col][row]) + " ";
 		}
 		str += "|\n";
 	}
@@ -3492,19 +3422,14 @@ onyx::math::Vec4 onyx::math::Mat4x4::operator[](int index) const
 	return Vec4(this->mat[index]);
 }
 
-void onyx::math::Mat4x4::operator=(const Mat4x4& mat)
+onyx::math::Mat4x4 onyx::math::Mat4x4::operator+(const Mat4x4& other) const
 {
-	this->mat = mat.mat;
+	return Mat4x4(this->mat + other.mat);
 }
 
-onyx::math::Mat4x4 onyx::math::Mat4x4::operator+(const Mat4x4& mat) const
+void onyx::math::Mat4x4::operator+=(const Mat4x4& other)
 {
-	return Mat4x4(this->mat + mat.mat);
-}
-
-void onyx::math::Mat4x4::operator+=(const Mat4x4& mat)
-{
-	this->mat += mat.mat;
+	this->mat += other.mat;
 }
 
 onyx::math::Mat4x4 onyx::math::Mat4x4::operator-() const
@@ -3512,14 +3437,14 @@ onyx::math::Mat4x4 onyx::math::Mat4x4::operator-() const
 	return Mat4x4(-this->mat);
 }
 
-onyx::math::Mat4x4 onyx::math::Mat4x4::operator-(const Mat4x4& mat) const
+onyx::math::Mat4x4 onyx::math::Mat4x4::operator-(const Mat4x4& other) const
 {
-	return Mat4x4(this->mat - mat.mat);
+	return Mat4x4(this->mat - other.mat);
 }
 
-void onyx::math::Mat4x4::operator-=(const Mat4x4& mat)
+void onyx::math::Mat4x4::operator-=(const Mat4x4& other)
 {
-	this->mat -= mat.mat;
+	this->mat -= other.mat;
 }
 
 onyx::math::Mat4x4 onyx::math::Mat4x4::identity()
@@ -3532,19 +3457,19 @@ onyx::math::Mat2x2 onyx::math::operator*(const Mat2x2& mat1, const Mat2x2& mat2)
 	return Mat2x2(mat1.get_mmat() * mat2.get_mmat());
 }
 
-onyx::math::Mat2x2 onyx::math::operator*(const Mat2x3& mat1, const Mat3x2& mat2)
-{
-	return Mat2x2(mat1.get_mmat() * mat2.get_mmat());
-}
-
-onyx::math::Mat2x2 onyx::math::operator*(const Mat2x4& mat1, const Mat4x2& mat2)
-{
-	return Mat2x2(mat1.get_mmat() * mat2.get_mmat());
-}
-
-onyx::math::Mat3x3 onyx::math::operator*(const Mat3x2& mat1, const Mat2x3& mat2)
+onyx::math::Mat3x3 onyx::math::operator*(const Mat2x3& mat1, const Mat3x2& mat2)
 {
 	return Mat3x3(mat1.get_mmat() * mat2.get_mmat());
+}
+
+onyx::math::Mat4x4 onyx::math::operator*(const Mat2x4& mat1, const Mat4x2& mat2)
+{
+	return Mat4x4(mat1.get_mmat() * mat2.get_mmat());
+}
+
+onyx::math::Mat2x2 onyx::math::operator*(const Mat3x2& mat1, const Mat2x3& mat2)
+{
+	return Mat2x2(mat1.get_mmat() * mat2.get_mmat());
 }
 
 onyx::math::Mat3x3 onyx::math::operator*(const Mat3x3& mat1, const Mat3x3& mat2)
@@ -3552,19 +3477,19 @@ onyx::math::Mat3x3 onyx::math::operator*(const Mat3x3& mat1, const Mat3x3& mat2)
 	return Mat3x3(mat1.get_mmat() * mat2.get_mmat());
 }
 
-onyx::math::Mat3x3 onyx::math::operator*(const Mat3x4& mat1, const Mat4x3& mat2)
+onyx::math::Mat4x4 onyx::math::operator*(const Mat3x4& mat1, const Mat4x3& mat2)
+{
+	return Mat4x4(mat1.get_mmat() * mat2.get_mmat());
+}
+
+onyx::math::Mat2x2 onyx::math::operator*(const Mat4x2& mat1, const Mat2x4& mat2)
+{
+	return Mat2x2(mat1.get_mmat() * mat2.get_mmat());
+}
+
+onyx::math::Mat3x3 onyx::math::operator*(const Mat4x3& mat1, const Mat3x4& mat2)
 {
 	return Mat3x3(mat1.get_mmat() * mat2.get_mmat());
-}
-
-onyx::math::Mat4x4 onyx::math::operator*(const Mat4x2& mat1, const Mat2x4& mat2)
-{
-	return Mat4x4(mat1.get_mmat() * mat2.get_mmat());
-}
-
-onyx::math::Mat4x4 onyx::math::operator*(const Mat4x3& mat1, const Mat3x4& mat2)
-{
-	return Mat4x4(mat1.get_mmat() * mat2.get_mmat());
 }
 
 onyx::math::Mat4x4 onyx::math::operator*(const Mat4x4& mat1, const Mat4x4& mat2)
@@ -3577,12 +3502,17 @@ onyx::math::Vec2 onyx::math::operator*(const Mat2x2& mat, const Vec2& vec)
 	return Vec2(mat.get_mmat() * vec.get_mvec());
 }
 
-onyx::math::Vec2 onyx::math::operator*(const Mat2x3& mat, const Vec3& vec)
+onyx::math::Vec3 onyx::math::operator*(const Mat2x3& mat, const Vec2& vec)
 {
-	return Vec2(mat.get_mmat() * vec.get_mvec());
+	return Vec3(mat.get_mmat() * vec.get_mvec());
 }
 
-onyx::math::Vec2 onyx::math::operator*(const Mat2x4& mat, const Vec4& vec)
+onyx::math::Vec4 onyx::math::operator*(const Mat2x4& mat, const Vec2& vec)
+{
+	return Vec4(mat.get_mmat() * vec.get_mvec());
+}
+
+onyx::math::Vec2 onyx::math::operator*(const Mat3x2& mat, const Vec3& vec)
 {
 	return Vec2(mat.get_mmat() * vec.get_mvec());
 }
@@ -3592,7 +3522,17 @@ onyx::math::Vec3 onyx::math::operator*(const Mat3x3& mat, const Vec3& vec)
 	return Vec3(mat.get_mmat() * vec.get_mvec());
 }
 
-onyx::math::Vec3 onyx::math::operator*(const Mat3x4& mat, const Vec4& vec)
+onyx::math::Vec4 onyx::math::operator*(const Mat3x4& mat, const Vec3& vec)
+{
+	return Vec4(mat.get_mmat() * vec.get_mvec());
+}
+
+onyx::math::Vec2 onyx::math::operator*(const Mat4x2& mat, const Vec4& vec)
+{
+	return Vec2(mat.get_mmat() * vec.get_mvec());
+}
+
+onyx::math::Vec3 onyx::math::operator*(const Mat4x3& mat, const Vec4& vec)
 {
 	return Vec3(mat.get_mmat() * vec.get_mvec());
 }

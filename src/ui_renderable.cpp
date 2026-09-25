@@ -1,9 +1,10 @@
+#include <cmath>
+
 #include <glad/glad.h>
 
 #include <onyx/ui_renderable.hpp>
 #include <onyx/shader.hpp>
-
-void onyx_err(const onyx::Error&);
+#include "internal.hpp"
 
 using onyx::math::Vec2, onyx::math::Vec3, onyx::math::Vec4, onyx::math::Mat4;
 
@@ -16,7 +17,7 @@ onyx::UiRenderable::UiRenderable()
 	this->z = 0.0f;
 }
 
-onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb, u32 z_index)
+onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb, int z_index)
 {
 	this->mesh = mesh;
 	this->shader = Shader::p_ui_color(Vec4(rgb, 1.0f));
@@ -27,7 +28,7 @@ onyx::UiRenderable::UiRenderable(Mesh mesh, Vec3 rgb, u32 z_index)
 	this->z = z_index / 1000.0f;
 }
 
-onyx::UiRenderable::UiRenderable(Mesh mesh, math::Vec4 rgba, u32 z_index)
+onyx::UiRenderable::UiRenderable(Mesh mesh, math::Vec4 rgba, int z_index)
 {
 	this->mesh = mesh;
 	this->shader = Shader::p_ui_color(rgba);
@@ -39,7 +40,7 @@ onyx::UiRenderable::UiRenderable(Mesh mesh, math::Vec4 rgba, u32 z_index)
 
 }
 
-onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, u32 z_index, bool* result) 
+onyx::UiRenderable::UiRenderable(Mesh mesh, Texture texture, int z_index, bool* result) 
 {
 	this->mesh = mesh;
 	this->texture = texture;
@@ -152,18 +153,18 @@ bool onyx::UiRenderable::is_hidden() const
 
 int onyx::UiRenderable::get_z_index() const
 {
-	return this->z * 1000.0f;
+	return static_cast<int>(std::lround(this->z * 1000.0f));
 }
 
-void onyx::UiRenderable::set_position(const Vec2& position)
+void onyx::UiRenderable::set_position(const Vec2& new_position)
 {
-	this->position = position;
+	this->position = new_position;
 	update_model();
 }
 
-void onyx::UiRenderable::set_rotation(float rotation)
+void onyx::UiRenderable::set_rotation(float new_rotation)
 {
-	this->rotation = rotation;
+	this->rotation = new_rotation;
 	update_model();
 }
 
@@ -184,9 +185,9 @@ void onyx::UiRenderable::translate_local(const Vec2& translation)
 	translate(math::rotate(translation, this->rotation));
 }
 
-void onyx::UiRenderable::rotate(float rotation)
+void onyx::UiRenderable::rotate(float angle)
 {
-	this->rotation += rotation;
+	this->rotation += angle;
 	update_model();
 }
 
@@ -209,22 +210,22 @@ void onyx::UiRenderable::reset_transform()
 	this->position = Vec2(0.0f);
 	this->rotation = 0.0f;
 	this->scale_ = Vec2(1.0f);
-	this->model = Mat4::identity();
+	update_model();
 }
 
-void onyx::UiRenderable::set_mesh(Mesh mesh)
+void onyx::UiRenderable::set_mesh(Mesh new_mesh)
 {
-	this->mesh = mesh;
+	this->mesh = new_mesh;
 }
 
-void onyx::UiRenderable::set_shader(Shader shader)
+void onyx::UiRenderable::set_shader(Shader new_shader)
 {
-	this->shader = shader;
+	this->shader = new_shader;
 }
 
-void onyx::UiRenderable::set_texture(Texture texture)
+void onyx::UiRenderable::set_texture(Texture new_texture)
 {
-	this->texture = texture;
+	this->texture = new_texture;
 }
 
 void onyx::UiRenderable::set_color(const Vec3& color)

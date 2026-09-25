@@ -20,6 +20,7 @@ namespace onyx
 
 		/*
 			@brief Creates a CharRenderable for the specified character and font.
+			If the font has no glyph for the character, the glyph for '?' is used instead (see Font::operator[]).
 			@param c The character to render.
 			@param font The font to use for rendering.
 			@param advance The offset of the character on the x-axis.

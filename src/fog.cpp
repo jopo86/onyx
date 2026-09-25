@@ -29,17 +29,17 @@ float onyx::Fog::get_end() const
 	return this->end;
 }
 
-void onyx::Fog::set_color(const Vec3& color)
+void onyx::Fog::set_color(const Vec3& new_color)
 {
-	this->color = color;
+	this->color = new_color;
 }
 
-void onyx::Fog::set_start(float start)
+void onyx::Fog::set_start(float new_start)
 {
-	this->start = start;
+	this->start = new_start;
 }
 
-void onyx::Fog::set_end(float end)
+void onyx::Fog::set_end(float new_end)
 {
-	this->end = end;
+	this->end = new_end;
 }

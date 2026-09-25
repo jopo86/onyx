@@ -28,7 +28,7 @@ namespace onyx
 			@param rgba The color, specified as red, green, and blue values ranging from 0 to 1.
 			@param z_index The z-index of the renderable (should not be over 1000 or under -1000). Default: 0
 		 */
-		UiRenderable(Mesh mesh, math::Vec3 rgb, u32 z_index = 0);
+		UiRenderable(Mesh mesh, math::Vec3 rgb, int z_index = 0);
 
 		/*
 			@brief Creates a new UiRenderable object out of the specified mesh and color.
@@ -36,7 +36,7 @@ namespace onyx
 			@param rgba The color, specified as red, green, blue, and alpha (transparency) values ranging from 0 to 1.
 			@param z_index The z-index of the renderable (should not be over 1000 or under -1000). Default: 0
 		 */
-		UiRenderable(Mesh mesh, math::Vec4 rgba, u32 z_index = 0);
+		UiRenderable(Mesh mesh, math::Vec4 rgba, int z_index = 0);
 
 		/*
 			@brief Creates a new UiRenderable object out of the specified mesh and texture.
@@ -46,7 +46,7 @@ namespace onyx
 			@param z_index The z-index of the renderable (should not be over 1000 or under -1000). Default: 0
 			@param result A pointer to a boolean that will be set to true if the renderable was created successfully, and false otherwise.
 		 */
-		UiRenderable(Mesh mesh, Texture texture, u32 z_index = 0, bool* result = nullptr);
+		UiRenderable(Mesh mesh, Texture texture, int z_index = 0, bool* result = nullptr);
 
 		/*
 			@brief Renders the object.
@@ -130,15 +130,15 @@ namespace onyx
 
 		/*
 			@brief Sets the position of the renderable.
-			@param position The new position.
+			@param new_position The new position.
 		 */
-		void set_position(const math::Vec2& position);
+		void set_position(const math::Vec2& new_position);
 
 		/*
 			@brief Sets the rotation of the renderable.
-			@param rotation The new rotation.
+			@param new_rotation The new rotation.
 		 */
-		void set_rotation(float rotation);
+		void set_rotation(float new_rotation);
 
 		/*
 			@brief Sets the scale of the renderable.
@@ -163,11 +163,11 @@ namespace onyx
 		void translate_local(const math::Vec2& translation);
 
 		/*
-			@brief Rotates the renderable by the specified rotation amounts.
+			@brief Rotates the renderable by the specified rotation amount.
 			This function does not set the rotation, it adds to it.
-			@param rotations The rotation amounts around each axis.
+			@param angle The rotation amount.
 		 */
-		void rotate(float rotation);
+		void rotate(float angle);
 
 		/*
 			@brief Scales the renderable by the specified scalar amounts.
@@ -184,30 +184,31 @@ namespace onyx
 		void scale(float scalar);
 
 		/*
-			@brief Resets the renderable's transform.
+			@brief Resets the renderable's transform (position, rotation, and scale).
+			The z-index is preserved.
 		 */
 		void reset_transform();
 
 		/*
 			@brief Sets the mesh of the renderable.
 		 !	Not recommended unless you know what you're doing.
-			@param mesh The new mesh.
+			@param new_mesh The new mesh.
 		 */
-		void set_mesh(Mesh mesh);
+		void set_mesh(Mesh new_mesh);
 
 		/*
 			@brief Sets the shader of the renderable.
 		 !	Not recommended unless you know what you're doing.
-			@param shader The new shader.
+			@param new_shader The new shader.
 		 */
-		void set_shader(Shader shader);
+		void set_shader(Shader new_shader);
 
 		/*
 			@brief Sets the texture of the renderable.
 		 *	This will only take effect if the shader uses a texture to render.
-		 	@param texture The new texture.
+		 	@param new_texture The new texture.
 		 */
-		void set_texture(Texture texture);
+		void set_texture(Texture new_texture);
 
 		/*
 			@brief Sets the color of the renderable.

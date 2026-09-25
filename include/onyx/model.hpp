@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include <onyx/mesh.hpp>
 #include <onyx/shader.hpp>
 #include <onyx/texture.hpp>
@@ -27,7 +30,7 @@ namespace onyx
 		Model();
 
 		/*
-			Loads a model from an OBJ file.
+			@brief Loads a model from an OBJ file.
 
 			There are several things to note here:
 			The model is created on the heap to prevent stack overflow with large models.
@@ -40,6 +43,7 @@ namespace onyx
 			https://github.com/Bly7/OBJ-Loader
 			@param filepath The path of the OBJ file.
 			@param result A pointer to a boolean that will be set to true if the model was loaded successfully, and false otherwise.
+			@return A reference to the loaded (heap-allocated) model.
 		 */
 		static Model& load_obj(const std::string& filepath, bool* result = nullptr);
 

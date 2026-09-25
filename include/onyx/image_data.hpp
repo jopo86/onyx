@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include <onyx/core.hpp>
 
 namespace onyx
@@ -26,7 +28,7 @@ namespace onyx
         int get_height() const;
         ImageFormat get_format() const;
 
-        void dispose();
+        void dispose() override;
 
     private:
         u8* pixels;

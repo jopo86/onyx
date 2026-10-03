@@ -95,36 +95,9 @@ else()
 endif()
 configure_file(cmake/version.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/include/onyx/version.hpp @ONLY)
 
-add_library(onyx
-    src/camera.cpp
-    src/char_renderable.cpp
-    src/core.cpp
-    src/error_handler.cpp
-    src/file_utils.cpp
-    src/fog.cpp
-    src/font.cpp
-    src/gamepad.cpp
-    src/image_data.cpp
-    src/index_buffer.cpp
-    src/input_handler.cpp
-    src/lighting.cpp
-    src/math_swizzle.cpp
-    src/math_wrappers.cpp
-    src/mesh.cpp
-    src/model.cpp
-    src/model_renderable.cpp
-    src/monitor.cpp
-    src/projection.cpp
-    src/renderable.cpp
-    src/renderer.cpp
-    src/shader.cpp
-    src/stb_image.cpp
-    src/text_renderable.cpp
-    src/text_renderable_3d.cpp
-    src/texture.cpp
-    src/ui_renderable.cpp
-    src/vertex_buffer.cpp
-    src/window.cpp)
+# CONFIGURE_DEPENDS re-runs the glob at build time so added/removed files are picked up
+file(GLOB ONYX_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+add_library(onyx ${ONYX_SOURCES})
 add_library(Onyx::onyx ALIAS onyx)
 
 target_compile_features(onyx PUBLIC cxx_std_20)

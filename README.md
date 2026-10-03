@@ -1,4 +1,14 @@
-# ![Onyx Logo](logo.png)
+<p align="center">
+  <img src="logo.png" alt="Onyx logo">
+</p>
+
+<p align="center">
+  <a href="https://github.com/jopo86/onyx/actions/workflows/build.yml">
+    <img src="https://github.com/jopo86/onyx/actions/workflows/build.yml/badge.svg?branch=dev" alt="Build status">
+  </a>
+</p>
+
+
 Onyx is a high-level, cross-platform C++ rendering engine using OpenGL 4.1, with additional functionalities including window and input handling using GLFW.  
 
 ## Download
@@ -21,7 +31,7 @@ There is also a [Guides](https://github.com/jopo86/onyx/wiki/guides) page, with 
   - GUI and Text
   - Lighting (Ambient & Directional), Fog
   - Colors and/or Textures
-- Camera (movement in 2D or 3D world)
+- Camera (movement in 2D or 3D world
 - Transforms (position, rotation, scale) for Renderables and the Camera
 - Presets for Meshes, Shaders, and Renderables
 - Monitor info
